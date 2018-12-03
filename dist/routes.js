@@ -10,10 +10,6 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _config = require('./config');
-
-var _config2 = _interopRequireDefault(_config);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ObjectId = require('mongodb').ObjectID;
@@ -43,7 +39,7 @@ function routes() {
  |--------------------------------------------------------------------------
  */
 	router.get('/', function (req, res) {
-		res.json({ 'msg': 'Hello!' });
+		res.json({ 'msg': 'Hello World!' });
 	});
 
 	return router;

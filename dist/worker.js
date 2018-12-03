@@ -139,7 +139,7 @@ app.use(_bodyParser2.default.urlencoded({ limit: '50mb', extended: true, paramet
 | sessions
 |--------------------------------------------------------------------------
 */
-app.use((0, _expressSession2.default)({ name: 'Bedrock-session', saveUninitialized: true, resave: false, secure: true, domain: _config2.default.domain, secret: '285BDE648ACF7C5F94DCD71HWY765' }));
+app.use((0, _expressSession2.default)({ name: 'samewave', saveUninitialized: true, resave: false, secure: true, domain: _config2.default.domain, secret: '285BDE648ACF7C5F94DCD71HWY765' }));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(_express2.default.static(_path2.default.resolve(__dirname, '../static')));
