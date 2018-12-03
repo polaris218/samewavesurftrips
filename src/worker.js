@@ -92,7 +92,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 10
 | sessions
 |--------------------------------------------------------------------------
 */
-app.use(session({name:'Bedrock-session', saveUninitialized:true, resave:false, secure:true, domain:config.domain, secret: '285BDE648ACF7C5F94DCD71HWY765' }));
+app.use(session({name:'samewave', saveUninitialized:true, resave:false, secure:true, domain:config.domain, secret: '285BDE648ACF7C5F94DCD71HWY765' }));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve(__dirname, '../static')));
