@@ -15,11 +15,12 @@ import uuidV4 from 'uuid';
 import https from 'https';
 import config from './config';
 import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
+import API from './api';
+
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-var expressMongoDb = require('express-mongo-db');
-
-import './controllers/polyfill';
+const expressMongoDb = require('express-mongo-db');
 
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var csrf = require('csurf');
@@ -78,6 +79,7 @@ var rawBodySaver = function (req, res, buf, encoding) {
   }
 } 
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(API));
 app.use(helmet());
 app.use(cors());
 app.use(compression());
@@ -85,7 +87,6 @@ app.use(cookieParser());
 app.use(flash());
 app.use(bodyParser.json({limit: '50mb', verify: rawBodySaver}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
-
 
 /* 
 |--------------------------------------------------------------------------
@@ -98,8 +99,6 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve(__dirname, '../static')));
 app.use(csrf());
 app.use(expressMongoDb(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`))
-
-console.log(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`);
 
 /* 
 |--------------------------------------------------------------------------
