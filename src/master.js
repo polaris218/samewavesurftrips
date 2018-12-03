@@ -1,0 +1,12 @@
+import forky from 'forky';
+
+const WORKERS = process.env.WEB_CONCURRENCY || 1;
+console.log(`Cluster is running ${WORKERS} instances per dyno\n---------------------------------------------------`);
+
+/* 
+|--------------------------------------------------------------------------
+| master cluster process
+|--------------------------------------------------------------------------
+*/
+forky({workers:WORKERS, path: __dirname + '/worker.js'});
+

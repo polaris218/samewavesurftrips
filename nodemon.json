@@ -1,0 +1,7 @@
+{
+    "watch": [
+      "src/*"
+    ],
+    "ignore": ["dist/*"],
+    "exec": "npm run prestart && node dist/master.js"
+ }
