@@ -9,7 +9,7 @@ var config = {
     */
     db: {
         user: "samewave",
-        password: "wWVGMRyHCz6Y5UQH",
+        password: process.env.DB_PASS,
         database: "heroku_tvhqf9rt",
         host: "ds155252.mlab.com",
         port: 55252,
