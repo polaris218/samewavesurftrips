@@ -28,7 +28,7 @@ export function routes() {
 	|--------------------------------------------------------------------------
 	*/
 	router.get('/', function(req,res){
-		res.json({ 'msg' : 'Hello!' })
+		res.json({ 'msg' : 'Hello World!' })
 	});
 
     return router;
