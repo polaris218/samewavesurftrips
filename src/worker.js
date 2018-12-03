@@ -99,6 +99,8 @@ app.use(express.static(path.resolve(__dirname, '../static')));
 app.use(csrf());
 app.use(expressMongoDb(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`))
 
+console.log(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`);
+
 /* 
 |--------------------------------------------------------------------------
 | routes

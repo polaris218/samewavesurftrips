@@ -146,6 +146,8 @@ app.use(_express2.default.static(_path2.default.resolve(__dirname, '../static'))
 app.use(csrf());
 app.use(expressMongoDb('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database));
 
+console.log('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database);
+
 /* 
 |--------------------------------------------------------------------------
 | routes
