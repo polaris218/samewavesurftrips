@@ -1,4 +1,3 @@
-//import models from './models';
 import compression from 'compression';
 import express from 'express';
 import cors from 'cors';
@@ -75,8 +74,8 @@ var rawBodySaver = function (req, res, buf, encoding) {
   if (buf && buf.length) {
     req.rawBody = buf.toString(encoding || 'utf8');
   }
-} 
-
+}
+  
 app.use(helmet());
 app.use(cors());
 app.use(compression());

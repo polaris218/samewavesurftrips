@@ -1,18 +1,14 @@
 import config from '../config';
 import { notify_newUser } from './notifications';
+import { User, parse } from '../models';
 
 const ObjectId = require('mongodb').ObjectID;
-
-/**
- * @apiDefine UserObject
- * @apiSuccess {String}   _id   Unique id.
- * @apiSuccess {String}   first_name   First Name.
- * @apiSuccess {String}   last_name   Last Name.
- * @apiSuccess {String}   email   Email address.
- */
-
  
-
+/* 
+|--------------------------------------------------------------------------
+| Get all users
+|--------------------------------------------------------------------------
+*/
 /**
  * @api {get} /users Request Users
  * @apiName GetUsers
@@ -38,6 +34,11 @@ export const users = (req,res) => {
     
 }
 
+/* 
+|--------------------------------------------------------------------------
+| Get user
+|--------------------------------------------------------------------------
+*/
 /**
  * @api {get} /user/:id Request User
  * @apiName GetUser
@@ -55,6 +56,11 @@ export const user = (req,res) => {
     });
 }
 
+/* 
+|--------------------------------------------------------------------------
+| Add a user
+|--------------------------------------------------------------------------
+*/
 /**
  * @api {post} /users Add User
  * @apiName AddUser
@@ -69,15 +75,9 @@ export const user = (req,res) => {
 export const userAdd = (req,res) => {
     const collection = req.db.collection('users');
 
-    var user = {
-        first_name: req.body.first_name, 
-        last_name: req.body.last_name,
-        email: req.body.email,
-    };
-
-    console.log(user);
-
-    collection.insert(user, function(err, records){
+    let userModel = new User().set(req.body);
+    
+    collection.insert(userModel, function(err, records){
         notify_newUser(req.body.email, res);
         res.json(records.ops);
     });

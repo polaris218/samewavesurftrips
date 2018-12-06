@@ -64,7 +64,6 @@ var _helmet2 = _interopRequireDefault(_helmet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import models from './models';
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var expressMongoDb = require('express-mongo-db');

@@ -11,18 +11,17 @@ var _config2 = _interopRequireDefault(_config);
 
 var _notifications = require('./notifications');
 
+var _models = require('../models');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ObjectId = require('mongodb').ObjectID;
 
-/**
- * @apiDefine UserObject
- * @apiSuccess {String}   _id   Unique id.
- * @apiSuccess {String}   first_name   First Name.
- * @apiSuccess {String}   last_name   Last Name.
- * @apiSuccess {String}   email   Email address.
- */
-
+/* 
+|--------------------------------------------------------------------------
+| Get all users
+|--------------------------------------------------------------------------
+*/
 /**
  * @api {get} /users Request Users
  * @apiName GetUsers
@@ -47,6 +46,11 @@ var users = exports.users = function users(req, res) {
     });
 };
 
+/* 
+|--------------------------------------------------------------------------
+| Get user
+|--------------------------------------------------------------------------
+*/
 /**
  * @api {get} /user/:id Request User
  * @apiName GetUser
@@ -64,6 +68,11 @@ var user = exports.user = function user(req, res) {
     });
 };
 
+/* 
+|--------------------------------------------------------------------------
+| Add a user
+|--------------------------------------------------------------------------
+*/
 /**
  * @api {post} /users Add User
  * @apiName AddUser
@@ -78,15 +87,9 @@ var user = exports.user = function user(req, res) {
 var userAdd = exports.userAdd = function userAdd(req, res) {
     var collection = req.db.collection('users');
 
-    var user = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email
-    };
+    var userModel = new _models.User().set(req.body);
 
-    console.log(user);
-
-    collection.insert(user, function (err, records) {
+    collection.insert(userModel, function (err, records) {
         (0, _notifications.notify_newUser)(req.body.email, res);
         res.json(records.ops);
     });

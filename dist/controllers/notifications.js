@@ -17,10 +17,7 @@ var api_key = _config2.default.mailgun.key,
 
 function notify_newUser(email, res) {
 
-    console.log(email);
-
     res.render('email/newuser-confirm', { email: email }, function (err, html) {
-        console.log(err);
 
         var data = {
             html: html,
@@ -31,7 +28,6 @@ function notify_newUser(email, res) {
 
         mailgun.messages().send(data, function (error, body) {
             console.log('MailSent : newuser-confirm');
-            console.log(error);
         });
     });
 }
