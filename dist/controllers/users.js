@@ -17,13 +17,15 @@ var ObjectId = require('mongodb').ObjectID;
  * @api {get} /users Request Users
  * @apiName GetUsers
  * @apiGroup User
+ * 
+ * @apiParam {String} skip No. of records to skip.
  *
  * @apiSuccess {Number}   pages   No. of pages returned.
  * @apiSuccess {Object[]} users Array of users
- * * @apiSuccess {String}   users._id   Unique Id.
+ * @apiSuccess {String}   users._id   Unique Id.
  * @apiSuccess {String}   users.first_name   First Name.
  * @apiSuccess {String}   users.last_name   Last Name.
- * * @apiSuccess {String}   users.email   Email address.
+ * @apiSuccess {String}   users.email   Email address.
  */
 var users = exports.users = function users(req, res) {
 
@@ -44,7 +46,9 @@ var users = exports.users = function users(req, res) {
  * @apiName GetUser
  * @apiGroup User
  *
- * * @apiSuccess {String}  _id   Unique Id.
+  * @apiParam {String} id Unique id of the user.
+  * 
+ * * @apiSuccess {String}  _id   Unique id.
  * @apiSuccess {String}   first_name   First Name.
  * @apiSuccess {String}   last_name   Last Name.
  * * @apiSuccess {String} email   Email address.
