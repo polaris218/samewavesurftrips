@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var config = {
 
@@ -16,6 +16,18 @@ var config = {
     */
     api: {
         version: 1
+    },
+
+    /* 
+    |--------------------------------------------------------------------------
+    | mailgun
+    |--------------------------------------------------------------------------
+    */
+    mailgun: {
+        key: 'key-588560d6e7aa67c1da8dba071ac6a59e',
+        domain: 'freemandigital.com',
+        from: 'Luke Freeman <hello@freemandigital.com>',
+        admin: 'Luke Freeman <luke@freemandigital.com>'
     },
 
     /* 

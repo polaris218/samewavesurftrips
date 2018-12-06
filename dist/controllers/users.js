@@ -9,9 +9,19 @@ var _config = require('../config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _notifications = require('./notifications');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ObjectId = require('mongodb').ObjectID;
+
+/**
+ * @apiDefine UserObject
+ * @apiSuccess {String}   _id   Unique id.
+ * @apiSuccess {String}   first_name   First Name.
+ * @apiSuccess {String}   last_name   Last Name.
+ * @apiSuccess {String}   email   Email address.
+ */
 
 /**
  * @api {get} /users Request Users
@@ -22,10 +32,6 @@ var ObjectId = require('mongodb').ObjectID;
  *
  * @apiSuccess {Number}   pages   No. of pages returned.
  * @apiSuccess {Object[]} users Array of users
- * @apiSuccess {String}   users._id   Unique Id.
- * @apiSuccess {String}   users.first_name   First Name.
- * @apiSuccess {String}   users.last_name   Last Name.
- * @apiSuccess {String}   users.email   Email address.
  */
 var users = exports.users = function users(req, res) {
 
@@ -46,12 +52,9 @@ var users = exports.users = function users(req, res) {
  * @apiName GetUser
  * @apiGroup User
  *
-  * @apiParam {String} id Unique id of the user.
-  * 
- * @apiSuccess {String}  _id   Unique id.
- * @apiSuccess {String}   first_name   First Name.
- * @apiSuccess {String}   last_name   Last Name.
- * @apiSuccess {String} email   Email address.
+ * @apiParam {String} id Unique id of the user.
+ * 
+ * @apiUse UserObject
  */
 var user = exports.user = function user(req, res) {
     var collection = req.db.collection('users');
@@ -64,24 +67,27 @@ var user = exports.user = function user(req, res) {
 /**
  * @api {post} /users Add User
  * @apiName AddUser
- * @apiGroup User
+ * @apiGroup User 
  *
  * @apiParam {String}  first_name   First Name.
  * @apiParam {String}  last_name   Last Name.
  * @apiParam {String}  email   Email address.
  * 
- * @apiSuccess {String}  _id   Unique id.
+ * @apiUse UserObject
  */
 var userAdd = exports.userAdd = function userAdd(req, res) {
     var collection = req.db.collection('users');
 
     var user = {
-        first_name: "xxx",
-        last_name: "xxx",
-        email: "xxx"
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
     };
 
+    console.log(user);
+
     collection.insert(user, function (err, records) {
-        res.json(records[0]._id);
+        (0, _notifications.notify_newUser)(req.body.email, res);
+        res.json(records.ops);
     });
 };

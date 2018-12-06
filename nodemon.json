@@ -3,5 +3,5 @@
       "src/*"
     ],
     "ignore": ["dist/*"],
-    "exec": "npm run prestart && node dist/master.js"
+    "exec": "apidoc -i ./src -o static/docs/ && npm run prestart && node dist/master.js"
  }

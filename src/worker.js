@@ -94,7 +94,7 @@ app.use(session({name:'samewave', saveUninitialized:true, resave:false, secure:t
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve(__dirname, '../static')));
-app.use(csrf());
+//app.use(csrf());
 app.use(expressMongoDb(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`))
 
 /* 

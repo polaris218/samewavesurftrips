@@ -19,9 +19,6 @@ var _users = require('./controllers/users');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = void 0;
-var basepath = 'v' + _config2.default.api.version;
-
-console.log(basepath);
 
 /* 
 |--------------------------------------------------------------------------

@@ -3,9 +3,6 @@ import config from './config';
 import { users, user, userAdd } from './controllers/users';
 
 let app;
-const basepath = `v${config.api.version}`;
-
-console.log(basepath);
 
 /* 
 |--------------------------------------------------------------------------
