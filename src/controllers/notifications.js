@@ -6,7 +6,7 @@ const api_key = config.mailgun.key,
         
 export function notify_newUser(email, res){
  
-    res.render('email/newuser-confirm', { email }, function(err, html){
+    res.render('email/newuser-confirm', { layout:'notification', email }, function(err, html){
 
 		var data = { 
             html: html,

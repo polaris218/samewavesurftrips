@@ -17,7 +17,7 @@ var api_key = _config2.default.mailgun.key,
 
 function notify_newUser(email, res) {
 
-    res.render('email/newuser-confirm', { email: email }, function (err, html) {
+    res.render('email/newuser-confirm', { layout: 'notification', email: email }, function (err, html) {
 
         var data = {
             html: html,
