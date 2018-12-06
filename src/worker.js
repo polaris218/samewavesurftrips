@@ -15,8 +15,6 @@ import uuidV4 from 'uuid';
 import https from 'https';
 import config from './config';
 import helmet from 'helmet';
-import swaggerUi from 'swagger-ui-express';
-import API from './api';
 
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
@@ -79,7 +77,6 @@ var rawBodySaver = function (req, res, buf, encoding) {
   }
 } 
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(API));
 app.use(helmet());
 app.use(cors());
 app.use(compression());

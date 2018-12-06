@@ -62,14 +62,6 @@ var _helmet = require('helmet');
 
 var _helmet2 = _interopRequireDefault(_helmet);
 
-var _swaggerUiExpress = require('swagger-ui-express');
-
-var _swaggerUiExpress2 = _interopRequireDefault(_swaggerUiExpress);
-
-var _api = require('./api');
-
-var _api2 = _interopRequireDefault(_api);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //import models from './models';
@@ -132,7 +124,6 @@ var rawBodySaver = function rawBodySaver(req, res, buf, encoding) {
   }
 };
 
-app.use('/api-docs', _swaggerUiExpress2.default.serve, _swaggerUiExpress2.default.setup(_api2.default));
 app.use((0, _helmet2.default)());
 app.use((0, _cors2.default)());
 app.use((0, _compression2.default)());
