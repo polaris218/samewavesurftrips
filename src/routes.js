@@ -1,6 +1,6 @@
 import express from 'express';
 import config from './config';
-import { users, user } from './controllers/users';
+import { users, user, userAdd } from './controllers/users';
 
 let app;
 const basepath = `v${config.api.version}`;
@@ -41,6 +41,7 @@ export function routes() {
 	*/
 	router.get(`/v1/users`, users);
 	router.get(`/v1/user/:id`, user);
+	router.post(`/v1/users`, userAdd);
 
     return router;
 }

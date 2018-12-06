@@ -38,10 +38,10 @@ export const users = (req,res) => {
  *
   * @apiParam {String} id Unique id of the user.
   * 
- * * @apiSuccess {String}  _id   Unique id.
+ * @apiSuccess {String}  _id   Unique id.
  * @apiSuccess {String}   first_name   First Name.
  * @apiSuccess {String}   last_name   Last Name.
- * * @apiSuccess {String} email   Email address.
+ * @apiSuccess {String} email   Email address.
  */
 export const user = (req,res) => {
     const collection = req.db.collection('users');
@@ -50,3 +50,29 @@ export const user = (req,res) => {
         res.json(docs);
     });
 }
+
+/**
+ * @api {post} /users Add User
+ * @apiName AddUser
+ * @apiGroup User
+ *
+ * @apiParam {String}  first_name   First Name.
+ * @apiParam {String}  last_name   Last Name.
+ * @apiParam {String}  email   Email address.
+ * 
+ * @apiSuccess {String}  _id   Unique id.
+ */
+export const userAdd = (req,res) => {
+    const collection = req.db.collection('users');
+
+    var user = {
+        first_name: "xxx", 
+        last_name: "xxx",
+        email: "xxx",
+    };
+
+    collection.insert(user, function(err, records){
+        res.json(records[0]._id)
+    });
+}
+

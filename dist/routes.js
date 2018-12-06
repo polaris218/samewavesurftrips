@@ -56,6 +56,7 @@ function routes() {
  */
 	router.get('/v1/users', _users.users);
 	router.get('/v1/user/:id', _users.user);
+	router.post('/v1/users', _users.userAdd);
 
 	return router;
 }
