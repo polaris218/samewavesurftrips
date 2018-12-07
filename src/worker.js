@@ -8,9 +8,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import fs from 'fs';
 import {routes, routesInit} from './routes';
-import uuidV4 from 'uuid';
 import https from 'https';
 import config from './config';
 import helmet from 'helmet';
@@ -18,9 +16,7 @@ import helmet from 'helmet';
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const expressMongoDb = require('express-mongo-db');
-
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
-var csrf = require('csurf');
+const csrf = require('csurf');
 
 /* 
 |--------------------------------------------------------------------------
@@ -83,6 +79,7 @@ app.use(cookieParser());
 app.use(flash());
 app.use(bodyParser.json({limit: '50mb', verify: rawBodySaver}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
+app.use(expressMongoDb(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`))
 
 /* 
 |--------------------------------------------------------------------------
@@ -94,7 +91,6 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve(__dirname, '../static')));
 //app.use(csrf());
-app.use(expressMongoDb(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`))
 
 /* 
 |--------------------------------------------------------------------------

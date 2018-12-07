@@ -1,4 +1,5 @@
 import Model from './model';
+import bcrypt from 'bcrypt';
 
 /* 
 |--------------------------------------------------------------------------
@@ -10,7 +11,6 @@ import Model from './model';
  * @apiSuccess {String}   _id   Unique id.
  * @apiSuccess {String}   first_name   First Name.
  * @apiSuccess {String}   last_name   Last Name.
- * @apiSuccess {String}   email   Email address.
  */
 
 
@@ -20,13 +20,67 @@ import Model from './model';
 |--------------------------------------------------------------------------
 */
 class User extends Model {
-
-    first_name = "";
-    last_name = "";
-    email = "";
-
+    
+    /* 
+    |--------------------------------------------------------------------------
+    | Constructor
+    |--------------------------------------------------------------------------
+    */
     constructor(args){
         super(args);
+        this.collection = 'users';
+    }
+
+
+    /* 
+    |--------------------------------------------------------------------------
+    | Model properties
+    |--------------------------------------------------------------------------
+    */
+    first_name = {
+        secret: false,
+        allowNull: true
+    }
+
+    last_name = {
+        secret: false,
+        allowNull: true
+    }
+
+    email = {
+        secret: true,
+        allowNull: false
+    }
+
+    password = {
+        secret: true,
+        allowNull: false
+    }
+
+   
+    /* 
+    |--------------------------------------------------------------------------
+    | Publish
+    |--------------------------------------------------------------------------
+    */
+    publish(req,data) {
+        return new Promise((resolve, reject) => {
+
+            const collection = req.db.collection(this.collection);
+        
+            bcrypt.hash(data.password, 10, function(err, hash) {
+                data.password = hash;
+        
+                collection.insert(data, function(err, records){
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve(records)
+                    }
+                });
+            }); 
+
+        });
     }
 
 }

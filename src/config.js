@@ -40,6 +40,10 @@ var config = {
         host: "ds155252.mlab.com",
         port: 55252,
         paging: 25
+    },
+
+    hash: {
+        secret: process.env.HASH_SECRET
     }
 }
 

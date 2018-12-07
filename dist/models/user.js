@@ -1,13 +1,19 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.User = undefined;
 
-var _model = require("./model");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _model = require('./model');
 
 var _model2 = _interopRequireDefault(_model);
+
+var _bcrypt = require('bcrypt');
+
+var _bcrypt2 = _interopRequireDefault(_bcrypt);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,7 +33,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @apiSuccess {String}   _id   Unique id.
  * @apiSuccess {String}   first_name   First Name.
  * @apiSuccess {String}   last_name   Last Name.
- * @apiSuccess {String}   email   Email address.
  */
 
 /* 
@@ -38,16 +43,73 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var User = function (_Model) {
     _inherits(User, _Model);
 
+    /* 
+    |--------------------------------------------------------------------------
+    | Constructor
+    |--------------------------------------------------------------------------
+    */
     function User(args) {
         _classCallCheck(this, User);
 
         var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, args));
 
-        _this.first_name = "";
-        _this.last_name = "";
-        _this.email = "";
+        _this.first_name = {
+            secret: false,
+            allowNull: true
+        };
+        _this.last_name = {
+            secret: false,
+            allowNull: true
+        };
+        _this.email = {
+            secret: true,
+            allowNull: false
+        };
+        _this.password = {
+            secret: true,
+            allowNull: false
+
+            /* 
+            |--------------------------------------------------------------------------
+            | Publish
+            |--------------------------------------------------------------------------
+            */
+        };
+
+        _this.collection = 'users';
         return _this;
     }
+
+    /* 
+    |--------------------------------------------------------------------------
+    | Model properties
+    |--------------------------------------------------------------------------
+    */
+
+
+    _createClass(User, [{
+        key: 'publish',
+        value: function publish(req, data) {
+            var _this2 = this;
+
+            return new Promise(function (resolve, reject) {
+
+                var collection = req.db.collection(_this2.collection);
+
+                _bcrypt2.default.hash(data.password, 10, function (err, hash) {
+                    data.password = hash;
+
+                    collection.insert(data, function (err, records) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(records);
+                        }
+                    });
+                });
+            });
+        }
+    }]);
 
     return User;
 }(_model2.default);

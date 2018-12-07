@@ -1,6 +1,7 @@
 import config from '../config';
 import { notify_newUser } from './notifications';
-import { User, parse } from '../models';
+import { User } from '../models';
+
 
 const ObjectId = require('mongodb').ObjectID;
  
@@ -15,23 +16,17 @@ const ObjectId = require('mongodb').ObjectID;
  * @apiGroup User
  * 
  * @apiParam {String} skip No. of records to skip.
+ * @apiParam {String} sort Field to sort results by.
  *
  * @apiSuccess {Number}   pages   No. of pages returned.
  * @apiSuccess {Object[]} users Array of users
  */
 export const users = (req,res) => {
-		
-    const collection = req.db.collection('users');
-    const skip = parseInt(req.query.skip) || 0;
 
-    collection.count().then(total=>{
-        const pages = Math.ceil(total / config.db.paging);
-        
-        collection.find().skip(skip).limit(config.db.paging).sort({"last_name": -1}).toArray(function(err, users) {
-            res.json({"pages":pages,users});
-        });
-    });
-    
+    new User().getAll(req).then(users => {
+        res.json(users);
+    })
+		
 }
 
 /* 
@@ -49,11 +44,9 @@ export const users = (req,res) => {
  * @apiUse UserObject
  */
 export const user = (req,res) => {
-    const collection = req.db.collection('users');
-
-    collection.find(ObjectId(req.params.id)).toArray(function(err, docs) {
-        res.json(docs);
-    });
+    new User().get(req).then(user => {
+        res.json(user);
+    })
 }
 
 /* 
@@ -69,17 +62,16 @@ export const user = (req,res) => {
  * @apiParam {String}  first_name   First Name.
  * @apiParam {String}  last_name   Last Name.
  * @apiParam {String}  email   Email address.
+ * @apiParam {String}  password   Password.
  * 
  * @apiUse UserObject
  */
 export const userAdd = (req,res) => {
-    const collection = req.db.collection('users');
 
-    let userModel = new User().set(req.body);
-    
-    collection.insert(userModel, function(err, records){
+    new User().save(req).then(users => {
         notify_newUser(req.body.email, res);
-        res.json(records.ops);
-    });
+        res.json(users);
+    }) 
+    
 }
 

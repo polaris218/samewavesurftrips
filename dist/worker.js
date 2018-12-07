@@ -40,15 +40,7 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _fs = require('fs');
-
-var _fs2 = _interopRequireDefault(_fs);
-
 var _routes = require('./routes');
-
-var _uuid = require('uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
 
 var _https = require('https');
 
@@ -67,8 +59,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var expressMongoDb = require('express-mongo-db');
-
-var SequelizeStore = require('connect-session-sequelize')(_expressSession2.default.Store);
 var csrf = require('csurf');
 
 /* 
@@ -130,6 +120,7 @@ app.use((0, _cookieParser2.default)());
 app.use((0, _connectFlash2.default)());
 app.use(_bodyParser2.default.json({ limit: '50mb', verify: rawBodySaver }));
 app.use(_bodyParser2.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }));
+app.use(expressMongoDb('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database));
 
 /* 
 |--------------------------------------------------------------------------
@@ -141,7 +132,6 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(_express2.default.static(_path2.default.resolve(__dirname, '../static')));
 //app.use(csrf());
-app.use(expressMongoDb('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database));
 
 /* 
 |--------------------------------------------------------------------------

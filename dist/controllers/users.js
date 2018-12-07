@@ -28,21 +28,15 @@ var ObjectId = require('mongodb').ObjectID;
  * @apiGroup User
  * 
  * @apiParam {String} skip No. of records to skip.
+ * @apiParam {String} sort Field to sort results by.
  *
  * @apiSuccess {Number}   pages   No. of pages returned.
  * @apiSuccess {Object[]} users Array of users
  */
 var users = exports.users = function users(req, res) {
 
-    var collection = req.db.collection('users');
-    var skip = parseInt(req.query.skip) || 0;
-
-    collection.count().then(function (total) {
-        var pages = Math.ceil(total / _config2.default.db.paging);
-
-        collection.find().skip(skip).limit(_config2.default.db.paging).sort({ "last_name": -1 }).toArray(function (err, users) {
-            res.json({ "pages": pages, users: users });
-        });
+    new _models.User().getAll(req).then(function (users) {
+        res.json(users);
     });
 };
 
@@ -61,10 +55,8 @@ var users = exports.users = function users(req, res) {
  * @apiUse UserObject
  */
 var user = exports.user = function user(req, res) {
-    var collection = req.db.collection('users');
-
-    collection.find(ObjectId(req.params.id)).toArray(function (err, docs) {
-        res.json(docs);
+    new _models.User().get(req).then(function (user) {
+        res.json(user);
     });
 };
 
@@ -81,16 +73,14 @@ var user = exports.user = function user(req, res) {
  * @apiParam {String}  first_name   First Name.
  * @apiParam {String}  last_name   Last Name.
  * @apiParam {String}  email   Email address.
+ * @apiParam {String}  password   Password.
  * 
  * @apiUse UserObject
  */
 var userAdd = exports.userAdd = function userAdd(req, res) {
-    var collection = req.db.collection('users');
 
-    var userModel = new _models.User().set(req.body);
-
-    collection.insert(userModel, function (err, records) {
+    new _models.User().save(req).then(function (users) {
         (0, _notifications.notify_newUser)(req.body.email, res);
-        res.json(records.ops);
+        res.json(users);
     });
 };

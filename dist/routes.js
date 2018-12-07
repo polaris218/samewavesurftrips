@@ -14,10 +14,21 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _expressJwt = require('express-jwt');
+
+var _expressJwt2 = _interopRequireDefault(_expressJwt);
+
+var _passport = require('passport');
+
+var _passport2 = _interopRequireDefault(_passport);
+
+var _auth = require('./controllers/auth');
+
 var _users = require('./controllers/users');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var authenticate = (0, _expressJwt2.default)({ secret: _config2.default.hash.secret });
 var app = void 0;
 
 /* 
@@ -27,6 +38,8 @@ var app = void 0;
 */
 function routesInit(a) {
 	app = a;
+	(0, _auth.passportLocalStrategy)();
+	app.use(_passport2.default.initialize());
 }
 
 /* 
@@ -37,12 +50,27 @@ function routesInit(a) {
 var router = _express2.default.Router();
 function routes() {
 
+	/**
+  * @api {post} /auth Request Auth Token
+  * @apiName RequestToken
+  * @apiGroup Auth
+  * 
+  * @apiParam {String} email Email / password of user account
+  * @apiParam {String} password Password of user account
+  *
+  * @apiSuccess {String}   _id   id of authenticated user account
+  * @apiSuccess {String} token Authentication token
+  */
+	router.post('/v1/auth', _passport2.default.authenticate('local', {
+		session: false
+	}), _auth.serialize, _auth.generateToken, _auth.respond);
+
 	/* 
  |--------------------------------------------------------------------------
  | HOME
  |--------------------------------------------------------------------------
  */
-	router.get('/', function (req, res) {
+	router.get('/', authenticate, function (req, res) {
 		res.json({ 'msg': 'Hello World!' });
 	});
 
