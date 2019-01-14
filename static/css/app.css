@@ -7,6 +7,19 @@
 
 }
 
+.token-alert {
+    display: none;
+    overflow-wrap: break-word;
+}
+
+.token-alert span {
+    display:block;
+}
+
+.token-alert.show {
+    display:block;
+}
+
 form {
     display:block;
     margin-top:30px;

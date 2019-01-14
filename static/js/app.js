@@ -9,11 +9,42 @@ App.prototype = {
     init: function(){ 
         console.log(document.location.href.indexOf('login'))
         if(document.location.href.indexOf('login')!=-1) {
-            this.sandBox()
+            this.loginTest()
+            this.routeTest()
         }
     },
 
-    sandBox: function() {
+    loginTest(){
+
+        $('#form_login').submit(function(e) {
+            e.preventDefault();
+
+            var route = "/v1/auth",
+                username = $('#username').val(),
+                password = $('#password').val();
+            
+            $.ajax({
+                url: route,
+                data: {username: username, password: password},
+                method: 'POST',
+                success: function(res){
+                    console.log(res)
+                  $('.token-alert span').html(res.token);
+                  $('.token-alert').removeClass('alert-danger');
+                  $('.token-alert').addClass('show');
+                },
+                error: function(err) {
+                    $('.token-alert span').html('Not Authorised');
+                    $('.token-alert').addClass('alert-danger');
+                    $('.token-alert').addClass('show');
+                    
+                }
+              });
+
+        })
+    },
+
+    routeTest: function() {
 
         var route = $('#route').val();
         var token = $('#authToken');
