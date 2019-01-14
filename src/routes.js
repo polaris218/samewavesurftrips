@@ -72,7 +72,7 @@ export function routes() {
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/v1/users`, authenticate, users);
-	router.get(`/v1/user/:id`, user);
+	router.get(`/v1/user/:id`, authenticate, user);
 	router.post(`/v1/users`, userAdd);
 
     return router;

@@ -89,7 +89,7 @@ function routes() {
  |--------------------------------------------------------------------------
  */
 	router.get('/v1/users', authenticate, _users.users);
-	router.get('/v1/user/:id', _users.user);
+	router.get('/v1/user/:id', authenticate, _users.user);
 	router.post('/v1/users', _users.userAdd);
 
 	return router;
