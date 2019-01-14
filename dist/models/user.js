@@ -59,11 +59,11 @@ var User = function (_Model) {
 
         _this.first_name = {
             secret: false,
-            validation: _joi2.default.string().alphanum().min(13).max(30).required()
+            validation: _joi2.default.string().alphanum().min(1).max(50).required()
         };
         _this.last_name = {
             secret: false,
-            validation: _joi2.default.string().alphanum().min(13).max(30).required()
+            validation: _joi2.default.string().alphanum().min(1).max(50).required()
         };
         _this.email = {
             secret: false,

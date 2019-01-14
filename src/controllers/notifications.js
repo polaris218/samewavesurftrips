@@ -4,19 +4,19 @@ const api_key = config.mailgun.key,
 	  domain = config.mailgun.domain,
       mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
         
-export function notify_newUser(email, res){
- 
-    res.render('email/newuser-confirm', { layout:'notification', email }, function(err, html){
+export function notify_newUser(user, res){
+
+    res.render('email/newuser-welcome', { layout:'notification', email: user.email, first_name: user.first_name }, function(err, html){
 
 		var data = { 
             html: html,
             from: config.mailgun.from,
-            to: email,
+            to: user.email,
             subject: 'Please confirm your email account'
         };
 
         mailgun.messages().send(data, function (error, body) {
-            console.log('MailSent : newuser-confirm');
+            console.log('MailSent : newuser-welcome');
         });
 
     });

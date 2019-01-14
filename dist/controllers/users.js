@@ -13,10 +13,6 @@ var _notifications = require('./notifications');
 
 var _models = require('../models');
 
-var _check = require('express-validator/check');
-
-var _filter = require('express-validator/filter');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ObjectId = require('mongodb').ObjectID;
@@ -92,10 +88,10 @@ var userAdd = exports.userAdd = function userAdd(req, res) {
     user.doesNotExists().then(function () {
 
         user.save().then(function (newuser) {
-            (0, _notifications.notify_newUser)(req.body.email, res);
+            (0, _notifications.notify_newUser)(newuser.ops[0], res);
             res.json({ error: false, user: newuser });
-        }).catch(function (validation) {
-            res.json({ error: true, details: validation.error.details });
+        }).catch(function (error) {
+            res.json({ error: true, details: error });
         });
     }).catch(function (error) {
         res.json({ error: true, message: 'Email address is already registered' });

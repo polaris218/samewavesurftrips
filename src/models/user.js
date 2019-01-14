@@ -40,12 +40,12 @@ class User extends Model {
     */
     first_name = {
         secret: false,
-        validation: Joi.string().alphanum().min(13).max(30).required()
+        validation: Joi.string().alphanum().min(1).max(50).required()
     }
 
     last_name = {
         secret: false,
-        validation: Joi.string().alphanum().min(13).max(30).required()
+        validation: Joi.string().alphanum().min(1).max(50).required()
     }
 
     email = {

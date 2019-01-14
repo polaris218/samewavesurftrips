@@ -1,8 +1,6 @@
 import config from '../config';
 import { notify_newUser } from './notifications';
 import { User } from '../models';
-import { body,validationResult } from 'express-validator/check';
-import { sanitizeBody } from 'express-validator/filter';
 
 const ObjectId = require('mongodb').ObjectID;
  
@@ -78,15 +76,15 @@ export const userAdd = (req,res) => {
     user.doesNotExists().then(()=>{
 
         user.save().then(newuser => {
-            notify_newUser(req.body.email, res);
+            notify_newUser(newuser.ops[0], res);
             res.json({error: false, user:newuser});
-        }).catch(validation=>{
-            res.json({error: true, details:validation.error.details});
-        })
+        }).catch(error=>{
+            res.json({error: true, details:error});
+        });
 
     }).catch(error=>{
         res.json({error: true, message: 'Email address is already registered'});
-    })
+    });
    
     
 }

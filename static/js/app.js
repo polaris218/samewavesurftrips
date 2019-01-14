@@ -35,7 +35,7 @@ App.prototype = {
                         $('.newuser-alert').addClass('alert-danger');
                         $('.newuser-alert').addClass('show');
                     }else{
-                        $('.newuser-alert span').html(res.ops[0]._id);
+                        $('.newuser-alert span').html(res);
                         $('.newuser-alert').removeClass('alert-danger');
                         $('.newuser-alert').addClass('show');
                     }

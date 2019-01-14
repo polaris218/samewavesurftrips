@@ -15,19 +15,19 @@ var api_key = _config2.default.mailgun.key,
     domain = _config2.default.mailgun.domain,
     mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
-function notify_newUser(email, res) {
+function notify_newUser(user, res) {
 
-    res.render('email/newuser-confirm', { layout: 'notification', email: email }, function (err, html) {
+    res.render('email/newuser-welcome', { layout: 'notification', email: user.email, first_name: user.first_name }, function (err, html) {
 
         var data = {
             html: html,
             from: _config2.default.mailgun.from,
-            to: email,
+            to: user.email,
             subject: 'Please confirm your email account'
         };
 
         mailgun.messages().send(data, function (error, body) {
-            console.log('MailSent : newuser-confirm');
+            console.log('MailSent : newuser-welcome');
         });
     });
 }
