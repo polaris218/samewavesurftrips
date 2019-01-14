@@ -13,6 +13,10 @@ var _notifications = require('./notifications');
 
 var _models = require('../models');
 
+var _check = require('express-validator/check');
+
+var _filter = require('express-validator/filter');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ObjectId = require('mongodb').ObjectID;
@@ -35,7 +39,9 @@ var ObjectId = require('mongodb').ObjectID;
  */
 var users = exports.users = function users(req, res) {
 
-    new _models.User().getAll(req).then(function (users) {
+    var user = new _models.User(req);
+
+    user.getAll(req).then(function (users) {
         res.json(users);
     });
 };
@@ -55,7 +61,9 @@ var users = exports.users = function users(req, res) {
  * @apiUse UserObject
  */
 var user = exports.user = function user(req, res) {
-    new _models.User().get(req).then(function (user) {
+    var user = new _models.User(req);
+
+    user.get().then(function (user) {
         res.json(user);
     });
 };
@@ -79,8 +87,17 @@ var user = exports.user = function user(req, res) {
  */
 var userAdd = exports.userAdd = function userAdd(req, res) {
 
-    new _models.User().save(req).then(function (users) {
-        (0, _notifications.notify_newUser)(req.body.email, res);
-        res.json(users);
+    var user = new _models.User(req);
+
+    user.doesNotExists().then(function () {
+
+        user.save().then(function (newuser) {
+            (0, _notifications.notify_newUser)(req.body.email, res);
+            res.json({ error: false, user: newuser });
+        }).catch(function (validation) {
+            res.json({ error: true, details: validation.error.details });
+        });
+    }).catch(function (error) {
+        res.json({ error: true, message: 'Email address is already registered' });
     });
 };

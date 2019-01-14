@@ -1,5 +1,6 @@
 import Model from './model';
 import bcrypt from 'bcrypt';
+import Joi from 'joi';
 
 /* 
 |--------------------------------------------------------------------------
@@ -39,34 +40,36 @@ class User extends Model {
     */
     first_name = {
         secret: false,
-        allowNull: true
+        validation: Joi.string().alphanum().min(13).max(30).required()
     }
 
     last_name = {
         secret: false,
-        allowNull: true
+        validation: Joi.string().alphanum().min(13).max(30).required()
     }
 
     email = {
-        secret: true,
-        allowNull: false
+        secret: false,
+        validation: Joi.string().email({ minDomainAtoms: 2 })
     }
 
     password = {
         secret: true,
-        allowNull: false
+        validation: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
     }
 
-   
+
+
     /* 
     |--------------------------------------------------------------------------
     | Publish
     |--------------------------------------------------------------------------
     */
-    publish(req,data) {
+    publish(data) {
+
         return new Promise((resolve, reject) => {
 
-            const collection = req.db.collection(this.collection);
+            const collection = this.req.db.collection(this.collection);
         
             bcrypt.hash(data.password, 10, function(err, hash) {
                 data.password = hash;
@@ -81,6 +84,34 @@ class User extends Model {
             }); 
 
         });
+            
+    }
+
+    /* 
+    |--------------------------------------------------------------------------
+    | Check user exists
+    |--------------------------------------------------------------------------
+    */
+    doesNotExists() {
+
+        return new Promise((resolve, reject) => {
+
+            const collection = this.req.db.collection(this.collection);
+            const email = this.req.body.email;
+
+            collection.find({email}).toArray((err, resp) => {   
+
+                if(resp.length > 0){
+                    reject();
+                }else {
+                    resolve();
+                }
+            
+            });
+
+        });
+
+
     }
 
 }

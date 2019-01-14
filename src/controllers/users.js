@@ -1,7 +1,8 @@
 import config from '../config';
 import { notify_newUser } from './notifications';
 import { User } from '../models';
-
+import { body,validationResult } from 'express-validator/check';
+import { sanitizeBody } from 'express-validator/filter';
 
 const ObjectId = require('mongodb').ObjectID;
  
@@ -23,7 +24,9 @@ const ObjectId = require('mongodb').ObjectID;
  */
 export const users = (req,res) => {
 
-    new User().getAll(req).then(users => {
+    const user = new User(req);
+
+    user.getAll(req).then(users => {
         res.json(users);
     })
 		
@@ -44,7 +47,9 @@ export const users = (req,res) => {
  * @apiUse UserObject
  */
 export const user = (req,res) => {
-    new User().get(req).then(user => {
+    const user = new User(req);
+
+    user.get().then(user => {
         res.json(user);
     })
 }
@@ -68,10 +73,21 @@ export const user = (req,res) => {
  */
 export const userAdd = (req,res) => {
 
-    new User().save(req).then(users => {
-        notify_newUser(req.body.email, res);
-        res.json(users);
-    }) 
+    const user = new User(req);
+    
+    user.doesNotExists().then(()=>{
+
+        user.save().then(newuser => {
+            notify_newUser(req.body.email, res);
+            res.json({error: false, user:newuser});
+        }).catch(validation=>{
+            res.json({error: true, details:validation.error.details});
+        })
+
+    }).catch(error=>{
+        res.json({error: true, message: 'Email address is already registered'});
+    })
+   
     
 }
 

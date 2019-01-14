@@ -7,7 +7,7 @@
 
 }
 
-.token-alert {
+.token-alert, .newuser-alert {
     display: none;
     overflow-wrap: break-word;
 }
@@ -16,7 +16,7 @@
     display:block;
 }
 
-.token-alert.show {
+.token-alert.show, .newuser-alert.show {
     display:block;
 }
 

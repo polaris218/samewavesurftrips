@@ -46,3 +46,36 @@
     </form>
 </div>
 
+<hr/>
+
+<div class="container">
+    <h2>Register</h2>
+    <form action="/v1/users" method="post" id="form_create_user">
+        <div class="form-group">
+
+        <div class="form-group">
+        <label for="new-first_name">First Name</label>
+        <input type="text" class="form-control" id="new-first_name" aria-describedby="emailHelp" placeholder="Enter your first name" name="first_name" required>
+        </div>
+        
+        <div class="form-group">
+        <label for="new-last_name">Last Name</label>
+        <input type="text" class="form-control" id="new-last_name" aria-describedby="emailHelp" placeholder="Enter your last name" name="last_name" required>
+        </div>
+
+        <label for="new-username">Email address</label>
+        <input type="email" class="form-control" id="new-email" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+        <label for="new-password">Password</label>
+        <input type="password" class="form-control" id="new-password" placeholder="Password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <br/><br/>
+        <div class="alert alert-success newuser-alert" role="alert">
+            <strong>User created :</strong><span></span>
+        </div>
+
+    </form>
+</div>

@@ -10,6 +10,10 @@ var _config = require('../config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _joi = require('joi');
+
+var _joi2 = _interopRequireDefault(_joi);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19,30 +23,64 @@ var ObjectId = require('mongodb').ObjectID;
 var Model = function () {
     function Model(args) {
         _classCallCheck(this, Model);
+
+        this.req = args;
     }
 
-    /* 
-    |--------------------------------------------------------------------------
-    | Save model
-    |--------------------------------------------------------------------------
-    */
-
-
     _createClass(Model, [{
-        key: 'save',
-        value: function save(req) {
-            var dataModel = {};
+        key: 'validate',
+        value: function validate(data) {
+            var _this = this;
+
+            var validationKeys = {};
 
             Object.keys(this).forEach(function (key) {
 
-                Object.keys(req.body).forEach(function (key2) {
+                Object.keys(_this.req.body).forEach(function (key2) {
                     if (key == key2) {
-                        dataModel[key] = req.body[key2];
+                        validationKeys[key] = _this[key2].validation;
                     }
                 });
             });
 
-            return this.publish(req, dataModel);
+            var schema = _joi2.default.object().keys(validationKeys);
+
+            var result = _joi2.default.validate(data, schema);
+
+            return result;
+        }
+
+        /* 
+        |--------------------------------------------------------------------------
+        | Save model
+        |--------------------------------------------------------------------------
+        */
+
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this2 = this;
+
+            var dataModel = {};
+
+            Object.keys(this).forEach(function (key) {
+
+                Object.keys(_this2.req.body).forEach(function (key2) {
+                    if (key == key2) {
+                        dataModel[key] = _this2.req.body[key2];
+                    }
+                });
+            });
+
+            var validData = this.validate(dataModel);
+
+            if (validData.error) {
+                return new Promise(function (resolve, reject) {
+                    reject(validData);
+                });
+            } else {
+                return this.publish(dataModel);
+            }
         }
 
         /* 
@@ -53,12 +91,12 @@ var Model = function () {
 
     }, {
         key: 'getAll',
-        value: function getAll(req) {
-            var _this = this;
+        value: function getAll() {
+            var _this3 = this;
 
-            var collection = req.db.collection(this.collection);
-            var skip = parseInt(req.query.skip) || 0;
-            var sort = req.query.sort || '';
+            var collection = this.req.db.collection(this.collection);
+            var skip = parseInt(this.req.query.skip) || 0;
+            var sort = this.req.query.sort || '';
 
             return new Promise(function (resolve, reject) {
 
@@ -67,7 +105,7 @@ var Model = function () {
 
                     collection.find().skip(skip).limit(_config2.default.db.paging).sort({ sort: -1 }).toArray(function (err, resp) {
 
-                        var data = _this.maskPrivate(resp);
+                        var data = _this3.maskPrivate(resp);
 
                         if (err) {
                             reject(err);
@@ -87,16 +125,16 @@ var Model = function () {
 
     }, {
         key: 'get',
-        value: function get(req) {
-            var _this2 = this;
+        value: function get() {
+            var _this4 = this;
 
-            var collection = req.db.collection(this.collection);
+            var collection = this.req.db.collection(this.collection);
 
             return new Promise(function (resolve, reject) {
 
-                collection.find(ObjectId(req.params.id)).toArray(function (err, resp) {
+                collection.find(ObjectId(_this4.req.params.id)).toArray(function (err, resp) {
 
-                    var data = _this2.maskPrivate(resp);
+                    var data = _this4.maskPrivate(resp);
 
                     if (err) {
                         reject(err);
@@ -116,13 +154,13 @@ var Model = function () {
     }, {
         key: 'maskPrivate',
         value: function maskPrivate(data) {
-            var _this3 = this;
+            var _this5 = this;
 
             if (Array.isArray(data)) {
                 return data.map(function (item) {
                     Object.keys(item).forEach(function (key) {
-                        if (_this3[key]) {
-                            if (_this3[key]['secret']) delete item[key];
+                        if (_this5[key]) {
+                            if (_this5[key]['secret']) delete item[key];
                         }
                     });
 
@@ -132,8 +170,8 @@ var Model = function () {
 
             if (!Array.isArray(data)) {
                 Object.keys(data).forEach(function (key) {
-                    if (_this3[key]) {
-                        if (_this3[key]['secret']) delete data[key];
+                    if (_this5[key]) {
+                        if (_this5[key]['secret']) delete data[key];
                     }
                 });
 

@@ -1,10 +1,32 @@
 import config from '../config';
+import Joi from 'joi';
 const ObjectId = require('mongodb').ObjectID;
 
 class Model {
 
     constructor(args) {
-      
+       this.req = args;
+    }
+
+    validate(data) {
+
+        let validationKeys = {}
+
+        Object.keys(this).forEach((key) => {
+            
+            Object.keys(this.req.body).forEach((key2) => {
+                if(key == key2) {
+                    validationKeys[key] = this[key2].validation;
+                }
+            });
+    
+        });
+
+        let schema = Joi.object().keys(validationKeys);
+
+        const result = Joi.validate(data, schema);
+        
+        return result;
     }
 
     /* 
@@ -12,20 +34,29 @@ class Model {
     | Save model
     |--------------------------------------------------------------------------
     */
-    save(req) {
+    save() {
         let dataModel = {};
-
+       
         Object.keys(this).forEach((key) => {
             
-            Object.keys(req.body).forEach((key2) => {
+            Object.keys(this.req.body).forEach((key2) => {
                 if(key == key2) {
-                    dataModel[key] = req.body[key2];
+                    dataModel[key] = this.req.body[key2];
                 }
             });
     
         });
 
-        return this.publish(req,dataModel);
+        const validData = this.validate(dataModel);
+
+        if(validData.error){
+            return new Promise((resolve, reject) => {
+                reject(validData);
+            });
+        }else{
+            return this.publish(dataModel);
+        }
+        
     }
 
 
@@ -34,11 +65,11 @@ class Model {
     | Get all model data
     |--------------------------------------------------------------------------
     */
-    getAll(req) {
+    getAll() {
 
-        const collection = req.db.collection(this.collection);
-        const skip = parseInt(req.query.skip) || 0;
-        const sort = req.query.sort || '';
+        const collection = this.req.db.collection(this.collection);
+        const skip = parseInt(this.req.query.skip) || 0;
+        const sort = this.req.query.sort || '';
 
         return new Promise((resolve, reject) => {
             
@@ -67,13 +98,13 @@ class Model {
     | Get single model by id
     |--------------------------------------------------------------------------
     */
-    get(req) {
+    get() {
 
-        const collection = req.db.collection(this.collection);
+        const collection = this.req.db.collection(this.collection);
 
         return new Promise((resolve, reject) => {
 
-            collection.find(ObjectId(req.params.id)).toArray((err, resp) => {
+            collection.find(ObjectId(this.req.params.id)).toArray((err, resp) => {
                 
                 let data = this.maskPrivate(resp);
 
