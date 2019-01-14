@@ -5,7 +5,7 @@ import passport from 'passport';
 import { passportLocalStrategy, serialize, generateToken, respond } from './controllers/auth';
 import { users, user, userAdd } from './controllers/users';
 
-const authenticate = expressJwt({secret : config.hash.secret});
+const authenticate = expressJwt({secret : config.auth.secret});
 let app;
 
  
@@ -51,8 +51,18 @@ export function routes() {
 	| HOME
 	|--------------------------------------------------------------------------
 	*/
-	router.get(`/`, authenticate, function(req,res){
+	router.get(`/`, function(req,res){
 		res.json({ 'msg' : 'Hello World!' })
+	});
+
+
+	/* 
+	|--------------------------------------------------------------------------
+	| Login
+	|--------------------------------------------------------------------------
+	*/
+	router.get(`/login`, function(req,res){
+		res.render('login', { 'layout' : 'main' });
 	});
 
 
@@ -61,7 +71,7 @@ export function routes() {
 	| USERS
 	|--------------------------------------------------------------------------
 	*/
-	router.get(`/v1/users`, users);
+	router.get(`/v1/users`, authenticate, users);
 	router.get(`/v1/user/:id`, user);
 	router.post(`/v1/users`, userAdd);
 

@@ -1,0 +1,22 @@
+.container {
+    display:block;
+    max-width: 800px;
+    margin:auto;
+    margin-top:30px;
+    margin-bottom: 30px;
+
+}
+
+form {
+    display:block;
+    margin-top:30px;
+}
+
+.protected-routes {
+    padding:0;
+    margin:0;
+}
+
+.protected-routes li {
+    list-style:none;
+}

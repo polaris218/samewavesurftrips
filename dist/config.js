@@ -44,8 +44,14 @@ var config = {
         paging: 25
     },
 
-    hash: {
-        secret: process.env.HASH_SECRET
+    /* 
+    |--------------------------------------------------------------------------
+    | authentication
+    |--------------------------------------------------------------------------
+    */
+    auth: {
+        secret: process.env.HASH_SECRET,
+        expires: 120
     }
 };
 

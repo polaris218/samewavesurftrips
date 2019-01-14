@@ -28,7 +28,7 @@ var _users = require('./controllers/users');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var authenticate = (0, _expressJwt2.default)({ secret: _config2.default.hash.secret });
+var authenticate = (0, _expressJwt2.default)({ secret: _config2.default.auth.secret });
 var app = void 0;
 
 /* 
@@ -70,8 +70,17 @@ function routes() {
  | HOME
  |--------------------------------------------------------------------------
  */
-	router.get('/', authenticate, function (req, res) {
+	router.get('/', function (req, res) {
 		res.json({ 'msg': 'Hello World!' });
+	});
+
+	/* 
+ |--------------------------------------------------------------------------
+ | Login
+ |--------------------------------------------------------------------------
+ */
+	router.get('/login', function (req, res) {
+		res.render('login', { 'layout': 'main' });
 	});
 
 	/* 
@@ -79,7 +88,7 @@ function routes() {
  | USERS
  |--------------------------------------------------------------------------
  */
-	router.get('/v1/users', _users.users);
+	router.get('/v1/users', authenticate, _users.users);
 	router.get('/v1/user/:id', _users.user);
 	router.post('/v1/users', _users.userAdd);
 

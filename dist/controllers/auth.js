@@ -63,8 +63,8 @@ function passportLocalStrategy() {
 function generateToken(req, res, next) {
     req.token = _jsonwebtoken2.default.sign({
         id: req.user.id
-    }, _config2.default.hash.secret, {
-        expiresIn: 120
+    }, _config2.default.auth.secret, {
+        expiresIn: _config2.default.auth.expires
     });
     next();
 }

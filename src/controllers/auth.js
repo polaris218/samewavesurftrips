@@ -42,8 +42,8 @@ export function passportLocalStrategy() {
 export function generateToken(req, res, next) {  
 	req.token = jwt.sign({
 	  id: req.user.id,
-	}, config.hash.secret, {
-	  expiresIn: 120
+	}, config.auth.secret, {
+	  expiresIn: config.auth.expires
 	});
 	next();
   }

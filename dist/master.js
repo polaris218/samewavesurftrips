@@ -11,7 +11,6 @@ var _forky2 = _interopRequireDefault(_forky);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _dotenv2.default.config();
-console.log(process.env.DB_PASS, 'xxx');
 
 var WORKERS = process.env.WEB_CONCURRENCY || 1;
 console.log('Cluster is running ' + WORKERS + ' instances per dyno\n---------------------------------------------------');
