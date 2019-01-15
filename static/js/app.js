@@ -7,8 +7,7 @@ function App(){
 App.prototype = {
 
     init: function(){ 
-        console.log(document.location.href.indexOf('login'))
-        if(document.location.href.indexOf('login')!=-1) {
+        if(document.location.href.indexOf('sandbox')!=-1) {
             this.loginTest()
             this.registerUser()
             this.routeTest()

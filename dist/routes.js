@@ -79,8 +79,8 @@ function routes() {
  | Login
  |--------------------------------------------------------------------------
  */
-	router.get('/login', function (req, res) {
-		res.render('login', { 'layout': 'main' });
+	router.get('/sandbox', function (req, res) {
+		res.render('sandbox', { 'layout': 'main' });
 	});
 
 	/* 
