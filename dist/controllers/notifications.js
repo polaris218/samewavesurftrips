@@ -23,7 +23,7 @@ function notify_newUser(user, res) {
             html: html,
             from: _config2.default.mailgun.from,
             to: user.email,
-            subject: 'Please confirm your email account'
+            subject: 'Hi ' + user.first_name + ', Welcome to Samewave.'
         };
 
         mailgun.messages().send(data, function (error, body) {

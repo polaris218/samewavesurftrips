@@ -17,15 +17,23 @@ export function passportLocalStrategy() {
         
         collection.find({email: username}).toArray(function(err, user) {
     
-            const userObject = user[0];
+            if(user.length) {
+                
+                const userObject = user[0];
+
+                bcrypt.compare(password, userObject.password, function(err, res) {
+                    if(res) {
+                    done(null,userObject)
+                    } else {
+                    done(null, false);
+                    } 
+                });
+
+            }else{
+              done(null, false);
+            }
     
-            bcrypt.compare(password, userObject.password, function(err, res) {
-                if(res) {
-                done(null,userObject)
-                } else {
-                done(null, false);
-                } 
-            });
+            
     
         });
     

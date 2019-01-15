@@ -3,18 +3,37 @@ import Joi from 'joi';
 const ObjectId = require('mongodb').ObjectID;
 
 class Model {
-
+    /* 
+    |--------------------------------------------------------------------------
+    | Constructor
+    |--------------------------------------------------------------------------
+    */
     constructor(args) {
-       this.req = args;
+        this.req = args;
     }
 
+    /* 
+    |--------------------------------------------------------------------------
+    | Model properties
+    |--------------------------------------------------------------------------
+    */
+    created_at = {
+        secret: false,
+        validation: Joi.string().required()
+    }
+
+    /* 
+    |--------------------------------------------------------------------------
+    | Validate data object
+    |--------------------------------------------------------------------------
+    */
     validate(data) {
 
         let validationKeys = {}
 
         Object.keys(this).forEach((key) => {
             
-            Object.keys(this.req.body).forEach((key2) => {
+            Object.keys(data).forEach((key2) => {
                 if(key == key2) {
                     validationKeys[key] = this[key2].validation;
                 }
@@ -35,7 +54,10 @@ class Model {
     |--------------------------------------------------------------------------
     */
     save() {
-        let dataModel = {};
+
+        let dataModel = {
+            created_at: Date.now().toString()
+        };
        
         Object.keys(this).forEach((key) => {
             

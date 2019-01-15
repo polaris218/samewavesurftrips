@@ -38,6 +38,7 @@ class User extends Model {
     | Model properties
     |--------------------------------------------------------------------------
     */
+
     first_name = {
         secret: false,
         validation: Joi.string().alphanum().min(1).max(50).required()
@@ -50,13 +51,15 @@ class User extends Model {
 
     email = {
         secret: false,
-        validation: Joi.string().email({ minDomainAtoms: 2 })
+        validation: Joi.string().email({ minDomainAtoms: 2 }).required()
     }
 
     password = {
         secret: true,
-        validation: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+        validation: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
     }
+
+
 
 
 

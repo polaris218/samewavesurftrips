@@ -12,7 +12,7 @@ export function notify_newUser(user, res){
             html: html,
             from: config.mailgun.from,
             to: user.email,
-            subject: 'Please confirm your email account'
+            subject: `Hi ${user.first_name}, Welcome to Samewave.`
         };
 
         mailgun.messages().send(data, function (error, body) {

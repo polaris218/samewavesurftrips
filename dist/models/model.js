@@ -21,11 +21,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var ObjectId = require('mongodb').ObjectID;
 
 var Model = function () {
+    /* 
+    |--------------------------------------------------------------------------
+    | Constructor
+    |--------------------------------------------------------------------------
+    */
     function Model(args) {
         _classCallCheck(this, Model);
 
+        this.created_at = {
+            secret: false,
+            validation: _joi2.default.string().required()
+
+            /* 
+            |--------------------------------------------------------------------------
+            | Validate data object
+            |--------------------------------------------------------------------------
+            */
+        };
+
         this.req = args;
     }
+
+    /* 
+    |--------------------------------------------------------------------------
+    | Model properties
+    |--------------------------------------------------------------------------
+    */
+
 
     _createClass(Model, [{
         key: 'validate',
@@ -36,7 +59,7 @@ var Model = function () {
 
             Object.keys(this).forEach(function (key) {
 
-                Object.keys(_this.req.body).forEach(function (key2) {
+                Object.keys(data).forEach(function (key2) {
                     if (key == key2) {
                         validationKeys[key] = _this[key2].validation;
                     }
@@ -61,7 +84,9 @@ var Model = function () {
         value: function save() {
             var _this2 = this;
 
-            var dataModel = {};
+            var dataModel = {
+                created_at: Date.now().toString()
+            };
 
             Object.keys(this).forEach(function (key) {
 

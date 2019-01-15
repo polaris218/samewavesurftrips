@@ -67,11 +67,11 @@ var User = function (_Model) {
         };
         _this.email = {
             secret: false,
-            validation: _joi2.default.string().email({ minDomainAtoms: 2 })
+            validation: _joi2.default.string().email({ minDomainAtoms: 2 }).required()
         };
         _this.password = {
             secret: true,
-            validation: _joi2.default.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+            validation: _joi2.default.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
 
             /* 
             |--------------------------------------------------------------------------
@@ -89,7 +89,6 @@ var User = function (_Model) {
     | Model properties
     |--------------------------------------------------------------------------
     */
-
 
     _createClass(User, [{
         key: 'publish',

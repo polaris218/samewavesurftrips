@@ -42,15 +42,20 @@ function passportLocalStrategy() {
 
         collection.find({ email: username }).toArray(function (err, user) {
 
-            var userObject = user[0];
+            if (user.length) {
 
-            _bcrypt2.default.compare(password, userObject.password, function (err, res) {
-                if (res) {
-                    done(null, userObject);
-                } else {
-                    done(null, false);
-                }
-            });
+                var userObject = user[0];
+
+                _bcrypt2.default.compare(password, userObject.password, function (err, res) {
+                    if (res) {
+                        done(null, userObject);
+                    } else {
+                        done(null, false);
+                    }
+                });
+            } else {
+                done(null, false);
+            }
         });
     }));
 }
