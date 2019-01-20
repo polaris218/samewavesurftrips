@@ -59,8 +59,10 @@ class User extends Model {
         validation: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
     }
 
-
-
+    gender = {
+        secret: false,
+        validation: Joi.string().alphanum().min(1).max(50).required()
+    }
 
 
     /* 
@@ -103,7 +105,7 @@ class User extends Model {
             const email = this.req.body.email;
 
             collection.find({email}).toArray((err, resp) => {   
-
+                
                 if(resp.length > 0){
                     reject();
                 }else {

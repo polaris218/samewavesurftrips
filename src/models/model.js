@@ -32,19 +32,13 @@ class Model {
         let validationKeys = {}
 
         Object.keys(this).forEach((key) => {
-            
-            Object.keys(data).forEach((key2) => {
-                if(key == key2) {
-                    validationKeys[key] = this[key2].validation;
-                }
-            });
-    
+            if(this[key].validation) validationKeys[key] = this[key].validation;    
         });
 
         let schema = Joi.object().keys(validationKeys);
 
         const result = Joi.validate(data, schema);
-        
+
         return result;
     }
 

@@ -83,7 +83,7 @@ export const userAdd = (req,res) => {
         });
 
     }).catch(error=>{
-        res.json({error: true, message: 'Email address is already registered'});
+        res.json({error: true, message: error});
     });
    
     

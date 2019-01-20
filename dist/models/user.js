@@ -72,6 +72,10 @@ var User = function (_Model) {
         _this.password = {
             secret: true,
             validation: _joi2.default.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+        };
+        _this.gender = {
+            secret: false,
+            validation: _joi2.default.string().alphanum().min(1).max(50).required()
 
             /* 
             |--------------------------------------------------------------------------

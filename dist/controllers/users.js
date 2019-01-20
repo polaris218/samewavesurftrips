@@ -94,6 +94,6 @@ var userAdd = exports.userAdd = function userAdd(req, res) {
             res.json({ error: true, details: error });
         });
     }).catch(function (error) {
-        res.json({ error: true, message: 'Email address is already registered' });
+        res.json({ error: true, message: error });
     });
 };

@@ -58,12 +58,7 @@ var Model = function () {
             var validationKeys = {};
 
             Object.keys(this).forEach(function (key) {
-
-                Object.keys(data).forEach(function (key2) {
-                    if (key == key2) {
-                        validationKeys[key] = _this[key2].validation;
-                    }
-                });
+                if (_this[key].validation) validationKeys[key] = _this[key].validation;
             });
 
             var schema = _joi2.default.object().keys(validationKeys);
