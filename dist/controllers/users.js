@@ -78,6 +78,9 @@ var user = exports.user = function user(req, res) {
  * @apiParam {String}  last_name   Last Name.
  * @apiParam {String}  email   Email address.
  * @apiParam {String}  password   Password.
+ * @apiParam {String}   email   Email address.
+ * @apiParam {String}   password   Password.
+ * @apiParam {String}   gender   Gender.
  * 
  * @apiUse UserObject
  */
