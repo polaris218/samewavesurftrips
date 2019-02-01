@@ -4,9 +4,12 @@ import expressJwt from 'express-jwt';
 import passport from 'passport';  
 import { passportLocalStrategy, serialize, generateToken, respond } from './controllers/auth';
 import { users, user, userAdd } from './controllers/users';
+import Trip from './controllers/trips';
 
 const authenticate = expressJwt({secret : config.auth.secret});
 let app;
+
+
 
  
 /* 
@@ -16,8 +19,10 @@ let app;
 */
 export function routesInit(a){
 	app = a;
+
 	passportLocalStrategy();
 	app.use(passport.initialize());  
+
 } 
 
 /* 
@@ -52,7 +57,7 @@ export function routes() {
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/`, function(req,res){
-		res.json({ 'msg' : 'Hello World!' })
+		res.render('samewave', { 'layout' : 'app' });
 	});
 
 
@@ -74,6 +79,8 @@ export function routes() {
 	router.get(`/v1/users`, authenticate, users);
 	router.get(`/v1/user/:id`, authenticate, user);
 	router.post(`/v1/users`, userAdd);
+	router.get(`/v1/trips`, authenticate, Trip.getAll);
+	router.post(`/v1/trips`, authenticate, Trip.create);
 
     return router;
 }

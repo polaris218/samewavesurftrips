@@ -26,6 +26,10 @@ var _auth = require('./controllers/auth');
 
 var _users = require('./controllers/users');
 
+var _trips = require('./controllers/trips');
+
+var _trips2 = _interopRequireDefault(_trips);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var authenticate = (0, _expressJwt2.default)({ secret: _config2.default.auth.secret });
@@ -38,6 +42,7 @@ var app = void 0;
 */
 function routesInit(a) {
 	app = a;
+
 	(0, _auth.passportLocalStrategy)();
 	app.use(_passport2.default.initialize());
 }
@@ -71,7 +76,7 @@ function routes() {
  |--------------------------------------------------------------------------
  */
 	router.get('/', function (req, res) {
-		res.json({ 'msg': 'Hello World!' });
+		res.render('samewave', { 'layout': 'app' });
 	});
 
 	/* 
@@ -91,6 +96,8 @@ function routes() {
 	router.get('/v1/users', authenticate, _users.users);
 	router.get('/v1/user/:id', authenticate, _users.user);
 	router.post('/v1/users', _users.userAdd);
+	router.get('/v1/trips', authenticate, _trips2.default.getAll);
+	router.post('/v1/trips', authenticate, _trips2.default.create);
 
 	return router;
 }

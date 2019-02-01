@@ -12,11 +12,11 @@ import {routes, routesInit} from './routes';
 import https from 'https';
 import config from './config';
 import helmet from 'helmet';
+import mongoose from 'mongoose';
 
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+
 const expressMongoDb = require('express-mongo-db');
-const csrf = require('csurf');
+
 
 /* 
 |--------------------------------------------------------------------------
@@ -81,6 +81,14 @@ app.use(bodyParser.json({limit: '50mb', verify: rawBodySaver}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
 app.use(expressMongoDb(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`))
 
+const connection = mongoose.connect(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`, { useNewUrlParser: true });
+
+connection.then(db => {
+  console.log(`Successfully connected to MongoDB cluster`)
+  return db;
+});
+
+
 /* 
 |--------------------------------------------------------------------------
 | sessions
@@ -90,7 +98,8 @@ app.use(session({name:'samewave', saveUninitialized:true, resave:false, secure:t
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve(__dirname, '../static')));
-//app.use(csrf());
+
+
 
 /* 
 |--------------------------------------------------------------------------

@@ -54,12 +54,13 @@ var _helmet = require('helmet');
 
 var _helmet2 = _interopRequireDefault(_helmet);
 
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
 var expressMongoDb = require('express-mongo-db');
-var csrf = require('csurf');
 
 /* 
 |--------------------------------------------------------------------------
@@ -122,6 +123,13 @@ app.use(_bodyParser2.default.json({ limit: '50mb', verify: rawBodySaver }));
 app.use(_bodyParser2.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }));
 app.use(expressMongoDb('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database));
 
+var connection = _mongoose2.default.connect('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database, { useNewUrlParser: true });
+
+connection.then(function (db) {
+  console.log('Successfully connected to MongoDB cluster');
+  return db;
+});
+
 /* 
 |--------------------------------------------------------------------------
 | sessions
@@ -131,7 +139,6 @@ app.use((0, _expressSession2.default)({ name: 'samewave', saveUninitialized: tru
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(_express2.default.static(_path2.default.resolve(__dirname, '../static')));
-//app.use(csrf());
 
 /* 
 |--------------------------------------------------------------------------

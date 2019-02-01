@@ -30,6 +30,7 @@
         <div class="form-group">
         <label for="exampleInputEmail1">Route</label>
         <select class="form-control" id="route">
+            <option value="/v1/trips">/v1/trips</option>
             <option value="/v1/users">/v1/users</option>
             <option value="/v1/user/5c0a7db9e10bf07cc1a2c348">/v1/user/5c0a7db9e10bf07cc1a2c348 (Luke)</option>
         </select>
@@ -76,6 +77,77 @@
         <div class="alert alert-success newuser-alert" role="alert">
             <strong>User created :</strong><span></span>
         </div>
+
+    </form>
+</div>
+
+<hr/>
+
+<div class="container">
+    <h2>Create Trip</h2>
+    <form action="/v1/trips" method="post" id="form_create_trip">
+        
+        <div class="form-group">
+        <label for="new-first_name">Token</label>
+        <input type="text" class="form-control" id="trip-token" placeholder="Auth Token" name="authtoken" required>
+         <small id="emailHelp" class="form-text text-muted">Enter your authentication token</small>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+        <label for="new-first_name">Title</label>
+        <input type="text" class="form-control" id="trip-title" placeholder="Trip Name" name="title" required>
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">Departing</label>
+        <input type="text" class="form-control" id="trip-departing" placeholder="Departing from..." name="departing" required>
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">Destination</label>
+        <input type="text" class="form-control" id="trip-departing" placeholder="Arriving at..." name="destination" required>
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">Departure Date / Time</label>
+        <input type="text" class="form-control" id="trip-departingdatetime" placeholder="Departure date / time" name="departure_date_time" required>
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">Return Date / Time</label>
+        <input type="text" class="form-control" id="trip-departingdatetime" placeholder="Return date / time" name="return_date_time" required>
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">No. Surfers</label>
+        <input type="text" class="form-control" id="trip-nosurfers" placeholder="Number of Surfers" name="number_of_surfers" >
+        </div>
+
+        <div class="form-group">
+        <label for="gender">Gender</label>
+        <select class="form-control" id="route" name="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="FED">FrontEnd Developer @ Facebook</option>
+        </select>
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">Surf Modality</label>
+        <input type="text" class="form-control" id="trip-modality" placeholder="Surf Modality" name="surf_modality" >
+        </div>
+
+        <div class="form-group">
+        <label for="new-first_name">Surf Level</label>
+        <input type="text" class="form-control" id="trip-surf_level" placeholder="Surf Level" name="surf_level" >
+        </div>
+
+        <label for="response">Response</label>
+        <textarea class="form-control" id="tripresponse" rows="10" readonly></textarea><br/>
+        <button type="submit" class="btn btn-primary">Create Trip</button>
+        
 
     </form>
 </div>

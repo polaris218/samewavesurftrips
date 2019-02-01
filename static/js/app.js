@@ -11,6 +11,7 @@ App.prototype = {
             this.loginTest()
             this.registerUser()
             this.routeTest()
+            this.createTrip()
         }
     },
 
@@ -99,6 +100,36 @@ App.prototype = {
               });
 
         })
+    },
+
+    createTrip: function() {
+
+        $('#form_create_trip').submit(function(e){
+            e.preventDefault();
+
+            var token = $('#trip-token');
+            var data = JSON.stringify($("#form_create_trip").serializeArray());
+
+            console.log(data);
+
+            $.ajax({
+                url: '/v1/trips',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer '+token.val());
+                },
+                method: 'POST',
+                data: data,
+                success: function(res){
+       
+                  $('#tripresponse').val(JSON.stringify(res));
+                },
+                error: function(err) {
+                    $('#tripresponse').val(JSON.stringify(err));
+                }
+            });
+        })
+
+
     }
 }
 
