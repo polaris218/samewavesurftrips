@@ -27,9 +27,27 @@ exports.getAll = function (req, res) {
 */
 exports.create = function (req, res) {
 
-	var data = Object.assign({}, req.body) || {};
+	var postData = Object.assign({}, req.body) || {};
 
-	_trip2.default.create(data).then(function (trip) {
+	//populate nested model objects ---
+	var modelData = Object.assign({}, postData, {
+		date_times: {
+			departure_date_time: req.body.departure_date_time || new Date(),
+			return_date_time: req.body.departure_date_time || new Date()
+		},
+
+		transport: {
+			own_vehicle: req.body.departure_date_time || false,
+			offer_rides: req.body.offer_rides || false,
+			available_seats: req.body.available_seats || 0,
+			bring_own_surfboards: req.body.bring_own_surfboards || false,
+			max_surfboards: req.body.max_surfboards || 0
+		}
+	});
+
+	console.log(modelData);
+
+	_trip2.default.create(modelData).then(function (trip) {
 		res.json(trip);
 	}).catch(function (err) {
 		res.status(500).send(err);

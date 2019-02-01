@@ -108,9 +108,17 @@ App.prototype = {
             e.preventDefault();
 
             var token = $('#trip-token');
-            var data = JSON.stringify($("#form_create_trip").serializeArray());
+            var object = {};
+            var elements = document.getElementById("form_create_trip").elements;
 
-            console.log(data);
+
+            for(var i = 0; i < elements.length; i++) {
+                object[elements[i].name] = elements[i].value;
+            }
+
+            var json = JSON.stringify(object);
+            
+            console.log(json)
 
             $.ajax({
                 url: '/v1/trips',
@@ -118,7 +126,9 @@ App.prototype = {
                     xhr.setRequestHeader('Authorization', 'Bearer '+token.val());
                 },
                 method: 'POST',
-                data: data,
+                data: json,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
                 success: function(res){
        
                   $('#tripresponse').val(JSON.stringify(res));
