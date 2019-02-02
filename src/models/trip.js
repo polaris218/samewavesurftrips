@@ -5,6 +5,12 @@ import mongooseStringQuery from 'mongoose-string-query';
 
 export const TripSchema = new Schema(
     {
+        
+        owner_id: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        
         title: {
             type: String,
 			required: true

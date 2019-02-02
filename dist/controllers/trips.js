@@ -27,10 +27,11 @@ exports.getAll = function (req, res) {
 */
 exports.create = function (req, res) {
 
-	var postData = Object.assign({}, req.body) || {};
+	//populate nested objects & defaults ---
+	var modelData = Object.assign({}, req.body, {
 
-	//populate nested model objects ---
-	var modelData = Object.assign({}, postData, {
+		owner_id: req.user._id,
+
 		date_times: {
 			departure_date_time: req.body.departure_date_time || new Date(),
 			return_date_time: req.body.departure_date_time || new Date()
@@ -43,9 +44,8 @@ exports.create = function (req, res) {
 			bring_own_surfboards: req.body.bring_own_surfboards || false,
 			max_surfboards: req.body.max_surfboards || 0
 		}
-	});
 
-	console.log(modelData);
+	});
 
 	_trip2.default.create(modelData).then(function (trip) {
 		res.json(trip);

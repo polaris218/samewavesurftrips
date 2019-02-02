@@ -1,33 +1,19 @@
-import config from '../config';
-import { notify_newUser } from './notifications';
-import { User } from '../models';
 
-const ObjectId = require('mongodb').ObjectID;
+import User from '../models/user';
  
 /* 
 |--------------------------------------------------------------------------
 | Get all users
 |--------------------------------------------------------------------------
 */
-/**
- * @api {get} /users Request Users
- * @apiName GetUsers
- * @apiGroup User
- * 
- * @apiParam {String} skip No. of records to skip.
- * @apiParam {String} sort Field to sort results by.
- *
- * @apiSuccess {Number}   pages   No. of pages returned.
- * @apiSuccess {Object[]} users Array of users
- */
-export const users = (req,res) => {
+exports.getAll = (req,res) => {
 
-    const user = new User(req);
-
-    user.getAll(req).then(users => {
-        res.json(users);
-    })
-		
+    User.find().then(users => {
+		res.json(users);
+	}).catch(err => {
+		res.status(422).send(err.errors);
+    });
+    
 }
 
 /* 
@@ -35,21 +21,14 @@ export const users = (req,res) => {
 | Get user
 |--------------------------------------------------------------------------
 */
-/**
- * @api {get} /user/:id Request User
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {String} id Unique id of the user.
- * 
- * @apiUse UserObject
- */
-export const user = (req,res) => {
-    const user = new User(req);
+exports.get = (req,res) => {
 
-    user.get().then(user => {
-        res.json(user);
-    })
+    User.find({_id: req.params.id}).then(user => {
+		res.json(user);
+	}).catch(err => {
+		res.status(422).send(err.errors);
+    });
+    
 }
 
 /* 
@@ -57,38 +36,15 @@ export const user = (req,res) => {
 | Add a user
 |--------------------------------------------------------------------------
 */
-/**
- * @api {post} /users Add User
- * @apiName AddUser
- * @apiGroup User 
- *
- * @apiParam {String}  first_name   First Name.
- * @apiParam {String}  last_name   Last Name.
- * @apiParam {String}  email   Email address.
- * @apiParam {String}  password   Password.
- * @apiParam {String}   email   Email address.
- * @apiParam {String}   password   Password.
- * @apiParam {String}   gender   Gender.
- * 
- * @apiUse UserObject
- */
-export const userAdd = (req,res) => {
+exports.create = (req,res) => {
 
-    const user = new User(req);
-    
-    user.doesNotExists().then(()=>{
+    const data = Object.assign({}, req.body) || {};
 
-        user.save().then(newuser => {
-            notify_newUser(newuser.ops[0], res);
-            res.json({error: false, user:newuser});
-        }).catch(error=>{
-            res.json({error: true, details:error});
-        });
-
-    }).catch(error=>{
-        res.json({error: true, message: error});
-    });
-   
+	User.create(data).then(user => {
+		res.json(user);
+	}).catch(err => {
+		res.status(500).send(err);
+	});
     
 }
 

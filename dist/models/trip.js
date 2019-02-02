@@ -24,6 +24,12 @@ var _mongooseStringQuery2 = _interopRequireDefault(_mongooseStringQuery);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TripSchema = exports.TripSchema = new _mongoose.Schema({
+
+    owner_id: {
+        type: _mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+
     title: {
         type: String,
         required: true

@@ -1,124 +1,60 @@
-import Model from './model';
-import bcrypt from 'bcrypt';
-import Joi from 'joi';
+import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'mongoose-bcrypt';
+import timestamps from 'mongoose-timestamp';
+import mongooseStringQuery from 'mongoose-string-query';
+import { notify_newUser } from '../controllers/notifications';
 
-/* 
-|--------------------------------------------------------------------------
-| API Docs
-|--------------------------------------------------------------------------
-*/
-/**
- * @apiDefine UserObject
- * @apiSuccess {String}   _id   Unique id.
- * @apiSuccess {String}   first_name   First Name.
- * @apiSuccess {String}   last_name   Last Name.
- */
+mongoose.set('useCreateIndex', true);
 
-
-/* 
-|--------------------------------------------------------------------------
-| User model
-|--------------------------------------------------------------------------
-*/
-class User extends Model {
-    
-    /* 
-    |--------------------------------------------------------------------------
-    | Constructor
-    |--------------------------------------------------------------------------
-    */
-    constructor(args){
-        super(args);
-        this.collection = 'users';
-    }
-
-
-    /* 
-    |--------------------------------------------------------------------------
-    | Model properties
-    |--------------------------------------------------------------------------
-    */
-
-    first_name = {
-        secret: false,
-        validation: Joi.string().alphanum().min(1).max(50).required()
-    }
-
-    last_name = {
-        secret: false,
-        validation: Joi.string().alphanum().min(1).max(50).required()
-    }
-
-    email = {
-        secret: false,
-        validation: Joi.string().email({ minDomainAtoms: 2 }).required()
-    }
-
-    password = {
-        secret: true,
-        validation: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
-    }
-
-    gender = {
-        secret: false,
-        validation: Joi.string().alphanum().min(1).max(50).required()
-    }
-
-
-    /* 
-    |--------------------------------------------------------------------------
-    | Publish
-    |--------------------------------------------------------------------------
-    */
-    publish(data) {
-
-        return new Promise((resolve, reject) => {
-
-            const collection = this.req.db.collection(this.collection);
+export const UserSchema = new Schema(
+{
         
-            bcrypt.hash(data.password, 10, function(err, hash) {
-                data.password = hash;
-        
-                collection.insert(data, function(err, records){
-                    if(err){
-                        reject(err)
-                    }else{
-                        resolve(records)
-                    }
-                });
-            }); 
+        first_name: {
+            type: String,
+			required: true
+        },
 
-        });
-            
+        last_name: {
+            type: String,
+			required: true
+        },
+
+        email: {
+            type: String,
+            lowercase: true,
+            trim: true,
+            index: true,
+            unique: true,
+            required: true,
+        },
+
+        password: {
+            type: String,
+			required: true,
+            bcrypt: true
+        },
+
+        gender: {
+            type: String,
+			required: false
+        }
+     
     }
+);
 
-    /* 
-    |--------------------------------------------------------------------------
-    | Check user exists
-    |--------------------------------------------------------------------------
-    */
-    doesNotExists() {
+UserSchema.pre('save', function(next) {
+	if (!this.isNew) {
+		next();
+	}
 
-        return new Promise((resolve, reject) => {
+    notify_newUser(this);
+    next();
 
-            const collection = this.req.db.collection(this.collection);
-            const email = this.req.body.email;
+});
 
-            collection.find({email}).toArray((err, resp) => {   
-                
-                if(resp.length > 0){
-                    reject();
-                }else {
-                    resolve();
-                }
-            
-            });
+UserSchema.plugin(bcrypt);
+UserSchema.plugin(timestamps);
+UserSchema.plugin(mongooseStringQuery);
+UserSchema.index({ email: 1 });
 
-        });
-
-
-    }
-
-}
-
-export { User };
+module.exports = exports = mongoose.model('User', UserSchema);

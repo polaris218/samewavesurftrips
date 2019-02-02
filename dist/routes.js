@@ -26,6 +26,8 @@ var _auth = require('./controllers/auth');
 
 var _users = require('./controllers/users');
 
+var _users2 = _interopRequireDefault(_users);
+
 var _trips = require('./controllers/trips');
 
 var _trips2 = _interopRequireDefault(_trips);
@@ -93,9 +95,9 @@ function routes() {
  | USERS
  |--------------------------------------------------------------------------
  */
-	router.get('/v1/users', authenticate, _users.users);
-	router.get('/v1/user/:id', authenticate, _users.user);
-	router.post('/v1/users', _users.userAdd);
+	router.get('/v1/users', authenticate, _users2.default.getAll);
+	router.get('/v1/user/:id', authenticate, _users2.default.get);
+	router.post('/v1/users', _users2.default.create);
 	router.get('/v1/trips', authenticate, _trips2.default.getAll);
 	router.post('/v1/trips', authenticate, _trips2.default.create);
 

@@ -3,6 +3,7 @@ import Strategy from 'passport-local';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import config from '../config';
+import User from '../models/user';
 
 /* 
 |--------------------------------------------------------------------------
@@ -12,32 +13,24 @@ import config from '../config';
 export function passportLocalStrategy() {
     passport.use(new Strategy({passReqToCallback: true},
         function(req,username, password, done) {
-    
-        const collection = req.db.collection('users');
-        
-        collection.find({email: username}).toArray(function(err, user) {
-    
+
+        User.find({email: username}).then(user => {
+
             if(user.length) {
-                
-                const userObject = user[0];
-
-                bcrypt.compare(password, userObject.password, function(err, res) {
-                    if(res) {
-                    done(null,userObject)
-                    } else {
-                    done(null, false);
-                    } 
-                });
-
-            }else{
-              done(null, false);
+              bcrypt.compare(password, user[0].password, function(err, res) {
+                if(res) {
+                  done(null,user[0])
+                } else {
+                  done(null, false);
+                } 
+              });
             }
-    
             
-    
+        }).catch(err => {
+          done(null, false);
         });
-    
-        }
+        
+      }
     ));
 }
 
@@ -48,8 +41,9 @@ export function passportLocalStrategy() {
 |--------------------------------------------------------------------------
 */
 export function generateToken(req, res, next) {  
+
 	req.token = jwt.sign({
-	  id: req.user.id,
+	  _id: req.user._id,
 	}, config.auth.secret, {
 	  expiresIn: config.auth.expires
 	});

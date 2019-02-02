@@ -16,7 +16,6 @@ exports.getAll = (req,res) => {
 }
 
 
-
 /* 
 |--------------------------------------------------------------------------
 | Create Trip
@@ -24,10 +23,11 @@ exports.getAll = (req,res) => {
 */
 exports.create = (req,res) => {
 
-	const postData = Object.assign({}, req.body) || {};
+	//populate nested objects & defaults ---
+	const modelData = Object.assign({}, req.body, { 
+       
+        owner_id: req.user._id,
 
-	//populate nested model objects ---
-	const modelData = Object.assign({}, postData, { 
 		date_times: {
 			departure_date_time: req.body.departure_date_time || new Date(),
 			return_date_time:  req.body.departure_date_time || new Date()
@@ -39,10 +39,9 @@ exports.create = (req,res) => {
 			available_seats: req.body.available_seats || 0,
 			bring_own_surfboards: req.body.bring_own_surfboards || false,
 			max_surfboards: req.body.max_surfboards || 0,
-		}
+        }
+        
 	});
-
-	console.log(modelData);
 
     Trip.create(modelData).then(trip => {
 		res.json(trip);

@@ -5,13 +5,12 @@ import passport from 'passport';
 import { passportLocalStrategy, serialize, generateToken, respond } from './controllers/auth';
 import { users, user, userAdd } from './controllers/users';
 import Trip from './controllers/trips';
+import User from './controllers/users';
 
 const authenticate = expressJwt({secret : config.auth.secret});
 let app;
 
 
-
- 
 /* 
 |--------------------------------------------------------------------------
 | Routes Init
@@ -76,9 +75,9 @@ export function routes() {
 	| USERS
 	|--------------------------------------------------------------------------
 	*/
-	router.get(`/v1/users`, authenticate, users);
-	router.get(`/v1/user/:id`, authenticate, user);
-	router.post(`/v1/users`, userAdd);
+	router.get(`/v1/users`, authenticate, User.getAll);
+	router.get(`/v1/user/:id`, authenticate, User.get);
+	router.post(`/v1/users`, User.create);
 	router.get(`/v1/trips`, authenticate, Trip.getAll);
 	router.post(`/v1/trips`, authenticate, Trip.create);
 

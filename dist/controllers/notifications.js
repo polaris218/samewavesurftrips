@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.notify_newUser = notify_newUser;
 
@@ -9,25 +9,35 @@ var _config = require('../config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _expressHandlebars = require('express-handlebars');
+
+var _expressHandlebars2 = _interopRequireDefault(_expressHandlebars);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var api_key = _config2.default.mailgun.key,
     domain = _config2.default.mailgun.domain,
     mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
-function notify_newUser(user, res) {
+function notify_newUser(user) {
 
-    res.render('email/newuser-welcome', { layout: 'notification', email: user.email, first_name: user.first_name }, function (err, html) {
+  var hbs = _expressHandlebars2.default.create();
 
-        var data = {
-            html: html,
-            from: _config2.default.mailgun.from,
-            to: user.email,
-            subject: 'Hi ' + user.first_name + ', Welcome to Samewave.'
-        };
+  hbs.renderView('views/email/newuser-welcome.handlebars', { layout: 'notification', email: user.email, first_name: user.first_name }, function (err, html) {
 
-        mailgun.messages().send(data, function (error, body) {
-            console.log('MailSent : newuser-welcome');
-        });
+    var data = {
+      html: html,
+      from: _config2.default.mailgun.from,
+      to: user.email,
+      subject: 'Hi ' + user.first_name + ', Welcome to Samewave.'
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log('MailSent : newuser-welcome');
     });
+  });
 }
