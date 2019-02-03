@@ -49,7 +49,7 @@ var config = {
     */
     auth: {
         secret: process.env.HASH_SECRET,
-        expires: 120
+        expires: 12000
     }
 }
 

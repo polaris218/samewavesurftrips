@@ -24,13 +24,13 @@ var _passport2 = _interopRequireDefault(_passport);
 
 var _auth = require('./controllers/auth');
 
-var _users = require('./controllers/users');
-
-var _users2 = _interopRequireDefault(_users);
-
 var _trips = require('./controllers/trips');
 
 var _trips2 = _interopRequireDefault(_trips);
+
+var _users = require('./controllers/users');
+
+var _users2 = _interopRequireDefault(_users);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,24 +57,18 @@ function routesInit(a) {
 var router = _express2.default.Router();
 function routes() {
 
-	/**
-  * @api {post} /auth Request Auth Token
-  * @apiName RequestToken
-  * @apiGroup Auth
-  * 
-  * @apiParam {String} email Email / password of user account
-  * @apiParam {String} password Password of user account
-  *
-  * @apiSuccess {String}   _id   id of authenticated user account
-  * @apiSuccess {String} token Authentication token
-  */
+	/* 
+ |--------------------------------------------------------------------------
+ | Authenticate
+ |--------------------------------------------------------------------------
+ */
 	router.post('/v1/auth', _passport2.default.authenticate('local', {
 		session: false
 	}), _auth.serialize, _auth.generateToken, _auth.respond);
 
 	/* 
  |--------------------------------------------------------------------------
- | HOME
+ | Home
  |--------------------------------------------------------------------------
  */
 	router.get('/', function (req, res) {
@@ -83,7 +77,7 @@ function routes() {
 
 	/* 
  |--------------------------------------------------------------------------
- | Login
+ | Sandbox
  |--------------------------------------------------------------------------
  */
 	router.get('/sandbox', function (req, res) {
@@ -92,12 +86,20 @@ function routes() {
 
 	/* 
  |--------------------------------------------------------------------------
- | USERS
+ | User routes
  |--------------------------------------------------------------------------
  */
 	router.get('/v1/users', authenticate, _users2.default.getAll);
 	router.get('/v1/user/:id', authenticate, _users2.default.get);
 	router.post('/v1/users', _users2.default.create);
+	router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
+	router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
+
+	/* 
+ |--------------------------------------------------------------------------
+ | Trip routes
+ |--------------------------------------------------------------------------
+ */
 	router.get('/v1/trips', authenticate, _trips2.default.getAll);
 	router.post('/v1/trips', authenticate, _trips2.default.create);
 

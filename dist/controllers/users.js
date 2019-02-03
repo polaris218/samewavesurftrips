@@ -27,7 +27,8 @@ exports.getAll = function (req, res) {
 */
 exports.get = function (req, res) {
 
-	_user2.default.find({ _id: req.params.id }).then(function (user) {
+	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
+		user.followers();
 		res.json(user);
 	}).catch(function (err) {
 		res.status(422).send(err.errors);
@@ -47,5 +48,36 @@ exports.create = function (req, res) {
 		res.json(user);
 	}).catch(function (err) {
 		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Follow a user
+|--------------------------------------------------------------------------
+*/
+exports.follow = function (req, res) {
+
+	console.log(req.user);
+	res.status(200);
+
+	// User.findOne({_id: req.params.id}).then(user => {
+	// 	user.follow(req.user._id);
+	// }).catch(err => {
+	// 	res.status(422).send(err.errors);
+	// });
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Unfollow a user
+|--------------------------------------------------------------------------
+*/
+exports.unfollow = function (req, res) {
+
+	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
+		user.unfollow(req.user._id);
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
 	});
 };

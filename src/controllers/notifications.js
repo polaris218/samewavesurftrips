@@ -1,11 +1,20 @@
 import config from '../config';
-import fs from 'fs';
 import handlebars from 'express-handlebars';
 
+/* 
+|--------------------------------------------------------------------------
+| Configure mail server
+|--------------------------------------------------------------------------
+*/
 const api_key = config.mailgun.key,
 	  domain = config.mailgun.domain,
       mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-        
+
+/* 
+|--------------------------------------------------------------------------
+| Send welcome email to new sigups
+|--------------------------------------------------------------------------
+*/
 export function notify_newUser(user){
   
     const hbs = handlebars.create();

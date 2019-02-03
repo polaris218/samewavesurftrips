@@ -24,6 +24,8 @@ export function passportLocalStrategy() {
                   done(null, false);
                 } 
               });
+            }else{
+              done(null,false);
             }
             
         }).catch(err => {

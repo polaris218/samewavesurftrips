@@ -3,7 +3,12 @@ import bcrypt from 'mongoose-bcrypt';
 import timestamps from 'mongoose-timestamp';
 import mongooseStringQuery from 'mongoose-string-query';
 
-export const TripSchema = new Schema(
+/* 
+|--------------------------------------------------------------------------
+| Trip Schema
+|--------------------------------------------------------------------------
+*/
+const TripSchema = new Schema(
     {
         
         owner_id: {
@@ -99,47 +104,13 @@ export const TripSchema = new Schema(
     }
 );
 
-// UserSchema.pre('save', function(next) {
-// 	if (!this.isNew) {
-// 		next();
-// 	}
-
-// 	email({
-// 		type: 'welcome',
-// 		email: this.email
-// 	})
-// 		.then(() => {
-// 			next();
-// 		})
-// 		.catch(err => {
-// 			logger.error(err);
-// 			next();
-// 		});
-// });
-
-// UserSchema.pre('findOneAndUpdate', function(next) {
-// 	if (!this._update.recoveryCode) {
-// 		return next();
-// 	}
-
-// 	email({
-// 		type: 'password',
-// 		email: this._conditions.email,
-// 		passcode: this._update.recoveryCode
-// 	})
-// 		.then(() => {
-// 			next();
-// 		})
-// 		.catch(err => {
-// 			logger.error(err);
-// 			next();
-// 		});
-// });
-
+/* 
+|--------------------------------------------------------------------------
+| Plugins
+|--------------------------------------------------------------------------
+*/
 TripSchema.plugin(bcrypt);
 TripSchema.plugin(timestamps);
 TripSchema.plugin(mongooseStringQuery);
 
-//TripSchema.index({ email: 1, username: 1 });
-
-module.exports = exports = mongoose.model('Trip', TripSchema);
+export default mongoose.model('Trip', TripSchema);

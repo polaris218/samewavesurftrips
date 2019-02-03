@@ -3,7 +3,6 @@ import config from './config';
 import expressJwt from 'express-jwt'; 
 import passport from 'passport';  
 import { passportLocalStrategy, serialize, generateToken, respond } from './controllers/auth';
-import { users, user, userAdd } from './controllers/users';
 import Trip from './controllers/trips';
 import User from './controllers/users';
 
@@ -33,17 +32,11 @@ const router = express.Router();
 export function routes() {
 
 
-	/**
-	 * @api {post} /auth Request Auth Token
-	 * @apiName RequestToken
-	 * @apiGroup Auth
-	 * 
-	 * @apiParam {String} email Email / password of user account
-	 * @apiParam {String} password Password of user account
-	 *
-	 * @apiSuccess {String}   _id   id of authenticated user account
-	 * @apiSuccess {String} token Authentication token
-	 */
+	/* 
+	|--------------------------------------------------------------------------
+	| Authenticate
+	|--------------------------------------------------------------------------
+	*/
 	router.post('/v1/auth', passport.authenticate(  
 	'local', {
 		session: false
@@ -52,7 +45,7 @@ export function routes() {
 
 	/* 
 	|--------------------------------------------------------------------------
-	| HOME
+	| Home
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/`, function(req,res){
@@ -62,7 +55,7 @@ export function routes() {
 
 	/* 
 	|--------------------------------------------------------------------------
-	| Login
+	| Sandbox
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/sandbox`, function(req,res){
@@ -72,12 +65,20 @@ export function routes() {
 
 	/* 
 	|--------------------------------------------------------------------------
-	| USERS
+	| User routes
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/v1/users`, authenticate, User.getAll);
 	router.get(`/v1/user/:id`, authenticate, User.get);
 	router.post(`/v1/users`, User.create);
+	router.get(`/v1/user/:id/follow`, authenticate, User.follow);
+	router.get(`/v1/user/:id/unfollow`, authenticate, User.unfollow);
+
+	/* 
+	|--------------------------------------------------------------------------
+	| Trip routes
+	|--------------------------------------------------------------------------
+	*/
 	router.get(`/v1/trips`, authenticate, Trip.getAll);
 	router.post(`/v1/trips`, authenticate, Trip.create);
 

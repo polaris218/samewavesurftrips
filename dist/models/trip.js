@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TripSchema = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -23,7 +22,12 @@ var _mongooseStringQuery2 = _interopRequireDefault(_mongooseStringQuery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TripSchema = exports.TripSchema = new _mongoose.Schema({
+/* 
+|--------------------------------------------------------------------------
+| Trip Schema
+|--------------------------------------------------------------------------
+*/
+var TripSchema = new _mongoose.Schema({
 
     owner_id: {
         type: _mongoose.Schema.Types.ObjectId,
@@ -117,47 +121,13 @@ var TripSchema = exports.TripSchema = new _mongoose.Schema({
     }
 });
 
-// UserSchema.pre('save', function(next) {
-// 	if (!this.isNew) {
-// 		next();
-// 	}
-
-// 	email({
-// 		type: 'welcome',
-// 		email: this.email
-// 	})
-// 		.then(() => {
-// 			next();
-// 		})
-// 		.catch(err => {
-// 			logger.error(err);
-// 			next();
-// 		});
-// });
-
-// UserSchema.pre('findOneAndUpdate', function(next) {
-// 	if (!this._update.recoveryCode) {
-// 		return next();
-// 	}
-
-// 	email({
-// 		type: 'password',
-// 		email: this._conditions.email,
-// 		passcode: this._update.recoveryCode
-// 	})
-// 		.then(() => {
-// 			next();
-// 		})
-// 		.catch(err => {
-// 			logger.error(err);
-// 			next();
-// 		});
-// });
-
+/* 
+|--------------------------------------------------------------------------
+| Plugins
+|--------------------------------------------------------------------------
+*/
 TripSchema.plugin(_mongooseBcrypt2.default);
 TripSchema.plugin(_mongooseTimestamp2.default);
 TripSchema.plugin(_mongooseStringQuery2.default);
 
-//TripSchema.index({ email: 1, username: 1 });
-
-module.exports = exports = _mongoose2.default.model('Trip', TripSchema);
+exports.default = _mongoose2.default.model('Trip', TripSchema);

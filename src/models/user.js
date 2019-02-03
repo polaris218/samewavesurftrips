@@ -3,10 +3,16 @@ import bcrypt from 'mongoose-bcrypt';
 import timestamps from 'mongoose-timestamp';
 import mongooseStringQuery from 'mongoose-string-query';
 import { notify_newUser } from '../controllers/notifications';
+import Follower from './follower';
 
 mongoose.set('useCreateIndex', true);
 
-export const UserSchema = new Schema(
+/* 
+|--------------------------------------------------------------------------
+| User Schema
+|--------------------------------------------------------------------------
+*/
+const UserSchema = new Schema(
 {
         
         first_name: {
@@ -42,6 +48,43 @@ export const UserSchema = new Schema(
     }
 );
 
+
+/* 
+|--------------------------------------------------------------------------
+| Follow user
+|--------------------------------------------------------------------------
+*/
+UserSchema.methods.follow = function(follower_id) {
+
+	Follow.create({user_id: this._id, follower_id}).then(follower => {
+		console.log(follower)
+	}).catch(err => {
+		res.status(500).send(err);
+	});
+
+};
+
+
+/* 
+|--------------------------------------------------------------------------
+| Get followers
+|--------------------------------------------------------------------------
+*/
+UserSchema.methods.followers = function() {
+
+    Follower.find({user_id: this._id }).then(followers => {
+		console.log(followers, '... followers');
+	}).catch(err => {
+		res.status(422).send(err.errors);
+    });
+
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Pre-save hook
+|--------------------------------------------------------------------------
+*/
 UserSchema.pre('save', function(next) {
 	if (!this.isNew) {
 		next();
@@ -52,9 +95,20 @@ UserSchema.pre('save', function(next) {
 
 });
 
+/* 
+|--------------------------------------------------------------------------
+| Plugins
+|--------------------------------------------------------------------------
+*/
 UserSchema.plugin(bcrypt);
 UserSchema.plugin(timestamps);
 UserSchema.plugin(mongooseStringQuery);
+
+/* 
+|--------------------------------------------------------------------------
+| Set indexes
+|--------------------------------------------------------------------------
+*/
 UserSchema.index({ email: 1 });
 
-module.exports = exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);

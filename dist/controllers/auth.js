@@ -52,6 +52,8 @@ function passportLocalStrategy() {
             done(null, false);
           }
         });
+      } else {
+        done(null, false);
       }
     }).catch(function (err) {
       done(null, false);
