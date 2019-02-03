@@ -56,11 +56,15 @@ const UserSchema = new Schema(
 */
 UserSchema.methods.follow = function(follower_id) {
 
-	Follow.create({user_id: this._id, follower_id}).then(follower => {
-		console.log(follower)
-	}).catch(err => {
-		res.status(500).send(err);
-	});
+    return new Promise((resolve, reject) => {
+        
+        Follower.create({user_id: this._id, follower_id}).then(follower => {
+            resolve(follower);
+        }).catch(err => {
+            reject(err);
+        });
+
+    });
 
 };
 

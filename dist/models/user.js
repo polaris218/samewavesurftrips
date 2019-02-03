@@ -75,11 +75,15 @@ var UserSchema = new _mongoose.Schema({
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.follow = function (follower_id) {
+    var _this = this;
 
-    Follow.create({ user_id: this._id, follower_id: follower_id }).then(function (follower) {
-        console.log(follower);
-    }).catch(function (err) {
-        res.status(500).send(err);
+    return new Promise(function (resolve, reject) {
+
+        _follower2.default.create({ user_id: _this._id, follower_id: follower_id }).then(function (follower) {
+            resolve(follower);
+        }).catch(function (err) {
+            reject(err);
+        });
     });
 };
 

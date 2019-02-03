@@ -56,14 +56,19 @@ exports.create = (req,res) => {
 */
 exports.follow = (req,res) => {
 
-	console.log(req.user)
+	User.findOne({_id: req.params.id}).then(user => {
+		user.follow(req.user._id).then(follower => {
+			console.log(follower)
+			res.json(follower);
+		}).catch(err => {
+			res.status(422).send(err);
+		});
+		
+	}).catch(err => {
+		res.status(422).send(err.errors);
+	});
+	
 	res.status(200);
-
-	// User.findOne({_id: req.params.id}).then(user => {
-	// 	user.follow(req.user._id);
-	// }).catch(err => {
-	// 	res.status(422).send(err.errors);
-    // });
     
 }
 

@@ -58,14 +58,18 @@ exports.create = function (req, res) {
 */
 exports.follow = function (req, res) {
 
-	console.log(req.user);
-	res.status(200);
+	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
+		user.follow(req.user._id).then(function (follower) {
+			console.log(follower);
+			res.json(follower);
+		}).catch(function (err) {
+			res.status(422).send(err);
+		});
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
+	});
 
-	// User.findOne({_id: req.params.id}).then(user => {
-	// 	user.follow(req.user._id);
-	// }).catch(err => {
-	// 	res.status(422).send(err.errors);
-	// });
+	res.status(200);
 };
 
 /* 
