@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-var _user = require('../models/user');
+var _user = require("../models/user");
 
 var _user2 = _interopRequireDefault(_user);
 
@@ -60,7 +60,6 @@ exports.follow = function (req, res) {
 
 	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
 		user.follow(req.user._id).then(function (follower) {
-			console.log(follower);
 			res.json(follower);
 		}).catch(function (err) {
 			res.status(422).send(err);
@@ -80,7 +79,11 @@ exports.follow = function (req, res) {
 exports.unfollow = function (req, res) {
 
 	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-		user.unfollow(req.user._id);
+		user.unfollow(req.user._id).then(function (follower) {
+			res.json({ msg: "successful" });
+		}).catch(function (err) {
+			res.status(422).send(err);
+		});
 	}).catch(function (err) {
 		res.status(422).send(err.errors);
 	});

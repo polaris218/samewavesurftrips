@@ -89,6 +89,22 @@ UserSchema.methods.follow = function (follower_id) {
 
 /* 
 |--------------------------------------------------------------------------
+| Unfollow user
+|--------------------------------------------------------------------------
+*/
+UserSchema.methods.unfollow = function (follower_id) {
+    var _this2 = this;
+
+    return new Promise(function (resolve, reject) {
+
+        _follower2.default.findOneAndDelete({ user_id: _this2._id, follower_id: follower_id }, function (err, follower) {
+            if (!err) resolve();else reject(err);
+        });
+    });
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Get followers
 |--------------------------------------------------------------------------
 */

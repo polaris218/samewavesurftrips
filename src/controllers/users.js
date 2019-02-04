@@ -58,7 +58,6 @@ exports.follow = (req,res) => {
 
 	User.findOne({_id: req.params.id}).then(user => {
 		user.follow(req.user._id).then(follower => {
-			console.log(follower)
 			res.json(follower);
 		}).catch(err => {
 			res.status(422).send(err);
@@ -80,7 +79,11 @@ exports.follow = (req,res) => {
 exports.unfollow = (req,res) => {
 
 	User.findOne({_id: req.params.id}).then(user => {
-		user.unfollow(req.user._id);
+		user.unfollow(req.user._id).then(follower => {
+			res.json({ msg: "successful" });
+		}).catch(err => {
+			res.status(422).send(err);
+		})
 	}).catch(err => {
 		res.status(422).send(err.errors);
     });
