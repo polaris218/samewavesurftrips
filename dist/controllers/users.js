@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var _user = require("../models/user");
+var _user = require('../models/user');
 
 var _user2 = _interopRequireDefault(_user);
 
@@ -28,7 +28,6 @@ exports.getAll = function (req, res) {
 exports.get = function (req, res) {
 
 	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-		user.followers();
 		res.json(user);
 	}).catch(function (err) {
 		res.status(422).send(err.errors);
@@ -49,6 +48,27 @@ exports.create = function (req, res) {
 	}).catch(function (err) {
 		res.status(500).send(err);
 	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Get followers
+|--------------------------------------------------------------------------
+*/
+exports.followers = function (req, res) {
+
+	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
+
+		user.followers(req.user._id).then(function (follower) {
+			res.json(follower);
+		}).catch(function (err) {
+			res.status(422).send(err);
+		});
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
+	});
+
+	res.status(200);
 };
 
 /* 
@@ -80,7 +100,13 @@ exports.unfollow = function (req, res) {
 
 	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
 		user.unfollow(req.user._id).then(function (follower) {
-			res.json({ msg: "successful" });
+
+			//return remaining followers
+			user.followers(req.user._id).then(function (followers) {
+				res.json(followers);
+			}).catch(function (err) {
+				res.status(422).send(err);
+			});
 		}).catch(function (err) {
 			res.status(422).send(err);
 		});

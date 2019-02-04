@@ -24,7 +24,6 @@ exports.getAll = (req,res) => {
 exports.get = (req,res) => {
 
     User.findOne({_id: req.params.id}).then(user => {
-		user.followers();
 		res.json(user);
 	}).catch(err => {
 		res.status(422).send(err.errors);
@@ -46,6 +45,29 @@ exports.create = (req,res) => {
 	}).catch(err => {
 		res.status(500).send(err);
 	});
+    
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Get followers
+|--------------------------------------------------------------------------
+*/
+exports.followers = (req,res) => {
+
+	User.findOne({_id: req.params.id}).then(user => {
+		
+		user.followers(req.user._id).then(follower => {
+			res.json(follower);
+		}).catch(err => {
+			res.status(422).send(err);
+		});
+		
+	}).catch(err => {
+		res.status(422).send(err.errors);
+	});
+	
+	res.status(200);
     
 }
 
@@ -80,7 +102,14 @@ exports.unfollow = (req,res) => {
 
 	User.findOne({_id: req.params.id}).then(user => {
 		user.unfollow(req.user._id).then(follower => {
-			res.json({ msg: "successful" });
+
+			//return remaining followers
+			user.followers(req.user._id).then(followers => {
+				res.json(followers);
+			}).catch(err => {
+				res.status(422).send(err);
+			});
+
 		}).catch(err => {
 			res.status(422).send(err);
 		})

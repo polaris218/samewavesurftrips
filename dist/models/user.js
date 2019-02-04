@@ -109,11 +109,15 @@ UserSchema.methods.unfollow = function (follower_id) {
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.followers = function () {
+    var _this3 = this;
 
-    _follower2.default.find({ user_id: this._id }).then(function (followers) {
-        console.log(followers, '... followers');
-    }).catch(function (err) {
-        res.status(422).send(err.errors);
+    return new Promise(function (resolve, reject) {
+
+        _follower2.default.find({ user_id: _this3._id }).then(function (followers) {
+            resolve(followers);
+        }).catch(function (err) {
+            reject(err);
+        });
     });
 };
 

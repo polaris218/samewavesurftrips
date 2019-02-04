@@ -97,10 +97,14 @@ UserSchema.methods.unfollow = function(follower_id) {
 */
 UserSchema.methods.followers = function() {
 
-    Follower.find({user_id: this._id }).then(followers => {
-		console.log(followers, '... followers');
-	}).catch(err => {
-		res.status(422).send(err.errors);
+    return new Promise((resolve, reject) => {
+    
+        Follower.find({user_id: this._id }).then(followers => {
+            resolve(followers);
+        }).catch(err => {
+            reject(err);
+        });
+    
     });
 
 };
