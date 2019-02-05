@@ -27,7 +27,22 @@ exports.getAll = function (req, res) {
 */
 exports.create = function (req, res) {
 
-	//populate nested objects & defaults ---
+	var modelData = setDefaultValues(req);
+
+	_trip2.default.create(modelData).then(function (trip) {
+		res.json(trip);
+	}).catch(function (err) {
+		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Populate nested objects & defaults 
+|--------------------------------------------------------------------------
+*/
+function setDefaultValues(req) {
+
 	var modelData = Object.assign({}, req.body, {
 
 		owner_id: req.user._id,
@@ -47,9 +62,5 @@ exports.create = function (req, res) {
 
 	});
 
-	_trip2.default.create(modelData).then(function (trip) {
-		res.json(trip);
-	}).catch(function (err) {
-		res.status(500).send(err);
-	});
-};
+	return modelData;
+}
