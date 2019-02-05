@@ -14,9 +14,7 @@ import config from './config';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
-
 const expressMongoDb = require('express-mongo-db');
-
 
 /* 
 |--------------------------------------------------------------------------
@@ -65,6 +63,11 @@ app.set('assets', '');
 | application middleware
 |--------------------------------------------------------------------------
 */
+app.use(function (req, res, next) {
+  console.log(res.error)
+  next()
+})
+
 
 var rawBodySaver = function (req, res, buf, encoding) {
   if (buf && buf.length) {
@@ -91,10 +94,10 @@ connection.then(db => {
 
 /* 
 |--------------------------------------------------------------------------
-| sessions
+| Static
 |--------------------------------------------------------------------------
 */
-app.use(session({name:'samewave', saveUninitialized:true, resave:false, secure:true, domain:config.domain, secret: '285BDE648ACF7C5F94DCD71HWY765' }));
+//app.use(session({name:'samewave', saveUninitialized:true, resave:false, secure:true, domain:config.domain, secret: '285BDE648ACF7C5F94DCD71HWY765' }));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve(__dirname, '../static')));

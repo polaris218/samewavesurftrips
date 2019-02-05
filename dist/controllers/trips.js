@@ -38,6 +38,22 @@ exports.create = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Update Trip
+|--------------------------------------------------------------------------
+*/
+exports.update = function (req, res) {
+
+	var modelData = setDefaultValues(req);
+
+	_trip2.default.findOneAndUpdate({ _id: req.params.id, owner_id: req.user._id }, modelData, { new: true }).then(function (trip) {
+		res.json(trip);
+	}).catch(function (err) {
+		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Populate nested objects & defaults 
 |--------------------------------------------------------------------------
 */

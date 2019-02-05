@@ -52,6 +52,22 @@ exports.create = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Update user
+|--------------------------------------------------------------------------
+*/
+exports.update = function (req, res) {
+
+	var data = Object.assign({}, req.body) || {};
+
+	Trip.findOneAndUpdate({ _id: req.user._id }, data, { new: true }).then(function (user) {
+		res.json(user);
+	}).catch(function (err) {
+		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Get followers
 |--------------------------------------------------------------------------
 */

@@ -92,6 +92,7 @@ function routes() {
 	router.get('/v1/users', authenticate, _users2.default.getAll);
 	router.get('/v1/user/:id', authenticate, _users2.default.get);
 	router.post('/v1/users', _users2.default.create);
+	router.put('/v1/user', authenticate, _users2.default.update);
 	router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
 	router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
 	router.get('/v1/user/:id/followers', authenticate, _users2.default.followers);
@@ -103,6 +104,7 @@ function routes() {
  */
 	router.get('/v1/trips', authenticate, _trips2.default.getAll);
 	router.post('/v1/trips', authenticate, _trips2.default.create);
+	router.put('/v1/trip/:id', authenticate, _trips2.default.update);
 
 	return router;
 }
