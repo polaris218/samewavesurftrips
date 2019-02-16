@@ -36,6 +36,7 @@
             <option value="/v1/user/5c56acfee483b439c6cbc99d/follow">Follow Luke</option>
             <option value="/v1/user/5c56acfee483b439c6cbc99d/unfollow">Unfollow Luke</option>
             <option value="/v1/user/5c56acfee483b439c6cbc99d">/v1/user/5c56acfee483b439c6cbc99d (Luke)</option>
+            <option value="/v1/messages">Inbox</option>
         </select>
         <small id="emailHelp" class="form-text text-muted">Select a gated route</small>
         </div>
@@ -151,6 +152,45 @@
         <textarea class="form-control" id="tripresponse" rows="10" readonly></textarea><br/>
         <button type="submit" class="btn btn-primary">Create Trip</button>
         
+
+    </form>
+</div>
+
+<hr/>
+
+
+<div class="container">
+    <h2>Send Message</h2>
+    <form action="/v1/messages" method="post" id="form_create_message">
+
+        <div class="form-group">
+        <label for="new-first_name">Token</label>
+        <input type="text" class="form-control" id="message-token" placeholder="Auth Token" name="authtoken" required>
+         <small id="emailHelp" class="form-text text-muted">Enter your authentication token</small>
+        </div>
+
+        <hr/>
+        
+        <label for="exampleInputEmail1">To</label>
+        <select class="form-control" id="message-to" name="recipient_id">
+            <option value="5c56acfee483b439c6cbc99d">Luke</option>
+            <option value="5c58180e439ba70012388e93">Josh</option>
+        </select>
+
+        <div class="form-group">
+        <label for="message-subject">Subject</label>
+        <input type="text" class="form-control" id="message-subject" aria-describedby="emailHelp" placeholder="Subject" name="subject" required>
+        </div>
+        
+        <div class="form-group">
+        <label for="message-message">Message</label>
+        <textarea name="message" id="message-message" class="form-control"></textarea>
+        </div>
+
+        <label for="response">Response</label>
+        <textarea class="form-control" id="message-response" rows="10" readonly></textarea><br/>
+        <button type="submit" class="btn btn-primary">Send</button>
+       
 
     </form>
 </div>

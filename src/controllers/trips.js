@@ -78,9 +78,7 @@ exports.search = (req,res) => {
 	req.query['accomodation'] != undefined ? query['accomodation'] = req.query['accomodation'] : undefined;
 	
 	//search max no. surfers ---
-	//req.query['number_of_surfers'] != undefined ? query['number_of_surfers'] = req.query['number_of_surfers'] : undefined;
-
-	
+	req.query['number_of_surfers'] != undefined ? query['number_of_surfers'] = { $lte: req.query['number_of_surfers'] }  : undefined;
 
 
 	Trip.find( query ).skip(skip).limit(50).then(trips => {

@@ -12,7 +12,42 @@ App.prototype = {
             this.registerUser()
             this.routeTest()
             this.createTrip()
+            this.sendMessage();
         }
+    },
+
+    sendMessage: function() {
+        
+        $('#form_create_message').submit(function(e){
+            e.preventDefault();
+
+            var subject = $('#message-subject').val();
+            var message = $('#message-message').val();
+            var to = $('#message-to').val();
+            var token = $('#message-token');
+            
+            $.ajax({
+                url: '/v1/messages',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer '+token.val());
+                },
+                method: 'POST',
+                data: {
+                    subject,
+                    message,
+                    recipient_id: to
+                },
+                success: function(res){
+       
+                  $('#message-response').val(JSON.stringify(res));
+                },
+                error: function(err) {
+                    $('#message-response').val('Not Authorised');
+                }
+              });
+
+        })
+
     },
 
     registerUser: function() {

@@ -63,10 +63,10 @@ app.set('assets', '');
 | application middleware
 |--------------------------------------------------------------------------
 */
-app.use(function (req, res, next) {
-  console.log(res.error)
-  next()
-})
+// app.use(function (req, res, next) {
+//   console.log(res.error)
+//   next()
+// })
 
 
 var rawBodySaver = function (req, res, buf, encoding) {

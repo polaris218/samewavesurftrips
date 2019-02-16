@@ -32,6 +32,10 @@ var _users = require('./controllers/users');
 
 var _users2 = _interopRequireDefault(_users);
 
+var _messages = require('./controllers/messages');
+
+var _messages2 = _interopRequireDefault(_messages);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var authenticate = (0, _expressJwt2.default)({ secret: _config2.default.auth.secret });
@@ -112,6 +116,14 @@ function routes() {
  |--------------------------------------------------------------------------
  */
 	router.get('/v1/search/trips', _trips2.default.search);
+
+	/* 
+ |--------------------------------------------------------------------------
+ | Message routes
+ |--------------------------------------------------------------------------
+ */
+	router.get('/v1/messages', authenticate, _messages2.default.getAll);
+	router.post('/v1/messages', authenticate, _messages2.default.create);
 
 	return router;
 }

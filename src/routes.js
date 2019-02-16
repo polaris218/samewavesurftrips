@@ -5,6 +5,7 @@ import passport from 'passport';
 import { passportLocalStrategy, serialize, generateToken, respond } from './controllers/auth';
 import Trip from './controllers/trips';
 import User from './controllers/users';
+import Message from './controllers/messages';
 
 const authenticate = expressJwt({secret : config.auth.secret});
 let app;
@@ -91,6 +92,14 @@ export function routes() {
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/v1/search/trips`, Trip.search);
+
+	/* 
+	|--------------------------------------------------------------------------
+	| Message routes
+	|--------------------------------------------------------------------------
+	*/
+	router.get(`/v1/messages`, authenticate, Message.getAll);
+	router.post(`/v1/messages`, authenticate, Message.create);
 
     return router;
 }
