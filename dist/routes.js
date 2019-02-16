@@ -106,5 +106,12 @@ function routes() {
 	router.post('/v1/trips', authenticate, _trips2.default.create);
 	router.put('/v1/trip/:id', authenticate, _trips2.default.update);
 
+	/* 
+ |--------------------------------------------------------------------------
+ | Search trips
+ |--------------------------------------------------------------------------
+ */
+	router.get('/v1/search/trips', _trips2.default.search);
+
 	return router;
 }

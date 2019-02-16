@@ -16,7 +16,7 @@ exports.getAll = function (req, res) {
 	_trip2.default.find().then(function (trips) {
 		res.json(trips);
 	}).catch(function (err) {
-		res.status(422).send(err.errors);
+		res.status(422).send(err);
 	});
 };
 
@@ -49,6 +49,45 @@ exports.update = function (req, res) {
 		res.json(trip);
 	}).catch(function (err) {
 		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Search trips
+|--------------------------------------------------------------------------
+*/
+exports.search = function (req, res) {
+
+	var skip = parseInt(req.query.skip) || 0;
+	var query = {};
+
+	//search title ---
+	req.query['title'] != undefined ? query['title'] = new RegExp('.*' + req.query['title'] + '.*', "i") : undefined;
+
+	//search gender ---
+	req.query['gender'] != undefined ? query['gender'] = req.query['gender'] : undefined;
+
+	//search surf modality ---
+	req.query['surf_modality'] != undefined ? query['surf_modality'] = req.query['surf_modality'] : undefined;
+
+	//search surf level ---
+	req.query['surf_level'] != undefined ? query['surf_level'] = req.query['surf_level'] : undefined;
+
+	//search transport ---
+	req.query['transport'] != undefined ? query['transport'] = req.query['transport'] : undefined;
+
+	//search accomodation ---
+	req.query['accomodation'] != undefined ? query['accomodation'] = req.query['accomodation'] : undefined;
+
+	//search max no. surfers ---
+	//req.query['number_of_surfers'] != undefined ? query['number_of_surfers'] = req.query['number_of_surfers'] : undefined;
+
+
+	_trip2.default.find(query).skip(skip).limit(50).then(function (trips) {
+		res.json(trips);
+	}).catch(function (err) {
+		res.status(422).send(err);
 	});
 };
 

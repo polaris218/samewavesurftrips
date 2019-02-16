@@ -85,6 +85,13 @@ export function routes() {
 	router.post(`/v1/trips`, authenticate, Trip.create);
 	router.put(`/v1/trip/:id`, authenticate, Trip.update);
 
+	/* 
+	|--------------------------------------------------------------------------
+	| Search trips
+	|--------------------------------------------------------------------------
+	*/
+	router.get(`/v1/search/trips`, Trip.search);
+
     return router;
 }
 

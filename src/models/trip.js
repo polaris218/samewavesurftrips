@@ -50,56 +50,32 @@ const TripSchema = new Schema(
 
         gender: {
             type: String,
+            lowercase: true,
 			required: false
         },
 
         surf_modality: {
             type: String,
+            lowercase: true,
 			required: false
         },
 
         surf_level: {
             type: String,
+            lowercase: true,
 			required: false
         },
 
         transport: {
-            own_vehicle: {
-                type: String,
-			    required: false
-            },
-
-            offer_rides: {
-                type: Boolean,
-                required: false
-            },
-
-            available_seats: {
-                type: Number, 
-                required: false
-            },
-
-            bring_own_surfboards: {
-                type: Boolean,
-                required: false
-            },
-
-            max_surfboards: {
-                type: Number,
-                required: false
-            }
+            type: String,
+            lowercase: true,
+			required: false
         },
 
         accomodation: {
-            name: {
-                type: String,
-                required: false
-            },
-
-            location: {
-                type:String,
-                required: false
-            }
+            type: String,
+            lowercase: true,
+			required: false
         }
     }
 );
