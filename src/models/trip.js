@@ -76,6 +76,21 @@ const TripSchema = new Schema(
             type: String,
             lowercase: true,
 			required: false
+        },
+
+        offering_rides: {
+            type: Boolean,
+			required: false
+        },
+
+        available_seats: {
+            type: Number,
+			required: false
+        },
+
+        trip_details: {
+            type: String,
+			required: false
         }
     }
 );

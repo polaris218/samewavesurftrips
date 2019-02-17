@@ -104,15 +104,7 @@ function setDefaultValues(req) {
 		date_times: {
 			departure_date_time: req.body.departure_date_time || new Date(),
 			return_date_time:  req.body.departure_date_time || new Date()
-		}, 
-
-		transport: {
-			own_vehicle: req.body.departure_date_time || false,
-			offer_rides: req.body.offer_rides || false,
-			available_seats: req.body.available_seats || 0,
-			bring_own_surfboards: req.body.bring_own_surfboards || false,
-			max_surfboards: req.body.max_surfboards || 0,
-        }
+		}
         
 	});
 

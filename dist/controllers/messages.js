@@ -31,11 +31,23 @@ exports.getAll = function (req, res) {
 */
 exports.create = function (req, res) {
 
-	console.log(req.body.recipient_id);
-
 	var modelData = setDefaultValues(req);
 
 	_message2.default.create(modelData).then(function (message) {
+		res.json(message);
+	}).catch(function (err) {
+		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Delete Message
+|--------------------------------------------------------------------------
+*/
+exports.delete = function (req, res) {
+
+	_message2.default.remove({ _id: req.params.id, recipient_id: req.user._id }).then(function (message) {
 		res.json(message);
 	}).catch(function (err) {
 		res.status(500).send(err);

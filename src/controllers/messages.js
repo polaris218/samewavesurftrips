@@ -24,11 +24,23 @@ exports.getAll = (req,res) => {
 */
 exports.create = (req,res) => {
 
-	console.log(req.body.recipient_id);
-
 	const modelData = setDefaultValues(req);
 
     Message.create(modelData).then(message => {
+		res.json(message);
+	}).catch(err => {
+		res.status(500).send(err);
+	});
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Delete Message
+|--------------------------------------------------------------------------
+*/
+exports.delete = (req,res) => {
+
+    Message.remove({_id: req.params.id, recipient_id: req.user._id}).then(message => {
 		res.json(message);
 	}).catch(err => {
 		res.status(500).send(err);
