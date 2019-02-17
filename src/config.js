@@ -49,7 +49,8 @@ var config = {
     */
     auth: {
         secret: process.env.HASH_SECRET,
-        expires: 12000
+        expires: 12000,
+        refreshTokens: {}
     }
 }
 

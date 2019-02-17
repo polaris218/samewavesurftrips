@@ -13,7 +13,38 @@ App.prototype = {
             this.routeTest()
             this.createTrip()
             this.sendMessage();
+            this.refreshToken();
         }
+    },
+
+    refreshToken: function() {
+
+        $('#form_refresh').submit(function(e){
+            e.preventDefault();
+
+            var token = $('#expired-token').val();
+            var refresh = $('#refresh-token').val();
+            
+            $.ajax({
+                url: '/v1/token',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer '+token);
+                },
+                method: 'POST',
+                data: {
+                    refreshToken: refresh
+                },
+                success: function(res){
+       
+                  $('.refresh-alert span').html(JSON.stringify(res));
+                },
+                error: function(err) {
+                    $('.refresh-alert span').html('Not Authorised');
+                }
+              });
+
+        })
+        
     },
 
     sendMessage: function() {

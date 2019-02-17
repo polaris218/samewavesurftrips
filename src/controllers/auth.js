@@ -2,6 +2,7 @@ import passport from 'passport';
 import Strategy from 'passport-local';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import randtoken from 'rand-token'; 
 import config from '../config';
 import User from '../models/user';
 
@@ -52,13 +53,28 @@ export function generateToken(req, res, next) {
 	next();
   }
   
-export function respond(req, res) {  
+/* 
+|--------------------------------------------------------------------------
+| Respond with token
+|--------------------------------------------------------------------------
+*/
+export function respond(req, res) { 
+  
+  let refreshToken = randtoken.uid(256);
+  config.auth.refreshTokens[refreshToken] = req.user._id;
+
 	res.status(200).json({
 	  user: req.user,
-	  token: req.token
+    token: req.token,
+    refreshToken: refreshToken
 	});
-  }
-  
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Serialize json token
+|--------------------------------------------------------------------------
+*/
 export function serialize(req, res, next) {  
 	db.updateOrCreate(req.user, function(err, user){
 	  if(err) {return next(err);}
@@ -73,4 +89,23 @@ export function serialize(req, res, next) {
 	updateOrCreate: function(user, cb){
 	  cb(null, user);
 	}
-  };  
+};  
+
+
+/* 
+|--------------------------------------------------------------------------
+| Refresh token
+|--------------------------------------------------------------------------
+*/
+export function refreshToken(req,res, next) {
+
+  var refreshToken = req.body.refreshToken
+
+  if((refreshToken in config.auth.refreshTokens) && (config.auth.refreshTokens[refreshToken] == req.user._id)) {
+    delete config.auth.refreshTokens[refreshToken];
+    next();
+  }else{
+    res.status(422).send("Invalid refresh token");
+  }
+
+}

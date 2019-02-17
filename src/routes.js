@@ -2,7 +2,7 @@ import express from 'express';
 import config from './config';
 import expressJwt from 'express-jwt'; 
 import passport from 'passport';  
-import { passportLocalStrategy, serialize, generateToken, respond } from './controllers/auth';
+import { passportLocalStrategy, serialize, generateToken, respond, refreshToken} from './controllers/auth';
 import Trip from './controllers/trips';
 import User from './controllers/users';
 import Message from './controllers/messages';
@@ -38,10 +38,11 @@ export function routes() {
 	| Authenticate
 	|--------------------------------------------------------------------------
 	*/
-	router.post('/v1/auth', passport.authenticate(  
-	'local', {
+	router.post('/v1/auth', passport.authenticate('local', {
 		session: false
 	}), serialize, generateToken, respond);
+
+	router.post('/v1/token', authenticate, refreshToken, serialize, generateToken, respond);
 
 
 	/* 

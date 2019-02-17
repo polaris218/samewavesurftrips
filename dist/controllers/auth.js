@@ -7,6 +7,7 @@ exports.passportLocalStrategy = passportLocalStrategy;
 exports.generateToken = generateToken;
 exports.respond = respond;
 exports.serialize = serialize;
+exports.refreshToken = refreshToken;
 
 var _passport = require('passport');
 
@@ -23,6 +24,10 @@ var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 var _bcrypt = require('bcrypt');
 
 var _bcrypt2 = _interopRequireDefault(_bcrypt);
+
+var _randToken = require('rand-token');
+
+var _randToken2 = _interopRequireDefault(_randToken);
 
 var _config = require('../config');
 
@@ -76,13 +81,28 @@ function generateToken(req, res, next) {
   next();
 }
 
+/* 
+|--------------------------------------------------------------------------
+| Respond with token
+|--------------------------------------------------------------------------
+*/
 function respond(req, res) {
+
+  var refreshToken = _randToken2.default.uid(256);
+  _config2.default.auth.refreshTokens[refreshToken] = req.user._id;
+
   res.status(200).json({
     user: req.user,
-    token: req.token
+    token: req.token,
+    refreshToken: refreshToken
   });
 }
 
+/* 
+|--------------------------------------------------------------------------
+| Serialize json token
+|--------------------------------------------------------------------------
+*/
 function serialize(req, res, next) {
   db.updateOrCreate(req.user, function (err, user) {
     if (err) {
@@ -100,3 +120,20 @@ var db = {
     cb(null, user);
   }
 };
+
+/* 
+|--------------------------------------------------------------------------
+| Refresh token
+|--------------------------------------------------------------------------
+*/
+function refreshToken(req, res, next) {
+
+  var refreshToken = req.body.refreshToken;
+
+  if (refreshToken in _config2.default.auth.refreshTokens && _config2.default.auth.refreshTokens[refreshToken] == req.user._id) {
+    delete _config2.default.auth.refreshTokens[refreshToken];
+    next();
+  } else {
+    res.status(422).send("Invalid refresh token");
+  }
+}
