@@ -42,7 +42,7 @@ export function routes() {
 		session: false
 	}), serialize, generateToken, respond);
 
-	router.post('/v1/token', authenticate, refreshToken, serialize, generateToken, respond);
+	router.post('/v1/token', refreshToken, serialize, generateToken, respond);
 
 
 	/* 

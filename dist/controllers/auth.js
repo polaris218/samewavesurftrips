@@ -128,9 +128,17 @@ var db = {
 */
 function refreshToken(req, res, next) {
 
+  var expiredToken = void 0;
   var refreshToken = req.body.refreshToken;
 
-  if (refreshToken in _config2.default.auth.refreshTokens && _config2.default.auth.refreshTokens[refreshToken] == req.user._id) {
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    expiredToken = req.headers.authorization.split(' ')[1];
+  }
+
+  var user = _jsonwebtoken2.default.verify(expiredToken, _config2.default.auth.secret);
+
+  if (refreshToken in _config2.default.auth.refreshTokens && _config2.default.auth.refreshTokens[refreshToken] == user._id) {
+    req.user = user;
     delete _config2.default.auth.refreshTokens[refreshToken];
     next();
   } else {

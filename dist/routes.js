@@ -70,7 +70,7 @@ function routes() {
 		session: false
 	}), _auth.serialize, _auth.generateToken, _auth.respond);
 
-	router.post('/v1/token', authenticate, _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
+	router.post('/v1/token', _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
 
 	/* 
  |--------------------------------------------------------------------------

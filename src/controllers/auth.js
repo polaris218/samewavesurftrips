@@ -99,13 +99,23 @@ export function serialize(req, res, next) {
 */
 export function refreshToken(req,res, next) {
 
-  var refreshToken = req.body.refreshToken
+  let expiredToken;
+  let refreshToken = req.body.refreshToken
 
-  if((refreshToken in config.auth.refreshTokens) && (config.auth.refreshTokens[refreshToken] == req.user._id)) {
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    expiredToken = req.headers.authorization.split(' ')[1];
+  } 
+
+  
+  const user = jwt.verify(expiredToken, config.auth.secret);
+  
+  if((refreshToken in config.auth.refreshTokens) && (config.auth.refreshTokens[refreshToken] == user._id)) {
+    req.user = user;
     delete config.auth.refreshTokens[refreshToken];
     next();
   }else{
     res.status(422).send("Invalid refresh token");
   }
+
 
 }
