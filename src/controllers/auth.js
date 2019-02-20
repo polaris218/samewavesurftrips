@@ -94,7 +94,7 @@ export function serialize(req, res, next) {
 
 /* 
 |--------------------------------------------------------------------------
-| Refresh token
+| Refresh token.
 |--------------------------------------------------------------------------
 */
 export function refreshToken(req,res, next) {
