@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'mongoose-bcrypt';
 import timestamps from 'mongoose-timestamp';
 import mongooseStringQuery from 'mongoose-string-query';
+import User from './user';
 
 /* 
 |--------------------------------------------------------------------------
@@ -13,6 +14,11 @@ const TripSchema = new Schema(
         
         owner_id: {
             type: Schema.Types.ObjectId,
+            required: true
+        },
+
+        owner_details: {
+            type: Schema.Types.Mixed,
             required: true
         },
         
@@ -103,5 +109,30 @@ const TripSchema = new Schema(
 TripSchema.plugin(bcrypt);
 TripSchema.plugin(timestamps);
 TripSchema.plugin(mongooseStringQuery);
+
+
+/* 
+|--------------------------------------------------------------------------
+| Pre-save hook
+|--------------------------------------------------------------------------
+*/
+TripSchema.pre('save', function(next) {
+	if (!this.isNew) {
+		next();
+    }
+    
+    //add owner details to trip -- 
+    User.findOne({_id: this.owner_id}).then(user => {
+        let sanitized = user.toObject();
+        delete sanitized.password;
+        this.owner_details = sanitized;
+        next();
+	}).catch(err => {
+		res.status(422).send(err.errors);
+    });
+    
+
+});
+
 
 export default mongoose.model('Trip', TripSchema);

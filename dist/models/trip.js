@@ -20,6 +20,10 @@ var _mongooseStringQuery = require('mongoose-string-query');
 
 var _mongooseStringQuery2 = _interopRequireDefault(_mongooseStringQuery);
 
+var _user = require('./user');
+
+var _user2 = _interopRequireDefault(_user);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* 
@@ -31,6 +35,11 @@ var TripSchema = new _mongoose.Schema({
 
     owner_id: {
         type: _mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+
+    owner_details: {
+        type: _mongoose.Schema.Types.Mixed,
         required: true
     },
 
@@ -120,5 +129,28 @@ var TripSchema = new _mongoose.Schema({
 TripSchema.plugin(_mongooseBcrypt2.default);
 TripSchema.plugin(_mongooseTimestamp2.default);
 TripSchema.plugin(_mongooseStringQuery2.default);
+
+/* 
+|--------------------------------------------------------------------------
+| Pre-save hook
+|--------------------------------------------------------------------------
+*/
+TripSchema.pre('save', function (next) {
+    var _this = this;
+
+    if (!this.isNew) {
+        next();
+    }
+
+    //add owner details to trip -- 
+    _user2.default.findOne({ _id: this.owner_id }).then(function (user) {
+        var sanitized = user.toObject();
+        delete sanitized.password;
+        _this.owner_details = sanitized;
+        next();
+    }).catch(function (err) {
+        res.status(422).send(err.errors);
+    });
+});
 
 exports.default = _mongoose2.default.model('Trip', TripSchema);

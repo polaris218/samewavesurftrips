@@ -24,7 +24,6 @@ exports.getAll = (req,res) => {
 exports.create = (req,res) => {
 
 	const modelData = setDefaultValues(req);
-
     Trip.create(modelData).then(trip => {
 		res.json(trip);
 	}).catch(err => {
@@ -46,6 +45,21 @@ exports.update = (req,res) => {
 	}).catch(err => {
 		res.status(500).send(err);
 	})
+
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Delete Trip
+|--------------------------------------------------------------------------
+*/
+exports.delete = (req,res) => {
+
+	Trip.remove({_id: req.params.id, owner_id: req.user._id}).then(trip => {
+		res.json(trip);
+	}).catch(err => {
+		res.status(500).send(err);
+	});
 
 }
 
@@ -99,12 +113,13 @@ function setDefaultValues(req) {
 
 	const modelData = Object.assign({}, req.body, { 
        
-        owner_id: req.user._id,
+				owner_id: req.user._id,
+				owner_details: {}, //the model will populate this
 
-		date_times: {
-			departure_date_time: req.body.departure_date_time || new Date(),
-			return_date_time:  req.body.departure_date_time || new Date()
-		}
+				date_times: {
+					departure_date_time: req.body.departure_date_time || new Date(),
+					return_date_time:  req.body.departure_date_time || new Date()
+				}
         
 	});
 
