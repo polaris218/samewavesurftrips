@@ -88,6 +88,7 @@ export function routes() {
 	router.put(`/v1/trip/:id`, authenticate, Trip.update);
 	router.delete(`/v1/trip/:id`, authenticate, Trip.delete);
 	router.get(`/v1/trip/:id/join`, authenticate, Trip.join);
+	router.get(`/v1/trip/:id/leave`, authenticate, Trip.leave);
 
 	/* 
 	|--------------------------------------------------------------------------

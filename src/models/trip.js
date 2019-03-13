@@ -3,6 +3,7 @@ import bcrypt from 'mongoose-bcrypt';
 import timestamps from 'mongoose-timestamp';
 import mongooseStringQuery from 'mongoose-string-query';
 import User from './user';
+import Follower from './follower';
 
 /* 
 |--------------------------------------------------------------------------
@@ -110,13 +111,33 @@ const TripSchema = new Schema(
 
 /* 
 |--------------------------------------------------------------------------
-| Plugins
+| Join Trip
 |--------------------------------------------------------------------------
 */
-TripSchema.plugin(bcrypt);
-TripSchema.plugin(timestamps);
-TripSchema.plugin(mongooseStringQuery);
+TripSchema.methods.join = function(attendee) {
+    if(this.attendees.indexOf(attendee) != -1) return;
 
+    this.attendees.push(attendee);
+    this.save();
+    
+    return;
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Leave Trip
+|--------------------------------------------------------------------------
+*/
+TripSchema.methods.leave = function(attendee) {
+    if(this.attendees.indexOf(attendee) == -1) return;
+
+    let index = this.attendees.indexOf(attendee);
+
+    this.attendees.splice(index, 1);
+    this.save();
+    
+    return;
+};
 
 /* 
 |--------------------------------------------------------------------------
@@ -141,23 +162,14 @@ TripSchema.pre('save', function(next) {
 
 });
 
-
 /* 
 |--------------------------------------------------------------------------
-| Join Trip
+| Plugins
 |--------------------------------------------------------------------------
 */
-TripSchema.methods.joinTrip = function(attendee) {
-
-    console.log('called')
-    if(this.attendees.indexOf(attendee) != -1) return;
-
-    this.attendees.push(attendee);
-    this.save();
-
-    console.log(this.attendees)
-
-};
+TripSchema.plugin(bcrypt);
+TripSchema.plugin(timestamps);
+TripSchema.plugin(mongooseStringQuery);
 
 
 export default mongoose.model('Trip', TripSchema);

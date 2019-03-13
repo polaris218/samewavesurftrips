@@ -24,6 +24,10 @@ var _user = require('./user');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _follower = require('./follower');
+
+var _follower2 = _interopRequireDefault(_follower);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* 
@@ -129,12 +133,33 @@ var TripSchema = new _mongoose.Schema({
 
 /* 
 |--------------------------------------------------------------------------
-| Plugins
+| Join Trip
 |--------------------------------------------------------------------------
 */
-TripSchema.plugin(_mongooseBcrypt2.default);
-TripSchema.plugin(_mongooseTimestamp2.default);
-TripSchema.plugin(_mongooseStringQuery2.default);
+TripSchema.methods.join = function (attendee) {
+    if (this.attendees.indexOf(attendee) != -1) return;
+
+    this.attendees.push(attendee);
+    this.save();
+
+    return;
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Leave Trip
+|--------------------------------------------------------------------------
+*/
+TripSchema.methods.leave = function (attendee) {
+    if (this.attendees.indexOf(attendee) == -1) return;
+
+    var index = this.attendees.indexOf(attendee);
+
+    this.attendees.splice(index, 1);
+    this.save();
+
+    return;
+};
 
 /* 
 |--------------------------------------------------------------------------
@@ -161,18 +186,11 @@ TripSchema.pre('save', function (next) {
 
 /* 
 |--------------------------------------------------------------------------
-| Join Trip
+| Plugins
 |--------------------------------------------------------------------------
 */
-TripSchema.methods.joinTrip = function (attendee) {
-
-    console.log('called');
-    if (this.attendees.indexOf(attendee) != -1) return;
-
-    this.attendees.push(attendee);
-    this.save();
-
-    console.log(this.attendees);
-};
+TripSchema.plugin(_mongooseBcrypt2.default);
+TripSchema.plugin(_mongooseTimestamp2.default);
+TripSchema.plugin(_mongooseStringQuery2.default);
 
 exports.default = _mongoose2.default.model('Trip', TripSchema);

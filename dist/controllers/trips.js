@@ -72,8 +72,23 @@ exports.delete = function (req, res) {
 */
 exports.join = function (req, res) {
 
-	_trip2.default.find({ _id: req.params.id }).then(function (trip) {
-		console.log(trip.joinTrip(req.user._id));
+	_trip2.default.findOne({ _id: req.params.id }).then(function (trip) {
+		trip.join(req.user._id);
+		res.json(trip);
+	}).catch(function (err) {
+		res.status(422).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Leave Trip
+|--------------------------------------------------------------------------
+*/
+exports.leave = function (req, res) {
+
+	_trip2.default.findOne({ _id: req.params.id }).then(function (trip) {
+		trip.leave(req.user._id);
 		res.json(trip);
 	}).catch(function (err) {
 		res.status(422).send(err);

@@ -113,6 +113,7 @@ function routes() {
 	router.put('/v1/trip/:id', authenticate, _trips2.default.update);
 	router.delete('/v1/trip/:id', authenticate, _trips2.default.delete);
 	router.get('/v1/trip/:id/join', authenticate, _trips2.default.join);
+	router.get('/v1/trip/:id/leave', authenticate, _trips2.default.leave);
 
 	/* 
  |--------------------------------------------------------------------------

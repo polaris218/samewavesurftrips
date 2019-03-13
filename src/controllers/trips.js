@@ -70,9 +70,27 @@ exports.delete = (req,res) => {
 */
 exports.join = (req,res) => {
 
-	Trip.find({_id: req.params.id}).then(trip => {
-		console.log(trip.joinTrip(req.user._id));
+	Trip.findOne({_id: req.params.id}).then(trip => {
+		trip.join(req.user._id);
 		res.json(trip);
+		
+	}).catch(err => {
+		res.status(422).send(err);
+	});
+
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Leave Trip
+|--------------------------------------------------------------------------
+*/
+exports.leave = (req,res) => {
+
+	Trip.findOne({_id: req.params.id}).then(trip => {
+		trip.leave(req.user._id);
+		res.json(trip);
+		
 	}).catch(err => {
 		res.status(422).send(err);
 	});
