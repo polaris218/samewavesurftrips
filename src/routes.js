@@ -55,7 +55,7 @@ export function routes() {
 	}), serialize, generateToken, respond);
 
 	app.get('/auth/facebook/callback',
-	passport.authenticate('facebook', { failureRedirect: '/login' }),
+	passport.authenticate('facebook', { failureRedirect: '/' }),
 	function(req, res) {
 		// Successful authentication, redirect home.
 		res.redirect('/sandbox');

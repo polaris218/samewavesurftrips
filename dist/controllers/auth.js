@@ -85,6 +85,7 @@ function passportFBStrategy() {
   }, function (accessToken, refreshToken, profile, done) {
 
     console.log(profile);
+    done(null, [{}]);
     // User.findOrCreate(..., function(err, user) {
     //   if (err) { return done(err); }
     //   done(null, user);
