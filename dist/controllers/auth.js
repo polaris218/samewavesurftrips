@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.passportLocalStrategy = passportLocalStrategy;
+exports.passportFBStrategy = passportFBStrategy;
 exports.generateToken = generateToken;
 exports.respond = respond;
 exports.serialize = serialize;
@@ -16,6 +17,10 @@ var _passport2 = _interopRequireDefault(_passport);
 var _passportLocal = require('passport-local');
 
 var _passportLocal2 = _interopRequireDefault(_passportLocal);
+
+var _passportFacebook = require('passport-facebook');
+
+var _passportFacebook2 = _interopRequireDefault(_passportFacebook);
 
 var _jsonwebtoken = require('jsonwebtoken');
 
@@ -63,6 +68,27 @@ function passportLocalStrategy() {
     }).catch(function (err) {
       done(null, false);
     });
+  }));
+}
+
+/* 
+|--------------------------------------------------------------------------
+| passport strategy - facebook
+|--------------------------------------------------------------------------
+*/
+function passportFBStrategy() {
+
+  _passport2.default.use(new _passportFacebook2.default({
+    clientID: _config2.default.auth.facebook_app_id,
+    clientSecret: _config2.default.auth.facebook_app_secret,
+    callbackURL: 'https://' + _config2.default.domain + '/auth/facebook/callback'
+  }, function (accessToken, refreshToken, profile, done) {
+
+    console.log(profile);
+    // User.findOrCreate(..., function(err, user) {
+    //   if (err) { return done(err); }
+    //   done(null, user);
+    // });
   }));
 }
 

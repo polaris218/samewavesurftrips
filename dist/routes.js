@@ -50,6 +50,8 @@ function routesInit(a) {
 	app = a;
 
 	(0, _auth.passportLocalStrategy)();
+	(0, _auth.passportFBStrategy)();
+
 	app.use(_passport2.default.initialize());
 }
 
@@ -63,13 +65,27 @@ function routes() {
 
 	/* 
  |--------------------------------------------------------------------------
- | Authenticate
+ | Authenticate Local
  |--------------------------------------------------------------------------
  */
 	router.post('/v1/auth', _passport2.default.authenticate('local', {
 		session: false
 	}), _auth.serialize, _auth.generateToken, _auth.respond);
 
+	/* 
+ |--------------------------------------------------------------------------
+ | Authenticate Facebook
+ |--------------------------------------------------------------------------
+ */
+	router.get('/v1/auth/facebook', _passport2.default.authenticate('facebook', {
+		session: false
+	}), _auth.serialize, _auth.generateToken, _auth.respond);
+
+	/* 
+ |--------------------------------------------------------------------------
+ | Refresh token
+ |--------------------------------------------------------------------------
+ */
 	router.post('/v1/token', _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
 
 	/* 

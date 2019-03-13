@@ -50,7 +50,9 @@ var config = {
     auth: {
         secret: process.env.HASH_SECRET,
         expires: 12000,
-        refreshTokens: {}
+        refreshTokens: {},
+        facebook_app_id: 2088909384739906,
+        facebook_app_secret: 'd6cbfd94bbd61b848d491eb197a231d8'
     }
 }
 

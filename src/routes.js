@@ -2,7 +2,7 @@ import express from 'express';
 import config from './config';
 import expressJwt from 'express-jwt'; 
 import passport from 'passport';  
-import { passportLocalStrategy, serialize, generateToken, respond, refreshToken} from './controllers/auth';
+import { passportLocalStrategy, serialize, generateToken, respond, refreshToken, passportFBStrategy} from './controllers/auth';
 import Trip from './controllers/trips';
 import User from './controllers/users';
 import Message from './controllers/messages';
@@ -20,6 +20,8 @@ export function routesInit(a){
 	app = a;
 
 	passportLocalStrategy();
+	passportFBStrategy();
+
 	app.use(passport.initialize());  
 
 } 
@@ -35,15 +37,30 @@ export function routes() {
 
 	/* 
 	|--------------------------------------------------------------------------
-	| Authenticate
+	| Authenticate Local
 	|--------------------------------------------------------------------------
 	*/
 	router.post('/v1/auth', passport.authenticate('local', {
 		session: false
 	}), serialize, generateToken, respond);
 
-	router.post('/v1/token', refreshToken, serialize, generateToken, respond);
+	
+	/* 
+	|--------------------------------------------------------------------------
+	| Authenticate Facebook
+	|--------------------------------------------------------------------------
+	*/
+	router.get('/v1/auth/facebook', passport.authenticate('facebook', {
+		session: false
+	}), serialize, generateToken, respond);
 
+
+	/* 
+	|--------------------------------------------------------------------------
+	| Refresh token
+	|--------------------------------------------------------------------------
+	*/
+	router.post('/v1/token', refreshToken, serialize, generateToken, respond);
 
 	/* 
 	|--------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 import passport from 'passport';  
 import Strategy from 'passport-local';
+import FacebookStrategy from 'passport-facebook';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import randtoken from 'rand-token'; 
@@ -35,6 +36,31 @@ export function passportLocalStrategy() {
         
       }
     ));
+}
+
+/* 
+|--------------------------------------------------------------------------
+| passport strategy - facebook
+|--------------------------------------------------------------------------
+*/
+export function passportFBStrategy() {
+
+    passport.use(new FacebookStrategy({
+      clientID: config.auth.facebook_app_id,
+      clientSecret: config.auth.facebook_app_secret,
+      callbackURL: `https://${config.domain}/auth/facebook/callback`
+    },
+    function(accessToken, refreshToken, profile, done) {
+      
+      console.log(profile);
+      // User.findOrCreate(..., function(err, user) {
+      //   if (err) { return done(err); }
+      //   done(null, user);
+      // });
+    
+    }
+    ));
+
 }
 
   
