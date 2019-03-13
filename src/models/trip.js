@@ -97,7 +97,14 @@ const TripSchema = new Schema(
         trip_details: {
             type: String,
 			required: false
+        },
+
+        attendees: {
+            type: Array,
+            required: true
         }
+
+
     }
 );
 
@@ -133,6 +140,24 @@ TripSchema.pre('save', function(next) {
     
 
 });
+
+
+/* 
+|--------------------------------------------------------------------------
+| Join Trip
+|--------------------------------------------------------------------------
+*/
+TripSchema.methods.joinTrip = function(attendee) {
+
+    console.log('called')
+    if(this.attendees.indexOf(attendee) != -1) return;
+
+    this.attendees.push(attendee);
+    this.save();
+
+    console.log(this.attendees)
+
+};
 
 
 export default mongoose.model('Trip', TripSchema);

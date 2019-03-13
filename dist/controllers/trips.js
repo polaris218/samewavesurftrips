@@ -67,6 +67,21 @@ exports.delete = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Join Trip
+|--------------------------------------------------------------------------
+*/
+exports.join = function (req, res) {
+
+	_trip2.default.find({ _id: req.params.id }).then(function (trip) {
+		console.log(trip.joinTrip(req.user._id));
+		res.json(trip);
+	}).catch(function (err) {
+		res.status(422).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Search trips
 |--------------------------------------------------------------------------
 */
@@ -114,6 +129,7 @@ function setDefaultValues(req) {
 
 		owner_id: req.user._id,
 		owner_details: {}, //the model will populate this
+		attendees: [],
 
 		date_times: {
 			departure_date_time: req.body.departure_date_time || new Date(),

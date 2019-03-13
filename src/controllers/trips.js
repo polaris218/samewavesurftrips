@@ -8,10 +8,10 @@ import Trip from '../models/trip';
 exports.getAll = (req,res) => {
 
     Trip.find().then(trips => {
-		res.json(trips);
-	}).catch(err => {
-		res.status(422).send(err);
-    });
+			res.json(trips);
+		}).catch(err => {
+			res.status(422).send(err);
+		});
     
 }
 
@@ -59,6 +59,22 @@ exports.delete = (req,res) => {
 		res.json(trip);
 	}).catch(err => {
 		res.status(500).send(err);
+	});
+
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Join Trip
+|--------------------------------------------------------------------------
+*/
+exports.join = (req,res) => {
+
+	Trip.find({_id: req.params.id}).then(trip => {
+		console.log(trip.joinTrip(req.user._id));
+		res.json(trip);
+	}).catch(err => {
+		res.status(422).send(err);
 	});
 
 }
@@ -115,6 +131,7 @@ function setDefaultValues(req) {
        
 				owner_id: req.user._id,
 				owner_details: {}, //the model will populate this
+				attendees: [],
 
 				date_times: {
 					departure_date_time: req.body.departure_date_time || new Date(),

@@ -118,7 +118,13 @@ var TripSchema = new _mongoose.Schema({
     trip_details: {
         type: String,
         required: false
+    },
+
+    attendees: {
+        type: Array,
+        required: true
     }
+
 });
 
 /* 
@@ -152,5 +158,21 @@ TripSchema.pre('save', function (next) {
         res.status(422).send(err.errors);
     });
 });
+
+/* 
+|--------------------------------------------------------------------------
+| Join Trip
+|--------------------------------------------------------------------------
+*/
+TripSchema.methods.joinTrip = function (attendee) {
+
+    console.log('called');
+    if (this.attendees.indexOf(attendee) != -1) return;
+
+    this.attendees.push(attendee);
+    this.save();
+
+    console.log(this.attendees);
+};
 
 exports.default = _mongoose2.default.model('Trip', TripSchema);
