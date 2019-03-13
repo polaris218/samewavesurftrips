@@ -81,6 +81,11 @@ function routes() {
 		session: false
 	}), _auth.serialize, _auth.generateToken, _auth.respond);
 
+	app.get('/auth/facebook/callback', _passport2.default.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
+		// Successful authentication, redirect home.
+		res.redirect('/sandbox');
+	});
+
 	/* 
  |--------------------------------------------------------------------------
  | Refresh token
