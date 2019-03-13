@@ -53,8 +53,8 @@ var config = {
         secret: process.env.HASH_SECRET,
         expires: 12000,
         refreshTokens: {},
-        facebook_app_id: 2088909384739906,
-        facebook_app_secret: 'd6cbfd94bbd61b848d491eb197a231d8'
+        facebook_app_id: 161223164770911,
+        facebook_app_secret: '4126df8dee5e14888f1ce86e03d368e1'
     }
 };
 
