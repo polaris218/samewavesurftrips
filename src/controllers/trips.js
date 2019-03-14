@@ -22,7 +22,7 @@ exports.getAll = (req,res) => {
 */
 exports.getUserTrips = (req,res) => {
 
-	Trip.find({owner_id: req.user._id}).then(trips => {
+	Trip.find({owner_id: req.params.userid}).then(trips => {
 		res.json(trips);
 	}).catch(err => {
 		res.status(422).send(err);
