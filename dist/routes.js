@@ -129,6 +129,7 @@ function routes() {
  |--------------------------------------------------------------------------
  */
 	router.get('/v1/trips', authenticate, _trips2.default.getAll);
+	router.get('/v1/trips/:userid', authenticate, _trips2.default.getUserTrips);
 	router.post('/v1/trips', authenticate, _trips2.default.create);
 	router.put('/v1/trip/:id', authenticate, _trips2.default.update);
 	router.delete('/v1/trip/:id', authenticate, _trips2.default.delete);

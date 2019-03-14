@@ -22,6 +22,20 @@ exports.getAll = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Get Trips by userID
+|--------------------------------------------------------------------------
+*/
+exports.getUserTrips = function (req, res) {
+
+	_trip2.default.find({ owner_id: req.user._id }).then(function (trips) {
+		res.json(trips);
+	}).catch(function (err) {
+		res.status(422).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Create Trip
 |--------------------------------------------------------------------------
 */
