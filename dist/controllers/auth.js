@@ -84,8 +84,11 @@ function passportFBStrategy() {
     callbackURL: 'https://' + _config2.default.domain + '/auth/facebook/callback'
   }, function (accessToken, refreshToken, profile, done) {
 
+    var name = profile.displayName || "";
+
     console.log(profile);
-    done(null, [{}]);
+    done(null, [{ name: name }]);
+
     // User.findOrCreate(..., function(err, user) {
     //   if (err) { return done(err); }
     //   done(null, user);

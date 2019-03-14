@@ -52,8 +52,11 @@ export function passportFBStrategy() {
     },
     function(accessToken, refreshToken, profile, done) {
       
+      let name = profile.displayName || "";
+      
       console.log(profile);
-      done(null,[{}])
+      done(null,[{name}]);
+
       // User.findOrCreate(..., function(err, user) {
       //   if (err) { return done(err); }
       //   done(null, user);
