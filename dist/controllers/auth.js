@@ -81,7 +81,8 @@ function passportFBStrategy() {
   _passport2.default.use(new _passportFacebook2.default({
     clientID: _config2.default.auth.facebook_app_id,
     clientSecret: _config2.default.auth.facebook_app_secret,
-    callbackURL: 'https://' + _config2.default.domain + '/auth/facebook/callback'
+    callbackURL: 'https://' + _config2.default.domain + '/auth/facebook/callback',
+    profileFields: ['emails']
   }, function (accessToken, refreshToken, profile, done) {
 
     var name = profile.displayName || "";

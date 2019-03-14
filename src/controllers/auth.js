@@ -48,7 +48,8 @@ export function passportFBStrategy() {
     passport.use(new FacebookStrategy({
       clientID: config.auth.facebook_app_id,
       clientSecret: config.auth.facebook_app_secret,
-      callbackURL: `https://${config.domain}/auth/facebook/callback`
+      callbackURL: `https://${config.domain}/auth/facebook/callback`,
+      profileFields: ['emails'] 
     },
     function(accessToken, refreshToken, profile, done) {
       
