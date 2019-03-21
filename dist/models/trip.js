@@ -57,9 +57,19 @@ var TripSchema = new _mongoose.Schema({
         required: true
     },
 
+    departing_loc: {
+        type: { type: String },
+        coordinates: []
+    },
+
     destination: {
         type: String,
         required: true
+    },
+
+    destination_loc: {
+        type: { type: String },
+        coordinates: []
     },
 
     date_times: {

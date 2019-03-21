@@ -8,10 +8,56 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* 
 |--------------------------------------------------------------------------
+| Convert GEOCODE
+|--------------------------------------------------------------------------
+*/
+exports.geocode = function (req, res) {}
+
+// function IsValidJSONString(str) {
+// 		try {
+// 				JSON.parse(str);
+// 		} catch (e) {
+// 				return false;
+// 		}
+// 		return true;
+// }
+
+// Trip.find().then(trips => {
+
+// 	trips.forEach(function (doc) {
+
+// 		let departure = IsValidJSONString(doc.departing)  ? JSON.parse(doc.departing) : {lng:0,lat:0},
+// 				destination = IsValidJSONString(doc.destination) ? JSON.parse(doc.destination) : {lng:0,lat:0};
+
+// 		Trip.updateOne({_id: doc._id}, { 
+// 			destination_loc :{
+// 				type : "Point",
+// 				coordinates : [destination.lng, destination.lat]
+// 			},
+// 			departing_loc : {
+// 				type : "Point",
+// 				coordinates : [departure.lng, departure.lat]
+// 			}
+// 		}, function (err, doc){
+// 			console.log(err)
+// 		});
+
+
+// 		res.status(200);
+
+// 	});
+
+
+// }).catch(err => {
+// 	res.status(422).send(err);
+// });
+
+/* 
+|--------------------------------------------------------------------------
 | Get Trips
 |--------------------------------------------------------------------------
 */
-exports.getAll = function (req, res) {
+;exports.getAll = function (req, res) {
 
 	_trip2.default.find().then(function (trips) {
 		res.json(trips);
@@ -149,16 +195,65 @@ exports.search = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Search trips
+|--------------------------------------------------------------------------
+*/
+exports.searchDestination = function (req, res) {
+
+	var skip = parseInt(req.query.skip) || 0;
+	var query = {};
+
+	var lng = req.query.lng || 0,
+	    lat = req.query.lat || 0,
+	    radius = req.query.radius || 10;
+
+	var milesToRadian = function milesToRadian(miles) {
+		var earthRadiusInMiles = 3959;
+		return miles / earthRadiusInMiles;
+	};
+
+	var query = {
+		"destination_loc": {
+			$geoWithin: {
+				$centerSphere: [[lng, lat], milesToRadian(radius)]
+			}
+		}
+	};
+
+	_trip2.default.find(query).skip(skip).limit(50).then(function (trips) {
+		res.json(trips);
+	}).catch(function (err) {
+		res.status(422).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Populate nested objects & defaults 
 |--------------------------------------------------------------------------
 */
 function setDefaultValues(req) {
+
+	var departingLng = req.body.departing.lng || 0,
+	    departingLat = req.body.departing.lat || 0,
+	    destinationLng = req.body.destination.lng || 0,
+	    destinationLat = req.body.destination.lat || 0;
 
 	var modelData = Object.assign({}, req.body, {
 
 		owner_id: req.user._id,
 		owner_details: {}, //the model will populate this
 		attendees: [],
+
+		departing_loc: {
+			type: "Point",
+			coordinates: [departingLng, departingLat]
+		},
+
+		destination_loc: {
+			type: "Point",
+			coordinates: [destinationLng, destinationLat]
+		},
 
 		date_times: {
 			departure_date_time: req.body.departure_date_time || new Date(),

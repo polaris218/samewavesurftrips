@@ -135,6 +135,8 @@ function routes() {
 	router.delete('/v1/trip/:id', authenticate, _trips2.default.delete);
 	router.get('/v1/trip/:id/join', authenticate, _trips2.default.join);
 	router.get('/v1/trip/:id/leave', authenticate, _trips2.default.leave);
+	//router.get(`/v1/trips/geocode`, Trip.geocode); 
+
 
 	/* 
  |--------------------------------------------------------------------------
@@ -142,6 +144,7 @@ function routes() {
  |--------------------------------------------------------------------------
  */
 	router.get('/v1/search/trips', _trips2.default.search);
+	router.get('/v1/search/destination', _trips2.default.searchDestination);
 
 	/* 
  |--------------------------------------------------------------------------

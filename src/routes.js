@@ -75,14 +75,13 @@ export function routes() {
 		res.render('samewave', { 'layout' : 'app' });
 	});
 
-
 	/* 
 	|--------------------------------------------------------------------------
 	| Sandbox
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/sandbox`, function(req,res){
-		res.render('sandbox', { 'layout' : 'main' });
+		res.render('sandbox', { 'layout' : 'main' }); 
 	});
 
 
@@ -111,6 +110,8 @@ export function routes() {
 	router.delete(`/v1/trip/:id`, authenticate, Trip.delete);
 	router.get(`/v1/trip/:id/join`, authenticate, Trip.join);
 	router.get(`/v1/trip/:id/leave`, authenticate, Trip.leave);
+	//router.get(`/v1/trips/geocode`, Trip.geocode); 
+	
 
 	/* 
 	|--------------------------------------------------------------------------
@@ -118,6 +119,7 @@ export function routes() {
 	|--------------------------------------------------------------------------
 	*/
 	router.get(`/v1/search/trips`, Trip.search);
+	router.get(`/v1/search/destination`, Trip.searchDestination);
 
 	/* 
 	|--------------------------------------------------------------------------
