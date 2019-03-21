@@ -73,7 +73,7 @@ exports.geocode = function (req, res) {}
 */
 exports.getUserTrips = function (req, res) {
 
-	_trip2.default.find({ owner_id: req.params.userid }).then(function (trips) {
+	_trip2.default.find({ owner_id: req.params.userid, attendees: { "$in": [req.params.userid] } }).then(function (trips) {
 		res.json(trips);
 	}).catch(function (err) {
 		res.status(422).send(err);
