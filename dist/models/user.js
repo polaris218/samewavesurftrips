@@ -26,6 +26,14 @@ var _follower = require('./follower');
 
 var _follower2 = _interopRequireDefault(_follower);
 
+var _awsSdk = require('aws-sdk');
+
+var _awsSdk2 = _interopRequireDefault(_awsSdk);
+
+var _nodeUuid = require('node-uuid');
+
+var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _mongoose2.default.set('useCreateIndex', true);
@@ -63,6 +71,26 @@ var UserSchema = new _mongoose.Schema({
     },
 
     gender: {
+        type: String,
+        required: false
+    },
+
+    full_name: {
+        type: String,
+        required: false
+    },
+
+    bio: {
+        type: String,
+        required: false
+    },
+
+    avatar: {
+        type: String,
+        required: false
+    },
+
+    cover_image: {
         type: String,
         required: false
     }
@@ -123,16 +151,112 @@ UserSchema.methods.followers = function () {
 
 /* 
 |--------------------------------------------------------------------------
+| Get avatar
+|--------------------------------------------------------------------------
+*/
+UserSchema.methods.getAvatar = function (res) {
+
+    //create spaces instance ---
+    var s3 = new _awsSdk2.default.S3({
+        endpoint: spacesEndpoint,
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    });
+
+    var s3Params = {
+        Bucket: process.env.S3_BUCKET,
+        Key: this.avatar
+    };
+
+    res.attachment(this.avatar);
+    var fileStream = s3.getObject(s3Params).createReadStream();
+    fileStream.pipe(res);
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Update avatar
+|--------------------------------------------------------------------------
+*/
+UserSchema.methods.updateAvatar = function (file) {
+    var _this4 = this;
+
+    return new Promise(function (resolve, reject) {
+
+        var ext = void 0,
+            unique = void 0,
+            oldfile = void 0;
+
+        if (!file) {
+            reject();
+        }
+
+        oldfile = _this4.avatar;
+        ext = file.name.substring(file.name.indexOf('.'));
+        unique = _nodeUuid2.default.v4() + ext;
+
+        var spacesEndpoint = new _awsSdk2.default.Endpoint(process.env.DO_ENDPOINT);
+        var fileType = file.type;
+
+        //create spaces instance ---
+        var s3 = new _awsSdk2.default.S3({
+            endpoint: spacesEndpoint,
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        });
+
+        //spaces options ---
+        var s3Params = {
+            Bucket: process.env.S3_BUCKET,
+            Key: unique,
+            Expires: 60,
+            ContentType: fileType,
+            ContentDisposition: 'inline',
+            ACL: 'public-read',
+            Body: file.data
+        };
+
+        //upload to spaces ---
+        s3.upload(s3Params, function (s3Err, data) {
+            if (s3Err) throw s3Err;
+            console.log('File uploaded successfully at ' + data.Location);
+
+            _this4.avatar = unique;
+            _this4.save();
+
+            //delete the old avatar ---
+            if (oldfile) {
+                try {
+
+                    s3.deleteObject({
+                        Bucket: process.env.S3_BUCKET,
+                        Key: oldfile
+                    }, function (err, data) {
+                        if (err) console.log(err, err.stack);
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+
+            resolve(unique);
+        });
+    });
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Pre-save hook
 |--------------------------------------------------------------------------
 */
 UserSchema.pre('save', function (next) {
+
     if (!this.isNew) {
         next();
+    } else {
+        (0, _notifications.notify_newUser)(this);
+        next();
     }
-
-    (0, _notifications.notify_newUser)(this);
-    next();
 });
 
 /* 

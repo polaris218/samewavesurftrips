@@ -58,6 +58,10 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _expressFileupload = require('express-fileupload');
+
+var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var expressMongoDb = require('express-mongo-db');
@@ -101,6 +105,13 @@ var server = _http2.default.createServer(app);
 app.set('port', process.env.PORT || 5000);
 app.set('stage', process.env.STAGE);
 app.set('assets', '');
+
+/* 
+|--------------------------------------------------------------------------
+| file upload config
+|--------------------------------------------------------------------------
+*/
+app.use((0, _expressFileupload2.default)());
 
 /* 
 |--------------------------------------------------------------------------

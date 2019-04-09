@@ -1,6 +1,9 @@
 
 import User from '../models/user';
- 
+import aws from 'aws-sdk';
+import uuid from 'node-uuid';
+
+
 /* 
 |--------------------------------------------------------------------------
 | Get all users
@@ -57,11 +60,48 @@ exports.update = (req,res) => {
 
 	const data = Object.assign({}, req.body) || {};
 
-	Trip.findOneAndUpdate({_id: req.user._id}, data,{new: true}).then(user => {
+	User.findOneAndUpdate({_id: req.user._id}, data,{new: true}).then(user => {
 		res.json(user)
 	}).catch(err => {
 		res.status(500).send(err);
 	})
+ 
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Display avatar
+|--------------------------------------------------------------------------
+*/
+exports.getAvatar = (req, res) => {
+	
+	User.findOne({_id: req.params.id}).then(user => {
+
+		const url = `https://${process.env.S3_BUCKET}.${process.env.DO_ENDPOINT_CDN}/${user.avatar}`;
+
+		res.send(url);
+
+	}).catch(err => {
+		res.status(422).send(err.errors);
+  });
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Update avatar
+|--------------------------------------------------------------------------
+*/
+exports.avatar = (req,res) => {
+
+	User.findOne({_id: req.user._id}).then(user => {
+		
+		user.updateAvatar(req.files.avatar).then(file=>{
+			res.json(file);
+		});
+
+	}).catch(err => {
+		res.status(422).send(err.errors);
+  });
 
 }
 

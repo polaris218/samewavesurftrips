@@ -1,5 +1,4 @@
 
-
 function App(){
 
 }
@@ -10,10 +9,12 @@ App.prototype = {
         if(document.location.href.indexOf('sandbox')!=-1) {
             this.loginTest()
             this.registerUser()
+            this.updateUser()
             this.routeTest()
             this.createTrip()
             this.sendMessage();
             this.refreshToken();
+            //this.updateAvatar();
         }
     },
 
@@ -111,6 +112,81 @@ App.prototype = {
             });
         });
             
+    },
+
+    updateAvatar: function() {
+
+        $('#form_update_avatar').submit(function(e) {
+            e.preventDefault();
+
+            let data =  new FormData();
+            let avatar = document.getElementById('profile-avatar');
+
+            let files = avatar.files;
+
+            let token = $('#avatar-token');
+          
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+              
+                // Check the file type.
+                if (!file.type.match('image.*')) {
+                  continue;
+                }
+              
+                // Add the file to the request.
+                data.append('avatar', file, file.name);
+              }
+
+       
+    
+
+            $.ajax( {
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer '+token.val());
+                },
+                url: '/v1/user/avatar',
+                type: 'POST',
+                data: data,
+                processData: false
+            } );
+
+        });
+
+    },
+
+    updateUser: function() {
+
+        $('#form_update_profile').submit(function(e) {
+            e.preventDefault();
+
+            var route = "/v1/user",
+                token = $('#profile-token');
+
+            $.ajax({
+                url: route,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer '+token.val());
+                },
+                data: { 
+                    first_name: $('#profile-firstname').val(), 
+                    last_name: $('#profile-lastname').val(),
+                    email: $('#profile-email').val(),
+                    gender: $('#profile-gender').val(),
+                    bio: $('#profile-bio').val()
+                },
+                method: 'PUT',
+                success: function(res){
+        
+                    $('#profile-response').val(JSON.stringify(res));
+                },
+                error: function(err) {
+                    $('#profile-response').val('Not Authorised');
+                }
+                });
+        })
+
     },
 
     loginTest: function() {

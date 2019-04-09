@@ -13,6 +13,7 @@ import https from 'https';
 import config from './config';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
+import fileUpload from 'express-fileupload';
 
 const expressMongoDb = require('express-mongo-db');
 
@@ -57,6 +58,14 @@ const server = http.createServer(app);
 app.set('port', (process.env.PORT || 5000));
 app.set('stage', process.env.STAGE);
 app.set('assets', '');
+
+/* 
+|--------------------------------------------------------------------------
+| file upload config
+|--------------------------------------------------------------------------
+*/
+app.use(fileUpload());
+
 
 /* 
 |--------------------------------------------------------------------------

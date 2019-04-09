@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "apidoc": "^0.17.7",
+    "aws-sdk": "^2.437.0",
     "babelify": "^7.3.0",
     "bcrypt": "^3.0.2",
     "bcrypt-nodejs": "0.0.3",
@@ -31,6 +32,7 @@
     "dotenv": "^6.1.0",
     "express": "^4.15.4",
     "express-basic-auth": "^1.1.2",
+    "express-fileupload": "^1.1.4",
     "express-handlebars": "^3.0.0",
     "express-jwt": "^5.3.1",
     "express-mongo-db": "^2.0.4",
@@ -52,6 +54,7 @@
     "mongoose-string-query": "^0.2.7",
     "mongoose-timestamp": "^0.6.0",
     "mysql": "^2.16.0",
+    "node-uuid": "^1.4.8",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-jwt": "^4.0.0",

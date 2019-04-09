@@ -4,6 +4,14 @@ var _user = require('../models/user');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _awsSdk = require('aws-sdk');
+
+var _awsSdk2 = _interopRequireDefault(_awsSdk);
+
+var _nodeUuid = require('node-uuid');
+
+var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* 
@@ -59,10 +67,44 @@ exports.update = function (req, res) {
 
 	var data = Object.assign({}, req.body) || {};
 
-	Trip.findOneAndUpdate({ _id: req.user._id }, data, { new: true }).then(function (user) {
+	_user2.default.findOneAndUpdate({ _id: req.user._id }, data, { new: true }).then(function (user) {
 		res.json(user);
 	}).catch(function (err) {
 		res.status(500).send(err);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Display avatar
+|--------------------------------------------------------------------------
+*/
+exports.getAvatar = function (req, res) {
+
+	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
+
+		var url = 'https://' + process.env.S3_BUCKET + '.' + process.env.DO_ENDPOINT_CDN + '/' + user.avatar;
+
+		res.send(url);
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Update avatar
+|--------------------------------------------------------------------------
+*/
+exports.avatar = function (req, res) {
+
+	_user2.default.findOne({ _id: req.user._id }).then(function (user) {
+
+		user.updateAvatar(req.files.avatar).then(function (file) {
+			res.json(file);
+		});
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
 	});
 };
 
