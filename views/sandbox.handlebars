@@ -306,3 +306,27 @@
          
         </form>
 </div>
+
+<hr/>
+
+<div class="container">
+    
+     <h2>Update Cover Image</h2>
+        
+        <form action="/v1/user/cover" method="post" id="form_update_cover" enctype="multipart/form-data">
+
+            <div class="form-group">
+            <label for="message-message">Cover Image</label>
+            <input type="file" name="cover" id="profile-coverimage" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send</button>
+         
+        </form>
+
+        
+</div>
+
+<img src="" id="coverImg" style="width:1000px; height:400px; border:3px solid #ccc; display:block; margin:auto;" />
+
+<hr/>

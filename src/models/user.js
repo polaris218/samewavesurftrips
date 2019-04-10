@@ -226,6 +226,79 @@ UserSchema.methods.updateAvatar = function(file) {
 
 }
 
+
+/* 
+|--------------------------------------------------------------------------
+| Update Cover
+|--------------------------------------------------------------------------
+*/
+UserSchema.methods.updateCover = function(file) {
+
+    return new Promise((resolve, reject) => {
+
+	    let ext, unique, oldfile;
+        
+        if (!file) {
+            reject();
+        }
+        
+        oldfile = this.cover_image;
+        
+        ext = file.name.substring(file.name.indexOf('.')); 
+	    unique = uuid.v4()+ext;
+
+	    const spacesEndpoint = new aws.Endpoint(process.env.DO_ENDPOINT);
+	    const fileType = file.type;
+	
+        //create spaces instance ---
+        const s3 = new aws.S3({
+            endpoint: spacesEndpoint,
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY 
+        });
+
+        //spaces options ---
+        const s3Params = {
+        Bucket: process.env.S3_BUCKET,
+        Key: unique,
+        Expires: 60,
+        ContentType: fileType,
+        ContentDisposition: 'inline',
+        ACL: 'public-read',
+            Body: file.data
+        };
+
+        //upload to spaces ---
+        s3.upload(s3Params, (s3Err, data) => {
+            if (s3Err) throw s3Err
+            console.log(`File uploaded successfully at ${data.Location}`)
+
+            this.cover_image = unique;
+            this.save();
+
+            //delete the old avatar ---
+            if(oldfile){
+                try {
+                
+                    s3.deleteObject({
+                        Bucket: process.env.S3_BUCKET,
+                        Key: oldfile
+                    }, function(err, data) {
+                        if (err) console.log(err, err.stack); 
+                    });
+
+                }catch(e){
+                    console.log(e);
+                }
+            }
+
+            resolve(unique);
+        });
+
+    });
+
+}
+
 /* 
 |--------------------------------------------------------------------------
 | Pre-save hook

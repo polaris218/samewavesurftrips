@@ -15,6 +15,7 @@ App.prototype = {
             this.sendMessage();
             this.refreshToken();
             this.getAvatar();
+            this.getCover();
             
         }
     },
@@ -25,6 +26,16 @@ App.prototype = {
             url: "/v1/user/5c56acfee483b439c6cbc99d/avatar",
             success: function(res){
                 $('#avatarImg').attr("src", res)
+            }
+        });
+    },
+
+    getCover: function() {
+        $.ajax({
+            method:"GET",
+            url: "/v1/user/5c56acfee483b439c6cbc99d/cover",
+            success: function(res){
+                $('#coverImg').attr("src", res)
             }
         });
     },

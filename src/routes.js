@@ -95,7 +95,9 @@ export function routes() {
 	router.post(`/v1/users`, User.create);
 	router.put(`/v1/user`, authenticate, User.update);
 	router.post(`/v1/user/avatar`, authenticate, User.avatar);
+	router.post(`/v1/user/cover`, authenticate, User.coverImage);
 	router.get(`/v1/user/:id/avatar`, User.getAvatar);
+	router.get(`/v1/user/:id/cover`, User.getCover);
 	router.get(`/v1/user/:id/follow`, authenticate, User.follow);
 	router.get(`/v1/user/:id/unfollow`, authenticate, User.unfollow);
 	router.get(`/v1/user/:id/followers`, authenticate, User.followers);

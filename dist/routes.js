@@ -120,7 +120,9 @@ function routes() {
 	router.post('/v1/users', _users2.default.create);
 	router.put('/v1/user', authenticate, _users2.default.update);
 	router.post('/v1/user/avatar', authenticate, _users2.default.avatar);
+	router.post('/v1/user/cover', authenticate, _users2.default.coverImage);
 	router.get('/v1/user/:id/avatar', _users2.default.getAvatar);
+	router.get('/v1/user/:id/cover', _users2.default.getCover);
 	router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
 	router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
 	router.get('/v1/user/:id/followers', authenticate, _users2.default.followers);

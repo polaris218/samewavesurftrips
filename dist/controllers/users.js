@@ -93,6 +93,23 @@ exports.getAvatar = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Display cover image
+|--------------------------------------------------------------------------
+*/
+exports.getCover = function (req, res) {
+
+	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
+
+		var url = 'https://' + process.env.S3_BUCKET + '.' + process.env.DO_ENDPOINT_CDN + '/' + user.cover_image;
+
+		res.send(url);
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Update avatar
 |--------------------------------------------------------------------------
 */
@@ -101,6 +118,23 @@ exports.avatar = function (req, res) {
 	_user2.default.findOne({ _id: req.user._id }).then(function (user) {
 
 		user.updateAvatar(req.files.avatar).then(function (file) {
+			res.json(file);
+		});
+	}).catch(function (err) {
+		res.status(422).send(err.errors);
+	});
+};
+
+/* 
+|--------------------------------------------------------------------------
+| Cover Image
+|--------------------------------------------------------------------------
+*/
+exports.coverImage = function (req, res) {
+
+	_user2.default.findOne({ _id: req.user._id }).then(function (user) {
+
+		user.updateCover(req.files.cover).then(function (file) {
 			res.json(file);
 		});
 	}).catch(function (err) {
