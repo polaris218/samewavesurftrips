@@ -47,12 +47,12 @@ var UserSchema = new _mongoose.Schema({
 
     first_name: {
         type: String,
-        required: true
+        required: false
     },
 
     last_name: {
         type: String,
-        required: true
+        required: false
     },
 
     email: {
