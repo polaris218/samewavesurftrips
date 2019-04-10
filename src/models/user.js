@@ -36,6 +36,15 @@ const UserSchema = new Schema(
             required: true,
         },
 
+        username: {
+            type: String,
+            lowercase: true,
+            trim: true,
+            index: true,
+            unique: true,
+            required: true,
+        },
+
         password: {
             type: String,
 			required: true,
@@ -43,11 +52,6 @@ const UserSchema = new Schema(
         },
 
         gender: {
-            type: String,
-			required: false
-        },
-
-        full_name: {
             type: String,
 			required: false
         },
@@ -65,8 +69,43 @@ const UserSchema = new Schema(
         cover_image: {
             type: String,
 			required: false
+        },
+
+        location: {
+            type: { type: String },
+            coordinates: []
+        },
+
+        surf_level: {
+            type: String,
+			required: false
+        },
+
+        surf_modality: {
+            type: String,
+			required: false
+        },
+
+        stance: {
+            type: String,
+			required: false
+        },
+
+        interests: {
+            type: Schema.Types.Mixed,
+			required: false
+        },
+
+        surfing_since: {
+            type: Date,
+			required: false
+        },
+        
+        optIn: {
+            type: Boolean,
+            required: false,
+            default: false
         }
-     
     }
 );
 
@@ -329,6 +368,6 @@ UserSchema.plugin(mongooseStringQuery);
 | Set indexes
 |--------------------------------------------------------------------------
 */
-UserSchema.index({ email: 1 });
+UserSchema.index({ email: 1, username: 1 });
 
 export default mongoose.model('User', UserSchema);

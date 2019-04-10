@@ -49,7 +49,7 @@ exports.get = function (req, res) {
 */
 exports.create = function (req, res) {
 
-	var data = Object.assign({}, req.body) || {};
+	var data = Object.assign({ username: req.body.email }, req.body) || {};
 
 	_user2.default.create(data).then(function (user) {
 		res.json(user);

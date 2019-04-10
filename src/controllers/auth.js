@@ -51,19 +51,15 @@ export function passportFBStrategy() {
       callbackURL: `https://${config.domain}/auth/facebook/callback`,
       profileFields: ['emails'] 
     },
-    function(accessToken, refreshToken, profile, done) {
-      
-      let name = profile.displayName || "";
-      
-      console.log(profile);
-      done(null,[{name}]);
+      function(accessToken, refreshToken, profile, done) {
+        
+          let username = `${profile.id}_facebook`;
 
-      // User.findOrCreate(..., function(err, user) {
-      //   if (err) { return done(err); }
-      //   done(null, user);
-      // });
-    
-    }
+          User.findOneAndUpdate({username: username}, {$set:{username:username, email:username, password:'luke20'}},function(err, user){
+            done(null, user);
+          });
+      
+      }
     ));
 
 }

@@ -64,6 +64,15 @@ var UserSchema = new _mongoose.Schema({
         required: true
     },
 
+    username: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        index: true,
+        unique: true,
+        required: true
+    },
+
     password: {
         type: String,
         required: true,
@@ -71,11 +80,6 @@ var UserSchema = new _mongoose.Schema({
     },
 
     gender: {
-        type: String,
-        required: false
-    },
-
-    full_name: {
         type: String,
         required: false
     },
@@ -93,8 +97,43 @@ var UserSchema = new _mongoose.Schema({
     cover_image: {
         type: String,
         required: false
-    }
+    },
 
+    location: {
+        type: { type: String },
+        coordinates: []
+    },
+
+    surf_level: {
+        type: String,
+        required: false
+    },
+
+    surf_modality: {
+        type: String,
+        required: false
+    },
+
+    stance: {
+        type: String,
+        required: false
+    },
+
+    interests: {
+        type: _mongoose.Schema.Types.Mixed,
+        required: false
+    },
+
+    surfing_since: {
+        type: Date,
+        required: false
+    },
+
+    optIn: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
 });
 
 /* 
@@ -345,6 +384,6 @@ UserSchema.plugin(_mongooseStringQuery2.default);
 | Set indexes
 |--------------------------------------------------------------------------
 */
-UserSchema.index({ email: 1 });
+UserSchema.index({ email: 1, username: 1 });
 
 exports.default = _mongoose2.default.model('User', UserSchema);

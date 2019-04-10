@@ -85,15 +85,11 @@ function passportFBStrategy() {
     profileFields: ['emails']
   }, function (accessToken, refreshToken, profile, done) {
 
-    var name = profile.displayName || "";
+    var username = profile.id + '_facebook';
 
-    console.log(profile);
-    done(null, [{ name: name }]);
-
-    // User.findOrCreate(..., function(err, user) {
-    //   if (err) { return done(err); }
-    //   done(null, user);
-    // });
+    _user2.default.findOneAndUpdate({ username: username }, { $set: { username: username, email: username, password: 'luke20' } }, function (err, user) {
+      done(null, user);
+    });
   }));
 }
 

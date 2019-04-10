@@ -41,13 +41,13 @@ exports.get = (req,res) => {
 */
 exports.create = (req,res) => {
 
-    const data = Object.assign({}, req.body) || {};
+    const data = Object.assign({ username: req.body.email }, req.body) || {};
 
-	User.create(data).then(user => {
-		res.json(user);
-	}).catch(err => {
-		res.status(500).send(err);
-	});
+		User.create(data).then(user => {
+			res.json(user);
+		}).catch(err => {
+			res.status(500).send(err);
+		});
     
 }
 
