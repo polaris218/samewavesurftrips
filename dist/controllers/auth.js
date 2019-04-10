@@ -87,9 +87,25 @@ function passportFBStrategy() {
 
     var username = profile.id + '_facebook';
 
-    _user2.default.findOneAndUpdate({ username: username }, { $set: { username: username, email: username, password: 'luke20' } }, function (err, user) {
-      console.log(user);
-      done(null, user);
+    //check to see if user already exists --- 
+    _user2.default.findOne({ username: username }).then(function (user) {
+      if (user) {
+        done(null, user);
+      } else {
+
+        //create new user --- 
+        _user2.default.create({
+          email: username,
+          username: username,
+          password: 'luke20'
+        }).then(function (user) {
+          done(null, user);
+        }).catch(function (err) {
+          done(null, false);
+        });
+      }
+    }).catch(function (err) {
+      done(null, false);
     });
   }));
 }

@@ -55,9 +55,26 @@ export function passportFBStrategy() {
         
           let username = `${profile.id}_facebook`;
 
-          User.findOneAndUpdate({username: username}, {$set:{username:username, email:username, password:'luke20'}},function(err, user){
-            console.log(user);
-            done(null, user);
+          //check to see if user already exists --- 
+          User.findOne({username: username}).then(user => {
+            if(user){
+              done(null, user);
+            }else{
+
+              //create new user --- 
+              User.create({
+                email: username, 
+                username: username, 
+                password: 'luke20'
+              }).then(user => {
+                done(null, user);
+              }).catch(err => {
+                done(null, false);
+              });
+
+            }
+          }).catch(err => {
+            done(null, false);
           });
       
       }
