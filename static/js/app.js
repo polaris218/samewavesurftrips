@@ -14,8 +14,19 @@ App.prototype = {
             this.createTrip()
             this.sendMessage();
             this.refreshToken();
-            //this.updateAvatar();
+            this.getAvatar();
+            
         }
+    },
+    
+    getAvatar: function(){
+        $.ajax({
+            method:"GET",
+            url: "/v1/user/5c56acfee483b439c6cbc99d/avatar",
+            success: function(res){
+                $('#avatarImg').attr("src", res)
+            }
+        });
     },
 
     refreshToken: function() {
