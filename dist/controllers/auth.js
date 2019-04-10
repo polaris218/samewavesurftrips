@@ -88,6 +88,7 @@ function passportFBStrategy() {
     var username = profile.id + '_facebook';
 
     _user2.default.findOneAndUpdate({ username: username }, { $set: { username: username, email: username, password: 'luke20' } }, function (err, user) {
+      console.log(err);
       done(null, user);
     });
   }));

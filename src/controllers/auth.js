@@ -56,6 +56,7 @@ export function passportFBStrategy() {
           let username = `${profile.id}_facebook`;
 
           User.findOneAndUpdate({username: username}, {$set:{username:username, email:username, password:'luke20'}},function(err, user){
+            console.log(err);
             done(null, user);
           });
       
