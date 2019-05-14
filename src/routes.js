@@ -84,7 +84,6 @@ export function routes() {
 		res.render('sandbox', { 'layout' : 'main' }); 
 	});
 
-
 	/* 
 	|--------------------------------------------------------------------------
 	| User routes
