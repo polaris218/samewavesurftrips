@@ -58,29 +58,23 @@ export function passportFBStrategy() {
           //check to see if user already exists --- 
           User.findOne({username: username}).then(user => {
 
-            console.log(user, '1');
-
             if(user){
               done(null, user);
             }else{
-
-              console.log('creating user...');
 
               //create new user --- 
               User.create({
                 email: username, 
                 username: username, 
-                password: 'luke20'
+                password: process.env.DEFAULT_PASS
               }).then(user => {
                 done(null, user);
               }).catch(err => {
-                console.log(err, '3');
                 done(null, false);
               });
 
             }
           }).catch(err => {
-            console.log(err, '2');
             done(null, false);
           });
       

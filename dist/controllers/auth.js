@@ -90,28 +90,22 @@ function passportFBStrategy() {
     //check to see if user already exists --- 
     _user2.default.findOne({ username: username }).then(function (user) {
 
-      console.log(user, '1');
-
       if (user) {
         done(null, user);
       } else {
-
-        console.log('creating user...');
 
         //create new user --- 
         _user2.default.create({
           email: username,
           username: username,
-          password: 'luke20'
+          password: process.env.DEFAULT_PASS
         }).then(function (user) {
           done(null, user);
         }).catch(function (err) {
-          console.log(err, '3');
           done(null, false);
         });
       }
     }).catch(function (err) {
-      console.log(err, '2');
       done(null, false);
     });
   }));
