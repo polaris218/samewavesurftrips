@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { connect } from 'react-redux'

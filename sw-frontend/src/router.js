@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
 
 import { App, Navigation } from 'components'
 import {

@@ -15,7 +15,6 @@ import {
   Container,
   Input,
   Places,
-  TextArea,
   Select,
   Card,
   Heading,
@@ -39,7 +38,7 @@ const CreateTripScreen = props => {
     level: '',
     invalid: []
   })
-  const [ step, setStep ] = useState(1)
+  // const [ step, setStep ] = useState(1)
 
   const onCreatePress = () => {
     setLoading(true)
@@ -139,9 +138,9 @@ const CreateTripScreen = props => {
     props.history.push('/' + Routes.SURFTRIPS)
   }
 
-  const onNextPress = () => {
-    setStep(step + 1)
-  }
+  // const onNextPress = () => {
+  //   setStep(step + 1)
+  // }
 
   const handleDateChange = (date, field) => {
     setState({

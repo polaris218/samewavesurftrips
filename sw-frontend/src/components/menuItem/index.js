@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { P } from 'components'
-import { Colors } from 'config'
 import { MenuItem, MenuItemContainer } from './styles'
 
 class MenuItemComponent extends PureComponent {

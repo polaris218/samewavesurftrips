@@ -12,12 +12,12 @@ const StatComponent = props => {
 }
 
 StatComponent.propTypes = {
-  stat: PropTypes.string,
+  stat: PropTypes.number,
   label: PropTypes.string
 }
 
 StatComponent.defaultProps = {
-  stat: '',
+  stat: 0,
   label: ''
 }
 

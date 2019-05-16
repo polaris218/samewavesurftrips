@@ -7,6 +7,7 @@ export default {
   EndPoints: {
     auth: baseAPI + 'auth',
     avatar: baseAPI + 'user/avatar',
+    cover: baseAPI + 'user/cover',
     user: baseAPI + 'user',
     users: baseAPI + 'users',
     trips: baseAPI + 'trips',

@@ -19,7 +19,6 @@ import {
 } from 'components'
 import { Tools } from 'utils'
 import coverImg from 'assets/images/profile_bg.jpg'
-import profileImg from 'assets/images/profile.jpg'
 import { Profile, ContentContainer, Stats, StatDivide } from './styles'
 
 const ProfileScreen = props => {
@@ -84,7 +83,6 @@ const ProfileScreen = props => {
   }
 
   const { user } = props
-  const profile = {}
 
   return (
     <Profile>
@@ -95,16 +93,20 @@ const ProfileScreen = props => {
           rightAction={onEditPress}
         />
         <ContentContainer>
-          <MastHead image={coverImg} />
+          <MastHead
+            image={
+              user.coverImg ? (
+                config.EndPoints.digitalOcean + user.coverImg
+              ) : null
+            }
+          />
           <Container>
             <div className={'profile__avatar'}>
               <Avatar
                 image={
                   user.avatar ? (
                     config.EndPoints.digitalOcean + user.avatar
-                  ) : (
-                    profileImg
-                  )
+                  ) : null
                 }
               />
             </div>
@@ -117,7 +119,8 @@ const ProfileScreen = props => {
                 )}
               </p>
               <div className={'profile__location'}>
-                {Tools.renderIcon('pin')} Your Location
+                {Tools.renderIcon('pin')}{' '}
+                {user.location ? user.location : `Your Location`}
               </div>
             </div>
           </Container>

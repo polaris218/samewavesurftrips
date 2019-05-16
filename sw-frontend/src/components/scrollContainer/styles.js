@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Colors } from 'config'
+import { Spacings, Colors } from 'config'
 
 export const ScrollContainer = styled.div`
   width: 100%;
@@ -15,4 +15,7 @@ export const ScrollContainer = styled.div`
         ? `linear-gradient(to top, ${Colors.GREY_XLIGHT} 0%, #c3c3c3 40%, #f4fafc 100%)`
         : 'transparent'};
   overflow: hidden;
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    margin-top: ${({ padTop }) => padTop && `55px`};
+  }
 `

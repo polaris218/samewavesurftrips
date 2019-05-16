@@ -39,13 +39,18 @@ const EditProfileScreen = props => {
     interests: props.user.interests || '',
     surfing_since: props.user.surfing_since || '',
     optIn: props.user.optIn,
-    invalid: []
+    invalid: [],
+    avatar: props.user.avatar,
+    coverImg: props.user.coverImg
   })
   const [ avatar, setAvatar ] = useState(
     props.user.avatar ? config.EndPoints.digitalOcean + props.user.avatar : ''
   )
-  const [ coverImg, setCoverImg ] = useState(props.user.coverImg || '')
-  const [ avatarData, setAvatarData ] = useState(null)
+  const [ coverImg, setCoverImg ] = useState(
+    props.user.coverImg
+      ? config.EndPoints.digitalOcean + props.user.coverImg
+      : ''
+  )
 
   const onEditPress = () => {
     setLoading(true)
@@ -57,11 +62,12 @@ const EditProfileScreen = props => {
       location: state.location,
       bio: state.bio,
       avatar: state.avatar,
-      coverImg: state.coverImg
+      cover_image: state.coverImg
     }
 
     //Validate from .....
     const valid = validateForm(data)
+    console.log(data, state, valid)
     if (valid) {
       // Send
       dispatch(
@@ -122,24 +128,26 @@ const EditProfileScreen = props => {
 
   const onImageUpload = () => {}
 
-  const onImageChange = e => {
-    console.log('img ', e.target.files[0])
+  const onImageChange = (e, type) => {
     const input = e.target
     const reader = new FileReader()
     reader.onload = function () {
       const dataURL = reader.result
-      setAvatar(dataURL)
+      if (type === 'avatar') setAvatar(dataURL)
+      else setCoverImg(dataURL)
     }
     reader.readAsDataURL(input.files[0])
 
     const blob = input.files[0]
     const data = new FormData()
     data.append('avatar', blob, blob.name)
-    uploadImage(data)
+    uploadImage(data, type)
   }
 
-  const uploadImage = async data => {
+  const uploadImage = async (data, type) => {
     const bearerToken = 'Bearer ' + store.getState().user.accessToken
+    // const url =
+    //   type === 'avatar' ? config.EndPoints.avatar : config.EndPoints.cover
     const response = await axios({
       method: 'POST',
       url: config.EndPoints.avatar,
@@ -151,7 +159,9 @@ const EditProfileScreen = props => {
       },
       timeout: config.APITimeout
     })
-    if (response.status === 200) setState({ ...state, avatar: response.data })
+    if (response.status === 200) {
+      setState({ ...state, [type]: response.data })
+    }
   }
 
   return (
@@ -209,15 +219,24 @@ const EditProfileScreen = props => {
                     multiline={true}
                     rows={5}
                   />
-                  <Label>UPLOAD YOUR PROFILE PICTURE</Label>
-                  <form onSubmit={e => onImageUpload(e)}>
+
+                  <form onSubmit={e => onImageUpload()}>
+                    <Label>UPLOAD YOUR PROFILE PICTURE</Label>
                     <InputFile
                       type='file'
                       accept='image/*'
-                      onChange={e => onImageChange(e)}
+                      onChange={e => onImageChange(e, 'avatar')}
                     />
+                    <img src={avatar} width='200' height='200' alt='avatar' />
+
+                    <Label>UPLOAD YOUR COVER PICTURE</Label>
+                    <InputFile
+                      type='file'
+                      accept='image/*'
+                      onChange={e => onImageChange(e, 'coverImg')}
+                    />
+                    <img src={coverImg} width='400' height='200' alt='cover' />
                   </form>
-                  <img src={avatar} width='200' height='200' alt='avatar' />
 
                   {!loading ? (
                     <div className={'profile__button'}>

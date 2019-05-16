@@ -15,6 +15,9 @@ export const Header = styled.header`
   border-bottom: 1px solid ${Colors.GREY_LIGHT};
   background-color: ${Colors.WHITE};
   box-shadow: 0 2px 2px 0px #33333312;
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    height: 100px;
+  }
 
   .header__title {
     color: ${Colors.BLACK};

@@ -39,6 +39,7 @@ export default function userReducer (
       }
       break
     case StoreDefinitions.USER.EDIT:
+      console.log('coverImg action', action.payload)
       state = {
         ...state,
         firstName: action.payload.first_name,
