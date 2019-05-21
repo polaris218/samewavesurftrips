@@ -1,17 +1,15 @@
-import React, { PureComponent } from 'react';
-import CircularProgress from './styles';
+import React from 'react'
+import CircularProgress from './styles'
+import { Colors } from 'config'
 
-class PreloaderComponent extends PureComponent {
-
-  static propTypes = {}
-
-  static defaultProps = {}
-
-  render() {
-    return (
-      <CircularProgress />
-    );
-  }
+const PreloaderComponent = props => {
+  return <CircularProgress color={props.color} />
 }
 
-export default PreloaderComponent;
+PreloaderComponent.propTypes = {}
+
+PreloaderComponent.defaultProps = {
+  color: Colors.BLUE_BASE
+}
+
+export default PreloaderComponent

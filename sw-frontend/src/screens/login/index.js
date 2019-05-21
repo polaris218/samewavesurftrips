@@ -84,7 +84,7 @@ const LoginScreen = props => {
       <BackgroundImage blur={0} opacity={0.5} />
       <Container>
         <div className={'login__logo'}>
-          <Logo color='white' />
+          <Logo color='white' icon />
         </div>
 
         {!loading ? (
@@ -122,7 +122,7 @@ const LoginScreen = props => {
           </div>
         ) : (
           <div className={'login__form'}>
-            <Preloader />
+            <Preloader color={'white'} />
           </div>
         )}
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
-import { App, Navigation } from 'components'
+import { App, Navigation, Footer } from 'components'
 import {
   Dashboard,
   Login,
@@ -56,6 +56,7 @@ const AppRouter = props => {
         <Route exact path={`/${Routes.TERMS}`} component={Terms} />
         <Route exact path={`/${Routes.PRIVACY}`} component={Privacy} />
         <Navigation accessToken={props.user.accessToken} />
+        {/* <Footer accessToken={props.user.accessToken} /> */}
       </App>
     </Router>
   )

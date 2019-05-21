@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Colors } from 'config'
+import { Spacings, Colors } from 'config'
 
 export const Toggle = styled.div`
   padding: 0px;
@@ -14,6 +14,10 @@ export const Toggle = styled.div`
   /* overflow: hidden; */
   filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.2));
   /* box-shadow: 0px 14px 32px rgba(23, 23, 77, 0.22); */
+  transition: transform .2s ease;
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    transform: translateY(50px);
+  }
 `
 
 export const ToggleItem = styled.div`

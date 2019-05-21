@@ -1,9 +1,8 @@
-import styled from 'styled-components';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Colors } from 'config';
+import styled from 'styled-components'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default styled(CircularProgress)`
     && {
-        color: ${Colors.BLUE_BASE}
+        color: ${({ color }) => color};
     }
-`;
+`

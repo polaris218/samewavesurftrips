@@ -19,7 +19,7 @@ import {
 } from 'components'
 import { Tools } from 'utils'
 import coverImg from 'assets/images/profile_bg.jpg'
-import { Profile, ContentContainer, Stats, StatDivide } from './styles'
+import { Profile, Center, ContentContainer, Stats, StatDivide } from './styles'
 
 const ProfileScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -100,87 +100,89 @@ const ProfileScreen = props => {
               ) : null
             }
           />
-          <Container>
-            <div className={'profile__avatar'}>
-              <Avatar
-                image={
-                  user.avatar ? (
-                    config.EndPoints.digitalOcean + user.avatar
-                  ) : null
-                }
-              />
-            </div>
-            <div className={'profile__header-meta'}>
-              <p className={'profile__name'}>
-                {user.firstName ? (
-                  `${user.firstName} ${user.lastName}`
-                ) : (
-                  'Your Name'
-                )}
-              </p>
-              <div className={'profile__location'}>
-                {Tools.renderIcon('pin')}{' '}
-                {user.location ? user.location : `Your Location`}
-              </div>
-            </div>
-          </Container>
-          <Container>
-            <Stats>
-              <ProfileStat
-                stat={props.trips.yourTrips.length}
-                label='SURF TRIPS'
-              />
-              <StatDivide />
-              <ProfileStat stat={props.user.followers} label='FOLLOWERS' />
-              <StatDivide />
-              <ProfileStat stat={props.user.following} label='FOLLOWING' />
-            </Stats>
-          </Container>
-          <Tabs
-            align='left'
-            backgroundColor='transparent'
-            tabs={tabTitles}
-            onTabPress={onTabPress}
-          />
-          {activeTab === 'about' ? (
+          <Center>
             <Container>
-              <div className={'profile__detail'}>
+              <div className={'profile__avatar'}>
+                <Avatar
+                  image={
+                    user.avatar ? (
+                      config.EndPoints.digitalOcean + user.avatar
+                    ) : null
+                  }
+                />
+              </div>
+              <div className={'profile__header-meta'}>
+                <p className={'profile__name'}>
+                  {user.firstName ? (
+                    `${user.firstName} ${user.lastName}`
+                  ) : (
+                    'Your Name'
+                  )}
+                </p>
+                <div className={'profile__location'}>
+                  {Tools.renderIcon('pin')}{' '}
+                  {user.location ? user.location : `Your Location`}
+                </div>
+              </div>
+            </Container>
+            <Container>
+              <Stats>
+                <ProfileStat
+                  stat={props.trips.yourTrips.length}
+                  label='SURF TRIPS'
+                />
+                <StatDivide />
+                <ProfileStat stat={props.user.followers} label='FOLLOWERS' />
+                <StatDivide />
+                <ProfileStat stat={props.user.following} label='FOLLOWING' />
+              </Stats>
+            </Container>
+            <Tabs
+              align='left'
+              backgroundColor='transparent'
+              tabs={tabTitles}
+              onTabPress={onTabPress}
+            />
+            {activeTab === 'about' ? (
+              <Container>
+                <div className={'profile__detail'}>
+                  <div className={'profile__card'}>
+                    <Card>
+                      <div className={'profile__description'}>
+                        <div className={'profile__location-header'}>bio:</div>
+                        {user.bio ? (
+                          `${user.bio}`
+                        ) : (
+                          'Add something interesting about yourself here'
+                        )}
+                      </div>
+                    </Card>
+                  </div>
+                </div>
                 <div className={'profile__card'}>
                   <Card>
-                    <div className={'profile__description'}>
-                      <div className={'profile__location-header'}>bio:</div>
-                      {user.bio ? (
-                        `${user.bio}`
-                      ) : (
-                        'Add something interesting about yourself here'
-                      )}
+                    <div className={'profile__level'}>
+                      {/* <div className={'profile__icon'}>
+                        {Tools.renderIcon('surferMale')}
+                      </div> */}
+                      <div>
+                        <div className={'profile__location-header'}>
+                          INTERESTS:
+                        </div>
+                      </div>
                     </div>
                   </Card>
                 </div>
-              </div>
-              <div className={'profile__card'}>
-                <Card>
-                  <div className={'profile__level'}>
-                    <div className={'profile__icon'}>
-                      {Tools.renderIcon('surferMale')}
-                    </div>
-                    <div>
-                      <div className={'profile__location-header'}>
-                        INTERESTS:
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </Container>
-          ) : (
-            <Container>
-              <div className={'profile__trips'}>
-                <TripList trips={activeTrips()} loading={loading} />
-              </div>
-            </Container>
-          )}
-          <FootItem />
+              </Container>
+            ) : (
+              <Container>
+                <div className={'profile__trips'}>
+                  <TripList trips={activeTrips()} loading={loading} />
+                </div>
+              </Container>
+            )}
+            <FootItem />
+          </Center>
         </ContentContainer>
       </ScrollContainer>
     </Profile>

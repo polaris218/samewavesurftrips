@@ -3,7 +3,7 @@ export default {
   MEDIUM: 16,
   LARGE: 32,
   XLARGE: 64,
-
+  MAX_WIDTH: 1400,
   FONT: {
     TINY: '0.7rem',
     SMALL: '0.9rem',

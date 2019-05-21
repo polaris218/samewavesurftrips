@@ -169,7 +169,7 @@ const OnboardingScreen = props => {
       <BackgroundImage blur={0} opacity={0.3} />
       <Container>
         <div className={'onboard__logo'}>
-          <Logo color='white' />
+          <Logo color='white' icon />
         </div>
         {state.success ? (
           <div className={'onboard_success'}>

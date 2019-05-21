@@ -5,8 +5,7 @@ export const Button = styled.button`
   padding: ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
   border: 0px;
   border-radius: ${Spacings.SMALL}px;
-  border: ${props =>
-    props.outline ? `2px solid ${Colors.BLUE_BASE}` : `none`};
+  border: ${props => (props.outline ? `2px solid ${Colors.WHITE}` : `none`)};
   background: ${props =>
     props.primary
       ? Colors.BLUE_BASE
@@ -24,7 +23,8 @@ export const Button = styled.button`
     box-shadow .45s ease;
 
   :hover {
-    border: ${props => (props.outline ? `2px solid ${Colors.WHITE}` : `none`)};
+    border: ${props =>
+      props.outline ? `2px solid ${Colors.GREY_LIGHT}` : `none`};
     background: ${props =>
       props.primary
         ? Colors.BLUE_DARK
@@ -33,7 +33,7 @@ export const Button = styled.button`
           : props.hoverColor ? props.hoverColor : Colors.ORANGE_DARK};
     color: blue;
     p {
-      color: ${Colors.WHITE};
+      color: ${props => (props.outline ? Colors.GREY_LIGHT : Colors.WHITE)};
     }
     transform: translateY(-3px);
     box-shadow: 0px 14px 22px rgba(23, 23, 77, 0.22);
@@ -44,7 +44,7 @@ export const Button = styled.button`
     font-weight: 600;
     font-family: 'Ubuntu', sans-serif;
     letter-spacing: 1px;
-    color: ${props => (props.outline ? Colors.BLUE_BASE : Colors.WHITE)};
+    color: ${props => (props.outline ? Colors.WHITE : Colors.WHITE)};
   }
 
   .button__icon {

@@ -1,4 +1,4 @@
-import styled, { keyframes }  from 'styled-components';
+import styled, { keyframes } from 'styled-components'
 
 const logoSpin = keyframes`
   0% {
@@ -10,9 +10,15 @@ const logoSpin = keyframes`
   100% {
     transform: scale(1);
   }
-`;
+`
 
 export const Logo = styled.div`
     /* animation: ${logoSpin} infinite 20s linear; */
-    width: ${props => props.width ? props.width : '100%' };
-`;
+    width: ${props => (props.width ? props.width : '100%')};
+    background-color: ${({ icon, backgroundColor }) =>
+      icon ? backgroundColor : 'transparent'};
+    svg { 
+      fill: ${({ color }) => color};
+      stroke: ${({ color }) => color};
+    }
+`

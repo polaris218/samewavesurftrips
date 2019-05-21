@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -7,37 +7,27 @@ import { Routes } from 'config'
 import Drawer from '@material-ui/core/Drawer'
 import { Tools } from 'utils'
 import { BackButton, Logo, MenuItem } from 'components'
-import { Header, NavFooter, NavLogo, HomeButton } from './styles'
+import {
+  Desktop,
+  Header,
+  NavFooter,
+  NavLogo,
+  HomeButton,
+  Container,
+  NavItem,
+  LogoContainer
+} from './styles'
 
-class HeaderComponent extends PureComponent {
-  static propTypes = {
-    backButton: PropTypes.bool,
-    homeButton: PropTypes.bool,
-    title: PropTypes.string,
-    nav: PropTypes.bool,
-    rightIcon: PropTypes.object,
-    rightAction: PropTypes.func
+const HeaderComponent = props => {
+  const [ drawerOpen, setDrawOpen ] = useState(false)
+  const [ navItemActive, setNavItemActive ] = useState('dashboard')
+
+  const onLogoutPress = () => {
+    props.userLogout()
+    props.history.push('/' + Routes.LOGIN)
   }
 
-  static defaultProps = {
-    backButton: false,
-    homeButton: true,
-    title: '',
-    nav: true,
-    rightIcon: null,
-    rightAction: () => {}
-  }
-
-  state = {
-    drawerOpen: false
-  }
-
-  onLogoutPress = () => {
-    this.props.userLogout()
-    this.props.history.push('/' + Routes.LOGIN)
-  }
-
-  onLinkPress = link => {
+  const onLinkPress = link => {
     let route
 
     switch (link) {
@@ -55,71 +45,112 @@ class HeaderComponent extends PureComponent {
         break
     }
 
-    this.props.history.push('/' + route)
+    props.history.push('/' + route)
   }
 
-  toggleDrawer = open => {
-    this.setState({
-      drawerOpen: open
-    })
+  const toggleDrawer = open => {
+    setDrawOpen(open)
   }
 
-  render () {
-    return (
-      <Header>
-        {this.props.backButton && <BackButton />}
-        {this.props.homeButton && (
-          <HomeButton
-            role='button'
-            onClick={this.toggleDrawer.bind(this, true)}>
+  const onNavItemPress = name => {
+    props.history.push(`/${name}`)
+  }
+
+  return (
+    <Header>
+      <Container>
+        <LogoContainer>
+          <Logo color='grey' icon />
+        </LogoContainer>
+        {props.backButton && <BackButton />}
+        {props.homeButton && (
+          <HomeButton role='button' onClick={toggleDrawer.bind(null, true)}>
             {Tools.renderIcon('burger')}
           </HomeButton>
         )}
-        <div className='header__title'>{this.props.title.toUpperCase()}</div>
-        {this.props.rightIcon && (
-          <div className='header__righticon' onClick={this.props.rightAction}>
-            {this.props.rightIcon}
+        <Desktop>
+          <NavItem
+            active={props.location.pathname === '/dashboard'}
+            onClick={onNavItemPress.bind(false, 'dashboard')}>
+            Search
+          </NavItem>
+          <NavItem
+            active={props.location.pathname === '/surftrips'}
+            onClick={onNavItemPress.bind(false, 'surftrips')}>
+            Trips
+          </NavItem>
+          <NavItem
+            active={props.location.pathname === '/mail'}
+            onClick={onNavItemPress.bind(false, 'mail')}>
+            Inbox
+          </NavItem>
+          <NavItem
+            active={props.location.pathname === '/profile'}
+            onClick={onNavItemPress.bind(false, 'profile')}>
+            Profile
+          </NavItem>
+        </Desktop>
+
+        <div className='header__title'>{props.title.toUpperCase()}</div>
+        {props.rightIcon && (
+          <div className='header__righticon' onClick={props.rightAction}>
+            {props.rightIcon}
           </div>
         )}
+      </Container>
+      <Drawer open={drawerOpen} onClose={toggleDrawer.bind(null, false)}>
+        <div
+          className='drawer__nav'
+          tabIndex={0}
+          role='button'
+          onClick={toggleDrawer.bind(null, false)}
+          onKeyDown={toggleDrawer.bind(null, false)}>
+          <NavLogo>
+            <Logo icon color='white' />
+          </NavLogo>
+          <MenuItem
+            title='Settings'
+            onPress={onLinkPress.bind(null, 'settings')}
+          />
+          <MenuItem
+            title='Terms of Service'
+            onPress={onLinkPress.bind(null, 'terms')}
+          />
+          <MenuItem
+            title='Privacy Policies'
+            onPress={onLinkPress.bind(null, 'privacy')}
+          />
+          <NavFooter>
+            <MenuItem
+              // color={Colors.GREY_LIGHT}
+              title='Logout'
+              onPress={onLogoutPress}
+              icon={Tools.renderIcon('logout')}>
+              Logout
+            </MenuItem>
+          </NavFooter>
+        </div>
+      </Drawer>
+    </Header>
+  )
+}
 
-        <Drawer
-          open={this.state.drawerOpen}
-          onClose={this.toggleDrawer.bind(this, false)}>
-          <div
-            className='drawer__nav'
-            tabIndex={0}
-            role='button'
-            onClick={this.toggleDrawer.bind(this, false)}
-            onKeyDown={this.toggleDrawer.bind(this, false)}>
-            <NavLogo>
-              <Logo />
-            </NavLogo>
-            <MenuItem
-              title='Settings'
-              onPress={this.onLinkPress.bind(this, 'settings')}
-            />
-            <MenuItem
-              title='Terms of Service'
-              onPress={this.onLinkPress.bind(this, 'terms')}
-            />
-            <MenuItem
-              title='Privacy Policies'
-              onPress={this.onLinkPress.bind(this, 'privacy')}
-            />
-            <NavFooter>
-              <MenuItem
-                // color={Colors.GREY_LIGHT}
-                title='Logout'
-                onPress={this.onLogoutPress}
-                icon={Tools.renderIcon('logout')}>
-                Logout
-              </MenuItem>
-            </NavFooter>
-          </div>
-        </Drawer>
-      </Header>
-    )
-  }
+HeaderComponent.propTypes = {
+  backButton: PropTypes.bool,
+  homeButton: PropTypes.bool,
+  title: PropTypes.string,
+  nav: PropTypes.bool,
+  rightIcon: PropTypes.object,
+  rightAction: PropTypes.func
+}
+
+HeaderComponent.defaultProps = {
+  backButton: false,
+  homeButton: true,
+  title: '',
+  nav: true,
+  rightIcon: null,
+  rightAction: () => {}
 }
 
 const mapStateToProps = state => ({

@@ -130,7 +130,7 @@ export const Profile = styled.div`
 
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     .profile__avatar {
-      left: 10%;
+      left: calc(5% - ${Spacings.MEDIUM}px);
     }
   }
 `
@@ -148,4 +148,12 @@ export const ContentContainer = styled.div`
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+`
+export const Center = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
 `

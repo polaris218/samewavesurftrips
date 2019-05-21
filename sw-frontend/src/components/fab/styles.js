@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Colors } from 'config'
+import { Spacings, Colors } from 'config'
 
 export const Fab = styled.button`
     width: 60px;
@@ -11,11 +11,12 @@ export const Fab = styled.button`
     right: 20px;
     border: 0px;
     border-radius: 30px;
+    z-index: 10;
     /* background: ${Colors.GREEN_BASE}; */
     background: ${Colors.ORANGE_BASE};
     /* background: radial-gradient(circle, rgba(0,212,255,1) 54%, rgba(15,230,205,1) 100%); */
     outline: none;
-    transform: scale(0.01);
+    /* transform: scale(0.01); */
     transition: transform .25s cubic-bezier(0.075, 0.82, 0.165, 1), background .45s cubic-bezier(0.075, 0.82, 0.165, 1);
     /* filter: drop-shadow(0px 2px 1px rgba(0,0,0,0.1)); */
     filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.2));
@@ -36,4 +37,12 @@ export const Fab = styled.button`
         stroke: ${Colors.WHITE};
         fill: ${Colors.WHITE};
     }
+
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+        transform: scale(1) translateY(50px);
+        :hover {
+            transform: scale(1.1) translateY(45px);
+        }
+    }
+  }
 `
