@@ -25,7 +25,7 @@ import { Label, Trip, DateInput, ContentContainer, Step } from './styles'
 
 const CreateTripScreen = props => {
   const [ loading, setLoading ] = useState(false)
-  const [ createSuccess, setCreateSuccess ] = useState(false)
+  const [ createSuccess, setCreateSuccess ] = useState(true)
   const [ state, setState ] = useState({
     title: '',
     departing: 'Where are you starting your trip?',
@@ -300,28 +300,28 @@ const CreateTripScreen = props => {
             <Spring
               from={{
                 opacity: 0,
-                transform: 'translate3d(0,20px,0) scale(0.4)'
+                transform: 'translate3d(0,120px,0) scale(0.9)'
               }}
               to={{
                 opacity: 1,
-                transform: 'translate3d(0,0,0) scale(1)'
+                transform: 'translate3d(0,40px,0) scale(1)'
               }}>
               {props => (
                 <div className={'trip__success'} style={props}>
                   <div className={'trip__success-content'}>
                     <Card>
                       <div className={'trip__icon'}>
-                        {Tools.renderIcon('groovy')}
+                        {Tools.renderIcon('face_fav')}
                       </div>
                       <Heading title='AWESOME!' />
                       <div className='trip__complete'>
-                        Your trip has been created,<br />sit back and chill<br />while
-                        the surfers roll in to join
+                        Your trip has been created,<br />sit back, chill and<br />
+                        wait for others to join
                       </div>
-                      <div className={'trip__button'}>
+                      <div className={'trip__success__button'}>
                         <Button
                           onPress={onCompleteButton}
-                          title='VIEW MY WAVES'
+                          title='VIEW MY TRIPS'
                         />
                       </div>
                     </Card>

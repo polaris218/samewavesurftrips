@@ -49,18 +49,11 @@ const TripListComponent = props => {
         ) : (
           !props.loading && (
             <div className={'triplist__icon'}>
-              {Tools.renderIcon('thumb')}
-              {/* <img
-                src='https://media1.tenor.com/images/d19b35e57b50d642a5054e6d8f3a6b34/tenor.gif?itemid=5888909'
-                width='683'
-                height='499.7560975609756'
-                alt='Fail Beach GIF - Fail Beach Surfing GIFs'
-                style={{
-                  maxWidth: '683px',
-                  backgroundColor: `rgb(63, 63, 63)`
-                }}
-              /> */}
-              <div>wipeout, no results</div>
+              {Tools.renderIcon('face_sad')}
+              <div>
+                <strong>WIPEOUT!</strong>
+                <br />Sorry no trips available
+              </div>
             </div>
           )
         )}

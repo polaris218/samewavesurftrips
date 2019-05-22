@@ -55,10 +55,11 @@ export const Trip = styled.div`
     text-align: center;
     margin: ${Spacings.MEDIUM}px;
     svg {
-      path {
-        fill: ${Colors.ORANGE_BASE};
-      }
+      padding: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
     }
+  }
+  .trip__success__button {
+    margin-bottom: ${Spacings.MEDIUM}px;
   }
 `
 
