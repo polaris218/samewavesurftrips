@@ -9,12 +9,13 @@ import { General as config } from 'config'
 import {
   Container,
   Fab,
+  Footer,
   Header,
   Tabs,
   TripList,
   ScrollContainer
 } from 'components'
-import { Trips, ContentContainer } from './styles'
+import { Trips, ContentContainer, FootContainer } from './styles'
 
 const SurfTripsScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -83,6 +84,9 @@ const SurfTripsScreen = props => {
         </ContentContainer>
       </ScrollContainer>
       <Fab />
+      <FootContainer>
+        <Footer />
+      </FootContainer>
     </Trips>
   )
 }

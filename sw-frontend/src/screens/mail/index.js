@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Container, Header, Tabs } from 'components'
+import { Container, Header, Tabs, Footer } from 'components'
 import { Tools } from 'utils'
-import { Mail, Empty } from './styles'
+import { Mail, Empty, FootContainer } from './styles'
 
 const MailScreen = props => {
   const [ state ] = useState({
@@ -10,7 +10,7 @@ const MailScreen = props => {
   })
 
   const onTabPress = value => {
-    console.log('On Tab ', state.tabs[value])
+    // console.log('On Tab ', state.tabs[value])
   }
 
   return (
@@ -27,6 +27,9 @@ const MailScreen = props => {
           </div>
         </Empty>
       </Container>
+      <FootContainer>
+        <Footer />
+      </FootContainer>
     </Mail>
   )
 }

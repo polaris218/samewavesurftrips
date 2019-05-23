@@ -13,7 +13,7 @@ export const Empty = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 300px;
+  min-height: calc(100vh - 160px);
   width: 100%;
   color: ${Colors.GREY_BASE};
   margin: ${Spacings.LARGE}px 0 0;
@@ -26,4 +26,12 @@ export const Empty = styled.div`
     width: 200px;
     height: 60px;
   }
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    min-height: calc(100vh - 205px);
+  }
+`
+export const FootContainer = styled.div`
+  margin-top: -26px;
+  width: 100%;
 `

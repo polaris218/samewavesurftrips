@@ -4,12 +4,13 @@ export default {
   SURFTRIPS: 'surftrips',
   PROFILE: 'profile',
   LOGIN: 'login',
-  ONBOARD: 'onboard',
+  ONBOARD: 'signup',
   TERMS: 'terms',
   PRIVACY: 'policies',
   TRIP: 'trip',
   CREATE: 'create-trip',
-  MAIL: 'mail',
-  EDIT_TRIP: 'edit-trip',
-  EDIT_PROFILE: 'edit-profile'
+  MAIL: 'inbox',
+  EDIT_TRIP: 'edit_trip',
+  EDIT_PROFILE: 'edit_profile',
+  USER: 'user'
 }

@@ -7,8 +7,10 @@ import { General as config, Routes } from 'config'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import {
   Avatar,
+  Button,
   Card,
   Container,
+  Footer,
   Header,
   MastHead,
   Tabs,
@@ -18,18 +20,34 @@ import {
   ProfileStat
 } from 'components'
 import { Tools } from 'utils'
-import coverImg from 'assets/images/profile_bg.jpg'
-import { Profile, Center, ContentContainer, Stats, StatDivide } from './styles'
+import {
+  Profile,
+  Center,
+  ContentContainer,
+  Stats,
+  StatDivide,
+  Interest
+} from './styles'
 
 const ProfileScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ activeTab, setActiveTab ] = useState('about')
   const [ tabTitles ] = useState([ 'About', 'Surf Trips' ])
+  const [ userId ] = useState(props.match.params.userId)
+  const [ interests ] = useState([
+    'Surfing',
+    'DJing',
+    'Coding',
+    'Running',
+    'Techno / Electro'
+  ])
 
   useEffect(() => {
     fetchTrips()
     fetchUserDetails()
   }, [])
+
+  console.log('user id', userId, 'own id ', props.user.id)
 
   const fetchTrips = () => {
     setLoading(true)
@@ -37,7 +55,7 @@ const ProfileScreen = props => {
       apiQuery(
         null,
         props.fetchOwnTrips,
-        config.EndPoints.trips + `/${props.user.id}`,
+        config.EndPoints.trips + `/${userId ? userId : props.user.id}`,
         onFetchResult,
         'get'
       )
@@ -50,7 +68,7 @@ const ProfileScreen = props => {
       apiQuery(
         null,
         props.userDetails,
-        config.EndPoints.user + `/${props.user.id}`,
+        config.EndPoints.user + `/${userId ? userId : props.user.id}`,
         onFetchResult,
         'get'
       )
@@ -86,10 +104,10 @@ const ProfileScreen = props => {
 
   return (
     <Profile>
-      <ScrollContainer>
+      <ScrollContainer height={'55px'}>
         <Header
           title={'Profile'}
-          rightIcon={Tools.renderIcon('pencil')}
+          rightIcon={!userId && Tools.renderIcon('pencil')}
           rightAction={onEditPress}
         />
         <ContentContainer>
@@ -112,17 +130,31 @@ const ProfileScreen = props => {
                 />
               </div>
               <div className={'profile__header-meta'}>
-                <p className={'profile__name'}>
-                  {user.firstName ? (
-                    `${user.firstName} ${user.lastName}`
-                  ) : (
-                    'Your Name'
-                  )}
-                </p>
-                <div className={'profile__location'}>
-                  {Tools.renderIcon('pin')}{' '}
-                  {user.location ? user.location : `Your Location`}
+                <div className='profile__person'>
+                  <p className={'profile__name'}>
+                    {user.firstName ? (
+                      `${user.firstName} ${user.lastName}`
+                    ) : (
+                      'Your Name'
+                    )}
+                  </p>
+                  <div className={'profile__location'}>
+                    {Tools.renderIcon('pin')}{' '}
+                    {user.location ? !user.location.coordinates ? (
+                      user.location
+                    ) : (
+                      user.location.coordinates.name
+                    ) : (
+                      `Your Location`
+                    )}
+                  </div>
                 </div>
+                {userId && (
+                  <div className={'profile__contact'}>
+                    <Button title='Follow' />
+                    <Button title='Message' />
+                  </div>
+                )}
               </div>
             </Container>
             <Container>
@@ -136,6 +168,12 @@ const ProfileScreen = props => {
                 <StatDivide />
                 <ProfileStat stat={props.user.following} label='FOLLOWING' />
               </Stats>
+              {userId && (
+                <div className={'profile__contact_mobile'}>
+                  <Button title='Follow' />
+                  <Button title='Message' />
+                </div>
+              )}
             </Container>
             <Tabs
               align='left'
@@ -169,6 +207,11 @@ const ProfileScreen = props => {
                         <div className={'profile__location-header'}>
                           INTERESTS:
                         </div>
+                        <div className={'profile_interests'}>
+                          {interests.map(item => (
+                            <Interest key={item}>{item}</Interest>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </Card>
@@ -183,6 +226,7 @@ const ProfileScreen = props => {
             )}
             <FootItem />
           </Center>
+          <Footer />
         </ContentContainer>
       </ScrollContainer>
     </Profile>

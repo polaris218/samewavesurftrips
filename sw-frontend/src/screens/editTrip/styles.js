@@ -61,9 +61,7 @@ export const Trip = styled.div`
     text-align: center;
     margin: ${Spacings.MEDIUM}px;
     svg {
-      path {
-        fill: ${Colors.ORANGE_BASE};
-      }
+      margin: ${Spacings.LARGE}px;
     }
   }
 `
@@ -101,5 +99,6 @@ export const Label = styled.p`
 
 export const ContentContainer = styled.div`
   width: 100%;
+  height: 100%;
   overflow: scroll;
 `

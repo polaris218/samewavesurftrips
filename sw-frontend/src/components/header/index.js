@@ -20,7 +20,6 @@ import {
 
 const HeaderComponent = props => {
   const [ drawerOpen, setDrawOpen ] = useState(false)
-  const [ navItemActive, setNavItemActive ] = useState('dashboard')
 
   const onLogoutPress = () => {
     props.userLogout()
@@ -70,23 +69,23 @@ const HeaderComponent = props => {
         )}
         <Desktop>
           <NavItem
-            active={props.location.pathname === '/dashboard'}
-            onClick={onNavItemPress.bind(false, 'dashboard')}>
+            active={props.location.pathname === '/' + Routes.DASHBOARD}
+            onClick={onNavItemPress.bind(false, Routes.DASHBOARD)}>
             Search
           </NavItem>
           <NavItem
-            active={props.location.pathname === '/surftrips'}
-            onClick={onNavItemPress.bind(false, 'surftrips')}>
+            active={props.location.pathname === '/' + Routes.SURFTRIPS}
+            onClick={onNavItemPress.bind(false, Routes.SURFTRIPS)}>
             Trips
           </NavItem>
           <NavItem
-            active={props.location.pathname === '/mail'}
-            onClick={onNavItemPress.bind(false, 'mail')}>
+            active={props.location.pathname === '/' + Routes.MAIL}
+            onClick={onNavItemPress.bind(false, Routes.MAIL)}>
             Inbox
           </NavItem>
           <NavItem
-            active={props.location.pathname === '/profile'}
-            onClick={onNavItemPress.bind(false, 'profile')}>
+            active={props.location.pathname === '/' + Routes.PROFILE}
+            onClick={onNavItemPress.bind(false, Routes.PROFILE)}>
             Profile
           </NavItem>
         </Desktop>
@@ -140,7 +139,7 @@ HeaderComponent.propTypes = {
   homeButton: PropTypes.bool,
   title: PropTypes.string,
   nav: PropTypes.bool,
-  rightIcon: PropTypes.object,
+  rightIcon: PropTypes.oneOfType([ PropTypes.object, PropTypes.bool ]),
   rightAction: PropTypes.func
 }
 

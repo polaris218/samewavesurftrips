@@ -1,24 +1,19 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Container } from './styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Container } from './styles'
 
-class ContainerComponent extends PureComponent {
-
-    static propTypes = {
-        type: PropTypes.string,
-    }
-
-    static defaultProps = {
-        type: 'default'
-    }
-
-    render() {
-        return (
-        <Container>
-            {this.props.children}
-        </Container>
-        );
-    }
+const ContainerComponent = props => {
+  return <Container height={props.height}>{props.children}</Container>
 }
 
-export default ContainerComponent;
+ContainerComponent.propTypes = {
+  type: PropTypes.string,
+  height: PropTypes.string
+}
+
+ContainerComponent.defaultProps = {
+  type: 'default',
+  height: null
+}
+
+export default ContainerComponent

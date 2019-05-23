@@ -25,7 +25,7 @@ import { Label, Trip, DateInput, ContentContainer, Step } from './styles'
 
 const CreateTripScreen = props => {
   const [ loading, setLoading ] = useState(false)
-  const [ createSuccess, setCreateSuccess ] = useState(true)
+  const [ createSuccess, setCreateSuccess ] = useState(false)
   const [ state, setState ] = useState({
     title: '',
     departing: 'Where are you starting your trip?',

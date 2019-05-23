@@ -6,7 +6,7 @@ export const Avatar = styled.div`
   height: 100%;
   border-radius: 50%;
   background-color: ${Colors.BLACK};
-  border: 2px solid white;
+  border: ${({ borderWidth }) => borderWidth}px solid white;
   overflow: hidden;
   display: flex;
   justify-content: center;

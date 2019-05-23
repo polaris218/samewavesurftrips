@@ -12,6 +12,7 @@ export const Trip = styled.div`
     top: -20px;
     left: ${Spacings.MEDIUM}px;
     z-index: 99;
+    cursor: pointer;
   }
   .trip__back {
     position: absolute;
@@ -26,22 +27,75 @@ export const Trip = styled.div`
   }
 
   .trip__header-meta {
-    width: 100%;
+    width: calc(100% - 6px);
+    margin-bottom: ${Spacings.LARGE}px;
+    padding: ${Spacings.MEDIUM}px;
+    font-size: ${Spacings.FONT.LABEL};
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .trip__person {
+    padding-left: 110px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: ${Spacings.LARGE}px;
+    cursor: pointer;
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      padding-left: 100px;
+    }
   }
-
-  .trip__name {
+  .trip__name,
+  .trip__location {
     margin: 0;
-    margin-top: 50px;
     padding: 0;
     font-weight: 400;
-    text-align: center;
+    text-align: left;
     color: ${Colors.GREY_BASE};
+    width: 100%;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      margin-top: -1px;
+      margin-right: 4px;
+      padding: 4px 0;
+    }
+  }
+  .trip__location {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 20px;
+    padding-top: 4px;
+  }
+  .trip__name {
+    font-weight: 700;
   }
 
+  .trip__contact {
+    display: flex;
+    button {
+      margin-left: ${Spacings.MEDIUM}px;
+      height: 40px;
+      p {
+        font-size: .9rem;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .trip__join-desktop {
+    display: none;
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      display: block;
+    }
+  }
+  .trip__join-mobile {
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      display: none;
+    }
+  }
   .trip__title {
     position: relative;
     width: 100%;
@@ -78,18 +132,6 @@ export const Trip = styled.div`
     }
   }
 
-  .trip__location {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    /* height: 100px;
-        width: calc(100% - 10%); */
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 5%;
-    color: ${Colors.GREY_BASE};
-  }
-
   .trip__location-meta {
     width: 100%;
     display: flex;
@@ -121,6 +163,7 @@ export const Trip = styled.div`
   .trip__description {
     margin: ${Spacings.MEDIUM}px 0;
     font-size: ${Spacings.FONT.BODY};
+    color: ${Colors.GREY_BASE};
   }
 
   .tripcad__viewdetails {
@@ -151,13 +194,13 @@ export const Trip = styled.div`
   }
 
   .trip__join {
-    width: 100%;
-    margin-top: ${Spacings.LARGE}px;
+    /* width: 100%; */
+    margin-top: 4px;
   }
 
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     .trip__avatar {
-      left: 10%;
+      left: calc(5% - ${Spacings.MEDIUM}px);
     }
   }
 `
@@ -166,4 +209,12 @@ export const ContentContainer = styled.div`
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+`
+export const Center = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
 `

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
-import { App, Navigation, Footer } from 'components'
+import { App, Navigation } from 'components'
 import {
   Dashboard,
   Login,
@@ -22,14 +22,9 @@ import { Routes } from 'config'
 import 'assets/style/app.css'
 
 const AppRouter = props => {
-  console.log('PROPS', props)
   return (
     <Router>
       <App accessToken={props.user.accessToken}>
-        {/* <Route
-          path={`/`}
-          component={props.user.accessToken ? Dashboard : Login}
-        />*/}
         <Route
           exact
           path='/'
@@ -37,7 +32,6 @@ const AppRouter = props => {
             props.user.accessToken ? (
               <Redirect to={`/${Routes.DASHBOARD}`} />
             ) : (
-              // <Redirect to={`/${Routes.LOGIN}`} />
               <Login />
             )}
         />
@@ -51,6 +45,7 @@ const AppRouter = props => {
         <Route path={`/${Routes.EDIT_TRIP}`} component={EditTrip} />
         <Route exact path={`/${Routes.SURFTRIPS}`} component={SurfTrips} />
         <Route exact path={`/${Routes.PROFILE}`} component={Profile} />
+        <Route exact path={`/${Routes.USER}/:userId`} component={Profile} />
         <Route exact path={`/${Routes.EDIT_PROFILE}`} component={EditProfile} />
         <Route exact path={`/${Routes.MAIL}`} component={Mail} />
         <Route exact path={`/${Routes.TERMS}`} component={Terms} />

@@ -24,6 +24,10 @@ export const TripCard = styled.div`
     .tripcard__avatar {
         width: 25px;
         height: 25px;
+        img  { 
+            width: 25px;
+        height: 25px;
+        }
     }
 
     .tripcard__header {

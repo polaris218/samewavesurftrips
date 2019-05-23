@@ -254,20 +254,20 @@ const EditProfileScreen = props => {
             <Spring
               from={{
                 opacity: 0,
-                transform: 'translate3d(0,20px,0) scale(0.4)'
+                transform: 'translate3d(0,120px,0) scale(0.9)'
               }}
               to={{
                 opacity: 1,
-                transform: 'translate3d(0,0,0) scale(1)'
+                transform: 'translate3d(0,40px,0) scale(1)'
               }}>
               {props => (
                 <div className={'profile__success'} style={props}>
                   <div className={'profile__success-content'}>
                     <Card>
                       <div className={'profile__icon'}>
-                        {Tools.renderIcon('groovy')}
+                        {Tools.renderIcon('face_happy')}
                       </div>
-                      <Heading title='AWESOME!' />
+                      <Heading title='GREAT!' />
                       <div className='profile__complete'>
                         Your profile has been updated.
                       </div>

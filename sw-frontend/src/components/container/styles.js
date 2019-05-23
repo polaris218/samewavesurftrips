@@ -18,6 +18,6 @@ export const Container = styled.div`
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     padding: 0 5%;
     /* padding-bottom: 100px; */
-    width: calc(100% - 10%);
+    width: ${({ height }) => (height ? height : `calc(100% - 10%)`)};
   }
 `

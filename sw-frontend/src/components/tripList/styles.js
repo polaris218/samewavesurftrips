@@ -4,7 +4,7 @@ import { Colors, Spacings } from 'config'
 export const TripList = styled.div`
   padding: ${props => props.paddingTop}px ${Spacings.MEDIUM}px 60px;
   margin: 0px;
-  width: 100%;
+  width: calc(100% - ${Spacings.LARGE}px);
   overflow: scroll;
   position: relative;
   display: flex;

@@ -94,7 +94,7 @@ const MapComponent = props => {
                   active={props.trips.current._id === trip._id}
                 />
               </Marker>
-              <Marker
+              {/* <Marker
                 coordinates={[ trip.destination.lng, trip.destination.lat ]}
                 anchor='bottom'>
                 <MapIcon
@@ -103,7 +103,7 @@ const MapComponent = props => {
                   onTripPress={onTripPress}
                   active={props.trips.current._id === trip._id}
                 />
-              </Marker>
+              </Marker> */}
             </div>
           ))
         )}

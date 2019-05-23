@@ -2,13 +2,13 @@ import styled from 'styled-components'
 import { Colors, Spacings } from 'config'
 
 export const Footer = styled.footer`
-  position: absolute;
+  /* position: absolute; */
   bottom: 0px;
   left: 0px;
   padding: 0px 20px;
   width: calc(100% - 40px);
   height: 50px;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -22,5 +22,9 @@ export const Footer = styled.footer`
   .footer__legal {
     font-size: ${Spacings.FONT.SMALL};
     color: "grey";
+  }
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    display: flex;
   }
 `

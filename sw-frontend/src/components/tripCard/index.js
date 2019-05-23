@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
-import { Routes } from 'config'
+import { General as config, Routes } from 'config'
 import { Tools } from 'utils'
 import { Avatar } from 'components'
 import { TripCard } from './styles'
@@ -63,18 +63,27 @@ const TripCardComponent = props => {
   const dateDeparture = moment(new Date(props.date_times.departure_date_time))
   const dateReturn = moment(new Date(props.date_times.return_date_time))
 
+  // console.log('Trip', props)
   return (
     <TripCard style={{ ...props.style }} onClick={onTripPress}>
       <div className={'tripcard__header'}>
         <div className={'tripcard__avatar'}>
-          <Avatar image={props.avatar} />
+          <Avatar
+            borderWidth={1}
+            image={
+              props.owner_details &&
+              config.EndPoints.digitalOcean + props.owner_details.avatar
+            }
+          />
         </div>
         <div className={'tripcard__header-meta'}>
           {props.owner_details && (
             <p className={'tripcard__name'}>{`${props.owner_details
               .first_name} ${props.owner_details.last_name}`}</p>
           )}
-          <p className={'tripcard__level'}>{props.surf_level}</p>
+          <p className={'tripcard__level'}>
+            {props.owner_details && props.owner_details.location}
+          </p>
         </div>
         <p className={'tripcard__title'}>{props.title}</p>
       </div>

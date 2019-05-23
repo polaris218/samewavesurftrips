@@ -20,16 +20,24 @@ export const Profile = styled.div`
   }
 
   .profile__header-meta {
-    width: 100%;
+    width: calc(100% - ${Spacings.LARGE}px);
     margin-bottom: ${Spacings.LARGE}px;
     padding: ${Spacings.MEDIUM}px;
-    padding-left: 240px;
     font-size: ${Spacings.FONT.LABEL};
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile__person {
+    padding-left: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      padding-left: 80px;
+    }
   }
-
   .profile__name,
   .profile__location {
     margin: 0;
@@ -58,6 +66,31 @@ export const Profile = styled.div`
     font-weight: 700;
   }
 
+  .profile__contact,
+  .profile__contact_mobile {
+    display: none;
+    button {
+      margin-left: ${Spacings.MEDIUM}px;
+      height: 40px;
+      p {
+        font-size: .9rem;
+        text-transform: uppercase;
+      }
+    }
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      display: flex;
+    }
+  }
+  .profile__contact_mobile {
+    display: flex;
+    button {
+      margin: ${Spacings.SMALL}px ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
+    }
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      display: none;
+    }
+  }
+
   .profile__detail {
     padding: 0;
     font-weight: 400;
@@ -69,7 +102,7 @@ export const Profile = styled.div`
   .profile__level {
     display: flex;
     flex-direction: row;
-    margin: 0 0 ${Spacings.MEDIUM}px;
+    margin: 0 0;
     padding: 0;
     text-align: left;
     width: 100%;
@@ -128,6 +161,13 @@ export const Profile = styled.div`
     margin: ${Spacings.MEDIUM}px 0 ${Spacings.MEDIUM}px -${Spacings.LARGE}px;
   }
 
+  .profile_interests {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: ${Spacings.MEDIUM}px 0 0;
+  }
+
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     .profile__avatar {
       left: calc(5% - ${Spacings.MEDIUM}px);
@@ -156,4 +196,16 @@ export const Center = styled.div`
   align-items: center;
   flex-direction: column;
   position: relative;
+`
+export const Interest = styled.div`
+  padding: ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
+  background: ${Colors.BLUE_BASE};
+  text-transform: uppercase;
+  font-size: ${Spacings.FONT.SMALL};
+  color: ${Colors.WHITE};
+  margin: 0 ${Spacings.SMALL}px ${Spacings.SMALL}px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
 `

@@ -6,6 +6,7 @@ export const ScrollContainer = styled.div`
   height: calc(100% - ${props => (props.navbar ? 55 : 0)}px);
   display: flex;
   flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   background-color: ${Colors.GREY_MID};
   background: ${props =>
@@ -17,5 +18,9 @@ export const ScrollContainer = styled.div`
   overflow: hidden;
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     margin-top: ${({ padTop }) => padTop && `55px`};
+    height: calc(
+      100% -
+        ${props => (props.navbar ? (props.height ? props.height : 105) : 0)}px
+    );
   }
 `

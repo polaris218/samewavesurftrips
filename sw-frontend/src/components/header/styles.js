@@ -28,9 +28,13 @@ export const Header = styled.header`
     position: absolute;
     right: ${Spacings.MEDIUM}px;
     cursor: pointer;
-    /* top: 0px; */
+
     svg path {
       fill: ${Colors.BLUE_BASE};
+    }
+
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      right: 70px;
     }
   }
   .header__logo {
@@ -55,7 +59,7 @@ export const LogoContainer = styled.div`
   width: 60px;
     height: 90%;
     position: absolute;
-    left: 20px;
+    left: 70px;
     top: 16px;
     display: none;
 
@@ -143,6 +147,7 @@ export const NavItem = styled.button`
   cursor: pointer;
   text-transform: uppercase;
   outline: none;
+  background: transparent;
   border-bottom: ${({ active }) =>
     active ? `2px solid ${Colors.BLUE_BASE}` : 'none'};
   transition: color .2s ease;
