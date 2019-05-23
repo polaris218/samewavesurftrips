@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "static": "cp -r /build ../static/app",
+    "static": "cp -r build ../static/app",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
