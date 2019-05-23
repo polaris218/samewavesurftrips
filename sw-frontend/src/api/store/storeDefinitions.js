@@ -1,0 +1,28 @@
+export default {
+  CONFIG: {
+    // Credentials: 'config_credentials',
+  },
+  GENERAL: {},
+  USER: {
+    LOGIN: 'USER_LOGIN',
+    LOGOUT: 'USER_LOGOUT',
+    SIGNUP: 'USER_SIGNUP',
+    REGISTER: 'USER_REGISTER',
+    REFRESH: 'REFRESH_TOKEN',
+    EDIT: 'EDIT_USER',
+    DETAILS: 'USER_DETAILS',
+    AVATAR: 'UPLOAD_AVATAR'
+  },
+  TRIP: {
+    CREATE: 'TRIP_CREATE',
+    FETCH: 'TRIP_FETCH',
+    FETCH_ALL: 'TRIP_FETCH_ALL',
+    FETCH_OWN: 'TRIP_FETCH_OWN',
+    DELETE: 'TRIP_DELETE',
+    SET_CURRENT: 'SET_CURRENT',
+    JOIN: 'TRIP_JOIN',
+    LEAVE: 'TRIP_LEAVE',
+    FILTER: 'TRIP_FILTER',
+    FILTER_QUERY: 'TRIP_FILTER_QUERY'
+  }
+}

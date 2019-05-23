@@ -2,3 +2,25 @@
 .vscode
 .env
 node_modules
+
+# dependencies
+/sw-frontend/node_modules
+/sw-frontend/.pnp
+/sw-frontend/.pnp.js
+
+# testing
+/sw-frontend//coverage
+
+# production
+/sw-frontend/build
+
+# misc
+/sw-frontend/.DS_Store
+/sw-frontend/.env.local
+/sw-frontend/.env.development.local
+/sw-frontend/.env.test.local
+/sw-frontend/.env.production.local
+
+/sw-frontend/npm-debug.log*
+/sw-frontend/yarn-debug.log*
+/sw-frontend/yarn-error.log*
