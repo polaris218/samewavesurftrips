@@ -209,3 +209,11 @@ export const Interest = styled.div`
   align-items: center;
   border-radius: 3px;
 `
+export const PreloadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 100px);
+  width: 100%;
+  min-height: 400px;
+`

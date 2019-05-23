@@ -134,8 +134,8 @@ const TripScreen = props => {
                   }
                 />
               </div>
-              <div className={'trip__header-meta'} onClick={visitProfile}>
-                <div className='trip__person'>
+              <div className={'trip__header-meta'}>
+                <div className='trip__person' onClick={visitProfile}>
                   <p className={'trip__name'}>
                     {trip.owner_details &&
                       `${trip.owner_details.first_name} ${trip.owner_details

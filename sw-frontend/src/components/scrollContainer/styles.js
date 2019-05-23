@@ -7,7 +7,7 @@ export const ScrollContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   background-color: ${Colors.GREY_MID};
   background: ${props =>
     props.color === 'blue'

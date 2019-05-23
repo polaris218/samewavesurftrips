@@ -72,6 +72,7 @@ const TripCardComponent = props => {
             borderWidth={1}
             image={
               props.owner_details &&
+              props.owner_details.avatar &&
               config.EndPoints.digitalOcean + props.owner_details.avatar
             }
           />
