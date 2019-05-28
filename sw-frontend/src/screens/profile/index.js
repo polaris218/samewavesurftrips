@@ -22,7 +22,7 @@ import {
   ProfileStat,
   Preloader
 } from 'components'
-import { Tools } from 'utils'
+import { Tools, PickIcon } from 'utils'
 import {
   Profile,
   Center,
@@ -31,7 +31,10 @@ import {
   StatDivide,
   Interest,
   PreloadContainer,
-  TabContainer
+  TabContainer,
+  SurfIcons,
+  SurfStat,
+  Label
 } from './styles'
 
 const ProfileScreen = props => {
@@ -238,6 +241,33 @@ const ProfileScreen = props => {
                 <Container>
                   <div className={'profile__detail'}>
                     <div className={'profile__card'}>
+                      <SurfIcons>
+                        <SurfStat>
+                          <img
+                            src={PickIcon(user.surf_level)}
+                            alt={user.surf_level}
+                          />
+                          <span>Skill Level</span>
+                        </SurfStat>
+
+                        <SurfStat>
+                          <img src={PickIcon(user.stance)} alt={user.stance} />
+                          <span>{user.stance}</span>
+                        </SurfStat>
+
+                        <SurfStat>
+                          <img
+                            src={PickIcon(user.surf_modality)}
+                            alt={user.surf_modality}
+                          />
+                          <span>{user.surf_modality}</span>
+                        </SurfStat>
+                      </SurfIcons>
+                      <Label>
+                        Surfing Since:{' '}
+                        {new Date(user.surfing_since).getFullYear()}
+                      </Label>
+
                       <Card>
                         <div className={'profile__description'}>
                           <div className={'profile__location-header'}>bio:</div>

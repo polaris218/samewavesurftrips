@@ -1,5 +1,3 @@
-import * as Tools from './tools';
-
-export {
-    Tools
-}
+import * as Tools from './tools'
+import { PickIcon } from './pickIcon'
+export { PickIcon, Tools }

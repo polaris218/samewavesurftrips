@@ -222,7 +222,35 @@ export const PreloadContainer = styled.div`
 `
 export const TabContainer = styled.div`
   width: 100%;
+
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     margin-top: -50px;
   }
+`
+export const SurfIcons = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: ${Spacings.MEDIUM}px;
+  img {
+    width: 50px;
+    height: 50px;
+  }
+`
+export const SurfStat = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: ${Spacings.MEDIUM}px ${Spacings.MEDIUM}px 0 0;
+  span {
+    font-size: ${Spacings.FONT.SMALL};
+    text-align: center;
+    padding-top: 4px;
+  }
+`
+export const Label = styled.div`
+  font-size: ${Spacings.FONT.SMALL};
+  color: ${Colors.BLUE_BASE};
+  text-transform: uppercase;
+  padding: 0 ${Spacings.MEDIUM}px ${Spacings.MEDIUM}px;
 `
