@@ -10,7 +10,7 @@ export default {
     'Shortboard',
     'Longboard',
     'Bodyboard',
-    'Knee',
+    'Kneeboard',
     'Stand Up',
     'Wind Surf',
     'Kite Surf'
