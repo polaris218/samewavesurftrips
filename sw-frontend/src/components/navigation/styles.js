@@ -18,7 +18,7 @@ export const Navigation = styled.ul`
   transition: transform .5s ease;
   z-index: 20;
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
-    transform: translateY(60px);
+    transform: translateY(160px);
   }
 `
 

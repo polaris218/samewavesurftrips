@@ -15,7 +15,7 @@ export const Profile = styled.div`
     left: ${Spacings.MEDIUM}px;
   }
   .profile__loader {
-    margin-top: ${Spacings.MEDIUM}px;
+    margin: ${Spacings.MEDIUM}px 0${Spacings.large}px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -56,6 +56,19 @@ export const Profile = styled.div`
       margin: ${Spacings.LARGE}px;
     }
   }
+  .profile__avatar {
+    display: flex;
+    justify-content: center;
+    margin: ${Spacings.SMALL}px 0 ${Spacings.LARGE}px;
+  }
+  .profile__cover img {
+    width: 100%;
+    height: auto;
+    margin: ${Spacings.SMALL}px 0 ${Spacings.LARGE}px;
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      width: 200px;
+    }
+  }
 `
 
 export const Label = styled.p`
@@ -70,12 +83,88 @@ export const Label = styled.p`
 
 export const ContentContainer = styled.div`
   width: 100%;
-  overflow: scroll;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `
-export const InputFile = styled.input`
-  width: 200px;
-  height: 40px;
-  font-size: 16px;
-  color: ${Colors.ORANGE_DARK};
-  /* background: red; */
+export const InputFile = styled.div`
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  margin: ${Spacings.MEDIUM}px 0;
+  justify-content: center;
+  .btn {
+    width: 200px;
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+
+  :hover {
+    .btn {
+      border: 2px solid ${Colors.ORANGE_BASE};
+      color: ${Colors.ORANGE_BASE};
+      background-color: white;
+    }
+  }
+`
+export const Sub = styled.p`
+  font-size: ${Spacings.FONT.TINY};
+  color: ${Colors.GREY_BASE};
+`
+export const Center = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+`
+export const Images = styled.div``
+export const Details = styled.div`
+  width: 100%;
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    padding: 0 0 0 ${Spacings.LARGE}px;
+  }
+`
+
+export const Stack = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    flex-direction: row;
+  }
+`
+export const DateInput = styled.div`
+  width: calc(100% - ${Spacings.MEDIUM}px);
+  margin: ${Spacings.MEDIUM}px 0;
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  .react-datepicker__input-container {
+    width: 100%;
+    outline: none;
+  }
+  input {
+    width: calc(100% - ${Spacings.LARGE}px);
+    height: 40px;
+    padding: ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
+    font-size: ${Spacings.FONT.BODY};
+    color: ${Colors.GREY_BASE};
+    outline: none;
+  }
 `

@@ -1,4 +1,4 @@
-const baseAPI = 'https://samewave.herokuapp.com/v1/'
+export const baseAPI = 'https://samewave.herokuapp.com/v1/'
 
 export default {
   MapboxToken:
@@ -16,4 +16,8 @@ export default {
     search: baseAPI + 'search/trips',
     digitalOcean: 'https://samewave.sfo2.digitaloceanspaces.com/'
   }
+
+  // router.get(`/v1/user/:id/follow`, authenticate, User.follow);
+  // router.get(`/v1/user/:id/unfollow`, authenticate, User.unfollow);
+  // router.get(`/v1/user/:id/followers`, authenticate, User.followers);
 }

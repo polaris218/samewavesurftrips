@@ -14,9 +14,10 @@ export const Container = styled.div`
   max-width: ${Spacings.MAX_WIDTH}px;
   justify-self: center;
   position: relative;
-
+  padding-bottom: ${({ noPadd }) => (!noPadd ? `50px` : 0)};
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     padding: 0 5%;
+    padding-bottom: 0px;
     /* padding-bottom: 100px; */
     width: ${({ height }) => (height ? height : `calc(100% - 10%)`)};
   }

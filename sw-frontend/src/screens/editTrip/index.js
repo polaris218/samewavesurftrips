@@ -235,7 +235,7 @@ const EditTripScreen = props => {
 
                   <Label>Prefered gender</Label>
                   <Select
-                    items={Types.gender}
+                    items={[ 'Any', ...Types.gender ]}
                     fieldName={'gender'}
                     placeholder={state.gender}
                     error={checkValidField('gender')}
@@ -243,7 +243,7 @@ const EditTripScreen = props => {
                   />
                   <Label>Board type recommended</Label>
                   <Select
-                    items={Types.modality}
+                    items={[ ...Types.modality ]}
                     fieldName={'modality'}
                     placeholder={state.modality}
                     error={checkValidField('modality')}
@@ -251,7 +251,7 @@ const EditTripScreen = props => {
                   />
                   <Label>Skill level</Label>
                   <Select
-                    items={Types.surfLevel}
+                    items={[ 'Any', Types.surfLevel ]}
                     fieldName={'level'}
                     placeholder={state.level}
                     error={checkValidField('level')}

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { dispatch } from 'api/store'
+import axios from 'axios'
+
+import store, { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes } from 'config'
-import { userActions, mapDispatchToProps } from 'api/actions'
+import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import {
   Avatar,
   Button,
@@ -17,37 +19,37 @@ import {
   ScrollContainer,
   FootItem,
   TripList,
-  ProfileStat
+  ProfileStat,
+  Preloader
 } from 'components'
-import { Tools } from 'utils'
+import { Tools, PickIcon } from 'utils'
 import {
   Profile,
   Center,
   ContentContainer,
   Stats,
   StatDivide,
-  Interest
+  Interest,
+  PreloadContainer,
+  TabContainer,
+  SurfIcons,
+  SurfStat,
+  Label
 } from './styles'
 
 const ProfileScreen = props => {
-  const [ loading, setLoading ] = useState(false)
+  const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState('about')
   const [ tabTitles ] = useState([ 'About', 'Surf Trips' ])
   const [ userId ] = useState(props.match.params.userId)
-  const [ interests ] = useState([
-    'Surfing',
-    'DJing',
-    'Coding',
-    'Running',
-    'Techno / Electro'
-  ])
+  const [ following, setFollowing ] = useState(false)
+  const [ followers, setFollowers ] = useState([])
 
   useEffect(() => {
     fetchTrips()
     fetchUserDetails()
+    onFollow(true)
   }, [])
-
-  console.log('user id', userId, 'own id ', props.user.id)
 
   const fetchTrips = () => {
     setLoading(true)
@@ -74,11 +76,11 @@ const ProfileScreen = props => {
       )
     )
   }
-
   const onFetchResult = error => {
     if (error) {
       console.log('what error', error)
     }
+    console.log('Loaded trips')
     setLoading(false)
   }
 
@@ -100,134 +102,213 @@ const ProfileScreen = props => {
     return trips
   }
 
+  const onFollow = async (getFollowers = false) => {
+    const bearerToken = 'Bearer ' + store.getState().user.accessToken
+    const response = await axios({
+      method: 'GET',
+      url: `${config.EndPoints.user}/${userId || props.user.id}/${getFollowers
+        ? 'followers'
+        : !following ? 'follow' : 'unfollow'}`,
+      headers: { Authorization: bearerToken },
+      validateStatus: status => {
+        return true
+      },
+      timeout: config.APITimeout
+    })
+    if (response.status === 200) {
+      if (!getFollowers) {
+        setFollowing(!following)
+        onFollow(true)
+      } else {
+        const cleanFollows = []
+        response.data.forEach(user => {
+          if (!cleanFollows.includes(user.follower_id)) {
+            cleanFollows.push(user.follower_id)
+          }
+        })
+        if (cleanFollows.includes(props.user.id)) setFollowing(true)
+        console.log(cleanFollows, props.user.id)
+        setFollowers(cleanFollows)
+      }
+    }
+  }
+
   const { user } = props
 
   return (
     <Profile>
       <ScrollContainer height={'55px'}>
         <Header
-          title={'Profile'}
+          title={userId ? '' : 'Profile'}
           rightIcon={!userId && Tools.renderIcon('pencil')}
           rightAction={onEditPress}
         />
-        <ContentContainer>
-          <MastHead
-            image={
-              user.coverImg ? (
-                config.EndPoints.digitalOcean + user.coverImg
-              ) : null
-            }
-          />
-          <Center>
-            <Container>
-              <div className={'profile__avatar'}>
-                <Avatar
-                  image={
-                    user.avatar ? (
-                      config.EndPoints.digitalOcean + user.avatar
-                    ) : null
-                  }
-                />
-              </div>
-              <div className={'profile__header-meta'}>
-                <div className='profile__person'>
-                  <p className={'profile__name'}>
-                    {user.firstName ? (
-                      `${user.firstName} ${user.lastName}`
-                    ) : (
-                      'Your Name'
-                    )}
-                  </p>
-                  <div className={'profile__location'}>
-                    {Tools.renderIcon('pin')}{' '}
-                    {user.location ? !user.location.coordinates ? (
-                      user.location
-                    ) : (
-                      user.location.coordinates.name
-                    ) : (
-                      `Your Location`
-                    )}
-                  </div>
+
+        {loading ? (
+          <PreloadContainer>
+            <Preloader />
+          </PreloadContainer>
+        ) : (
+          <ContentContainer>
+            <MastHead
+              image={
+                user.coverImg ? (
+                  config.EndPoints.digitalOcean + user.coverImg
+                ) : null
+              }
+            />
+            <Center>
+              <Container noPadd>
+                <div className={'profile__avatar'}>
+                  <Avatar
+                    image={
+                      user.avatar ? (
+                        config.EndPoints.digitalOcean + user.avatar
+                      ) : null
+                    }
+                  />
                 </div>
-                {userId && (
-                  <div className={'profile__contact'}>
-                    <Button title='Follow' />
+                <div className={'profile__header-meta'}>
+                  <div className='profile__person'>
+                    <p className={'profile__name'}>
+                      {user.firstName ? (
+                        `${user.firstName} ${user.lastName}`
+                      ) : (
+                        'Your Name'
+                      )}
+                    </p>
+                    <div className={'profile__location'}>
+                      {Tools.renderIcon('pin')}{' '}
+                      {user.location ? !user.location.coordinates ? (
+                        user.location
+                      ) : (
+                        user.location.coordinates.name
+                      ) : (
+                        `Your Location`
+                      )}
+                    </div>
+                  </div>
+                  {userId &&
+                  userId !== props.user.id && (
+                    <div className={'profile__contact'}>
+                      <div className={'profile_follow'}>
+                        <Button
+                          outline={following}
+                          onPress={onFollow}
+                          title={!following ? 'Follow' : 'Following'}
+                        />
+                      </div>
+                      <Button title='Message' />
+                    </div>
+                  )}
+                </div>
+              </Container>
+              <Container noPadd>
+                <Stats>
+                  <ProfileStat
+                    stat={props.trips.yourTrips.length}
+                    label='SURF TRIPS'
+                  />
+                  <StatDivide />
+                  <ProfileStat stat={followers.length} label='FOLLOWERS' />
+                  <StatDivide />
+                  <ProfileStat stat={user.following} label='FOLLOWING' />
+                </Stats>
+
+                {userId &&
+                userId !== props.user.id && (
+                  <div className={'profile__contact_mobile'}>
+                    <div className={'profile__follow'}>
+                      <Button
+                        outline={following}
+                        onPress={onFollow}
+                        title={!following ? 'Follow' : 'Following'}
+                      />
+                    </div>
                     <Button title='Message' />
                   </div>
                 )}
-              </div>
-            </Container>
-            <Container>
-              <Stats>
-                <ProfileStat
-                  stat={props.trips.yourTrips.length}
-                  label='SURF TRIPS'
+              </Container>
+              <TabContainer>
+                <Tabs
+                  align='left'
+                  backgroundColor='transparent'
+                  tabs={tabTitles}
+                  onTabPress={onTabPress}
                 />
-                <StatDivide />
-                <ProfileStat stat={props.user.followers} label='FOLLOWERS' />
-                <StatDivide />
-                <ProfileStat stat={props.user.following} label='FOLLOWING' />
-              </Stats>
-              {userId && (
-                <div className={'profile__contact_mobile'}>
-                  <Button title='Follow' />
-                  <Button title='Message' />
-                </div>
-              )}
-            </Container>
-            <Tabs
-              align='left'
-              backgroundColor='transparent'
-              tabs={tabTitles}
-              onTabPress={onTabPress}
-            />
-            {activeTab === 'about' ? (
-              <Container>
-                <div className={'profile__detail'}>
+              </TabContainer>
+              {activeTab === 'about' ? (
+                <Container>
+                  <div className={'profile__detail'}>
+                    <div className={'profile__card'}>
+                      <SurfIcons>
+                        <SurfStat>
+                          <img
+                            src={PickIcon(user.surf_level)}
+                            alt={user.surf_level}
+                          />
+                          <span>Skill Level</span>
+                        </SurfStat>
+
+                        <SurfStat>
+                          <img src={PickIcon(user.stance)} alt={user.stance} />
+                          <span>{user.stance}</span>
+                        </SurfStat>
+
+                        <SurfStat>
+                          <img
+                            src={PickIcon(user.surf_modality)}
+                            alt={user.surf_modality}
+                          />
+                          <span>{user.surf_modality}</span>
+                        </SurfStat>
+                      </SurfIcons>
+                      <Label>
+                        Surfing Since:{' '}
+                        {new Date(user.surfing_since).getFullYear()}
+                      </Label>
+
+                      <Card>
+                        <div className={'profile__description'}>
+                          <div className={'profile__location-header'}>bio:</div>
+                          {user.bio ? (
+                            `${user.bio}`
+                          ) : (
+                            'Add something interesting about yourself here'
+                          )}
+                        </div>
+                      </Card>
+                    </div>
+                  </div>
                   <div className={'profile__card'}>
                     <Card>
-                      <div className={'profile__description'}>
-                        <div className={'profile__location-header'}>bio:</div>
-                        {user.bio ? (
-                          `${user.bio}`
-                        ) : (
-                          'Add something interesting about yourself here'
-                        )}
+                      <div className={'profile__level'}>
+                        <div>
+                          <div className={'profile__location-header'}>
+                            INTERESTS:
+                          </div>
+                          <div className={'profile_interests'}>
+                            {user.interests.map(item => (
+                              <Interest key={item}>{item}</Interest>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </Card>
                   </div>
-                </div>
-                <div className={'profile__card'}>
-                  <Card>
-                    <div className={'profile__level'}>
-                      {/* <div className={'profile__icon'}>
-                        {Tools.renderIcon('surferMale')}
-                      </div> */}
-                      <div>
-                        <div className={'profile__location-header'}>
-                          INTERESTS:
-                        </div>
-                        <div className={'profile_interests'}>
-                          {interests.map(item => (
-                            <Interest key={item}>{item}</Interest>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
-              </Container>
-            ) : (
-              <Container>
-                <div className={'profile__trips'}>
-                  <TripList trips={activeTrips()} loading={loading} />
-                </div>
-              </Container>
-            )}
-            <FootItem />
-          </Center>
-          <Footer />
-        </ContentContainer>
+                </Container>
+              ) : (
+                <Container>
+                  <div className={'profile__trips'}>
+                    <TripList trips={activeTrips()} loading={loading} />
+                  </div>
+                </Container>
+              )}
+              <FootItem />
+            </Center>
+            <Footer />
+          </ContentContainer>
+        )}
       </ScrollContainer>
     </Profile>
   )
@@ -239,5 +320,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, dispatch =>
-  mapDispatchToProps(dispatch, [ userActions ])
+  mapDispatchToProps(dispatch, [ userActions, tripActions ])
 )(withRouter(ProfileScreen))

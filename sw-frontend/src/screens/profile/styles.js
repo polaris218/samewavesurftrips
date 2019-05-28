@@ -90,7 +90,10 @@ export const Profile = styled.div`
       display: none;
     }
   }
-
+  .profile_follow {
+    button {
+    }
+  }
   .profile__detail {
     padding: 0;
     font-weight: 400;
@@ -208,4 +211,46 @@ export const Interest = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 3px;
+`
+export const PreloadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 100px);
+  width: 100%;
+  min-height: 400px;
+`
+export const TabContainer = styled.div`
+  width: 100%;
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    margin-top: -50px;
+  }
+`
+export const SurfIcons = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: ${Spacings.MEDIUM}px;
+  img {
+    width: 50px;
+    height: 50px;
+  }
+`
+export const SurfStat = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: ${Spacings.MEDIUM}px ${Spacings.MEDIUM}px 0 0;
+  span {
+    font-size: ${Spacings.FONT.SMALL};
+    text-align: center;
+    padding-top: 4px;
+  }
+`
+export const Label = styled.div`
+  font-size: ${Spacings.FONT.SMALL};
+  color: ${Colors.BLUE_BASE};
+  text-transform: uppercase;
+  padding: 0 ${Spacings.MEDIUM}px ${Spacings.MEDIUM}px;
 `

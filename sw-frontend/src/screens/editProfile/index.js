@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
 import axios from 'axios'
+import DatePicker from 'react-datepicker'
 
 import { userActions, mapDispatchToProps } from 'api/actions'
 import store, { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
-import { General as config, Routes } from 'config'
+
+import { General as config, Routes, Types } from 'config'
 import { Tools } from 'utils'
 
 import {
@@ -18,9 +20,21 @@ import {
   Card,
   Heading,
   Header,
-  Preloader
+  Preloader,
+  Select
 } from 'components'
-import { Label, Profile, ContentContainer, InputFile } from './styles'
+import {
+  Center,
+  Label,
+  Stack,
+  Profile,
+  ContentContainer,
+  Images,
+  InputFile,
+  Details,
+  Sub,
+  DateInput
+} from './styles'
 
 const EditProfileScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -36,7 +50,7 @@ const EditProfileScreen = props => {
     surf_level: props.user.surf_level || '',
     surf_modality: props.user.surf_modality || '',
     stance: props.user.stance || '',
-    interests: props.user.interests || '',
+    interests: props.user.interests || [ '' ],
     surfing_since: props.user.surfing_since || '',
     optIn: props.user.optIn,
     invalid: [],
@@ -62,7 +76,13 @@ const EditProfileScreen = props => {
       location: state.location,
       bio: state.bio,
       avatar: state.avatar,
-      cover_image: state.coverImg
+      cover_image: state.coverImg,
+      interests: state.interests,
+      gender: state.gender,
+      surf_level: state.surf_level,
+      surf_modality: state.surf_modality,
+      stance: state.stance,
+      surfing_since: state.surfing_since
     }
 
     //Validate from .....
@@ -122,6 +142,14 @@ const EditProfileScreen = props => {
     })
   }
 
+  const onInterestsChange = (value, name) => {
+    const interests = value.split(',')
+    setState({
+      ...state,
+      interests
+    })
+  }
+
   const onCompleteButton = () => {
     props.history.push('/' + Routes.PROFILE)
   }
@@ -146,8 +174,6 @@ const EditProfileScreen = props => {
 
   const uploadImage = async (data, type) => {
     const bearerToken = 'Bearer ' + store.getState().user.accessToken
-    // const url =
-    //   type === 'avatar' ? config.EndPoints.avatar : config.EndPoints.cover
     const response = await axios({
       method: 'POST',
       url: config.EndPoints.avatar,
@@ -164,6 +190,20 @@ const EditProfileScreen = props => {
     }
   }
 
+  const onSelectChange = (value, name) => {
+    setState({
+      ...state,
+      [name]: value
+    })
+  }
+
+  const handleDateChange = (date, field) => {
+    setState({
+      ...state,
+      [field]: date
+    })
+  }
+
   return (
     <Profile>
       <ScrollContainer color={'orange'} navbar={false}>
@@ -175,81 +215,160 @@ const EditProfileScreen = props => {
         />
         <ContentContainer>
           {!editSuccess ? (
-            <Container>
-              <div className='profile__container'>
-                <Card marginBottom={80}>
-                  <Label>User Details</Label>
-                  <Input
-                    label='First Name'
-                    onChange={onInputChange}
-                    value={state.firstName}
-                    fieldName={'firstName'}
-                    error={checkValidField('firstName')}
-                  />
-                  <Input
-                    label='Last Name'
-                    onChange={onInputChange}
-                    value={state.lastName}
-                    fieldName={'lastName'}
-                    error={checkValidField('lastName')}
-                  />
+            <Center>
+              <Container>
+                <div className='profile__container'>
+                  <Card marginBottom={80}>
+                    <Stack>
+                      <Images>
+                        <form onSubmit={e => onImageUpload()}>
+                          <Label>PROFILE PICTURE</Label>
+                          <Sub>for best results use 512x512px</Sub>
+                          <InputFile>
+                            <button className='btn'>Upload avatar</button>
+                            <input
+                              type='file'
+                              accept='image/*'
+                              onChange={e => onImageChange(e, 'avatar')}
+                            />
+                          </InputFile>
+                          <div className='profile__avatar'>
+                            <img
+                              src={avatar}
+                              width='200'
+                              height='200'
+                              alt='avatar'
+                            />
+                          </div>
 
-                  <Input
-                    label='Email'
-                    onChange={onInputChange}
-                    value={state.email}
-                    fieldName={'email'}
-                    error={checkValidField('email')}
-                  />
+                          <Label>COVER PICTURE</Label>
+                          <Sub>for best results use 1200x600px</Sub>
+                          <InputFile>
+                            <button className='btn'>Upload cover</button>
+                            <input
+                              type='file'
+                              accept='image/*'
+                              onChange={e => onImageChange(e, 'coverImg')}
+                            />
+                          </InputFile>
+                          <div className='profile__cover'>
+                            <img
+                              src={coverImg}
+                              width='200'
+                              height='auto'
+                              alt='cover'
+                            />
+                          </div>
+                        </form>
+                      </Images>
+                      <Details>
+                        <Label>User Details</Label>
+                        <Input
+                          label='First Name'
+                          onChange={onInputChange}
+                          value={state.firstName}
+                          fieldName={'firstName'}
+                          error={checkValidField('firstName')}
+                        />
+                        <Input
+                          label='Last Name'
+                          onChange={onInputChange}
+                          value={state.lastName}
+                          fieldName={'lastName'}
+                          error={checkValidField('lastName')}
+                        />
 
-                  <Input
-                    label='Location'
-                    onChange={onInputChange}
-                    value={state.location.name}
-                    fieldName={'location'}
-                    error={checkValidField('location')}
-                  />
+                        <Input
+                          label='Email'
+                          onChange={onInputChange}
+                          value={state.email}
+                          fieldName={'email'}
+                          error={checkValidField('email')}
+                        />
 
-                  <Input
-                    label='Bio'
-                    onChange={onInputChange}
-                    value={state.bio}
-                    fieldName={'bio'}
-                    error={checkValidField('bio')}
-                    multiline={true}
-                    rows={5}
-                  />
+                        <Input
+                          label='Location'
+                          onChange={onInputChange}
+                          value={state.location}
+                          fieldName={'location'}
+                          error={checkValidField('location')}
+                        />
+                        <Select
+                          items={Types.gender}
+                          fieldName={'gender'}
+                          placeholder={'Gender'}
+                          error={checkValidField('gender')}
+                          value={state.gender}
+                          onChange={onSelectChange}
+                        />
+                        <Label>Bio</Label>
+                        <Input
+                          label='Bio'
+                          onChange={onInputChange}
+                          value={state.bio}
+                          fieldName={'bio'}
+                          error={checkValidField('bio')}
+                          multiline={true}
+                          rows={5}
+                        />
+                        <Label>Interests</Label>
+                        <Sub>Seperate each interest with a comma</Sub>
+                        <Input
+                          label='Interests'
+                          onChange={onInterestsChange}
+                          value={state.interests}
+                          fieldName={'interests'}
+                          error={checkValidField('interests')}
+                        />
+                        <Label>Surf Style</Label>
+                        <Select
+                          items={Types.modality}
+                          fieldName={'surf_modality'}
+                          placeholder={'Surf Modality'}
+                          error={checkValidField('surf_modality')}
+                          value={state.surf_modality}
+                          onChange={onInputChange}
+                        />
 
-                  <form onSubmit={e => onImageUpload()}>
-                    <Label>UPLOAD YOUR PROFILE PICTURE</Label>
-                    <InputFile
-                      type='file'
-                      accept='image/*'
-                      onChange={e => onImageChange(e, 'avatar')}
-                    />
-                    <img src={avatar} width='200' height='200' alt='avatar' />
-
-                    <Label>UPLOAD YOUR COVER PICTURE</Label>
-                    <InputFile
-                      type='file'
-                      accept='image/*'
-                      onChange={e => onImageChange(e, 'coverImg')}
-                    />
-                    <img src={coverImg} width='400' height='200' alt='cover' />
-                  </form>
-
-                  {!loading ? (
-                    <div className={'profile__button'}>
-                      <Button onPress={onEditPress} title='UPDATE' />
-                    </div>
-                  ) : (
-                    <div className={'profile__loader'}>
-                      <Preloader />
-                    </div>
-                  )}
-                </Card>
-              </div>
-            </Container>
+                        <Select
+                          items={Types.surfLevel}
+                          fieldName={'surf_level'}
+                          placeholder={'Surf Level'}
+                          error={checkValidField('surf_level')}
+                          value={state.surf_level}
+                          onChange={onInputChange}
+                        />
+                        <Select
+                          items={Types.stance}
+                          fieldName={'stance'}
+                          placeholder={'Stance'}
+                          error={checkValidField('stance')}
+                          value={state.stance}
+                          onChange={onInputChange}
+                        />
+                        <Label>Surfing Since</Label>
+                        <DateInput>
+                          <DatePicker
+                            selected={state.surfing_since}
+                            onChange={date =>
+                              handleDateChange(date, 'surfing_since')}
+                          />
+                        </DateInput>
+                      </Details>
+                    </Stack>
+                    {!loading ? (
+                      <div className={'profile__button'}>
+                        <Button onPress={onEditPress} title='UPDATE PROFILE' />
+                      </div>
+                    ) : (
+                      <div className={'profile__loader'}>
+                        <Preloader />
+                      </div>
+                    )}
+                  </Card>
+                </div>
+              </Container>
+            </Center>
           ) : (
             <Spring
               from={{
