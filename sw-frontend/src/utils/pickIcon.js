@@ -1,11 +1,10 @@
 /* eslint-disable default-case */
-// import
 export const PickIcon = icon => {
   switch (icon) {
     case 'Goofy':
-      return '/app/images/stance/goofy.svg'
+      return '/app/images/stance/Goofy.svg'
     case 'Regular':
-      return '/app/images/stance/regular.svg'
+      return '/app/images/stance/Regular.svg'
     case 'Shortboard':
       return '/app/images/board/Short_board.svg'
     case 'Longboard':
@@ -21,7 +20,7 @@ export const PickIcon = icon => {
     case 'Kite Surf':
       return '/app/images/board/Kite_surf.svg'
     case 'Beginner':
-      return '/images/level/Beginner.svg'
+      return '/app/images/level/Beginner.svg'
     case 'Pre-Intemediate':
       return '/app/images/level/Pre_intermediate.svg'
     case 'Intemediate':
