@@ -30,7 +30,7 @@ const InputComponent = props => {
 InputComponent.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
   onChange: PropTypes.func,
   error: PropTypes.bool,
   type: PropTypes.string,

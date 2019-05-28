@@ -143,8 +143,8 @@ const TripScreen = props => {
                   </p>
                   <div className={'trip__location'}>
                     {Tools.renderIcon('pin')}{' '}
-                    {trip.owner_details.location ? !trip.owner_details.location
-                      .coordinates ? (
+                    {trip.owner_details && trip.owner_details.location ? !trip
+                      .owner_details.location.coordinates ? (
                       trip.owner_details.location
                     ) : (
                       trip.owner_details.location.coordinates.name

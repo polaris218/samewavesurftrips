@@ -160,21 +160,21 @@ const SearchComponent = props => {
                   </DateInput>
                   <Label>Prefered gender</Label>
                   <Select
-                    items={Types.gender}
+                    items={[ 'Any', ...Types.gender ]}
                     fieldName={'gender'}
                     placeholder={'Gender'}
                     onChange={onSelectChange}
                   />
                   <Label>Board type</Label>
                   <Select
-                    items={Types.modality}
+                    items={[ 'Any', ...Types.modality ]}
                     fieldName={'modality'}
                     placeholder={'Surf Modality'}
                     onChange={onSelectChange}
                   />
                   <Label>Skill level</Label>
                   <Select
-                    items={Types.surfLevel}
+                    items={[ 'Any', ...Types.surfLevel ]}
                     fieldName={'level'}
                     placeholder={'Surf Level'}
                     onChange={onSelectChange}

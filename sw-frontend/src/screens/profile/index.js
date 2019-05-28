@@ -30,7 +30,8 @@ import {
   Stats,
   StatDivide,
   Interest,
-  PreloadContainer
+  PreloadContainer,
+  TabContainer
 } from './styles'
 
 const ProfileScreen = props => {
@@ -39,17 +40,12 @@ const ProfileScreen = props => {
   const [ tabTitles ] = useState([ 'About', 'Surf Trips' ])
   const [ userId ] = useState(props.match.params.userId)
   const [ following, setFollowing ] = useState(false)
-  const [ interests ] = useState([
-    'Surfing',
-    'DJing',
-    'Coding',
-    'Running',
-    'Techno / Electro'
-  ])
+  const [ followers, setFollowers ] = useState([])
 
   useEffect(() => {
     fetchTrips()
     fetchUserDetails()
+    onFollow(true)
   }, [])
 
   const fetchTrips = () => {
@@ -77,13 +73,6 @@ const ProfileScreen = props => {
       )
     )
   }
-  console.log(
-    'props.user.id',
-    props,
-    userId,
-    props.user.id,
-    userId === props.user.id
-  )
   const onFetchResult = error => {
     if (error) {
       console.log('what error', error)
@@ -110,15 +99,13 @@ const ProfileScreen = props => {
     return trips
   }
 
-  const onFollow = async (data, type) => {
+  const onFollow = async (getFollowers = false) => {
     const bearerToken = 'Bearer ' + store.getState().user.accessToken
-    // const url =
-    //   type === 'avatar' ? config.EndPoints.avatar : config.EndPoints.cover
     const response = await axios({
       method: 'GET',
-      url: `${config.EndPoints.user}/${userId}/${!following
-        ? 'follow'
-        : 'unfollow'}`,
+      url: `${config.EndPoints.user}/${userId || props.user.id}/${getFollowers
+        ? 'followers'
+        : !following ? 'follow' : 'unfollow'}`,
       headers: { Authorization: bearerToken },
       validateStatus: status => {
         return true
@@ -126,8 +113,20 @@ const ProfileScreen = props => {
       timeout: config.APITimeout
     })
     if (response.status === 200) {
-      setFollowing(!following)
-      console.log('follow', response.data)
+      if (!getFollowers) {
+        setFollowing(!following)
+        onFollow(true)
+      } else {
+        const cleanFollows = []
+        response.data.forEach(user => {
+          if (!cleanFollows.includes(user.follower_id)) {
+            cleanFollows.push(user.follower_id)
+          }
+        })
+        if (cleanFollows.includes(props.user.id)) setFollowing(true)
+        console.log(cleanFollows, props.user.id)
+        setFollowers(cleanFollows)
+      }
     }
   }
 
@@ -156,7 +155,7 @@ const ProfileScreen = props => {
               }
             />
             <Center>
-              <Container>
+              <Container noPadd>
                 <div className={'profile__avatar'}>
                   <Avatar
                     image={
@@ -189,46 +188,52 @@ const ProfileScreen = props => {
                   {userId &&
                   userId !== props.user.id && (
                     <div className={'profile__contact'}>
-                      <Button
-                        outline={following}
-                        onPress={onFollow}
-                        title={!following ? 'Follow' : 'Following'}
-                      />
+                      <div className={'profile_follow'}>
+                        <Button
+                          outline={following}
+                          onPress={onFollow}
+                          title={!following ? 'Follow' : 'Following'}
+                        />
+                      </div>
                       <Button title='Message' />
                     </div>
                   )}
                 </div>
               </Container>
-              <Container>
+              <Container noPadd>
                 <Stats>
                   <ProfileStat
                     stat={props.trips.yourTrips.length}
                     label='SURF TRIPS'
                   />
                   <StatDivide />
-                  <ProfileStat stat={props.user.followers} label='FOLLOWERS' />
+                  <ProfileStat stat={followers.length} label='FOLLOWERS' />
                   <StatDivide />
-                  <ProfileStat stat={props.user.following} label='FOLLOWING' />
+                  <ProfileStat stat={user.following} label='FOLLOWING' />
                 </Stats>
 
                 {userId &&
                 userId !== props.user.id && (
                   <div className={'profile__contact_mobile'}>
-                    <Button
-                      outline={following}
-                      onPress={onFollow}
-                      title={!following ? 'Follow' : 'Following'}
-                    />
+                    <div className={'profile__follow'}>
+                      <Button
+                        outline={following}
+                        onPress={onFollow}
+                        title={!following ? 'Follow' : 'Following'}
+                      />
+                    </div>
                     <Button title='Message' />
                   </div>
                 )}
               </Container>
-              <Tabs
-                align='left'
-                backgroundColor='transparent'
-                tabs={tabTitles}
-                onTabPress={onTabPress}
-              />
+              <TabContainer>
+                <Tabs
+                  align='left'
+                  backgroundColor='transparent'
+                  tabs={tabTitles}
+                  onTabPress={onTabPress}
+                />
+              </TabContainer>
               {activeTab === 'about' ? (
                 <Container>
                   <div className={'profile__detail'}>
@@ -248,15 +253,12 @@ const ProfileScreen = props => {
                   <div className={'profile__card'}>
                     <Card>
                       <div className={'profile__level'}>
-                        {/* <div className={'profile__icon'}>
-                        {Tools.renderIcon('surferMale')}
-                      </div> */}
                         <div>
                           <div className={'profile__location-header'}>
                             INTERESTS:
                           </div>
                           <div className={'profile_interests'}>
-                            {interests.map(item => (
+                            {user.interests.map(item => (
                               <Interest key={item}>{item}</Interest>
                             ))}
                           </div>

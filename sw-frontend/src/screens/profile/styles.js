@@ -90,7 +90,10 @@ export const Profile = styled.div`
       display: none;
     }
   }
-
+  .profile_follow {
+    button {
+    }
+  }
   .profile__detail {
     padding: 0;
     font-weight: 400;
@@ -216,4 +219,10 @@ export const PreloadContainer = styled.div`
   height: calc(100% - 100px);
   width: 100%;
   min-height: 400px;
+`
+export const TabContainer = styled.div`
+  width: 100%;
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    margin-top: -50px;
+  }
 `
