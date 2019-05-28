@@ -80,7 +80,6 @@ const ProfileScreen = props => {
     if (error) {
       console.log('what error', error)
     }
-    console.log('Loaded trips')
     setLoading(false)
   }
 
@@ -242,30 +241,38 @@ const ProfileScreen = props => {
                   <div className={'profile__detail'}>
                     <div className={'profile__card'}>
                       <SurfIcons>
-                        <SurfStat>
-                          <img
-                            src={PickIcon(user.surf_level)}
-                            alt={user.surf_level}
-                          />
-                          <span>Skill Level</span>
-                        </SurfStat>
-
-                        <SurfStat>
-                          <img src={PickIcon(user.stance)} alt={user.stance} />
-                          <span>{user.stance}</span>
-                        </SurfStat>
-
-                        <SurfStat>
-                          <img
-                            src={PickIcon(user.surf_modality)}
-                            alt={user.surf_modality}
-                          />
-                          <span>{user.surf_modality}</span>
-                        </SurfStat>
+                        {user.surf_level && (
+                          <SurfStat>
+                            <img
+                              src={PickIcon(user.surf_level)}
+                              alt={user.surf_level}
+                            />
+                            <span>Skill Level</span>
+                          </SurfStat>
+                        )}
+                        {user.stance && (
+                          <SurfStat>
+                            <img
+                              src={PickIcon(user.stance)}
+                              alt={user.stance}
+                            />
+                            <span>{user.stance}</span>
+                          </SurfStat>
+                        )}
+                        {user.surf_modality && (
+                          <SurfStat>
+                            <img
+                              src={PickIcon(user.surf_modality)}
+                              alt={user.surf_modality}
+                            />
+                            <span>{user.surf_modality}</span>
+                          </SurfStat>
+                        )}
                       </SurfIcons>
                       <Label>
                         Surfing Since:{' '}
-                        {new Date(user.surfing_since).getFullYear()}
+                        {user.surfing_since &&
+                          new Date(user.surfing_since).getFullYear()}
                       </Label>
 
                       <Card>
@@ -288,9 +295,10 @@ const ProfileScreen = props => {
                             INTERESTS:
                           </div>
                           <div className={'profile_interests'}>
-                            {user.interests.map(item => (
-                              <Interest key={item}>{item}</Interest>
-                            ))}
+                            {user.interests &&
+                              user.interests.map(item => (
+                                <Interest key={item}>{item}</Interest>
+                              ))}
                           </div>
                         </div>
                       </div>

@@ -27,7 +27,6 @@ class SelectComponent extends PureComponent {
   }
 
   handleChange = event => {
-    console.log('select?', event.target.value, event.target.name)
     this.setState({
       value: event.target.value
     })
