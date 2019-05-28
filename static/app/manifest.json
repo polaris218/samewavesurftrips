@@ -8,22 +8,22 @@
       "type": "image/x-icon"
     },
     {
-      "src": "images/apple-touch-icon-152x152.png",
+      "src": "app/images/apple-touch-icon-152x152.png",
       "type": "image/png",
       "sizes": "152x152"
     },
     {
-      "src": "images/apple-touch-icon-180x180.png",
+      "src": "app/images/apple-touch-icon-180x180.png",
       "type": "image/png",
       "sizes": "180x180"
     },
     {
-      "src": "images/apple-touch-icon-192x192.png",
+      "src": "app/images/apple-touch-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "images/apple-touch-icon-512x512.png",
+      "src": "app/images/apple-touch-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
