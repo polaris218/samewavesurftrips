@@ -7,7 +7,7 @@ import { Spring } from 'react-spring/renderprops'
 import { tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
-import { General as config, Routes, Types } from 'config'
+import { General as config, Routes, Types, Colors } from 'config'
 import { Tools } from 'utils'
 import {
   ScrollContainer,
@@ -342,7 +342,8 @@ const CreateTripScreen = props => {
                       <ButtonRow>
                         <Button
                           disabled={step === 1 || step === 0}
-                          outline
+                          color={Colors.GREY_LIGHT}
+                          hoverColor={Colors.GREY_BASE}
                           onPress={onBackPress}
                           title='PREV'
                         />
