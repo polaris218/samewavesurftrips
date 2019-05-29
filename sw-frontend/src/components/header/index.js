@@ -59,7 +59,7 @@ const HeaderComponent = props => {
     <Header>
       <Container>
         <LogoContainer>
-          <Logo color='grey' icon />
+          <Logo color='white' icon />
         </LogoContainer>
         {props.backButton && <BackButton />}
         {props.homeButton && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
@@ -49,6 +49,7 @@ const CreateTripScreen = props => {
     level: '',
     invalid: []
   })
+  const scoller = useRef(null)
   const [ step, setStep ] = useState(0)
 
   useEffect(() => {
@@ -157,7 +158,7 @@ const CreateTripScreen = props => {
 
   const onNextPress = () => {
     setStep(step + 1)
-    window.scrollTo(0, 0)
+    scoller.current.scrollTo(0, 0)
   }
 
   const onBackPress = () => {
@@ -173,7 +174,11 @@ const CreateTripScreen = props => {
 
   return (
     <Trip>
-      <ScrollContainer color='orange' navbar={false} align='center'>
+      <ScrollContainer
+        ref={scoller}
+        color='orange'
+        navbar={false}
+        align='center'>
         <Header
           nav={false}
           backButton
@@ -334,7 +339,7 @@ const CreateTripScreen = props => {
                         <Button onPress={onNextPress} title='NEXT' />
                       </ButtonRow>
                     )}
-                    {state.invalid.length != 0 && (
+                    {state.invalid.length !== 0 && (
                       <Error>* check all fields have been filed</Error>
                     )}
                   </div>

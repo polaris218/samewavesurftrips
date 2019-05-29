@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ScrollContainer } from './styles'
 
-const ScrollComponent = props => {
+const ScrollComponent = React.forwardRef((props, ref) => {
   return (
     <ScrollContainer
+      ref={ref}
       color={props.color}
       navbar={props.navbar}
       padTop={props.padTop}
@@ -13,7 +14,7 @@ const ScrollComponent = props => {
       {props.children}
     </ScrollContainer>
   )
-}
+})
 
 ScrollComponent.propTypes = {
   navbar: PropTypes.bool,

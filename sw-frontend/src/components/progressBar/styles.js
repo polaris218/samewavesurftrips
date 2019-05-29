@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Spacings, Colors } from 'config'
+import { Colors } from 'config'
 
 export const ProgressBar = styled.div`
   width: 100%;
@@ -17,4 +17,4 @@ export const Bar = styled.div`
   transition: transform .2s ease;
   transform: ${({ step, total }) => `translateX(${step / total * 100}%)`};
   position: relative;
-` // ${({ step, total }) => 25}
+`

@@ -26,7 +26,7 @@ export const Trip = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    max-width: 500px;
+    max-width: 100%;
     .__block {
       width: ${Spacings.MEDIUM}px;
     }
@@ -100,5 +100,7 @@ export const Label = styled.p`
 export const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
+  max-width: 800px;
+  height: calc(100vh);
   overflow: scroll;
 `
