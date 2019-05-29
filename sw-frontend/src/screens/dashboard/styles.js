@@ -30,5 +30,6 @@ export const MapTripDetail = styled.div`
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     left: auto;
     padding: 0;
+    bottom: 20px;
   }
 `

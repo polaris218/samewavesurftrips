@@ -8,7 +8,7 @@ import tripReducer from './tripReducer'
 
 const persistConfig = name => {
   return {
-    key: 'sw_016_' + name,
+    key: 'sw_017_' + name,
     storage
     // blacklist: ['navigation'] // navigation will not be persisted
   }

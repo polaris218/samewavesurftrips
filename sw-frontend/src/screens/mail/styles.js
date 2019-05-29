@@ -16,7 +16,7 @@ export const Empty = styled.div`
   min-height: calc(100vh - 160px);
   width: 100%;
   color: ${Colors.GREY_BASE};
-  margin: ${Spacings.LARGE}px 0 0;
+  margin: 0 0;
   /* text-transform: uppercase; */
   line-height: 1.7rem;
   text-align: center;

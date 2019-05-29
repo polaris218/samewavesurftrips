@@ -3,33 +3,33 @@ import { General as config } from 'config'
 
 export const PickIcon = icon => {
   switch (icon) {
-    case 'Goofy':
+    case 'goofy':
       return `${config.Root}/images/stance/Goofy.svg`
-    case 'Regular':
+    case 'regular':
       return `${config.Root}/images/stance/Regular.svg`
-    case 'Shortboard':
+    case 'shortboard':
       return `${config.Root}/images/board/Short_board.svg`
-    case 'Longboard':
+    case 'longboard':
       return `${config.Root}/images/board/Long_board.svg`
-    case 'Kneeboard':
+    case 'kneeboard':
       return `${config.Root}/images/board/Knee_board.svg`
-    case 'Bodyboard':
+    case 'bodyboard':
       return `${config.Root}/images/board/Body_board.svg`
-    case 'Stand Up':
+    case 'stand up':
       return `${config.Root}/images/board/SUP.svg`
-    case 'Wind Surf':
+    case 'wind surf':
       return `${config.Root}/images/board/Wind_surf.svg`
-    case 'Kite Surf':
+    case 'kite surf':
       return `${config.Root}/images/board/Kite_surf.svg`
-    case 'Beginner':
+    case 'beginner':
       return `${config.Root}/images/level/Beginner.svg`
-    case 'Pre-Intemediate':
+    case 'pre-intemediate':
       return `${config.Root}/images/level/Pre_intermediate.svg`
-    case 'Intemediate':
+    case 'intemediate':
       return `${config.Root}/images/level/Intermediate.svg`
-    case 'Upper-Intemediate':
+    case 'upper-intemediate':
       return `${config.Root}/images/level/Upper_intermediate.svg`
-    case 'Advanced':
+    case 'advanced':
       return `${config.Root}/images/level/Advanced.svg`
   }
 }

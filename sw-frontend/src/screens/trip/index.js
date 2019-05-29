@@ -18,8 +18,8 @@ import {
   ScrollContainer,
   FootItem
 } from 'components'
-import { Tools } from 'utils'
-import { Trip, ContentContainer, Center } from './styles'
+import { Tools, PickIcon } from 'utils'
+import { Trip, ContentContainer, Center, Stats, Stat } from './styles'
 
 const TripScreen = props => {
   const [ state, setState ] = useState({
@@ -110,7 +110,6 @@ const TripScreen = props => {
           backButton
           homeButton={false}
           nav={false}
-          // title={trip.title}
           rightIcon={trip.owner_id === props.user.id ? tripOwner() : null}
           rightAction={onEditPress}
         />
@@ -201,37 +200,52 @@ const TripScreen = props => {
                 </div>
                 <div className={'trip__card'}>
                   <Card>
-                    <div className={'trip__level'}>
-                      <div>
-                        <div className={'trip__location-header'}>
-                          recommended surf level:
-                        </div>
-                        <div className='trip__level-value'>
-                          {trip.surf_level}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={'trip__level'}>
-                      <div>
-                        <div className={'trip__location-header'}>
-                          number of surfers going:
-                        </div>
-                        <div className='trip__level-value'>
-                          {' '}
-                          {`${trip.attendees.length}/${trip.number_of_surfers}`}
+                    <Stats>
+                      <div className={'trip__level'}>
+                        <div>
+                          {/* <div className={'trip__location-header'}>
+                            recommended surf level:
+                          </div> */}
+                          <div className='trip__level-value'>
+                            <img
+                              src={PickIcon(trip.surf_level)}
+                              alt={trip.surf_level}
+                            />
+                            <span>{trip.surf_level}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className={'trip__level'}>
-                      <div>
-                        <div className={'trip__location-header'}>
-                          recommended board:
-                        </div>
-                        <div className='trip__level-value'>
-                          {trip.surf_modality}
+
+                      <div className={'trip__level'}>
+                        <div>
+                          {/* <div className={'trip__location-header'}>
+                            recommended board:
+                          </div> */}
+                          <div className='trip__level-value'>
+                            <img
+                              src={PickIcon(trip.surf_modality)}
+                              alt={trip.surf_modality}
+                            />
+                            <span>{trip.surf_modality}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+
+                      <div className={'trip__level'}>
+                        <div>
+                          {/* <div className={'trip__location-header'}>
+                            surfers going:
+                          </div> */}
+                          <div className='trip__level-value'>
+                            <Stat>
+                              {`${trip.attendees
+                                .length}/${trip.number_of_surfers}`}
+                            </Stat>
+                            <span>attending</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Stats>
                   </Card>
                 </div>
               </div>

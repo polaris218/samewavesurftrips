@@ -99,9 +99,10 @@ export const TripCard = styled.div`
     .tripcard__divider {
         display: none;
         flex-direction: row;
-        width: 60%;
+        width: 56%;
         justify-content: center;
         align-items: center;
+        margin: 0 2%;
     }
 
     .tripcard__divider-start {
