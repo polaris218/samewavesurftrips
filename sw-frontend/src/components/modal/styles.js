@@ -13,6 +13,7 @@ export const Modal = styled.div`
   z-index: 100;
   top: 0;
   left: 0;
+  transition: background .2s ease;
   pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
 `
 export const Content = styled.div`
@@ -20,6 +21,8 @@ export const Content = styled.div`
   width: calc(100% - ${Spacings.LARGE}px);
   margin: 0 ${Spacings.MEDIUM}px;
   opacity: ${({ visible }) => (visible ? 1 : 0)};
+  transform: translateY(${({ visible }) => (visible ? '0px' : '20px')});
+  transition: transform .2s ease, opacity .15s;
 `
 export const Title = styled.h2`
   margin: ${Spacings.SMALL}px 0;

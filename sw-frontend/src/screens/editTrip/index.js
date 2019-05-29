@@ -19,12 +19,14 @@ import {
   Card,
   Heading,
   Header,
-  Preloader
+  Preloader,
+  Modal
 } from 'components'
 import { Label, Trip, DateInput, ContentContainer } from './styles'
 
 const EditTripScreen = props => {
   const [ loading, setLoading ] = useState(false)
+  const [ modalVisible, setModalVisible ] = useState(false)
   const [ editSuccess, setEditSuccess ] = useState(false)
   const [ state, setState ] = useState({
     title: props.trips.current.title,
@@ -56,6 +58,7 @@ const EditTripScreen = props => {
         'delete'
       )
     )
+    setModalVisible(false)
   }
 
   const onEditPress = () => {
@@ -287,7 +290,7 @@ const EditTripScreen = props => {
                   {!loading ? (
                     <div className={'trip__button'}>
                       <Button
-                        onPress={onDeletePress}
+                        onPress={() => setModalVisible(true)}
                         title='DELETE'
                         color={Colors.RED_DARK}
                         hoverColor={Colors.RED_BASE}
@@ -338,6 +341,15 @@ const EditTripScreen = props => {
           )}
         </ContentContainer>
       </ScrollContainer>
+      <Modal
+        visible={modalVisible}
+        title={'Delete Your Trip'}
+        sub={'are you sure you want to remove this trip?'}
+        buttonNo='CANCEL'
+        buttonYes={'DELETE'}
+        onNoPress={() => setModalVisible(false)}
+        onYesPress={onDeletePress}
+      />
     </Trip>
   )
 }
