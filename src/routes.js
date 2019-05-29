@@ -71,7 +71,7 @@ export function routes() {
 	| Home
 	|--------------------------------------------------------------------------
 	*/
-	router.get(`/`, function(req,res){
+	router.get(`*`, function(req,res){
 		res.render('samewave', { 'layout' : 'app' });
 	});
 
