@@ -94,15 +94,6 @@ function routes() {
 
 	/* 
  |--------------------------------------------------------------------------
- | Home
- |--------------------------------------------------------------------------
- */
-	router.get('*', function (req, res) {
-		res.render('samewave', { 'layout': 'app' });
-	});
-
-	/* 
- |--------------------------------------------------------------------------
  | Sandbox
  |--------------------------------------------------------------------------
  */
@@ -158,6 +149,15 @@ function routes() {
 	router.get('/v1/messages', authenticate, _messages2.default.getAll);
 	router.post('/v1/messages', authenticate, _messages2.default.create);
 	router.delete('/v1/messages/:id', authenticate, _messages2.default.delete);
+
+	/* 
+ |--------------------------------------------------------------------------
+ | Home
+ |--------------------------------------------------------------------------
+ */
+	router.get('*', function (req, res) {
+		res.render('samewave', { 'layout': 'app' });
+	});
 
 	return router;
 }
