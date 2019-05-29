@@ -41,6 +41,12 @@ export function userActions (dispatch) {
         payload: userId
       }
     },
+    surferDetails: userId => {
+      return {
+        type: StoreDefinitions.USER.SURFER_DETAILS,
+        payload: userId
+      }
+    },
     userTokenRefresh: token => {
       return {
         type: StoreDefinitions.USER.REFRESH,

@@ -69,7 +69,7 @@ const ProfileScreen = props => {
     dispatch(
       apiQuery(
         null,
-        props.userDetails,
+        userId ? props.surferDetails : props.userDetails,
         config.EndPoints.user + `/${userId ? userId : props.user.id}`,
         onFetchResult,
         'get'
@@ -131,7 +131,7 @@ const ProfileScreen = props => {
     }
   }
 
-  const { user } = props
+  const user = userId ? props.user.surfer : props.user
 
   return (
     <Profile>
@@ -140,6 +140,8 @@ const ProfileScreen = props => {
           title={userId ? '' : 'Profile'}
           rightIcon={!userId && Tools.renderIcon('pencil')}
           rightAction={onEditPress}
+          backButton={userId}
+          homeButton={!userId}
         />
 
         {loading ? (

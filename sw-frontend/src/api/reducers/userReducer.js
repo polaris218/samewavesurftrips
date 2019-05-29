@@ -79,6 +79,28 @@ export default function userReducer (
         optIn: action.payload.optIn
       }
       break
+    case StoreDefinitions.USER.SURFER_DETAILS:
+      state = {
+        ...state,
+        surfer: {
+          firstName: action.payload.first_name,
+          lastName: action.payload.last_name,
+          email: action.payload.email,
+          bio: action.payload.bio,
+          gender: action.payload.gender,
+          avatar: action.payload.avatar,
+          coverImg: action.payload.cover_image,
+          location: action.payload.location,
+          phone: action.payload.phone,
+          surf_level: action.payload.surf_level,
+          surf_modality: action.payload.surf_modality,
+          stance: action.payload.stance,
+          interests: action.payload.interests,
+          surfing_since: action.payload.surfing_since,
+          optIn: action.payload.optIn
+        }
+      }
+      break
     default:
       state = {
         ...state
