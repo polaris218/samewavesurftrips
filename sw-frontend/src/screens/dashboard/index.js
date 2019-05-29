@@ -98,7 +98,7 @@ const DashboardScreen = props => {
 
   return (
     <Dashboard>
-      <ScrollContainer>
+      <ScrollContainer height={55}>
         <Header
           title='Search Trips'
           rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')}
@@ -121,8 +121,8 @@ const DashboardScreen = props => {
           />
         </div>
         <Fab />
-        <MapTripDetail>
-          {activeTab === 'map' && (
+        {activeTab === 'map' && (
+          <MapTripDetail>
             <animated.div style={springProps}>
               <MapCard
                 id={current._id}
@@ -139,11 +139,11 @@ const DashboardScreen = props => {
                 surf_level={current.surf_level}
               />
             </animated.div>
-          )}
-        </MapTripDetail>
+          </MapTripDetail>
+        )}
         <Search visible={searchVisible} onFilter={onFilterPress} />
       </ScrollContainer>
-      <Footer />
+      {activeTab === 'list' && <Footer />}
     </Dashboard>
   )
 }

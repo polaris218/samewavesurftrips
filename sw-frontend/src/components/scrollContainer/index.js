@@ -2,28 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ScrollContainer } from './styles'
 
-const ScrollComponent = props => {
+const ScrollComponent = React.forwardRef((props, ref) => {
   return (
     <ScrollContainer
+      ref={ref}
       color={props.color}
       navbar={props.navbar}
       padTop={props.padTop}
-      height={props.height}>
+      height={props.height}
+      align={props.align}>
       {props.children}
     </ScrollContainer>
   )
-}
+})
 
 ScrollComponent.propTypes = {
   navbar: PropTypes.bool,
   color: PropTypes.string,
   padTop: PropTypes.bool,
-  height: PropTypes.string
+  height: PropTypes.string,
+  center: PropTypes.bool
 }
 
 ScrollComponent.defaultProps = {
   navbar: true,
   color: 'blue',
-  padTop: true
+  padTop: true,
+  align: 'flex-start'
 }
 export default ScrollComponent

@@ -69,7 +69,7 @@ const ProfileScreen = props => {
     dispatch(
       apiQuery(
         null,
-        props.userDetails,
+        userId ? props.surferDetails : props.userDetails,
         config.EndPoints.user + `/${userId ? userId : props.user.id}`,
         onFetchResult,
         'get'
@@ -126,13 +126,12 @@ const ProfileScreen = props => {
           }
         })
         if (cleanFollows.includes(props.user.id)) setFollowing(true)
-        console.log(cleanFollows, props.user.id)
         setFollowers(cleanFollows)
       }
     }
   }
 
-  const { user } = props
+  const user = userId ? props.user.surfer : props.user
 
   return (
     <Profile>
@@ -141,6 +140,8 @@ const ProfileScreen = props => {
           title={userId ? '' : 'Profile'}
           rightIcon={!userId && Tools.renderIcon('pencil')}
           rightAction={onEditPress}
+          backButton={userId}
+          homeButton={!userId}
         />
 
         {loading ? (
@@ -151,7 +152,7 @@ const ProfileScreen = props => {
           <ContentContainer>
             <MastHead
               image={
-                user.coverImg ? (
+                user && user.coverImg ? (
                   config.EndPoints.digitalOcean + user.coverImg
                 ) : null
               }
@@ -161,7 +162,7 @@ const ProfileScreen = props => {
                 <div className={'profile__avatar'}>
                   <Avatar
                     image={
-                      user.avatar ? (
+                      user && user.avatar ? (
                         config.EndPoints.digitalOcean + user.avatar
                       ) : null
                     }
@@ -170,7 +171,7 @@ const ProfileScreen = props => {
                 <div className={'profile__header-meta'}>
                   <div className='profile__person'>
                     <p className={'profile__name'}>
-                      {user.firstName ? (
+                      {user && user.firstName ? (
                         `${user.firstName} ${user.lastName}`
                       ) : (
                         'Your Name'
@@ -178,10 +179,10 @@ const ProfileScreen = props => {
                     </p>
                     <div className={'profile__location'}>
                       {Tools.renderIcon('pin')}{' '}
-                      {user.location ? !user.location.coordinates ? (
+                      {user && user.location ? !user.location.coordinates ? (
                         user.location
                       ) : (
-                        user.location.coordinates.name
+                        user && user.location.coordinates.name
                       ) : (
                         `Your Location`
                       )}
@@ -211,7 +212,10 @@ const ProfileScreen = props => {
                   <StatDivide />
                   <ProfileStat stat={followers.length} label='FOLLOWERS' />
                   <StatDivide />
-                  <ProfileStat stat={user.following} label='FOLLOWING' />
+                  <ProfileStat
+                    stat={user && user.following}
+                    label='FOLLOWING'
+                  />
                 </Stats>
 
                 {userId &&
@@ -241,28 +245,31 @@ const ProfileScreen = props => {
                   <div className={'profile__detail'}>
                     <div className={'profile__card'}>
                       <SurfIcons>
-                        {user.surf_level && (
+                        {user &&
+                        user.surf_level && (
                           <SurfStat>
                             <img
-                              src={PickIcon(user.surf_level)}
+                              src={PickIcon(user.surf_level.toLowerCase())}
                               alt={user.surf_level}
                             />
                             <span>Skill Level</span>
                           </SurfStat>
                         )}
-                        {user.stance && (
+                        {user &&
+                        user.stance && (
                           <SurfStat>
                             <img
-                              src={PickIcon(user.stance)}
+                              src={PickIcon(user.stance.toLowerCase())}
                               alt={user.stance}
                             />
                             <span>{user.stance}</span>
                           </SurfStat>
                         )}
-                        {user.surf_modality && (
+                        {user &&
+                        user.surf_modality && (
                           <SurfStat>
                             <img
-                              src={PickIcon(user.surf_modality)}
+                              src={PickIcon(user.surf_modality.toLowerCase())}
                               alt={user.surf_modality}
                             />
                             <span>{user.surf_modality}</span>
@@ -271,14 +278,15 @@ const ProfileScreen = props => {
                       </SurfIcons>
                       <Label>
                         Surfing Since:{' '}
-                        {user.surfing_since &&
+                        {user &&
+                          user.surfing_since &&
                           new Date(user.surfing_since).getFullYear()}
                       </Label>
 
                       <Card>
                         <div className={'profile__description'}>
                           <div className={'profile__location-header'}>bio:</div>
-                          {user.bio ? (
+                          {user && user.bio ? (
                             `${user.bio}`
                           ) : (
                             'Add something interesting about yourself here'
@@ -295,7 +303,8 @@ const ProfileScreen = props => {
                             INTERESTS:
                           </div>
                           <div className={'profile_interests'}>
-                            {user.interests &&
+                            {user &&
+                              user.interests &&
                               user.interests.map(item => (
                                 <Interest key={item}>{item}</Interest>
                               ))}

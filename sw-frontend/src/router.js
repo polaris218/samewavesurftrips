@@ -50,7 +50,10 @@ const AppRouter = props => {
         <Route exact path={`/${Routes.MAIL}`} component={Mail} />
         <Route exact path={`/${Routes.TERMS}`} component={Terms} />
         <Route exact path={`/${Routes.PRIVACY}`} component={Privacy} />
-        <Navigation accessToken={props.user.accessToken} />
+        <Navigation
+          accessToken={props.user.accessToken}
+          userImg={props.user.avatar}
+        />
         {/* <Footer accessToken={props.user.accessToken} /> */}
       </App>
     </Router>

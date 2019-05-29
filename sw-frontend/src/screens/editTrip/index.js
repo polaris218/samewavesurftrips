@@ -168,7 +168,7 @@ const EditTripScreen = props => {
 
   return (
     <Trip>
-      <ScrollContainer color={'orange'} navbar={false}>
+      <ScrollContainer color={'orange'} navbar={false} align={'center'}>
         <Header
           nav={false}
           backButton
@@ -289,8 +289,8 @@ const EditTripScreen = props => {
                       <Button
                         onPress={onDeletePress}
                         title='DELETE'
-                        color={Colors.RED_BASE}
-                        hoverColor={Colors.RED_DARK}
+                        color={Colors.RED_DARK}
+                        hoverColor={Colors.RED_BASE}
                       />
                       <div className='__block' />
                       <Button onPress={onEditPress} title='UPDATE' />

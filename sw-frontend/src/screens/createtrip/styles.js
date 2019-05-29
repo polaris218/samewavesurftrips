@@ -96,10 +96,43 @@ export const Label = styled.p`
 
 export const ContentContainer = styled.div`
   width: 100%;
+  max-width: 800px;
+  height: calc(100vh);
   overflow: scroll;
 `
 
 export const Step = styled.div`
   width: 100%;
   height: 100%;
+  min-height: 350px;
+`
+export const Steps = styled.div`
+  color: ${Colors.GREY_BASE};
+  padding: ${Spacings.MEDIUM}px;
+  margin-bottom: ${Spacings.MEDIUM}px;
+  span {
+    font-size: ${Spacings.FONT.TINY};
+    text-align: right;
+    width: 100%;
+    padding-top: 4px;
+  }
+`
+
+export const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin-bottom: ${Spacings.MEDIUM}px;
+  }
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    flex-direction: row;
+  }
+`
+export const Title = styled.h3`color: ${Colors.GREY_BASE};`
+export const Error = styled.div`
+  margin-top: 4px;
+  text-align: center;
+  color: ${Colors.RED_BASE};
+  font-size: ${Spacings.FONT.SMALL};
 `

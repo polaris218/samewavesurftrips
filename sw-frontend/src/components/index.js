@@ -31,6 +31,7 @@ import FootItem from './footItem'
 import ScrollContainer from './scrollContainer'
 import Search from './search'
 import ProfileStat from './profileStat'
+import ProgressBar from './progressBar'
 
 export {
   App,
@@ -65,5 +66,6 @@ export {
   FootItem,
   ScrollContainer,
   Search,
-  ProfileStat
+  ProfileStat,
+  ProgressBar
 }

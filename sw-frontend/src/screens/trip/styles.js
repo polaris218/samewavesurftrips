@@ -108,15 +108,30 @@ export const Trip = styled.div`
   .trip__level {
     display: flex;
     flex-direction: row;
-    margin: 0 0 ${Spacings.MEDIUM}px;
+    /* margin: 0 0 ${Spacings.MEDIUM}px; */
     padding: 0;
     text-align: left;
     width: 100%;
+    max-width: 100px;
     color: ${Colors.GREY_BASE};
 
     .trip__level-value {
       color: ${Colors.GREY_BASE};
       font-size: ${Spacings.FONT.BODY};
+      display: flex;
+      flex-direction: column;
+      margin: ${Spacings.MEDIUM}px;
+      justify-content: center;
+      align-items: center;
+      /* width: 100px; */
+      img {
+        width: 50px;
+        height: 50px;
+      }
+      span {
+        font-size: ${Spacings.FONT.SMALL};
+        padding: ${Spacings.SMALL}px 0;
+      }
     }
   }
 
@@ -192,6 +207,9 @@ export const Trip = styled.div`
     width: 100%;
     margin: ${Spacings.MEDIUM}px 0 0;
   }
+  .trip__details {
+    width: 100%;
+  }
 
   .trip__join {
     /* width: 100%; */
@@ -217,4 +235,27 @@ export const Center = styled.div`
   align-items: center;
   flex-direction: column;
   position: relative;
+`
+export const Stats = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-top: ${Spacings.SMALL}px;
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    flex-direction: row;
+  }
+`
+
+export const Stat = styled.div`
+  width: 20px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${Colors.BLUE_BASE};
+  font-weight: 500;
 `

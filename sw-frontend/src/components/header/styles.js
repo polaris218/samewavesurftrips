@@ -13,11 +13,11 @@ export const Header = styled.header`
   justify-content: center;
   color: white;
   border-bottom: 1px solid ${Colors.GREY_LIGHT};
-  background-color: ${Colors.WHITE};
+  background-color: ${Colors.BLUE_BASE};
   box-shadow: 0 2px 2px 0px #33333312;
 
   .header__title {
-    color: ${Colors.BLACK};
+    color: ${Colors.WHITE};
     letter-spacing: 1px;
     font-size: ${Spacings.FONT.TITLE};
     font-weight: 600;
@@ -30,7 +30,7 @@ export const Header = styled.header`
     cursor: pointer;
 
     svg path {
-      fill: ${Colors.BLUE_BASE};
+      fill: ${Colors.WHITE};
     }
 
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
@@ -106,7 +106,7 @@ export const HomeButton = styled.div`
   cursor: pointer;
   left: ${Spacings.MEDIUM}px;
   svg path {
-    fill: ${Colors.BLUE_BASE};
+    fill: ${Colors.WHITE};
   }
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     display: none;
@@ -141,7 +141,7 @@ export const NavItem = styled.button`
   align-items: center;
   height: 40px;
   margin: 0 ${Spacings.SMALL}px;
-  color: ${({ active }) => (active ? Colors.GREY_DARK : Colors.BLUE_BASE)};
+  color: ${({ active }) => (active ? Colors.GREY_DARK : Colors.WHITE)};
   font-size: 20px;
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New";
   cursor: pointer;
@@ -149,7 +149,7 @@ export const NavItem = styled.button`
   outline: none;
   background: transparent;
   border-bottom: ${({ active }) =>
-    active ? `2px solid ${Colors.BLUE_BASE}` : 'none'};
+    active ? `2px solid ${Colors.WHITE}` : 'none'};
   transition: color .2s ease;
 
   &:hover {

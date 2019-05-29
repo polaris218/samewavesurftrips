@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors, Spacings } from 'config';
+import styled from 'styled-components'
+import { Colors, Spacings } from 'config'
 
 export const Tab = styled.li`
     height: 100%;
@@ -41,4 +41,14 @@ export const Tab = styled.li`
             transform: scale(1.1);
         }
     }
-`;
+`
+
+export const AvatarConatiner = styled.div`
+  width: 22px;
+  height: 22px;
+
+  img {
+    width: 26px;
+    height: 26px;
+  }
+`
