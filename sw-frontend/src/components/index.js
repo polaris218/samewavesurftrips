@@ -32,6 +32,7 @@ import ScrollContainer from './scrollContainer'
 import Search from './search'
 import ProfileStat from './profileStat'
 import ProgressBar from './progressBar'
+import Modal from './modal'
 
 export {
   App,
@@ -67,5 +68,6 @@ export {
   ScrollContainer,
   Search,
   ProfileStat,
-  ProgressBar
+  ProgressBar,
+  Modal
 }
