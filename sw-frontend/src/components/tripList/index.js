@@ -42,6 +42,11 @@ const TripListComponent = props => {
                   gender={trip.gender}
                   surf_modality={trip.surf_modality}
                   surf_level={trip.surf_level}
+                  accomodation={trip.accomodation}
+                  available_seats={trip.available_seats}
+                  offering_rides={trip.offering_rides}
+                  transport={trip.transport}
+                  trip_details={trip.trip_details}
                 />
               </animated.div>
             )

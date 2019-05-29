@@ -28,7 +28,12 @@ const TripCardComponent = props => {
       name,
       avatar,
       tripDate,
-      postedDate
+      postedDate,
+      accomodation,
+      available_seats,
+      offering_rides,
+      transport,
+      trip_details
     } = props
 
     dispatch(
@@ -48,7 +53,12 @@ const TripCardComponent = props => {
         name,
         avatar,
         tripDate,
-        postedDate
+        postedDate,
+        accomodation,
+        available_seats,
+        offering_rides,
+        transport,
+        trip_details
       })
     )
     // Load Trip details

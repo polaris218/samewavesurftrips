@@ -47,6 +47,11 @@ const CreateTripScreen = props => {
     gender: '',
     modality: '',
     level: '',
+    transport: '',
+    accomodation: '',
+    offering_rides: false,
+    available_seats: 0,
+    trip_details: '',
     invalid: []
   })
   const scoller = useRef(null)
@@ -65,13 +70,18 @@ const CreateTripScreen = props => {
       authtoken: props.user.accessToken,
       departing: state.departing,
       departure_date_time: state.date_departure,
+      return_date_time: state.date_return,
       destination: state.destination,
       gender: state.gender,
       number_of_surfers: state.surferCount,
-      return_date_time: state.date_return,
       surf_level: state.level,
       surf_modality: state.modality,
-      title: state.title
+      title: state.title,
+      transport: state.transport,
+      accomodation: state.accomodation,
+      offering_rides: state.offering_rides,
+      available_seats: state.available_seats,
+      trip_details: state.trip_details
     }
 
     //Validate from .....
@@ -286,10 +296,10 @@ const CreateTripScreen = props => {
                       <Input
                         label='No. Seats'
                         onChange={onInputChange}
-                        value={state.avalibleSeats}
-                        fieldName={'avalibleSeats'}
+                        value={state.available_seats}
+                        fieldName={'available_seats'}
                         type='number'
-                        error={checkValidField('avalibleSeats')}
+                        error={checkValidField('available_seats')}
                       />
                       <Label>Accomodation</Label>
                       <Input
@@ -308,9 +318,9 @@ const CreateTripScreen = props => {
                       <Input
                         label='Something cool about the surfers or location?'
                         onChange={onInputChange}
-                        value={state.details}
-                        fieldName={'details'}
-                        error={checkValidField('details')}
+                        value={state.trip_details}
+                        fieldName={'trip_details'}
+                        error={checkValidField('trip_details')}
                         multiline={true}
                         rows={5}
                       />

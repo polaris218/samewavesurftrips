@@ -195,25 +195,16 @@ const TripScreen = props => {
                       <div className={'trip__location-header'}>
                         trip details:
                       </div>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      In sed ornare felis, vel tristique ligula. Mauris sit amet
-                      sapien sed mi tristique tincidunt. Nam varius justo mi,
-                      sed viverra ante pretium elementum. Vestibulum odio velit,
-                      commodo eget euismod et, semper eget est. Donec cursus
-                      varius sem. Aenean a felis ac dui lacinia congue.
-                      Suspendisse porttitor non ligula quis fermentum
+                      {trip.trip_details}
                     </div>
                   </Card>
                 </div>
                 <div className={'trip__card'}>
                   <Card>
                     <div className={'trip__level'}>
-                      <div className={'trip__icon'}>
-                        {Tools.renderIcon('wave')}
-                      </div>
                       <div>
                         <div className={'trip__location-header'}>
-                          surf level:
+                          recommended surf level:
                         </div>
                         <div className='trip__level-value'>
                           {trip.surf_level}
@@ -221,23 +212,17 @@ const TripScreen = props => {
                       </div>
                     </div>
                     <div className={'trip__level'}>
-                      <div className={'trip__icon'}>
-                        {Tools.renderIcon('surferMale')}
-                      </div>
                       <div>
                         <div className={'trip__location-header'}>
-                          surfers going:
+                          number of surfers going:
                         </div>
                         <div className='trip__level-value'>
                           {' '}
-                          {trip.attendees.length}
+                          {`${trip.attendees.length}/${trip.number_of_surfers}`}
                         </div>
                       </div>
                     </div>
                     <div className={'trip__level'}>
-                      <div className={'trip__icon'}>
-                        {Tools.renderIcon('board')}
-                      </div>
                       <div>
                         <div className={'trip__location-header'}>
                           recommended board:

@@ -192,6 +192,9 @@ export const Trip = styled.div`
     width: 100%;
     margin: ${Spacings.MEDIUM}px 0 0;
   }
+  .trip__details {
+    width: 100%;
+  }
 
   .trip__join {
     /* width: 100%; */
