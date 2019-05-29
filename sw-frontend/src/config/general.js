@@ -1,6 +1,7 @@
 export const baseAPI = 'https://samewave.herokuapp.com/v1/'
 
 export default {
+  Root: '', // '/app/',
   MapboxToken:
     'pk.eyJ1IjoiZGVwcm9ncmFtIiwiYSI6ImNqMmJiZnVsbzAwdjYzM284NWhwMWlmZmcifQ.1zrQ2Kozur-dRTtSOKjyvA',
   APITimeout: 7000,

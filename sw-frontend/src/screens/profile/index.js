@@ -126,7 +126,6 @@ const ProfileScreen = props => {
           }
         })
         if (cleanFollows.includes(props.user.id)) setFollowing(true)
-        console.log(cleanFollows, props.user.id)
         setFollowers(cleanFollows)
       }
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
@@ -19,9 +19,20 @@ import {
   Card,
   Heading,
   Header,
-  Preloader
+  Preloader,
+  ProgressBar
 } from 'components'
-import { Label, Trip, DateInput, ContentContainer, Step } from './styles'
+import {
+  ButtonRow,
+  Label,
+  Trip,
+  DateInput,
+  ContentContainer,
+  Step,
+  Steps,
+  Title,
+  Error
+} from './styles'
 
 const CreateTripScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -38,7 +49,13 @@ const CreateTripScreen = props => {
     level: '',
     invalid: []
   })
-  // const [ step, setStep ] = useState(1)
+  const [ step, setStep ] = useState(0)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setStep(1)
+    }, 500)
+  }, [])
 
   const onCreatePress = () => {
     setLoading(true)
@@ -138,9 +155,14 @@ const CreateTripScreen = props => {
     props.history.push('/' + Routes.SURFTRIPS)
   }
 
-  // const onNextPress = () => {
-  //   setStep(step + 1)
-  // }
+  const onNextPress = () => {
+    setStep(step + 1)
+    window.scrollTo(0, 0)
+  }
+
+  const onBackPress = () => {
+    setStep(step - 1)
+  }
 
   const handleDateChange = (date, field) => {
     setState({
@@ -151,7 +173,7 @@ const CreateTripScreen = props => {
 
   return (
     <Trip>
-      <ScrollContainer color='orange' navbar={false}>
+      <ScrollContainer color='orange' navbar={false} align='center'>
         <Header
           nav={false}
           backButton
@@ -160,134 +182,161 @@ const CreateTripScreen = props => {
         />
         <ContentContainer>
           {!createSuccess ? (
-            <Container>
+            <Container noPadd>
               <div className='trip__container'>
+                <Steps>
+                  <ProgressBar current={step} total={4} />
+                  <span>step {step} / 4</span>
+                </Steps>
                 <Card marginBottom={80}>
-                  {/* {step === 1 && ( */}
-                  <Step>
-                    <Label>TRIP TITLE</Label>
-                    <Input
-                      label='Give this trip a name? '
-                      onChange={onInputChange}
-                      value={state.title}
-                      fieldName={'title'}
-                      error={checkValidField('title')}
-                    />
-                    <Label>DEPARTING POINT</Label>
-                    <Places
-                      label='Departing'
-                      onChange={location =>
-                        onSetLocation(location, 'departing')}
-                      value={state.departing}
-                      error={checkValidField('departing')}
-                    />
-                    <Label>DESTINATION</Label>
-                    <Places
-                      label='Destination'
-                      onChange={location =>
-                        onSetLocation(location, 'destination')}
-                      value={state.destination}
-                      error={checkValidField('destination')}
-                    />
-                    <Label>DATES</Label>
-                    <Label>FROM</Label>
-                    <DateInput>
-                      <DatePicker
-                        selected={state.date_departure}
-                        onChange={date =>
-                          handleDateChange(date, 'date_departure')}
+                  {(step === 1 || step === 0) && (
+                    <Step>
+                      <Title>Name your Surf Trip & enter the location</Title>
+                      <Label>TRIP TITLE</Label>
+                      <Input
+                        label='Give this trip a name? '
+                        onChange={onInputChange}
+                        value={state.title}
+                        fieldName={'title'}
+                        error={checkValidField('title')}
                       />
-                    </DateInput>
-                    <Label>TO</Label>
-                    <DateInput>
-                      <DatePicker
-                        selected={state.date_return}
-                        onChange={date => handleDateChange(date, 'date_return')}
+                      <Label>DEPARTING POINT</Label>
+                      <Places
+                        label='Departing'
+                        onChange={location =>
+                          onSetLocation(location, 'departing')}
+                        value={state.departing}
+                        error={checkValidField('departing')}
                       />
-                    </DateInput>
-                  </Step>
+                      <Label>DESTINATION</Label>
+                      <Places
+                        label='Destination'
+                        onChange={location =>
+                          onSetLocation(location, 'destination')}
+                        value={state.destination}
+                        error={checkValidField('destination')}
+                      />
+                      <Title>When will it take place?</Title>
+                      <Label>FROM</Label>
+                      <DateInput>
+                        <DatePicker
+                          selected={state.date_departure}
+                          onChange={date =>
+                            handleDateChange(date, 'date_departure')}
+                        />
+                      </DateInput>
+                      <Label>TO</Label>
+                      <DateInput>
+                        <DatePicker
+                          selected={state.date_return}
+                          onChange={date =>
+                            handleDateChange(date, 'date_return')}
+                        />
+                      </DateInput>
+                    </Step>
                   )}
-                  {/* {step === 2 && ( */}
-                  <Step>
-                    <Label>HOW MANY SURFERS YOU WANT TO GO WITH?</Label>
-                    <Input
-                      label='No. Surfers'
-                      onChange={onInputChange}
-                      value={state.surferCount}
-                      fieldName={'surferCount'}
-                      type='number'
-                      error={checkValidField('surferCount')}
-                    />
-                    <Label>ANY GENDER RESTRICTION?</Label>
-                    <Select
-                      items={Types.gender}
-                      fieldName={'gender'}
-                      placeholder={'Gender'}
-                      error={checkValidField('gender')}
-                      onChange={onSelectChange}
-                    />
-                    <Label>SPECIFIC SURF MODALITY</Label>
-                    <Select
-                      items={Types.modality}
-                      fieldName={'modality'}
-                      placeholder={'Surf Modality'}
-                      error={checkValidField('modality')}
-                      onChange={onSelectChange}
-                    />
-                    <Label>SPECIFIC SURF LEVEL</Label>
-                    <Select
-                      items={Types.surfLevel}
-                      fieldName={'level'}
-                      placeholder={'Surf Level'}
-                      error={checkValidField('level')}
-                      onChange={onSelectChange}
-                    />
-                  </Step>
+                  {step === 2 && (
+                    <Step>
+                      <Title>Type of surf</Title>
+                      <Label>HOW MANY SURFERS YOU WANT TO GO WITH?</Label>
+                      <Input
+                        label='No. Surfers'
+                        onChange={onInputChange}
+                        value={state.surferCount}
+                        fieldName={'surferCount'}
+                        type='number'
+                        error={checkValidField('surferCount')}
+                      />
+                      <Label>ANY GENDER RESTRICTION?</Label>
+                      <Select
+                        items={Types.gender}
+                        fieldName={'gender'}
+                        placeholder={'Gender'}
+                        error={checkValidField('gender')}
+                        onChange={onSelectChange}
+                      />
+                      <Label>SPECIFIC SURF MODALITY</Label>
+                      <Select
+                        items={Types.modality}
+                        fieldName={'modality'}
+                        placeholder={'Surf Modality'}
+                        error={checkValidField('modality')}
+                        onChange={onSelectChange}
+                      />
+                      <Label>SPECIFIC SURF LEVEL</Label>
+                      <Select
+                        items={Types.surfLevel}
+                        fieldName={'level'}
+                        placeholder={'Surf Level'}
+                        error={checkValidField('level')}
+                        onChange={onSelectChange}
+                      />
+                    </Step>
                   )}
-                  {/* {step === 3 && ( */}
-                  <Step>
-                    <Label>ARE YOU OFFERING RIDES?</Label>
-                    <Label>Avalible Seats</Label>
-                    <Input
-                      label='No. Seats'
-                      onChange={onInputChange}
-                      value={state.avalibleSeats}
-                      fieldName={'avalibleSeats'}
-                      type='number'
-                      error={checkValidField('avalibleSeats')}
-                    />
-                    <Label>Accomodation</Label>
-                    <Input
-                      label='Accomodation'
-                      onChange={onInputChange}
-                      value={state.accomodation}
-                      fieldName={'accomodation'}
-                      error={checkValidField('accomodation')}
-                    />
-                  </Step>
+                  {step === 3 && (
+                    <Step>
+                      <Title>Travel & accomodation</Title>
+                      <Label>ARE YOU OFFERING RIDES?</Label>
+                      <Label>Avalible Seats</Label>
+                      <Input
+                        label='No. Seats'
+                        onChange={onInputChange}
+                        value={state.avalibleSeats}
+                        fieldName={'avalibleSeats'}
+                        type='number'
+                        error={checkValidField('avalibleSeats')}
+                      />
+                      <Label>Accomodation</Label>
+                      <Input
+                        label='Accomodation'
+                        onChange={onInputChange}
+                        value={state.accomodation}
+                        fieldName={'accomodation'}
+                        error={checkValidField('accomodation')}
+                      />
+                    </Step>
                   )}
-                  {/* {step === 4 && ( */}
-                  <Step>
-                    <Label>SURF TRIP INFO</Label>
-                    <Input
-                      label='Any more details?'
-                      onChange={onInputChange}
-                      value={state.details}
-                      fieldName={'details'}
-                      error={checkValidField('details')}
-                      multiline={true}
-                      rows={5}
-                    />
-                  </Step>
+                  {step === 4 && (
+                    <Step>
+                      <Title>Any extra details you would like to add? </Title>
+                      <Label>SURF TRIP BIO</Label>
+                      <Input
+                        label='Something cool about the surfers or location?'
+                        onChange={onInputChange}
+                        value={state.details}
+                        fieldName={'details'}
+                        error={checkValidField('details')}
+                        multiline={true}
+                        rows={5}
+                      />
+                    </Step>
                   )}
                 </Card>
                 {!loading ? (
                   <div className={'trip__button'}>
-                    {/* {step === 4 ? ( */}
-                    <Button onPress={onCreatePress} title='CREATE SURF TRIP' />
-                    {/* ) : (
-                      <Button onPress={onNextPress} title='NEXT' />
-                    )} */}
+                    {step === 4 ? (
+                      <ButtonRow>
+                        <Button outline onPress={onBackPress} title='PREV' />
+                        <Button
+                          primary
+                          onPress={onCreatePress}
+                          title='CREATE SURF TRIP'
+                        />
+                      </ButtonRow>
+                    ) : (
+                      <ButtonRow>
+                        <Button
+                          disabled={step === 1 || step === 0}
+                          outline
+                          onPress={onBackPress}
+                          title='PREV'
+                        />
+                        <Button onPress={onNextPress} title='NEXT' />
+                      </ButtonRow>
+                    )}
+                    {state.invalid.length != 0 && (
+                      <Error>* check all fields have been filed</Error>
+                    )}
                   </div>
                 ) : (
                   <div className={'trip__loader'}>

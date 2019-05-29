@@ -22,6 +22,7 @@ export const Button = styled.button`
   transition: background 0.25s ease, transform .15s ease-in-out,
     box-shadow .45s ease;
   pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+  opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
 
   :hover {
     border: ${props =>
