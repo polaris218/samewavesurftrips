@@ -118,6 +118,19 @@ export function respond(req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| Respond with token - FACEBOOK LOGIN
+|--------------------------------------------------------------------------
+*/
+export function respondFB(req, res) { 
+  
+  let refreshToken = randtoken.uid(256);
+  config.auth.refreshTokens[refreshToken] = req.user._id;
+
+  res.redirect(`/dashboard?token=${req.token}&refreshToken=${refreshToken}&user=${req.user}`);
+}
+
+/* 
+|--------------------------------------------------------------------------
 | Serialize json token
 |--------------------------------------------------------------------------
 */

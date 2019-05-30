@@ -83,7 +83,7 @@ function routes() {
 
 	app.get('/auth/facebook/callback', _passport2.default.authenticate('facebook', {
 		session: false
-	}), _auth.serialize, _auth.generateToken, _auth.respond);
+	}), _auth.serialize, _auth.generateToken, _auth.respondFB);
 
 	/* 
  |--------------------------------------------------------------------------

@@ -2,7 +2,7 @@ import express from 'express';
 import config from './config';
 import expressJwt from 'express-jwt'; 
 import passport from 'passport';  
-import { passportLocalStrategy, serialize, generateToken, respond, refreshToken, passportFBStrategy} from './controllers/auth';
+import { passportLocalStrategy, serialize, generateToken, respond, respondFB, refreshToken, passportFBStrategy} from './controllers/auth';
 import Trip from './controllers/trips';
 import User from './controllers/users';
 import Message from './controllers/messages';
@@ -56,7 +56,7 @@ export function routes() {
 
 	app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 		session: false
-	}), serialize, generateToken, respond);
+	}), serialize, generateToken, respondFB);
 
 
 	/* 

@@ -7,6 +7,7 @@ exports.passportLocalStrategy = passportLocalStrategy;
 exports.passportFBStrategy = passportFBStrategy;
 exports.generateToken = generateToken;
 exports.respond = respond;
+exports.respondFB = respondFB;
 exports.serialize = serialize;
 exports.refreshToken = refreshToken;
 
@@ -141,6 +142,19 @@ function respond(req, res) {
     token: req.token,
     refreshToken: refreshToken
   });
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Respond with token - FACEBOOK LOGIN
+|--------------------------------------------------------------------------
+*/
+function respondFB(req, res) {
+
+  var refreshToken = _randToken2.default.uid(256);
+  _config2.default.auth.refreshTokens[refreshToken] = req.user._id;
+
+  res.redirect('/dashboard?token=' + req.token + '&refreshToken=' + refreshToken + '&user=' + req.user);
 }
 
 /* 
