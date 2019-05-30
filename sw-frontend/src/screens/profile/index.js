@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import store, { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
-import { General as config, Routes } from 'config'
+import { General as config, Routes, Colors } from 'config'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import {
   Avatar,
@@ -223,7 +223,12 @@ const ProfileScreen = props => {
                   <div className={'profile__contact_mobile'}>
                     <div className={'profile__follow'}>
                       <Button
-                        outline={following}
+                        color={
+                          following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE
+                        }
+                        hoverColor={
+                          following ? Colors.GREY_BASE : Colors.ORANGE_DARK
+                        }
                         onPress={onFollow}
                         title={!following ? 'Follow' : 'Following'}
                       />

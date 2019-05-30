@@ -16,7 +16,8 @@ import {
   MastHead,
   Map,
   ScrollContainer,
-  FootItem
+  FootItem,
+  Modal
 } from 'components'
 import { Tools, PickIcon } from 'utils'
 import { Trip, ContentContainer, Center, Stats, Stat } from './styles'
@@ -27,6 +28,7 @@ const TripScreen = props => {
     loading: false,
     joined: false
   })
+  const [ modalVisible, setModalVisible ] = useState(false)
 
   useEffect(() => {
     // TODO: If not Current Trip prop, get via ID in URL
@@ -59,6 +61,7 @@ const TripScreen = props => {
         'get'
       )
     )
+    setModalVisible(false)
   }
 
   const onTripResult = () => {}
@@ -89,10 +92,13 @@ const TripScreen = props => {
     new Date(trip.date_times.return_date_time) > new Date() && (
       <div className={'trip__join'}>
         {!state.joined ? (
-          <Button onPress={onJoinPress} title='JOIN THIS SURF TRIP' />
+          <Button
+            onPress={() => setModalVisible(true)}
+            title='JOIN THIS SURF TRIP'
+          />
         ) : (
           <Button
-            onPress={onJoinPress.bind(this, false)}
+            onPress={() => setModalVisible(true)}
             title='LEAVE THE TRIP'
             color={Colors.RED_BASE}
             hoverColor={Colors.RED_DARK}
@@ -218,9 +224,6 @@ const TripScreen = props => {
 
                       <div className={'trip__level'}>
                         <div>
-                          {/* <div className={'trip__location-header'}>
-                            recommended board:
-                          </div> */}
                           <div className='trip__level-value'>
                             <img
                               src={PickIcon(trip.surf_modality)}
@@ -233,9 +236,6 @@ const TripScreen = props => {
 
                       <div className={'trip__level'}>
                         <div>
-                          {/* <div className={'trip__location-header'}>
-                            surfers going:
-                          </div> */}
                           <div className='trip__level-value'>
                             <Stat>
                               {`${trip.attendees
@@ -254,6 +254,21 @@ const TripScreen = props => {
           <FootItem />
         </ContentContainer>
       </ScrollContainer>
+      <Modal
+        visible={modalVisible}
+        title={(!state.joined ? 'Join ' : 'Leave ') + trip.title}
+        sub={
+          !state.joined ? (
+            'are you sure you want to be added to this trip?'
+          ) : (
+            'are you sure you want leave this trip?'
+          )
+        }
+        buttonNo='CANCEL'
+        buttonYes={!state.joined ? 'JOIN' : 'LEAVE'}
+        onNoPress={() => setModalVisible(false)}
+        onYesPress={!state.joined ? onJoinPress : onJoinPress.bind(this, false)}
+      />
     </Trip>
   )
 }

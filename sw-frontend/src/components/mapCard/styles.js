@@ -125,7 +125,6 @@ export const MapCard = styled.div`
   }
 
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
-    margin: 55px ${Spacings.MEDIUM}px 0;
-    ${Spacings.SMALL}px;
+    margin: 55px ${Spacings.MEDIUM}px 0 ${Spacings.SMALL}px;
   }
 `
