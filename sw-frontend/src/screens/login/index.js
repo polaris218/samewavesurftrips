@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import FacebookLogin from 'react-facebook-login'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
@@ -79,6 +80,11 @@ const LoginScreen = props => {
     setState({ ...state, password })
   }
 
+  const responseFacebook = response => {
+    console.log(response)
+  }
+
+  const FBClicked = () => {}
   return (
     <Login>
       <BackgroundImage blur={0} opacity={0.5} />
@@ -113,6 +119,14 @@ const LoginScreen = props => {
                 icon={IconFB}
               />
             </div>
+
+            <FacebookLogin
+              appId='161223164770911'
+              autoLoad={true}
+              fields='name,email,picture'
+              onClick={FBClicked}
+              callback={responseFacebook}
+            />
 
             {state.error && (
               <div className={'login__error'}>

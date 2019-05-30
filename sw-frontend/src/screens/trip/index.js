@@ -269,7 +269,6 @@ const TripScreen = props => {
         onNoPress={() => setModalVisible(false)}
         onYesPress={!state.joined ? onJoinPress : onJoinPress.bind(this, false)}
       />
-      {/* onJoinPress.bind(this, false) */}
     </Trip>
   )
 }
