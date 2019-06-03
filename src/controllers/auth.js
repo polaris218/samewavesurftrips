@@ -184,5 +184,5 @@ export function refreshToken (req, res, next) {
     next()
   } else {
     res.status(422).send('Invalid refresh token')
-  }
+  } 
 }
