@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Colors, Spacings } from 'config'
 
-export const Login = styled.div`
+export const Forgot = styled.div`
   width: 100%;
   min-height: 800px;
   padding: ${Spacings.LARGE}px 0 ${Spacings.XLARGE * 2}px;
@@ -18,27 +18,9 @@ export const Login = styled.div`
   }
 
   .login__logo {
-    margin: ${Spacings.MEDIUM}px 0 0;
+    margin: ${Spacings.SMALL}px 0 0;
     width: 130px;
     height: 150px;
-  }
-
-  .login__fb {
-    margin-top: ${Spacings.MEDIUM}px;
-    width: 100%;
-  }
-
-  .login__forgotpw {
-    margin-top: -${Spacings.SMALL}px;
-    margin-bottom: ${Spacings.LARGE}px;
-
-    font-size: ${Spacings.FONT.LABEL};
-    text-align: right;
-    width: 100%;
-    a {
-      padding-right: ${Spacings.MEDIUM}px;
-      color: white;
-    }
   }
 
   .login__register {
@@ -53,21 +35,19 @@ export const Login = styled.div`
 
   .login__form {
     width: 100%;
-    max-width: 500px;
-    min-height: 350px;
+    max-width: 400px;
+    min-height: 250px;
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
   }
 
-  .login__error {
-    margin-top: ${Spacings.MEDIUM}px;
-    color: ${Colors.RED};
-    font-size: ${Spacings.FONT.BODY};
-  }
-
   a {
     color: ${Colors.GREY_LIGHT};
   }
+`
+export const Label = styled.div`
+  padding: ${Spacings.LARGE}px ${Spacings.MEDIUM}px;
+  font-size: ${Spacings.FONT.BODY};
 `

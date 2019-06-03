@@ -29,7 +29,7 @@ export const Button = styled.button`
       props.outline ? `2px solid ${Colors.GREY_LIGHT}` : `none`};
     background: ${props =>
       props.primary
-        ? Colors.BLUE_DARK
+        ? Colors.GREY_LIGHT
         : props.outline
           ? 'none'
           : props.hoverColor ? props.hoverColor : Colors.ORANGE_DARK};

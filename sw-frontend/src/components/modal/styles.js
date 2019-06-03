@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Colors, Spacings } from 'config'
+import { Spacings } from 'config'
 
 export const Modal = styled.div`
   width: 100vw;

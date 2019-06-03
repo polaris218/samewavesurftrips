@@ -11,6 +11,7 @@ import CreateTrip from './createtrip'
 import Mail from './mail'
 import EditTrip from './editTrip'
 import EditProfile from './editProfile'
+import Forgot from './forgot'
 
 export {
   Dashboard,
@@ -25,5 +26,6 @@ export {
   CreateTrip,
   Mail,
   EditTrip,
-  EditProfile
+  EditProfile,
+  Forgot
 }

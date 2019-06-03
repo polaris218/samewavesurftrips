@@ -12,5 +12,7 @@ export default {
   MAIL: 'inbox',
   EDIT_TRIP: 'edit_trip',
   EDIT_PROFILE: 'edit_profile',
-  USER: 'user'
+  USER: 'user',
+  AUTH: 'auth',
+  FORGOT: 'forgot'
 }

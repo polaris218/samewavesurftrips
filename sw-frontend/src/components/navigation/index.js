@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { General as config, Routes } from 'config'
 import { Tab } from 'components'
@@ -23,8 +22,6 @@ const NavigationComponent = props => {
   ) {
     return null
   }
-
-  console.log('props.location.pathname,', props.location.pathname)
 
   return (
     <Navigation visible={visible}>

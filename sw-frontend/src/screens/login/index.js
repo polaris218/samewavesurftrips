@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import FacebookLogin from 'react-facebook-login'
+// import FacebookLogin from 'react-facebook-login'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
@@ -61,7 +61,11 @@ const LoginScreen = props => {
   }
 
   const onFacebookPress = () => {
-    window.open('https://samewave.herokuapp.com/v1/auth/facebook', '_blank')
+    window.open(
+      'https://samewave.herokuapp.com/v1/auth/facebook'
+      // 'popUpWindow',
+      // 'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes'
+    )
   }
 
   const onRegisterPress = () => {
@@ -70,6 +74,7 @@ const LoginScreen = props => {
 
   const onForgotPassword = () => {
     console.log('User forgot password')
+    props.history.push('/' + Routes.FORGOT)
   }
 
   const onEmailChange = email => {
@@ -81,10 +86,13 @@ const LoginScreen = props => {
   }
 
   const responseFacebook = response => {
-    console.log(response)
+    console.log('fb ___', response)
   }
 
-  const FBClicked = () => {}
+  const FBClicked = res => {
+    console.log('click__', res)
+  }
+
   return (
     <Login>
       <BackgroundImage blur={0} opacity={0.5} />
@@ -95,39 +103,40 @@ const LoginScreen = props => {
 
         {!loading ? (
           <div className={'login__form'}>
-            <Input
-              label='Email address'
-              onChange={onEmailChange}
-              value={state.email}
-            />
-            <Input
-              label='Password'
-              type={'password'}
-              onChange={onPasswordChange}
-              value={state.password}
-            />
-            <div className={'login__forgotpw'}>
-              <Link onClick={onForgotPassword}>Forgot password</Link>
-            </div>
-            <Button onPress={onLoginPress} title='LOGIN' primary />
-            <div className={'login__fb'}>
-              <Button
-                onPress={onFacebookPress}
-                title='LOGIN WITH FACEBOOK'
-                color='#3a5ca9'
-                hoverColor='#3668d9'
-                icon={IconFB}
+            <form>
+              <Input
+                label='Email address'
+                onChange={onEmailChange}
+                value={state.email}
               />
-            </div>
+              <Input
+                label='Password'
+                type={'password'}
+                onChange={onPasswordChange}
+                value={state.password}
+              />
+              <div className={'login__forgotpw'}>
+                <Link onClick={onForgotPassword}>Forgot password</Link>
+              </div>
+              <Button onPress={onLoginPress} title='LOGIN' primary />
+              <div className={'login__fb'}>
+                <Button
+                  onPress={onFacebookPress}
+                  title='LOGIN WITH FACEBOOK'
+                  color='#3a5ca9'
+                  hoverColor='#3668d9'
+                  icon={IconFB}
+                />
+              </div>
 
-            <FacebookLogin
+              {/* <FacebookLogin
               appId='161223164770911'
               autoLoad={true}
               fields='name,email,picture'
               onClick={FBClicked}
               callback={responseFacebook}
-            />
-
+            /> */}
+            </form>
             {state.error && (
               <div className={'login__error'}>
                 * Please check your login details

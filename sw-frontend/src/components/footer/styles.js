@@ -5,7 +5,7 @@ export const Footer = styled.footer`
   /* position: absolute; */
   bottom: 0px;
   left: 0px;
-  padding: 0px 20px;
+  padding: ${Spacings.LARGE}px 20px;
   width: calc(100% - 40px);
   height: 50px;
   display: none;
@@ -15,6 +15,7 @@ export const Footer = styled.footer`
   background: ${Colors.GREY_LIGHT};
   p {
     font-size: ${Spacings.FONT.SMALL};
+    line-height: 20px;
     color: ${Colors.GREY_BASE};
     padding: 0;
     margin: 0;
