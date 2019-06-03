@@ -52,9 +52,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 function passportLocalStrategy() {
   _passport2.default.use(new _passportLocal2.default({ passReqToCallback: true }, function (req, username, password, done) {
-
     _user2.default.find({ email: username }).then(function (user) {
-
       if (user.length) {
         _bcrypt2.default.compare(password, user[0].password, function (err, res) {
           if (res) {
@@ -78,24 +76,20 @@ function passportLocalStrategy() {
 |--------------------------------------------------------------------------
 */
 function passportFBStrategy() {
-
   _passport2.default.use(new _passportFacebook2.default({
     clientID: _config2.default.auth.facebook_app_id,
     clientSecret: _config2.default.auth.facebook_app_secret,
     callbackURL: 'https://' + _config2.default.domain + '/auth/facebook/callback',
     profileFields: ['emails']
   }, function (accessToken, refreshToken, profile, done) {
-
     var username = profile.id + '_facebook';
 
-    //check to see if user already exists --- 
+    //check to see if user already exists ---
     _user2.default.findOne({ username: username }).then(function (user) {
-
       if (user) {
         done(null, user);
       } else {
-
-        //create new user --- 
+        //create new user ---
         _user2.default.create({
           email: username,
           username: username,
@@ -118,7 +112,6 @@ function passportFBStrategy() {
 |--------------------------------------------------------------------------
 */
 function generateToken(req, res, next) {
-
   req.token = _jsonwebtoken2.default.sign({
     _id: req.user._id
   }, _config2.default.auth.secret, {
@@ -133,7 +126,6 @@ function generateToken(req, res, next) {
 |--------------------------------------------------------------------------
 */
 function respond(req, res) {
-
   var refreshToken = _randToken2.default.uid(256);
   _config2.default.auth.refreshTokens[refreshToken] = req.user._id;
 
@@ -150,11 +142,10 @@ function respond(req, res) {
 |--------------------------------------------------------------------------
 */
 function respondFB(req, res) {
-
   var refreshToken = _randToken2.default.uid(256);
   _config2.default.auth.refreshTokens[refreshToken] = req.user._id;
 
-  res.redirect('/dashboard?token=' + req.token + '&refreshToken=' + refreshToken + '&user=' + req.user);
+  res.redirect('/auth?token=' + req.token + '&refreshToken=' + refreshToken + '&user=' + req.user);
 }
 
 /* 
@@ -178,15 +169,13 @@ var db = {
   updateOrCreate: function updateOrCreate(user, cb) {
     cb(null, user);
   }
-};
 
-/* 
-|--------------------------------------------------------------------------
-| Refresh token.
-|--------------------------------------------------------------------------
-*/
-function refreshToken(req, res, next) {
-
+  /* 
+  |--------------------------------------------------------------------------
+  | Refresh token.
+  |--------------------------------------------------------------------------
+  */
+};function refreshToken(req, res, next) {
   var expiredToken = void 0;
   var refreshToken = req.body.refreshToken;
 
@@ -201,6 +190,6 @@ function refreshToken(req, res, next) {
     delete _config2.default.auth.refreshTokens[refreshToken];
     next();
   } else {
-    res.status(422).send("Invalid refresh token");
+    res.status(422).send('Invalid refresh token');
   }
 }

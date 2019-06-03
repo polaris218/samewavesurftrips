@@ -58,14 +58,6 @@ export function routes() {
 		session: false
 	}), serialize, generateToken, respondFB);
 
-
-	/* 
-	|--------------------------------------------------------------------------
-	| Refresh token
-	|--------------------------------------------------------------------------
-	*/
-	router.post('/v1/token', refreshToken, serialize, generateToken, respond);
-
 	/* 
 	|--------------------------------------------------------------------------
 	| Sandbox
@@ -124,6 +116,14 @@ export function routes() {
 	router.post(`/v1/messages`, authenticate, Message.create);
 	router.delete(`/v1/messages/:id`, authenticate, Message.delete);
 
+	/* 
+	|--------------------------------------------------------------------------
+	| Refresh token
+	|--------------------------------------------------------------------------
+	*/
+	router.post('/v1/token', refreshToken, serialize, generateToken, respond);
+
+	
 	/* 
 	|--------------------------------------------------------------------------
 	| Home

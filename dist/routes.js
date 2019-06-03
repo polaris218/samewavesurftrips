@@ -87,13 +87,6 @@ function routes() {
 
 	/* 
  |--------------------------------------------------------------------------
- | Refresh token
- |--------------------------------------------------------------------------
- */
-	router.post('/v1/token', _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
-
-	/* 
- |--------------------------------------------------------------------------
  | Sandbox
  |--------------------------------------------------------------------------
  */
@@ -149,6 +142,13 @@ function routes() {
 	router.get('/v1/messages', authenticate, _messages2.default.getAll);
 	router.post('/v1/messages', authenticate, _messages2.default.create);
 	router.delete('/v1/messages/:id', authenticate, _messages2.default.delete);
+
+	/* 
+ |--------------------------------------------------------------------------
+ | Refresh token
+ |--------------------------------------------------------------------------
+ */
+	router.post('/v1/token', _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
 
 	/* 
  |--------------------------------------------------------------------------
