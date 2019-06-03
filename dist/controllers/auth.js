@@ -183,7 +183,7 @@ var db = {
     expiredToken = req.headers.authorization.split(' ')[1];
   }
 
-  var user = _jsonwebtoken2.default.verify(expiredToken, _config2.default.auth.secret);
+  var user = _jsonwebtoken2.default.verify(expiredToken, _config2.default.auth.secret, { ignoreExpiration: true });
 
   if (refreshToken in _config2.default.auth.refreshTokens && _config2.default.auth.refreshTokens[refreshToken] == user._id) {
     req.user = user;

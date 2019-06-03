@@ -173,7 +173,7 @@ export function refreshToken (req, res, next) {
     expiredToken = req.headers.authorization.split(' ')[1]
   }
 
-  const user = jwt.verify(expiredToken, config.auth.secret)
+  const user = jwt.verify(expiredToken, config.auth.secret, {ignoreExpiration: true})
 
   if (
     refreshToken in config.auth.refreshTokens &&
