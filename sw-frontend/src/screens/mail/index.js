@@ -1,40 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import axios from 'axios'
+import store, { dispatch } from 'api/store'
+import { apiQuery } from 'api/thunks/general'
+import { General as config } from 'config'
+import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import {
   Container,
   ScrollContainer,
   Header,
   Tabs,
   Footer,
-  MsgListItem
+  MsgListItem,
+  Preloader
 } from 'components'
 import { Tools } from 'utils'
-import { Mail, Empty, FootContainer } from './styles'
+import { Mail, Empty, FootContainer, PreloadContainer } from './styles'
 
 const MailScreen = props => {
+  const [ loading, setLoading ] = useState(true)
   const [ state ] = useState({
     active: '',
     tabs: [ 'Direct', 'Group' ]
   })
-  const [ messages, setMessages ] = useState([
-    {
-      message: 'I would like to talk about some stuff',
-      trip: 'Trip title is what',
-      _id: 1
-    },
-    {
-      message: 'asdas sadI would like to talk about some stuff',
-      trip: 'Another one',
-      _id: 2
-    },
-    {
-      message: 'asdas sadI would like to talk about some stuff',
-      trip: 'And anopther onee',
-      _id: 3
-    }
-  ])
+
+  const [ messages, setMessages ] = useState([])
+
+  useEffect(() => {
+    getMessages()
+  }, [])
 
   const onTabPress = value => {
     // console.log('On Tab ', state.tabs[value])
+  }
+
+  const getMessages = async () => {
+    const bearerToken = 'Bearer ' + store.getState().user.accessToken
+    const response = await axios({
+      method: 'GET',
+      url: `${config.EndPoints.messages}`,
+      headers: { Authorization: bearerToken },
+      validateStatus: status => {
+        return true
+      },
+      timeout: config.APITimeout
+    })
+    if (response.status === 200) {
+      console.log('MESSAGES? ___', response)
+      setMessages(response.data)
+      setLoading(false)
+    }
   }
 
   return (
@@ -43,10 +59,19 @@ const MailScreen = props => {
       <Tabs tabs={state.tabs} onTabPress={onTabPress} />
       <ScrollContainer padTop={false} height={'55'}>
         <Container>
-          {messages.length > 0 ? (
+          {loading ? (
+            <PreloadContainer>
+              <Preloader />
+            </PreloadContainer>
+          ) : messages.length > 0 ? (
             messages.map(item => {
               return (
-                <MsgListItem key={item._id} id={item._id} title={item.trip} />
+                <MsgListItem
+                  message={item}
+                  key={item._id}
+                  id={item._id}
+                  title={item.subject}
+                />
               )
             })
           ) : (
@@ -68,4 +93,11 @@ const MailScreen = props => {
   )
 }
 
-export default MailScreen
+const mapStateToProps = state => ({
+  user: state.user,
+  trips: state.trips
+})
+
+export default connect(mapStateToProps, dispatch =>
+  mapDispatchToProps(dispatch, [ userActions, tripActions ])
+)(withRouter(MailScreen))

@@ -35,7 +35,7 @@ export const Sub = styled.h3`
 `
 
 export const ButtonContainer = styled.div`
-  display: flex;
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
   flex-direction: row;
   margin-bottom: ${Spacings.MEDIUM}px;
   button {

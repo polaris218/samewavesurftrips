@@ -24,8 +24,9 @@ export const apiQuery = (
       .catch(error => {
         console.log('1st Error', error)
         if (error.status === 401) {
-          refreshToken(store.getState().user.refreshToken)
+          refreshToken()
             .then(response => {
+              console.log('Refresh Response', response)
               dispatch(userActions().userTokenRefresh(response.data))
               // Now we rerun the same query with Tokens refreshed, otherwise bailout.
               executeQuery(endpoint, data, type, processData)

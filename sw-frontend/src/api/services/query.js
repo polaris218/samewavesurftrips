@@ -45,12 +45,11 @@ export const executeQuery = async (
 export const refreshToken = async () => {
   try {
     const bearerToken = 'Bearer ' + store.getState().user.accessToken
-    const refreshToken = store.getState().user.refreshToken
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: config.EndPoints.refresh,
       data: {
-        refreshToken
+        refreshToken: store.getState().user.refreshToken
       },
       headers: { Authorization: bearerToken },
       validateStatus: status => {

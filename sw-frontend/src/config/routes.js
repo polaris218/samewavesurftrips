@@ -14,5 +14,6 @@ export default {
   EDIT_PROFILE: 'edit_profile',
   USER: 'user',
   AUTH: 'auth',
-  FORGOT: 'forgot'
+  FORGOT: 'forgot',
+  MESSAGE: 'message'
 }

@@ -8,6 +8,13 @@ export function userActions (dispatch) {
         payload: credentials
       }
     },
+    userLoginFB: credentials => {
+      console.log('credentials', credentials)
+      dispatch({
+        type: StoreDefinitions.USER.LOGIN,
+        payload: credentials
+      })
+    },
     userLogout: () => {
       dispatch({
         type: StoreDefinitions.USER.LOGOUT,

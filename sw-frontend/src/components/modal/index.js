@@ -18,7 +18,7 @@ const ModalComponent = props => {
         <Card>
           <Title>{props.title}</Title>
           <Sub>{props.sub}</Sub>
-          <ButtonContainer>
+          <ButtonContainer visible={props.visible}>
             <Button
               color={Colors.GREY_LIGHT}
               hoverColor={Colors.GREY_BASE}

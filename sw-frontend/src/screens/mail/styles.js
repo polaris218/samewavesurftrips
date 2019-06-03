@@ -35,3 +35,11 @@ export const FootContainer = styled.div`
   margin-top: -26px;
   width: 100%;
 `
+export const PreloadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 100px);
+  width: 100%;
+  min-height: 400px;
+`
