@@ -33,6 +33,7 @@ import Search from './search'
 import ProfileStat from './profileStat'
 import ProgressBar from './progressBar'
 import Modal from './modal'
+import MsgListItem from './msgListItem'
 
 export {
   App,
@@ -69,5 +70,6 @@ export {
   Search,
   ProfileStat,
   ProgressBar,
-  Modal
+  Modal,
+  MsgListItem
 }

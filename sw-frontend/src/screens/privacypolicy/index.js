@@ -1,18 +1,17 @@
 import React from 'react'
-import { Header, Container } from 'components'
+import { Header, ScrollContainer } from 'components'
 import { Content, Title, Privacy } from './styles'
 
 const PolicyScreen = props => {
   return (
     <Privacy>
-      <Container>
+      <ScrollContainer navbar={false}>
         <Header
           nav={false}
           backButton
           homeButton={false}
           title='Data & Privacy Policy'
         />
-
         <Content>
           <h1>Privacy Policy</h1>
           <b>SAMEWAVE SURF TRIPS</b> is committed to providing quality services
@@ -117,7 +116,7 @@ const PolicyScreen = props => {
           <br />
           <a href='tel:info@samewavesurftrips.com'>+61 468 691 077</a>
         </Content>
-      </Container>
+      </ScrollContainer>
     </Privacy>
   )
 }

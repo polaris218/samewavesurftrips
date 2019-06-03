@@ -27,6 +27,7 @@ export const Onboard = styled.div`
     text-align: center;
     color: ${Colors.WHITE};
     font-size: ${Spacings.FONT.LABEL};
+    line-height: 20px;
   }
   .onboard__form {
     width: 100%;

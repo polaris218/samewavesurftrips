@@ -1,11 +1,11 @@
 import React from 'react'
-import { Container, Header } from 'components'
+import { Header, ScrollContainer } from 'components'
 import { Content, Title, Terms } from './styles'
 
 const TermsScreen = props => {
   return (
     <Terms>
-      <Container>
+      <ScrollContainer navbar={false}>
         <Header
           nav={false}
           backButton
@@ -114,7 +114,7 @@ const TermsScreen = props => {
           jurisdiction of the state and federal courts located in Australia for
           the resolution of any disputes.
         </Content>
-      </Container>
+      </ScrollContainer>
     </Terms>
   )
 }

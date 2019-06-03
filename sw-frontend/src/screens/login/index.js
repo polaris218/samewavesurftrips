@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-// import FacebookLogin from 'react-facebook-login'
+import FacebookLogin from 'react-facebook-login'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
@@ -129,13 +129,13 @@ const LoginScreen = props => {
                 />
               </div>
 
-              {/* <FacebookLogin
-              appId='161223164770911'
-              autoLoad={true}
-              fields='name,email,picture'
-              onClick={FBClicked}
-              callback={responseFacebook}
-            /> */}
+              <FacebookLogin
+                appId='877477202605334'
+                autoLoad={true}
+                fields='name,email,picture'
+                onClick={FBClicked}
+                callback={responseFacebook}
+              />
             </form>
             {state.error && (
               <div className={'login__error'}>

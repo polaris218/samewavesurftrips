@@ -128,7 +128,7 @@ export const Desktop = styled.div`
   display: none;
   justify-content: center;
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
-    display: flex;
+    display: ${({ active }) => (active ? 'flex' : 'none')};
   }
 `
 
