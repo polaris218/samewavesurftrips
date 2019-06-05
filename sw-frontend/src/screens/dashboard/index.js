@@ -98,7 +98,7 @@ const DashboardScreen = props => {
 
   return (
     <Dashboard>
-      <ScrollContainer height={55}>
+      <ScrollContainer height={'55'}>
         <Header
           title='Search Trips'
           rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')}

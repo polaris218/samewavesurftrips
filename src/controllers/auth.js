@@ -130,7 +130,7 @@ export function respondFB (req, res) {
   config.auth.refreshTokens[refreshToken] = req.user._id
 
   res.redirect(
-    `/auth?token=${req.token}&refreshToken=${refreshToken}&user=${req.user}`
+    `/auth?token=${req.token}&refreshToken=${refreshToken}&user=${req.user._id}`
   )
 }
 

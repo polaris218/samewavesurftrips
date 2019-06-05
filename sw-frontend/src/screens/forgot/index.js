@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { userActions, mapDispatchToProps } from 'api/actions'
-import { dispatch } from 'api/store'
-import { apiQuery } from 'api/thunks/general'
-import { General as config } from 'config'
+// import { dispatch } from 'api/store'
+// import { apiQuery } from 'api/thunks/general'
+// import { General as config } from 'config'
 import {
   BackgroundImage,
   Button,
@@ -37,9 +37,9 @@ const ForgotScreen = props => {
   })
 
   const onLoginPress = () => {
-    const data = {
-      username: state.email.toLowerCase()
-    }
+    // const data = {
+    //   username: state.email.toLowerCase()
+    // }
     setLoading(true)
     // TODO: ADD API FORGOT
     setTimeout(() => setLoading(false), 800)
@@ -48,22 +48,18 @@ const ForgotScreen = props => {
     // )
   }
 
-  const onLoginResult = error => {
-    if (error) {
-      setLoading(false)
-      setState({
-        ...state,
-        error
-      })
-    }
-  }
+  //   const onLoginResult = error => {
+  //     if (error) {
+  //       setLoading(false)
+  //       setState({
+  //         ...state,
+  //         error
+  //       })
+  //     }
+  //   }
 
   const onEmailChange = email => {
     setState({ ...state, email })
-  }
-
-  const onPasswordChange = password => {
-    setState({ ...state, password })
   }
 
   return (

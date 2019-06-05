@@ -27,6 +27,7 @@ export default function userReducer (
     case StoreDefinitions.USER.LOGOUT:
       state = {
         ...state,
+        ...defaultValues.user,
         accessToken: null,
         id: null
       }

@@ -76,6 +76,7 @@ const ProfileScreen = props => {
       )
     )
   }
+
   const onFetchResult = error => {
     if (error) {
       console.log('what error', error)

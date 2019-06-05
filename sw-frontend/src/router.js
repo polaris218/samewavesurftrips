@@ -17,7 +17,8 @@ import {
   Mail,
   EditTrip,
   EditProfile,
-  Forgot
+  Forgot,
+  Message
 } from 'screens'
 import { Routes } from 'config'
 import 'assets/style/app.css'
@@ -51,6 +52,11 @@ const AppRouter = props => {
         <Route exact path={`/${Routes.USER}/:userId`} component={Profile} />
         <Route exact path={`/${Routes.EDIT_PROFILE}`} component={EditProfile} />
         <Route exact path={`/${Routes.MAIL}`} component={Mail} />
+        <Route
+          exact
+          path={`/${Routes.MESSAGE}/:messageId`}
+          component={Message}
+        />
         <Route exact path={`/${Routes.TERMS}`} component={Terms} />
         <Route exact path={`/${Routes.PRIVACY}`} component={Privacy} />
         <Navigation

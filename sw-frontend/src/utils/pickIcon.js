@@ -31,5 +31,9 @@ export const PickIcon = icon => {
       return `${config.Root}/images/level/Upper_intermediate.svg`
     case 'advanced':
       return `${config.Root}/images/level/Advanced.svg`
+    case 'pro':
+      return `${config.Root}/images/level/Advanced.svg`
+    case 'any':
+      return `${config.Root}/images/level/Beginner.svg`
   }
 }

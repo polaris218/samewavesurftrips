@@ -67,7 +67,7 @@ const HeaderComponent = props => {
             {Tools.renderIcon('burger')}
           </HomeButton>
         )}
-        <Desktop>
+        <Desktop active={props.user.accessToken}>
           <NavItem
             active={props.location.pathname === '/' + Routes.DASHBOARD}
             onClick={onNavItemPress.bind(false, Routes.DASHBOARD)}>

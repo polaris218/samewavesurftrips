@@ -5,7 +5,7 @@ export const Footer = styled.footer`
   /* position: absolute; */
   bottom: 0px;
   left: 0px;
-  padding: ${Spacings.LARGE}px 20px;
+  padding: ${Spacings.SMALL}px 20px;
   width: calc(100% - 40px);
   height: 50px;
   display: none;

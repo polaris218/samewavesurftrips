@@ -30,14 +30,22 @@ const LoginScreen = props => {
 
   useEffect(() => {
     document.body.scrollTop = document.documentElement.scrollTop = 0
+    console.log('PROPS PAL', getUrlVars())
+    if (getUrlVars().user) {
+      setLoading(true)
+      setTimeout(() => {
+        console.log('try fire')
+        props.userLoginFB({
+          token: getUrlVars().token,
+          refreshToken: getUrlVars().refreshToken,
+          user: { _id: getUrlVars().user }
+        })
+        props.history.push('/' + Routes.DASHBOARD)
+      }, 500)
+    }
   }, [])
 
-  useEffect((prevProps, prevState) => {
-    if (props.user && props.user.accessToken) {
-      console.log('User Log In success')
-      props.history.push(`/${Routes.DASHBOARD}`)
-    }
-  })
+  const onFetchUserResult = user => console.log('user___', user)
 
   const onLoginPress = () => {
     const data = {
@@ -58,11 +66,13 @@ const LoginScreen = props => {
         error
       })
     }
+    props.history.push('/' + Routes.DASHBOARD)
   }
 
   const onFacebookPress = () => {
     window.open(
       'https://samewave.herokuapp.com/v1/auth/facebook'
+      // '_self'
       // 'popUpWindow',
       // 'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes'
     )
@@ -85,12 +95,15 @@ const LoginScreen = props => {
     setState({ ...state, password })
   }
 
-  const responseFacebook = response => {
-    console.log('fb ___', response)
-  }
-
-  const FBClicked = res => {
-    console.log('click__', res)
+  const getUrlVars = () => {
+    const vars = {}
+    const parts = window.location.href.replace(
+      /[?&]+([^=&]+)=([^&]*)/gi,
+      function (m, key, value) {
+        vars[key] = value
+      }
+    )
+    return vars
   }
 
   return (
@@ -128,14 +141,14 @@ const LoginScreen = props => {
                   icon={IconFB}
                 />
               </div>
-
-              {/* <FacebookLogin
-              appId='161223164770911'
-              autoLoad={true}
-              fields='name,email,picture'
-              onClick={FBClicked}
-              callback={responseFacebook}
-            /> */}
+              {/* 
+              <FacebookLogin
+                appId='877477202605334'
+                autoLoad={true}
+                fields='name,email,picture'
+                onClick={FBClicked}
+                callback={responseFacebook}
+              /> */}
             </form>
             {state.error && (
               <div className={'login__error'}>
