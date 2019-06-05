@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Header, Footer } from 'components'
-import { Tools } from 'utils'
+// import { Tools } from 'utils'
 import {
   MessageView,
   Message,
@@ -12,41 +13,32 @@ import {
 } from './styles'
 
 const MessageScreen = props => {
-  const [ state ] = useState({
-    active: '',
-    tabs: [ 'Direct', 'Group' ]
-  })
+  const message = props.location.state
   const [ messages, setMessages ] = useState([
     {
-      message: 'I would like to talk about some stuff',
-      trip: 'Trip title is what',
-      _id: 1
-    },
-    {
-      message: 'asdas sadI would like to talk about some stuff',
-      trip: 'Another one',
-      _id: 2
-    },
-    {
-      message: 'asdas sadI would like to talk about some stuff',
-      trip: 'And anopther onee',
-      _id: 3
+      message: message.message,
+      _id: message._id
     }
   ])
 
+  console.log('msg', props.location.state)
   return (
     <Mail>
       <Header title={''} backButton={true} homeButton={false} />
-      <HeadTitle>THE TRIP TITLE HERE</HeadTitle>
+      <HeadTitle>{message.subject}</HeadTitle>
       <MessageView>
-        {messages.map(message => (
-          <Message key={message._id}>
-            <UserName>userName</UserName>
-            {message.message}
+        {messages.map(msg => (
+          <Message key={msg._id}>
+            <UserName>{`${message.owner.first_name
+              ? message.owner.first_name
+              : ''} ${message.owner.last_name
+              ? message.owner.last_name
+              : ''}`}</UserName>
+            {msg.message}
           </Message>
         ))}
       </MessageView>
-      <MessageInput>Enther tha mesg</MessageInput>
+      <MessageInput />
       <FootContainer>
         <Footer />
       </FootContainer>
@@ -54,4 +46,4 @@ const MessageScreen = props => {
   )
 }
 
-export default MessageScreen
+export default withRouter(MessageScreen)

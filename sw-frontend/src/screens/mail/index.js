@@ -53,6 +53,20 @@ const MailScreen = props => {
     }
   }
 
+  const fetchUserDetails = async userId => {
+    let user = {}
+    await dispatch(
+      apiQuery(
+        null,
+        props.surferDetails,
+        config.EndPoints.user + `/${userId}`,
+        res => (user = res.data),
+        'get'
+      )
+    )
+    return user
+  }
+
   return (
     <Mail>
       <Header title={'Inbox'} />
@@ -65,12 +79,14 @@ const MailScreen = props => {
             </PreloadContainer>
           ) : messages.length > 0 ? (
             messages.map(item => {
+              // fetchUserDetails(item.owner_id)
               return (
                 <MsgListItem
                   message={item}
                   key={item._id}
                   id={item._id}
                   title={item.subject}
+                  getUser={fetchUserDetails}
                 />
               )
             })

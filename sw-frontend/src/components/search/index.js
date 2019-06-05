@@ -75,7 +75,7 @@ const SearchComponent = props => {
   }
 
   const onFilterhResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       console.log('what error', error)
     }
     setLoading(false)
