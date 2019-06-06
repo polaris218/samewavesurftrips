@@ -37,25 +37,57 @@ export const MessageView = styled.div`
   }
 `
 export const Message = styled.div`
-  background: ${Colors.GREY_LIGHT};
+  background: ${({ self }) => (self ? Colors.BLUE_BASE : Colors.GREY_LIGHT)};
   border-radius: ${Spacings.SMALL}px;
-  padding: ${Spacings.SMALL}px;
-  display: table;
   margin: ${Spacings.SMALL}px;
+  display: table;
+  padding: ${Spacings.SMALL}px;
+  color: ${({ self }) => (self ? Colors.WHITE : Colors.GREY_BASE)};
+`
+export const MsgAlign = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: ${({ self }) => (self ? 'flex-end' : 'flex-start')};
 `
 export const UserName = styled.div`
   font-size: ${Spacings.FONT.SMALL};
   padding: 0 0 ${Spacings.SMALL}px 0;
   color: black;
+  display: ${({ self }) => (self ? 'none' : 'block')};
 `
 export const MessageInput = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 50px;
-  bottom: 55px;
+  height: 70px;
+  bottom: 0px;
   background: ${Colors.GREY_LIGHT};
+  div {
+    width: calc(100% - 12px);
+    padding: 6px;
+  }
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
-    bottom: 0px;
-    height: 100px;
+    textarea {
+      padding-right: 100px;
+    }
+  }
+`
+export const SendMsg = styled.div`
+  position: fixed;
+  top: 10px;
+  right: ${Spacings.MEDIUM}px;
+  z-index: 100;
+
+  button {
+    height: 30px;
+    padding: 0 ${Spacings.MEDIUM}px;
+    p {
+      font-size: ${Spacings.FONT.SMALL};
+    }
+  }
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    top: auto;
+    bottom: 20px;
+    /* height: 100px; */
   }
 `

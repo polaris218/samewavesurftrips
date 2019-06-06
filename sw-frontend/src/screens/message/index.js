@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import uuid from 'uuid'
+
 import { Header, Footer } from 'components'
-import { Tools } from 'utils'
+import store, { dispatch } from 'api/store'
+import { userActions, mapDispatchToProps } from 'api/actions'
+import { Button, Input } from 'components'
 import {
   MessageView,
   Message,
@@ -8,45 +14,79 @@ import {
   HeadTitle,
   FootContainer,
   UserName,
-  MessageInput
+  MsgAlign,
+  MessageInput,
+  SendMsg
 } from './styles'
 
 const MessageScreen = props => {
-  const [ state ] = useState({
-    active: '',
-    tabs: [ 'Direct', 'Group' ]
-  })
+  const message = props.location.state
+  const [ messageReply, setMessageReply ] = useState('')
   const [ messages, setMessages ] = useState([
     {
-      message: 'I would like to talk about some stuff',
-      trip: 'Trip title is what',
-      _id: 1
-    },
-    {
-      message: 'asdas sadI would like to talk about some stuff',
-      trip: 'Another one',
-      _id: 2
-    },
-    {
-      message: 'asdas sadI would like to talk about some stuff',
-      trip: 'And anopther onee',
-      _id: 3
+      message: message.message,
+      owner_id: message.owner_id,
+      _id: message._id
     }
   ])
+
+  const onInputChange = (value, name) => {
+    setMessageReply(value)
+  }
+
+  const onSendPress = () => {
+    const reply = {
+      message: messageReply,
+      owner_id: props.user.id,
+      owner: {},
+      _id: uuid()
+    }
+    setMessages([ ...messages, reply ])
+    setMessageReply('')
+  }
 
   return (
     <Mail>
       <Header title={''} backButton={true} homeButton={false} />
-      <HeadTitle>THE TRIP TITLE HERE</HeadTitle>
+      <HeadTitle>{message.subject}</HeadTitle>
       <MessageView>
-        {messages.map(message => (
-          <Message key={message._id}>
-            <UserName>userName</UserName>
-            {message.message}
-          </Message>
-        ))}
+        {messages.map((msg, i) => {
+          const alternate = false
+          //     messages[i - 1] && msg.owner_id !== messages[i - 1].owner_id
+          //   console.log(alternate, messages[i - 1])
+          return (
+            <MsgAlign self={msg.owner_id === props.user.id} key={msg._id}>
+              <Message key={msg._id} self={msg.owner_id === props.user.id}>
+                <UserName self={msg.owner_id === props.user.id}>
+                  {`${message.owner.first_name
+                    ? message.owner.first_name
+                    : ''} ${message.owner.last_name
+                    ? message.owner.last_name
+                    : ''}`}
+                </UserName>
+                {msg.message}
+              </Message>
+            </MsgAlign>
+          )
+        })}
       </MessageView>
-      <MessageInput>Enther tha mesg</MessageInput>
+      <MessageInput>
+        <Input
+          label='Reply...'
+          onChange={onInputChange}
+          value={messageReply}
+          fieldName={'msgReply'}
+          multiline={true}
+          rows={3}
+        />
+      </MessageInput>
+      <SendMsg>
+        <Button
+          onPress={onSendPress}
+          title='SEND'
+          disabled={messageReply === ''}
+        />
+      </SendMsg>
       <FootContainer>
         <Footer />
       </FootContainer>
@@ -54,4 +94,9 @@ const MessageScreen = props => {
   )
 }
 
-export default MessageScreen
+const mapStateToProps = state => ({
+  user: state.user
+})
+export default connect(mapStateToProps, dispatch =>
+  mapDispatchToProps(dispatch, [ userActions ])
+)(withRouter(MessageScreen))

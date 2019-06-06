@@ -73,7 +73,7 @@ const LoginScreen = props => {
     window.open(
       'https://samewave.herokuapp.com/v1/auth/facebook'
       // '_self'
-      // 'popUpWindow',
+      // 'popUpWindow'
       // 'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes'
     )
   }

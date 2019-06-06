@@ -78,7 +78,7 @@ const ProfileScreen = props => {
   }
 
   const onFetchResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       console.log('what error', error)
     }
     setLoading(false)

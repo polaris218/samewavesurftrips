@@ -1,6 +1,6 @@
 import { executeQuery, refreshToken } from 'api/services'
 import { userActions } from 'api/actions'
-import store from '../store'
+// import store from '../store'
 
 export const apiQuery = (
   data,
@@ -15,10 +15,10 @@ export const apiQuery = (
     return executeQuery(endpoint, data, type, processData)
       .then(response => {
         if (response && response.status === 200) {
-          if (callback) callback(null)
+          if (callback) callback(response)
           dispatch(action(response.data, params))
         } else {
-          if (callback) callback(response.status)
+          if (callback) callback(response)
         }
       })
       .catch(error => {
@@ -32,10 +32,10 @@ export const apiQuery = (
               executeQuery(endpoint, data, type, processData)
                 .then(response => {
                   if (response && response.status === 200) {
-                    if (callback) callback(null)
+                    if (callback) callback(response)
                     dispatch(action(response.data, params))
                   } else {
-                    if (callback) callback(response.status)
+                    if (callback) callback(response)
                   }
                 })
                 .catch(error => {

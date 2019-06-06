@@ -31,7 +31,20 @@ export const New = styled.div`
 export const From = styled.div`
   color: black;
   font-size: ${Spacings.FONT.SMALL};
-  /* font-weight: 600; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 16px;
   padding: 0px;
   margin: -6px 0 12px;
+
+  div {
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `
