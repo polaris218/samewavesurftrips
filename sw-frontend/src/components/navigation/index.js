@@ -17,12 +17,12 @@ const NavigationComponent = props => {
     props.location.pathname === `/${Routes.ONBOARD}` ||
     props.location.pathname === `/${Routes.LOGIN}` ||
     props.location.pathname === `/${Routes.CREATE}` ||
-    props.location.pathname === `/${Routes.EDIT_TRIP}`
+    props.location.pathname === `/${Routes.EDIT_TRIP}` ||
+    props.location.pathname.includes(Routes.MESSAGE)
     // || props.location.pathname === `/${Routes.TRIP}/`
   ) {
     return null
   }
-
   return (
     <Navigation visible={visible}>
       <Tabs>
