@@ -335,7 +335,7 @@ const CreateTripScreen = props => {
                         <Button
                           primary
                           onPress={onCreatePress}
-                          title='CREATE SURF TRIP'
+                          title='CREATE'
                         />
                       </ButtonRow>
                     ) : (

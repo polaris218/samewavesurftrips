@@ -111,7 +111,7 @@ const TripScreen = props => {
 
   return (
     <Trip>
-      <ScrollContainer height='auto'>
+      <ScrollContainer navbar={false}>
         <Header
           backButton
           homeButton={false}

@@ -3,11 +3,19 @@ import { Colors, Spacings } from 'config'
 
 export const Login = styled.div`
   width: 100%;
-  min-height: 800px;
-  padding: ${Spacings.LARGE}px 0 ${Spacings.XLARGE * 2}px;
+  min-height: 630px;
+  padding: ${Spacings.MEDIUM}px 0px;
   background-color: ${Colors.BLUE_DARK};
   display: flex;
-
+  a,
+  a:visited,
+  a:link {
+    color: white;
+    /* font-weight: 600; */
+  }
+  a:hover {
+    color: ${Colors.GREY_LIGHT};
+  }
   .login__inner {
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 20px;

@@ -15,13 +15,13 @@ export const Profile = styled.div`
     left: ${Spacings.MEDIUM}px;
   }
   .profile__loader {
-    margin: ${Spacings.MEDIUM}px 0${Spacings.large}px;
+    margin: ${Spacings.LARGE}px 0 80px;
     display: flex;
     flex-direction: row;
     justify-content: center;
   }
   .profile__button {
-    margin: ${Spacings.MEDIUM}px 0;
+    margin: ${Spacings.LARGE}px 0 80px;
     display: flex;
     flex-direction: row;
     justify-content: center;

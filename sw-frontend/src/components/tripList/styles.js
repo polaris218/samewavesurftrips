@@ -2,9 +2,9 @@ import styled from 'styled-components'
 import { Colors, Spacings } from 'config'
 
 export const TripList = styled.div`
-  padding: ${props => props.paddingTop}px ${Spacings.MEDIUM}px 60px;
+  padding: ${props => props.paddingTop}px ${Spacings.SMALL}px 60px;
   margin: 0px;
-  width: calc(100% - ${Spacings.LARGE}px);
+  width: calc(100% - ${Spacings.MEDIUM}px);
   overflow-y: scroll;
   position: relative;
   display: flex;

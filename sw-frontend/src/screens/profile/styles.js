@@ -160,8 +160,8 @@ export const Profile = styled.div`
     margin: ${Spacings.MEDIUM}px 0 0;
   }
   .profile__trips {
-    width: calc(100% - ${Spacings.LARGE}px);
-    margin: ${Spacings.MEDIUM}px 0 ${Spacings.MEDIUM}px -${Spacings.LARGE}px;
+    width: calc(100%);
+    margin: ${Spacings.MEDIUM}px 0 ${Spacings.MEDIUM}px;
   }
 
   .profile_interests {

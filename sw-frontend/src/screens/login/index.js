@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-// import FacebookLogin from 'react-facebook-login'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
@@ -30,11 +29,10 @@ const LoginScreen = props => {
 
   useEffect(() => {
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    console.log('PROPS PAL', getUrlVars())
+    console.log('FB PROPS PAL', getUrlVars())
     if (getUrlVars().user) {
       setLoading(true)
       setTimeout(() => {
-        console.log('try fire')
         props.userLoginFB({
           token: getUrlVars().token,
           refreshToken: getUrlVars().refreshToken,
@@ -45,7 +43,7 @@ const LoginScreen = props => {
     }
   }, [])
 
-  const onFetchUserResult = user => console.log('user___', user)
+  // const onFetchUserResult = user => console.log('user___', user)
 
   const onLoginPress = () => {
     const data = {
@@ -65,8 +63,9 @@ const LoginScreen = props => {
         ...state,
         error
       })
+    } else {
+      props.history.push('/' + Routes.DASHBOARD)
     }
-    props.history.push('/' + Routes.DASHBOARD)
   }
 
   const onFacebookPress = () => {
@@ -83,7 +82,6 @@ const LoginScreen = props => {
   }
 
   const onForgotPassword = () => {
-    console.log('User forgot password')
     props.history.push('/' + Routes.FORGOT)
   }
 
@@ -97,6 +95,7 @@ const LoginScreen = props => {
 
   const getUrlVars = () => {
     const vars = {}
+    // eslint-disable-next-line no-unused-vars
     const parts = window.location.href.replace(
       /[?&]+([^=&]+)=([^&]*)/gi,
       function (m, key, value) {

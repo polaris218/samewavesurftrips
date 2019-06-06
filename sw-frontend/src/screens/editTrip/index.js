@@ -182,7 +182,7 @@ const EditTripScreen = props => {
           {!editSuccess ? (
             <Container>
               <div className='trip__container'>
-                <Card marginBottom={80}>
+                <Card>
                   <Label>Title</Label>
                   <Input
                     label='Trip Title'
@@ -286,24 +286,23 @@ const EditTripScreen = props => {
                     fieldName={'details'}
                     error={checkValidField('details')}
                   />
-
-                  {!loading ? (
-                    <div className={'trip__button'}>
-                      <Button
-                        onPress={() => setModalVisible(true)}
-                        title='DELETE'
-                        color={Colors.RED_DARK}
-                        hoverColor={Colors.RED_BASE}
-                      />
-                      <div className='__block' />
-                      <Button onPress={onEditPress} title='UPDATE' />
-                    </div>
-                  ) : (
-                    <div className={'trip__loader'}>
-                      <Preloader />
-                    </div>
-                  )}
                 </Card>
+                {!loading ? (
+                  <div className={'trip__button'}>
+                    <Button
+                      onPress={() => setModalVisible(true)}
+                      title='DELETE'
+                      color={Colors.RED_DARK}
+                      hoverColor={Colors.RED_BASE}
+                    />
+                    <div className='__block' />
+                    <Button onPress={onEditPress} title='UPDATE' />
+                  </div>
+                ) : (
+                  <div className={'trip__loader'}>
+                    <Preloader />
+                  </div>
+                )}
               </div>
             </Container>
           ) : (

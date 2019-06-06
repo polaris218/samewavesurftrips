@@ -23,6 +23,7 @@ const InputComponent = props => {
       type={props.type}
       multiline={props.multiline}
       rows={props.rows}
+      autoFocus={props.focus}
     />
   )
 }
@@ -36,7 +37,8 @@ InputComponent.propTypes = {
   type: PropTypes.string,
   fieldName: PropTypes.string,
   multiline: PropTypes.bool,
-  rows: PropTypes.number
+  rows: PropTypes.number,
+  focus: PropTypes.bool
 }
 
 InputComponent.defaultProps = {
@@ -48,7 +50,8 @@ InputComponent.defaultProps = {
   type: 'text',
   fieldName: 'value',
   multiline: false,
-  rows: 1
+  rows: 1,
+  focus: false
 }
 
 export default InputComponent

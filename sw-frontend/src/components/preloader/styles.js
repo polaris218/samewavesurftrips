@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-export default styled(CircularProgress)`
+export const Progress = styled(CircularProgress)`
     && {
-        color: ${({ color }) => color};
+        color: 'inherit';
     }
+`
+export const Container = styled.div`
+  div {
+    color: ${({ color }) => color};
+  }
 `

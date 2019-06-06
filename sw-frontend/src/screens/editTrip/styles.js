@@ -16,13 +16,13 @@ export const Trip = styled.div`
     left: ${Spacings.MEDIUM}px;
   }
   .trip__loader {
-    margin-top: ${Spacings.MEDIUM}px;
+    margin-top: ${Spacings.LARGE}px ${Spacings.MEDIUM}px 80px;
     display: flex;
     flex-direction: row;
     justify-content: center;
   }
   .trip__button {
-    margin: ${Spacings.MEDIUM}px 0;
+    margin: ${Spacings.LARGE}px 0 80px;
     display: flex;
     flex-direction: row;
     justify-content: center;

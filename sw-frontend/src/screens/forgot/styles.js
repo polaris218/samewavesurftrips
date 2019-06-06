@@ -3,8 +3,8 @@ import { Colors, Spacings } from 'config'
 
 export const Forgot = styled.div`
   width: 100%;
-  min-height: 800px;
-  padding: ${Spacings.LARGE}px 0 ${Spacings.XLARGE * 2}px;
+  min-height: 430px;
+  padding: ${Spacings.MEDIUM}px 0;
   background-color: ${Colors.BLUE_DARK};
   display: flex;
 
