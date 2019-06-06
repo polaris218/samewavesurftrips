@@ -95,7 +95,7 @@ const CreateTripScreen = props => {
   }
 
   const onTripResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setLoading(false)
       setState({
         ...state,

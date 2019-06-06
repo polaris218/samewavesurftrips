@@ -103,7 +103,7 @@ const EditProfileScreen = props => {
   }
 
   const onEditResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setLoading(false)
       setState({
         ...state,

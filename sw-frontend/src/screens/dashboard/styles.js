@@ -35,4 +35,5 @@ export const MapTripDetail = styled.div`
 export const Padd = styled.div`
   width: calc(100% - ${Spacings.LARGE}px);
   padding: 0 ${Spacings.MEDIUM}px;
+  height: 100vh;
 `

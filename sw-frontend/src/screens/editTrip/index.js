@@ -99,7 +99,7 @@ const EditTripScreen = props => {
   }
 
   const onTripResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setLoading(false)
       setState({
         ...state,

@@ -107,13 +107,12 @@ const DashboardScreen = props => {
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
         ) : (
-          <Padd>
-            <TripList
-              trips={props.trips.allTrips}
-              loading={loading}
-              paddingTop={140}
-            />
-          </Padd>
+          <TripList
+            trips={props.trips.allTrips}
+            loading={loading}
+            paddingTop={140}
+            paddingSide
+          />
         )}
         <div className={'dashboard__switch'}>
           <Toggle

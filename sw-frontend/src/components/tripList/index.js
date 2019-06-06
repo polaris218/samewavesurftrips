@@ -14,7 +14,7 @@ const TripListComponent = props => {
   })
 
   return (
-    <TripList paddingTop={props.paddingTop}>
+    <TripList paddingTop={props.paddingTop} paddingSide={props.paddingSide}>
       <ListContainer>
         {props.loading && (
           <PreloadContainer>
@@ -71,13 +71,15 @@ const TripListComponent = props => {
 TripListComponent.propTypes = {
   trips: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
-  paddingTop: PropTypes.number
+  paddingTop: PropTypes.number,
+  paddingSide: PropTypes.bool
 }
 
 TripListComponent.defaultProps = {
   trips: {},
   loading: false,
-  paddingTop: Spacings.MEDIUM
+  paddingTop: Spacings.MEDIUM,
+  paddingSide: false
 }
 
 export default TripListComponent
