@@ -103,7 +103,7 @@ const EditProfileScreen = props => {
   }
 
   const onEditResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setLoading(false)
       setState({
         ...state,
@@ -218,7 +218,7 @@ const EditProfileScreen = props => {
             <Center>
               <Container>
                 <div className='profile__container'>
-                  <Card marginBottom={80}>
+                  <Card>
                     <Stack>
                       <Images>
                         <form onSubmit={e => onImageUpload()}>
@@ -356,16 +356,16 @@ const EditProfileScreen = props => {
                         </DateInput>
                       </Details>
                     </Stack>
-                    {!loading ? (
-                      <div className={'profile__button'}>
-                        <Button onPress={onEditPress} title='UPDATE PROFILE' />
-                      </div>
-                    ) : (
-                      <div className={'profile__loader'}>
-                        <Preloader />
-                      </div>
-                    )}
                   </Card>
+                  {!loading ? (
+                    <div className={'profile__button'}>
+                      <Button onPress={onEditPress} title='UPDATE PROFILE' />
+                    </div>
+                  ) : (
+                    <div className={'profile__loader'}>
+                      <Preloader />
+                    </div>
+                  )}
                 </div>
               </Container>
             </Center>

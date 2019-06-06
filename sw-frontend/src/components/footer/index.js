@@ -38,9 +38,9 @@ const FooterComponent = props => {
       {props.type === 'signup' && (
         <p>
           SameWave © 2019 .&nbsp;
-          <Link onClick={onLinkPress.bind(null, '#')}>
+          {/* <Link onClick={onLinkPress.bind(null, '#')}>
             Settings
-          </Link>&nbsp;.&nbsp;
+          </Link>&nbsp;.&nbsp; */}
           <Link onClick={onLinkPress.bind(null, 'logout')}>Logout</Link>
           <br />By signing up you agree to our&nbsp;
           <Link onClick={onLinkPress.bind(null, 'terms')}>Terms</Link>, &nbsp;

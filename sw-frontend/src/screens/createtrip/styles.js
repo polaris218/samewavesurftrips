@@ -120,9 +120,14 @@ export const Steps = styled.div`
 
 export const ButtonRow = styled.div`
   display: flex;
-  flex-direction: column;
-
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: ${Spacings.MEDIUM}px;
+  div {
+    width: 40%;
+  }
   button {
+    width: 100%;
     margin-bottom: ${Spacings.MEDIUM}px;
   }
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {

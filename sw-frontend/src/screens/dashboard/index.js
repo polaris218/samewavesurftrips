@@ -21,7 +21,7 @@ import {
   Search,
   Footer
 } from 'components'
-import { Dashboard, MapTripDetail } from './styles'
+import { Dashboard, MapTripDetail, Padd } from './styles'
 
 const DashboardScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -111,6 +111,7 @@ const DashboardScreen = props => {
             trips={props.trips.allTrips}
             loading={loading}
             paddingTop={140}
+            paddingSide
           />
         )}
         <div className={'dashboard__switch'}>

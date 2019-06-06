@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import uuid from 'uuid'
 
 import { Header, Footer } from 'components'
-import store, { dispatch } from 'api/store'
+// import store, { dispatch } from 'api/store'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { Button, Input } from 'components'
 import {
@@ -50,10 +50,7 @@ const MessageScreen = props => {
       <Header title={''} backButton={true} homeButton={false} />
       <HeadTitle>{message.subject}</HeadTitle>
       <MessageView>
-        {messages.map((msg, i) => {
-          const alternate = false
-          //     messages[i - 1] && msg.owner_id !== messages[i - 1].owner_id
-          //   console.log(alternate, messages[i - 1])
+        {messages.map(msg => {
           return (
             <MsgAlign self={msg.owner_id === props.user.id} key={msg._id}>
               <Message key={msg._id} self={msg.owner_id === props.user.id}>
@@ -78,6 +75,7 @@ const MessageScreen = props => {
           fieldName={'msgReply'}
           multiline={true}
           rows={3}
+          focus
         />
       </MessageInput>
       <SendMsg>

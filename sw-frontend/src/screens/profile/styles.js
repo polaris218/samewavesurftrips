@@ -53,6 +53,7 @@ export const Profile = styled.div`
       margin-top: -1px;
       margin-right: 4px;
       padding: 4px 0;
+      fill: ${Colors.BLUE_BASE};
     }
   }
   .profile__location {
@@ -160,8 +161,8 @@ export const Profile = styled.div`
     margin: ${Spacings.MEDIUM}px 0 0;
   }
   .profile__trips {
-    width: calc(100% - ${Spacings.LARGE}px);
-    margin: ${Spacings.MEDIUM}px 0 ${Spacings.MEDIUM}px -${Spacings.LARGE}px;
+    width: calc(100%);
+    margin: ${Spacings.MEDIUM}px 0 ${Spacings.MEDIUM}px;
   }
 
   .profile_interests {
@@ -184,7 +185,7 @@ export const Stats = styled.div`
 export const StatDivide = styled.div`
   width: 1px;
   height: 55px;
-  background: ${Colors.BLUE_BASE};
+  background: ${Colors.GREY_LIGHT};
   margin: 0 ${Spacings.MEDIUM}px;
 `
 export const ContentContainer = styled.div`

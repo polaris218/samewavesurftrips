@@ -95,7 +95,7 @@ const CreateTripScreen = props => {
   }
 
   const onTripResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setLoading(false)
       setState({
         ...state,
@@ -335,7 +335,7 @@ const CreateTripScreen = props => {
                         <Button
                           primary
                           onPress={onCreatePress}
-                          title='CREATE SURF TRIP'
+                          title='CREATE'
                         />
                       </ButtonRow>
                     ) : (

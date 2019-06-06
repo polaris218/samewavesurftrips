@@ -3,15 +3,24 @@ import { Colors, Spacings } from 'config'
 
 export const Onboard = styled.div`
   width: 100%;
-  min-height: 800px;
-  padding: ${Spacings.LARGE}px 0 ${Spacings.XLARGE * 2}px;
+  min-height: 780px;
+  padding: ${Spacings.MEDIUM}px 0px;
   background-color: ${Colors.BLUE_DARK};
   display: flex;
 
+  a,
+  a:visited,
+  a:link {
+    color: white;
+    font-weight: 600;
+  }
+  a:hover {
+    color: ${Colors.GREY_LIGHT};
+  }
   .onboard__logo {
-    margin: ${Spacings.MEDIUM}px 0 0;
-    width: 130px;
-    height: 150px;
+    margin: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
+    width: 100px;
+    height: 120px;
   }
 
   .onboard__account {

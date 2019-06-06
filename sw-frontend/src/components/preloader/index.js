@@ -1,9 +1,13 @@
 import React from 'react'
-import CircularProgress from './styles'
+import { Progress, Container } from './styles'
 import { Colors } from 'config'
 
 const PreloaderComponent = props => {
-  return <CircularProgress color={props.color} />
+  return (
+    <Container color={props.color}>
+      <Progress />
+    </Container>
+  )
 }
 
 PreloaderComponent.propTypes = {}

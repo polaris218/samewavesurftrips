@@ -23,6 +23,10 @@ code {
     monospace;
 }
 
+.tab-indicator {
+  background-color: orange !important;
+  height: 3px !important;
+}
 .show {
   transform: scale(1);
 }

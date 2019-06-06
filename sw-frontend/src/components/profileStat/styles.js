@@ -17,7 +17,7 @@ export const Digit = styled.div`
 
 export const Label = styled.div`
   margin: ${Spacings.MEDIUM}px 0;
-  color: ${props => props.color};
+  color: ${Colors.GREY_BASE};
   font-size: ${Spacings.FONT.TINY};
   font-weight: 600;
   text-align: center;

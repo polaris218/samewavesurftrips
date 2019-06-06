@@ -107,10 +107,10 @@ const HeaderComponent = props => {
           <NavLogo>
             <Logo icon color='white' />
           </NavLogo>
-          <MenuItem
+          {/* <MenuItem
             title='Settings'
             onPress={onLinkPress.bind(null, 'settings')}
-          />
+          /> */}
           <MenuItem
             title='Terms of Service'
             onPress={onLinkPress.bind(null, 'terms')}

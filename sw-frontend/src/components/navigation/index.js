@@ -7,7 +7,6 @@ import { Navigation, Tabs } from './styles'
 
 const NavigationComponent = props => {
   const [ visible ] = useState(true)
-
   const onTabPress = screen => {
     props.history.push('/' + screen)
   }
@@ -18,7 +17,8 @@ const NavigationComponent = props => {
     props.location.pathname === `/${Routes.LOGIN}` ||
     props.location.pathname === `/${Routes.CREATE}` ||
     props.location.pathname === `/${Routes.EDIT_TRIP}` ||
-    props.location.pathname.includes(Routes.MESSAGE)
+    props.location.pathname.includes(Routes.MESSAGE) ||
+    props.location.pathname.includes(`/${Routes.TRIP}/`)
     // || props.location.pathname === `/${Routes.TRIP}/`
   ) {
     return null

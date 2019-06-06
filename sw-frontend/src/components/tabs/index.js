@@ -37,7 +37,8 @@ class TabsComponent extends PureComponent {
         <Tabs
           value={this.state.value}
           onChange={this.handleChange}
-          indicatorColor='primary'
+          indicatorColor='secondary'
+          classes={{ indicator: 'tab-indicator' }}
           centered>
           {this.props.tabs.map(tab => <Tab key={tab} label={tab} />)}
         </Tabs>
