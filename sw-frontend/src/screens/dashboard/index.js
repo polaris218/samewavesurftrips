@@ -21,7 +21,7 @@ import {
   Search,
   Footer
 } from 'components'
-import { Dashboard, MapTripDetail } from './styles'
+import { Dashboard, MapTripDetail, Padd } from './styles'
 
 const DashboardScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -107,11 +107,13 @@ const DashboardScreen = props => {
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
         ) : (
-          <TripList
-            trips={props.trips.allTrips}
-            loading={loading}
-            paddingTop={140}
-          />
+          <Padd>
+            <TripList
+              trips={props.trips.allTrips}
+              loading={loading}
+              paddingTop={140}
+            />
+          </Padd>
         )}
         <div className={'dashboard__switch'}>
           <Toggle

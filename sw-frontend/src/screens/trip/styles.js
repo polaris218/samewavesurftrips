@@ -61,6 +61,7 @@ export const Trip = styled.div`
       margin-top: -1px;
       margin-right: 4px;
       padding: 4px 0;
+      fill: ${Colors.BLUE_BASE};
     }
   }
   .trip__location {

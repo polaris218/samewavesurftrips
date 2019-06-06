@@ -4,7 +4,6 @@ import { Spacings } from 'config'
 export const Dashboard = styled.div`
   width: 100%;
   height: 100%;
-
   .dashboard__switch {
     position: absolute;
     z-index: 99;
@@ -32,4 +31,8 @@ export const MapTripDetail = styled.div`
     padding: 0;
     bottom: 20px;
   }
+`
+export const Padd = styled.div`
+  width: calc(100% - ${Spacings.LARGE}px);
+  padding: 0 ${Spacings.MEDIUM}px;
 `

@@ -61,8 +61,8 @@ export const TripCard = styled.div`
             margin-right: ${Spacings.SMALL / 2}px;
             svg{
                 path { 
-                    fill: ${Colors.BLACK}; 
-                    stroke: ${Colors.BLACK};
+                    fill: ${Colors.WHITE}; 
+                    stroke: ${Colors.WHITE};
                 }
                 width: 20px;
                 height: 20px;

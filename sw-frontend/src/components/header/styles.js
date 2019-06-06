@@ -141,7 +141,7 @@ export const NavItem = styled.button`
   align-items: center;
   height: 40px;
   margin: 0 ${Spacings.SMALL}px;
-  color: ${({ active }) => (active ? Colors.GREY_DARK : Colors.WHITE)};
+  color: ${({ active }) => (active ? Colors.GREY_LIGHT : Colors.WHITE)};
   font-size: 20px;
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New";
   cursor: pointer;
@@ -149,8 +149,8 @@ export const NavItem = styled.button`
   outline: none;
   background: transparent;
   border-bottom: ${({ active }) =>
-    active ? `2px solid ${Colors.WHITE}` : 'none'};
-  transition: color .2s ease;
+    active ? `2px solid ${Colors.ORANGE_BASE}` : 'none'};
+  transition: color .2s ease, border .7s ease;
 
   &:hover {
     color: ${Colors.GREY_LIGHT};
