@@ -18,8 +18,8 @@ import {
 import { Trips, ContentContainer, FootContainer } from './styles'
 
 const SurfTripsScreen = props => {
-  const [ loading, setLoading ] = useState(false)
-  // const [activeTab, setActiveTab] = useState('active');
+  const [ loading, setLoading ] = useState(true)
+  const [ activeTab, setActiveTab ] = useState(0)
   const [ tabs ] = useState([ 'Active', 'Past', 'All' ])
   const [ trips, setTrips ] = useState([])
 
@@ -43,15 +43,20 @@ const SurfTripsScreen = props => {
 
   const onFetchResult = error => {
     if (error.status !== 200) {
-      console.log('what error', error)
+      console.log('fetch trip error', error)
+    } else {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const onTabPress = value => {
+    setActiveTab(value)
+  }
+
+  const filterTrips = (trips, value) => {
     const active = []
     const old = []
-    props.trips.yourTrips.forEach(trip => {
+    trips.forEach(trip => {
       if (new Date(trip.date_times.return_date_time) >= new Date()) {
         active.push(trip)
       } else {
@@ -61,14 +66,11 @@ const SurfTripsScreen = props => {
 
     switch (value) {
       case 0:
-        setTrips(active)
-        break
+        return active
       case 1:
-        setTrips(old)
-        break
+        return old
       default:
-        setTrips(props.trips.yourTrips)
-        break
+        return props.trips.yourTrips
     }
   }
 
@@ -79,7 +81,10 @@ const SurfTripsScreen = props => {
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
-            <TripList trips={trips} loading={loading} />
+            <TripList
+              trips={filterTrips(props.trips.yourTrips, activeTab)}
+              loading={loading}
+            />
           </Container>
         </ContentContainer>
       </ScrollContainer>

@@ -140,7 +140,7 @@ const OnboardingScreen = props => {
   }
 
   const onSignupResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setState({
         ...state,
         error

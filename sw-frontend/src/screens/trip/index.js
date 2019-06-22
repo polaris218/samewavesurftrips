@@ -29,6 +29,8 @@ const TripScreen = props => {
     joined: false
   })
   const [ modalVisible, setModalVisible ] = useState(false)
+  const [ owner, setOwnerDetails ] = useState({ avatar: '' })
+  const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
     // TODO: If not Current Trip prop, get via ID in URL
@@ -36,6 +38,8 @@ const TripScreen = props => {
       ...state,
       joined: checkTripStatus()
     })
+    // Get latest Trip Owner details (avatar etc can change)
+    fetchOwnerDetails()
   }, [])
 
   const onJoinPress = (join = true) => {
@@ -62,6 +66,28 @@ const TripScreen = props => {
       )
     )
     setModalVisible(false)
+  }
+
+  const fetchOwnerDetails = () => {
+    setLoading(true)
+    dispatch(
+      apiQuery(
+        null,
+        props.userDetails,
+        config.EndPoints.user + `/${props.trips.current.owner_details._id}`,
+        onOwnerResult,
+        'get'
+      )
+    )
+  }
+
+  const onOwnerResult = res => {
+    setLoading(false)
+    if (res.status !== 200) {
+      console.log('fetch error', res)
+    } else {
+      setOwnerDetails(res.data)
+    }
   }
 
   const onTripResult = () => {}
@@ -134,8 +160,7 @@ const TripScreen = props => {
               <div className={'trip__avatar'} onClick={visitProfile}>
                 <Avatar
                   image={
-                    trip.owner_details &&
-                    config.EndPoints.digitalOcean + trip.owner_details.avatar
+                    !loading ? config.EndPoints.digitalOcean + owner.avatar : ''
                   }
                 />
               </div>

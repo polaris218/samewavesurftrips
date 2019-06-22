@@ -57,7 +57,7 @@ const LoginScreen = props => {
   }
 
   const onLoginResult = error => {
-    if (error) {
+    if (error.status !== 200) {
       setLoading(false)
       setState({
         ...state,

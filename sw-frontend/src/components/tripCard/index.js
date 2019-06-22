@@ -1,16 +1,25 @@
-import React, { memo } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { tripActions, mapDispatchToProps } from 'api/actions'
+import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
+import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes } from 'config'
 import { Tools } from 'utils'
 import { Avatar } from 'components'
 import { TripCard } from './styles'
 
 const TripCardComponent = props => {
+  const [ loading, setLoading ] = useState(true)
+  const [ owner, setOwnerDetails ] = useState({ avatar: '' })
+
+  useEffect(() => {
+    // Get latest Trip Owner details (avatar etc can change)
+    fetchOwnerDetails()
+  }, [])
+
   const onTripPress = () => {
     const {
       id,
@@ -70,6 +79,28 @@ const TripCardComponent = props => {
     return duration > 1 ? duration + ' days' : duration + ' day'
   }
 
+  const fetchOwnerDetails = () => {
+    setLoading(true)
+    dispatch(
+      apiQuery(
+        null,
+        props.userDetails,
+        config.EndPoints.user + `/${props.owner_id}`,
+        onOwnerResult,
+        'get'
+      )
+    )
+  }
+
+  const onOwnerResult = res => {
+    setLoading(false)
+    if (res.status !== 200) {
+      console.log('fetch error', res)
+    } else {
+      setOwnerDetails(res.data)
+    }
+  }
+
   const dateDeparture = moment(new Date(props.date_times.departure_date_time))
   const dateReturn = moment(new Date(props.date_times.return_date_time))
 
@@ -80,11 +111,12 @@ const TripCardComponent = props => {
         <div className={'tripcard__avatar'}>
           <Avatar
             borderWidth={1}
-            image={
-              props.owner_details &&
-              props.owner_details.avatar &&
-              config.EndPoints.digitalOcean + props.owner_details.avatar
-            }
+            image={!loading ? config.EndPoints.digitalOcean + owner.avatar : ''}
+            // image={
+            //   props.owner_details &&
+            //   props.owner_details.avatar &&
+            //   config.EndPoints.digitalOcean + props.owner_details.avatar
+            // }
           />
         </div>
         <div className={'tripcard__header-meta'}>
@@ -184,5 +216,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, dispatch =>
-  mapDispatchToProps(dispatch, [ tripActions ])
+  mapDispatchToProps(dispatch, [ tripActions, userActions ])
 )(withRouter(memo(TripCardComponent)))
