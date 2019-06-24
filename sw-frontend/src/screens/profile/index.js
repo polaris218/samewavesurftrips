@@ -311,6 +311,7 @@ const ProfileScreen = props => {
                           <div className={'profile_interests'}>
                             {user &&
                               user.interests &&
+                              user.interests.length > 0 &&
                               user.interests.map(item => (
                                 <Interest key={item}>{item}</Interest>
                               ))}

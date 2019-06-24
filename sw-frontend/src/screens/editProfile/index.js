@@ -33,7 +33,8 @@ import {
   InputFile,
   Details,
   Sub,
-  DateInput
+  DateInput,
+  ImgCenter
 } from './styles'
 
 const EditProfileScreen = props => {
@@ -55,7 +56,9 @@ const EditProfileScreen = props => {
     optIn: props.user.optIn,
     invalid: [],
     avatar: props.user.avatar,
-    coverImg: props.user.coverImg
+    coverImg: props.user.coverImg,
+    avatarLoading: false,
+    coverLoading: false
   })
   const [ avatar, setAvatar ] = useState(
     props.user.avatar ? config.EndPoints.digitalOcean + props.user.avatar : ''
@@ -161,8 +164,13 @@ const EditProfileScreen = props => {
     const reader = new FileReader()
     reader.onload = function () {
       const dataURL = reader.result
-      if (type === 'avatar') setAvatar(dataURL)
-      else setCoverImg(dataURL)
+      if (type === 'avatar') {
+        setState({ ...state, avatarLoading: true })
+        setAvatar(dataURL)
+      } else {
+        setState({ ...state, coverLoading: true })
+        setCoverImg(dataURL)
+      }
     }
     reader.readAsDataURL(input.files[0])
 
@@ -233,12 +241,18 @@ const EditProfileScreen = props => {
                             />
                           </InputFile>
                           <div className='profile__avatar'>
-                            <img
-                              src={avatar}
-                              width='200'
-                              height='200'
-                              alt='avatar'
-                            />
+                            {state.avatarLoading ? (
+                              <ImgCenter>
+                                <Preloader />
+                              </ImgCenter>
+                            ) : (
+                              <img
+                                src={avatar}
+                                width='200'
+                                height='200'
+                                alt='avatar'
+                              />
+                            )}
                           </div>
 
                           <Label>COVER PICTURE</Label>
@@ -252,12 +266,18 @@ const EditProfileScreen = props => {
                             />
                           </InputFile>
                           <div className='profile__cover'>
-                            <img
-                              src={coverImg}
-                              width='200'
-                              height='auto'
-                              alt='cover'
-                            />
+                            {state.coverLoading ? (
+                              <ImgCenter>
+                                <Preloader />
+                              </ImgCenter>
+                            ) : (
+                              <img
+                                src={coverImg}
+                                width='200'
+                                height='auto'
+                                alt='cover'
+                              />
+                            )}
                           </div>
                         </form>
                       </Images>

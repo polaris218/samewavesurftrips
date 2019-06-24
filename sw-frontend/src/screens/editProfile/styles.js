@@ -168,3 +168,13 @@ export const DateInput = styled.div`
     outline: none;
   }
 `
+export const ImgCenter = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div {
+    height: 40px;
+  }
+`
