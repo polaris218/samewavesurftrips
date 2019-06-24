@@ -83,7 +83,6 @@ function passportFBStrategy() {
     profileFields: ['emails']
   }, function (accessToken, refreshToken, profile, done) {
     var username = profile.id + '_facebook';
-    console.log('Got facebook creds__', profile);
     //check to see if user already exists ---
     _user2.default.findOne({ username: username }).then(function (user) {
       if (user) {

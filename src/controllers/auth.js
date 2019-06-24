@@ -57,7 +57,6 @@ export function passportFBStrategy () {
       },
       function (accessToken, refreshToken, profile, done) {
         let username = `${profile.id}_facebook`
-        console.log('Got facebook creds__', profile)
         //check to see if user already exists ---
         User.findOne({ username: username })
           .then(user => {
