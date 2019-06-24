@@ -58,8 +58,10 @@ exports.getAll = (req, res) => {
 |--------------------------------------------------------------------------
 */
 exports.getUserTrips = (req, res) => {
-  // Trip.find({owner_id: req.params.userid, attendees: { "$in" : [req.params.userid]} }).then(trips => {
-  Trip.find({ attendees: { $in: [ req.params.userid ] } })
+  Trip.find({
+    // owner_id: req.params.userid,
+    attendees: { $in: [ req.params.userid ] }
+  })
     .then(trips => {
       res.json(trips)
     })
@@ -288,7 +290,7 @@ function setDefaultValues (req) {
   const modelData = Object.assign({}, req.body, {
     owner_id: req.user._id,
     owner_details: {}, //the model will populate this
-    attendees: [],
+    attendees: [ ...req.body.attendees ],
 
     departing_loc: {
       type: 'Point',

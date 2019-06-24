@@ -52,7 +52,8 @@ const CreateTripScreen = props => {
     offering_rides: false,
     available_seats: 0,
     trip_details: '',
-    invalid: []
+    invalid: [],
+    attendees: []
   })
   const scoller = useRef(null)
   const [ step, setStep ] = useState(0)
@@ -81,7 +82,8 @@ const CreateTripScreen = props => {
       accomodation: state.accomodation,
       offering_rides: state.offering_rides,
       available_seats: state.available_seats,
-      trip_details: state.trip_details
+      trip_details: state.trip_details,
+      attendees: [ props.user.id ]
     }
 
     //Validate from .....

@@ -75,7 +75,7 @@ const TripCardComponent = props => {
   }
 
   const tripDuration = () => {
-    const duration = dateDeparture.diff(dateReturn, 'days') + 1
+    const duration = dateReturn.diff(dateDeparture, 'days') + 1
     return duration > 1 ? duration + ' days' : duration + ' day'
   }
 
@@ -84,7 +84,7 @@ const TripCardComponent = props => {
     dispatch(
       apiQuery(
         null,
-        props.userDetails,
+        props.surferDetails,
         config.EndPoints.user + `/${props.owner_id}`,
         onOwnerResult,
         'get'

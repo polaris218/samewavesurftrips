@@ -73,8 +73,8 @@ const TripScreen = props => {
     dispatch(
       apiQuery(
         null,
-        props.userDetails,
-        config.EndPoints.user + `/${props.trips.current.owner_details._id}`,
+        props.surferDetails,
+        config.EndPoints.user + `/${props.trips.current.owner_id}`,
         onOwnerResult,
         'get'
       )
@@ -183,9 +183,13 @@ const TripScreen = props => {
                     )}
                   </div>
                 </div>
-                <div className='trip__join-desktop'>{joinButton()}</div>
+                {trip.owner_id !== props.user.id && (
+                  <div className='trip__join-desktop'>{joinButton()}</div>
+                )}
               </div>
-              <div className='trip__join-mobile'>{joinButton()}</div>
+              {trip.owner_id !== props.user.id && (
+                <div className='trip__join-mobile'>{joinButton()}</div>
+              )}
               <div className={'trip__card'}>
                 <Card>
                   <div className={'trip__title'}>

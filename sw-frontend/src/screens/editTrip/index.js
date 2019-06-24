@@ -64,6 +64,7 @@ const EditTripScreen = props => {
   const onEditPress = () => {
     setLoading(true)
     const data = {
+      ...props.trips.current,
       authtoken: props.user.accessToken,
       departing:
         props.trips.current.departing !== state.departing
