@@ -1,22 +1,20 @@
-
-import User from '../models/user';
-import aws from 'aws-sdk';
-import uuid from 'node-uuid';
-
+import User from '../models/user'
+import aws from 'aws-sdk'
+import uuid from 'node-uuid'
 
 /* 
 |--------------------------------------------------------------------------
 | Get all users
 |--------------------------------------------------------------------------
 */
-exports.getAll = (req,res) => {
-
-    User.find().then(users => {
-		res.json(users);
-	}).catch(err => {
-		res.status(422).send(err.errors);
-    });
-    
+exports.getAll = (req, res) => {
+  User.find()
+    .then(users => {
+      res.json(users)
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
 
 /* 
@@ -24,14 +22,14 @@ exports.getAll = (req,res) => {
 | Get user
 |--------------------------------------------------------------------------
 */
-exports.get = (req,res) => {
-
-    User.findOne({_id: req.params.id}).then(user => {
-		res.json(user);
-	}).catch(err => {
-		res.status(422).send(err.errors);
-    });
-    
+exports.get = (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      res.json(user)
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
 
 /* 
@@ -39,16 +37,16 @@ exports.get = (req,res) => {
 | Add a user
 |--------------------------------------------------------------------------
 */
-exports.create = (req,res) => {
+exports.create = (req, res) => {
+  const data = Object.assign({ username: req.body.email }, req.body) || {}
 
-    const data = Object.assign({ username: req.body.email }, req.body) || {};
-
-		User.create(data).then(user => {
-			res.json(user);
-		}).catch(err => {
-			res.status(500).send(err);
-		});
-    
+  User.create(data)
+    .then(user => {
+      res.json(user)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 }
 
 /* 
@@ -56,16 +54,16 @@ exports.create = (req,res) => {
 | Update user
 |--------------------------------------------------------------------------
 */
-exports.update = (req,res) => {
+exports.update = (req, res) => {
+  const data = Object.assign({}, req.body) || {}
 
-	const data = Object.assign({}, req.body) || {};
-
-	User.findOneAndUpdate({_id: req.user._id}, data,{new: true}).then(user => {
-		res.json(user)
-	}).catch(err => {
-		res.status(500).send(err);
-	})
- 
+  User.findOneAndUpdate({ _id: req.user._id }, data, { new: true })
+    .then(user => {
+      res.json(user)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 }
 
 /* 
@@ -74,16 +72,16 @@ exports.update = (req,res) => {
 |--------------------------------------------------------------------------
 */
 exports.getAvatar = (req, res) => {
-	
-	User.findOne({_id: req.params.id}).then(user => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      const url = `https://${process.env.S3_BUCKET}.${process.env
+        .DO_ENDPOINT_CDN}/${user.avatar}`
 
-		const url = `https://${process.env.S3_BUCKET}.${process.env.DO_ENDPOINT_CDN}/${user.avatar}`;
-
-		res.send(url);
-
-	}).catch(err => {
-		res.status(422).send(err.errors);
-  });
+      res.send(url)
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
 
 /* 
@@ -92,16 +90,16 @@ exports.getAvatar = (req, res) => {
 |--------------------------------------------------------------------------
 */
 exports.getCover = (req, res) => {
-	
-	User.findOne({_id: req.params.id}).then(user => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      const url = `https://${process.env.S3_BUCKET}.${process.env
+        .DO_ENDPOINT_CDN}/${user.cover_image}`
 
-		const url = `https://${process.env.S3_BUCKET}.${process.env.DO_ENDPOINT_CDN}/${user.cover_image}`;
-
-		res.send(url);
-
-	}).catch(err => {
-		res.status(422).send(err.errors);
-  });
+      res.send(url)
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
 
 /* 
@@ -109,18 +107,16 @@ exports.getCover = (req, res) => {
 | Update avatar
 |--------------------------------------------------------------------------
 */
-exports.avatar = (req,res) => {
-
-	User.findOne({_id: req.user._id}).then(user => {
-		
-		user.updateAvatar(req.files.avatar).then(file=>{
-			res.json(file);
-		});
-
-	}).catch(err => {
-		res.status(422).send(err.errors);
-  });
-
+exports.avatar = (req, res) => {
+  User.findOne({ _id: req.user._id })
+    .then(user => {
+      user.updateAvatar(req.files.avatar).then(file => {
+        res.json(file)
+      })
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
 
 /* 
@@ -128,18 +124,16 @@ exports.avatar = (req,res) => {
 | Cover Image
 |--------------------------------------------------------------------------
 */
-exports.coverImage = (req,res) => {
-
-	User.findOne({_id: req.user._id}).then(user => {
-		
-		user.updateCover(req.files.cover).then(file=>{
-			res.json(file);
-		});
-
-	}).catch(err => {
-		res.status(422).send(err.errors);
-  });
-
+exports.coverImage = (req, res) => {
+  User.findOne({ _id: req.user._id })
+    .then(user => {
+      user.updateCover(req.files.cover).then(file => {
+        res.json(file)
+      })
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
 
 /* 
@@ -147,22 +141,23 @@ exports.coverImage = (req,res) => {
 | Get followers
 |--------------------------------------------------------------------------
 */
-exports.followers = (req,res) => {
+exports.followers = (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      user
+        .followers(req.user._id)
+        .then(follower => {
+          res.json(follower)
+        })
+        .catch(err => {
+          res.status(422).send(err)
+        })
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 
-	User.findOne({_id: req.params.id}).then(user => {
-		
-		user.followers(req.user._id).then(follower => {
-			res.json(follower);
-		}).catch(err => {
-			res.status(422).send(err);
-		});
-		
-	}).catch(err => {
-		res.status(422).send(err.errors);
-	});
-	
-	res.status(200);
-    
+  res.status(200)
 }
 
 /* 
@@ -170,21 +165,23 @@ exports.followers = (req,res) => {
 | Follow a user
 |--------------------------------------------------------------------------
 */
-exports.follow = (req,res) => {
+exports.follow = (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      user
+        .follow(req.user._id)
+        .then(follower => {
+          res.json(follower)
+        })
+        .catch(err => {
+          res.status(422).send(err)
+        })
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 
-	User.findOne({_id: req.params.id}).then(user => {
-		user.follow(req.user._id).then(follower => {
-			res.json(follower);
-		}).catch(err => {
-			res.status(422).send(err);
-		});
-		
-	}).catch(err => {
-		res.status(422).send(err.errors);
-	});
-	
-	res.status(200);
-    
+  res.status(200)
 }
 
 /* 
@@ -192,24 +189,27 @@ exports.follow = (req,res) => {
 | Unfollow a user
 |--------------------------------------------------------------------------
 */
-exports.unfollow = (req,res) => {
-
-	User.findOne({_id: req.params.id}).then(user => {
-		user.unfollow(req.user._id).then(follower => {
-
-			//return remaining followers
-			user.followers(req.user._id).then(followers => {
-				res.json(followers);
-			}).catch(err => {
-				res.status(422).send(err);
-			});
-
-		}).catch(err => {
-			res.status(422).send(err);
-		})
-	}).catch(err => {
-		res.status(422).send(err.errors);
-    });
-    
+exports.unfollow = (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      user
+        .unfollow(req.user._id)
+        .then(follower => {
+          //return remaining followers
+          user
+            .followers(req.user._id)
+            .then(followers => {
+              res.json(followers)
+            })
+            .catch(err => {
+              res.status(422).send(err)
+            })
+        })
+        .catch(err => {
+          res.status(422).send(err)
+        })
+    })
+    .catch(err => {
+      res.status(422).send(err.errors)
+    })
 }
-

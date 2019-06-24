@@ -66,7 +66,7 @@ const MapCardComponent = props => {
   }
 
   const tripDuration = () => {
-    const duration = dateDeparture.diff(dateReturn, 'days') + 1
+    const duration = dateReturn.diff(dateDeparture, 'days') + 1
     return duration > 1 ? duration + ' days' : duration + ' day'
   }
 

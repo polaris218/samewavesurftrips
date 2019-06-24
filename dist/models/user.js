@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _mongoose = require('mongoose');
@@ -44,96 +44,101 @@ _mongoose2.default.set('useCreateIndex', true);
 |--------------------------------------------------------------------------
 */
 var UserSchema = new _mongoose.Schema({
+  first_name: {
+    type: String,
+    required: false
+  },
 
-    first_name: {
-        type: String,
-        required: false
-    },
+  last_name: {
+    type: String,
+    required: false
+  },
 
-    last_name: {
-        type: String,
-        required: false
-    },
+  email: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    index: true,
+    unique: true,
+    required: true
+  },
 
-    email: {
-        type: String,
-        lowercase: true,
-        trim: true,
-        index: true,
-        unique: true,
-        required: true
-    },
+  username: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    index: true,
+    unique: true,
+    required: true
+  },
 
-    username: {
-        type: String,
-        lowercase: true,
-        trim: true,
-        index: true,
-        unique: true,
-        required: true
-    },
+  password: {
+    type: String,
+    required: true,
+    bcrypt: true
+  },
 
-    password: {
-        type: String,
-        required: true,
-        bcrypt: true
-    },
+  gender: {
+    type: String,
+    required: false
+  },
 
-    gender: {
-        type: String,
-        required: false
-    },
+  bio: {
+    type: String,
+    required: false
+  },
 
-    bio: {
-        type: String,
-        required: false
-    },
+  avatar: {
+    type: String,
+    required: false
+  },
 
-    avatar: {
-        type: String,
-        required: false
-    },
+  cover_image: {
+    type: String,
+    required: false
+  },
 
-    cover_image: {
-        type: String,
-        required: false
-    },
+  location: {
+    type: { type: String },
+    coordinates: []
+  },
 
-    location: {
-        type: { type: String },
-        coordinates: []
-    },
+  surf_level: {
+    type: String,
+    required: false
+  },
 
-    surf_level: {
-        type: String,
-        required: false
-    },
+  surf_modality: {
+    type: String,
+    required: false
+  },
 
-    surf_modality: {
-        type: String,
-        required: false
-    },
+  stance: {
+    type: String,
+    required: false
+  },
 
-    stance: {
-        type: String,
-        required: false
-    },
+  interests: {
+    type: _mongoose.Schema.Types.Mixed,
+    required: false
+  },
 
-    interests: {
-        type: _mongoose.Schema.Types.Mixed,
-        required: false
-    },
+  surfing_since: {
+    type: Date,
+    required: false
+  },
 
-    surfing_since: {
-        type: Date,
-        required: false
-    },
+  optIn: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
 
-    optIn: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
+  following: {
+    type: Array,
+    required: false,
+    default: []
+  }
 });
 
 /* 
@@ -142,16 +147,15 @@ var UserSchema = new _mongoose.Schema({
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.follow = function (follower_id) {
-    var _this = this;
+  var _this = this;
 
-    return new Promise(function (resolve, reject) {
-
-        _follower2.default.create({ user_id: _this._id, follower_id: follower_id }).then(function (follower) {
-            resolve(follower);
-        }).catch(function (err) {
-            reject(err);
-        });
+  return new Promise(function (resolve, reject) {
+    _follower2.default.create({ user_id: _this._id, follower_id: follower_id }).then(function (follower) {
+      resolve(follower);
+    }).catch(function (err) {
+      reject(err);
     });
+  });
 };
 
 /* 
@@ -160,14 +164,13 @@ UserSchema.methods.follow = function (follower_id) {
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.unfollow = function (follower_id) {
-    var _this2 = this;
+  var _this2 = this;
 
-    return new Promise(function (resolve, reject) {
-
-        _follower2.default.findOneAndDelete({ user_id: _this2._id, follower_id: follower_id }, function (err, follower) {
-            if (!err) resolve();else reject(err);
-        });
+  return new Promise(function (resolve, reject) {
+    _follower2.default.findOneAndDelete({ user_id: _this2._id, follower_id: follower_id }, function (err, follower) {
+      if (!err) resolve();else reject(err);
     });
+  });
 };
 
 /* 
@@ -176,40 +179,53 @@ UserSchema.methods.unfollow = function (follower_id) {
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.followers = function () {
-    var _this3 = this;
+  var _this3 = this;
 
-    return new Promise(function (resolve, reject) {
-
-        _follower2.default.find({ user_id: _this3._id }).then(function (followers) {
-            resolve(followers);
-        }).catch(function (err) {
-            reject(err);
-        });
+  return new Promise(function (resolve, reject) {
+    _follower2.default.find({ user_id: _this3._id }).then(function (followers) {
+      resolve(followers);
+    }).catch(function (err) {
+      reject(err);
     });
+  });
 };
-
+/* 
+|--------------------------------------------------------------------------
+| Get following
+|--------------------------------------------------------------------------
+*/
+// UserSchema.methods.following = function () {
+// return new Promise((resolve, reject) => {
+// //   Follower.find({ user_id: this._id })
+// //     .then(followers => {
+// //       resolve(followers)
+// //     })
+// //     .catch(err => {
+// //       reject(err)
+// //     })
+// })
+// }
 /* 
 |--------------------------------------------------------------------------
 | Get avatar
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.getAvatar = function (res) {
+  //create spaces instance ---
+  var s3 = new _awsSdk2.default.S3({
+    endpoint: spacesEndpoint,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  });
 
-    //create spaces instance ---
-    var s3 = new _awsSdk2.default.S3({
-        endpoint: spacesEndpoint,
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-    });
+  var s3Params = {
+    Bucket: process.env.S3_BUCKET,
+    Key: this.avatar
+  };
 
-    var s3Params = {
-        Bucket: process.env.S3_BUCKET,
-        Key: this.avatar
-    };
-
-    res.attachment(this.avatar);
-    var fileStream = s3.getObject(s3Params).createReadStream();
-    fileStream.pipe(res);
+  res.attachment(this.avatar);
+  var fileStream = s3.getObject(s3Params).createReadStream();
+  fileStream.pipe(res);
 };
 
 /* 
@@ -218,69 +234,66 @@ UserSchema.methods.getAvatar = function (res) {
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.updateAvatar = function (file) {
-    var _this4 = this;
+  var _this4 = this;
 
-    return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
+    var ext = void 0,
+        unique = void 0,
+        oldfile = void 0;
 
-        var ext = void 0,
-            unique = void 0,
-            oldfile = void 0;
+    if (!file) {
+      reject();
+    }
 
-        if (!file) {
-            reject();
-        }
+    oldfile = _this4.avatar;
+    ext = file.name.substring(file.name.indexOf('.'));
+    unique = _nodeUuid2.default.v4() + ext;
 
-        oldfile = _this4.avatar;
-        ext = file.name.substring(file.name.indexOf('.'));
-        unique = _nodeUuid2.default.v4() + ext;
+    var spacesEndpoint = new _awsSdk2.default.Endpoint(process.env.DO_ENDPOINT);
+    var fileType = file.type;
 
-        var spacesEndpoint = new _awsSdk2.default.Endpoint(process.env.DO_ENDPOINT);
-        var fileType = file.type;
-
-        //create spaces instance ---
-        var s3 = new _awsSdk2.default.S3({
-            endpoint: spacesEndpoint,
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-        });
-
-        //spaces options ---
-        var s3Params = {
-            Bucket: process.env.S3_BUCKET,
-            Key: unique,
-            Expires: 60,
-            ContentType: fileType,
-            ContentDisposition: 'inline',
-            ACL: 'public-read',
-            Body: file.data
-        };
-
-        //upload to spaces ---
-        s3.upload(s3Params, function (s3Err, data) {
-            if (s3Err) throw s3Err;
-            console.log('File uploaded successfully at ' + data.Location);
-
-            _this4.avatar = unique;
-            _this4.save();
-
-            //delete the old avatar ---
-            if (oldfile) {
-                try {
-
-                    s3.deleteObject({
-                        Bucket: process.env.S3_BUCKET,
-                        Key: oldfile
-                    }, function (err, data) {
-                        if (err) console.log(err, err.stack);
-                    });
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-
-            resolve(unique);
-        });
+    //create spaces instance ---
+    var s3 = new _awsSdk2.default.S3({
+      endpoint: spacesEndpoint,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     });
+
+    //spaces options ---
+    var s3Params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: unique,
+      Expires: 60,
+      ContentType: fileType,
+      ContentDisposition: 'inline',
+      ACL: 'public-read',
+      Body: file.data
+
+      //upload to spaces ---
+    };s3.upload(s3Params, function (s3Err, data) {
+      if (s3Err) throw s3Err;
+      console.log('File uploaded successfully at ' + data.Location);
+
+      _this4.avatar = unique;
+      _this4.save();
+
+      //delete the old avatar ---
+      if (oldfile) {
+        try {
+          s3.deleteObject({
+            Bucket: process.env.S3_BUCKET,
+            Key: oldfile
+          }, function (err, data) {
+            if (err) console.log(err, err.stack);
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      resolve(unique);
+    });
+  });
 };
 
 /* 
@@ -289,70 +302,67 @@ UserSchema.methods.updateAvatar = function (file) {
 |--------------------------------------------------------------------------
 */
 UserSchema.methods.updateCover = function (file) {
-    var _this5 = this;
+  var _this5 = this;
 
-    return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
+    var ext = void 0,
+        unique = void 0,
+        oldfile = void 0;
 
-        var ext = void 0,
-            unique = void 0,
-            oldfile = void 0;
+    if (!file) {
+      reject();
+    }
 
-        if (!file) {
-            reject();
-        }
+    oldfile = _this5.cover_image;
 
-        oldfile = _this5.cover_image;
+    ext = file.name.substring(file.name.indexOf('.'));
+    unique = _nodeUuid2.default.v4() + ext;
 
-        ext = file.name.substring(file.name.indexOf('.'));
-        unique = _nodeUuid2.default.v4() + ext;
+    var spacesEndpoint = new _awsSdk2.default.Endpoint(process.env.DO_ENDPOINT);
+    var fileType = file.type;
 
-        var spacesEndpoint = new _awsSdk2.default.Endpoint(process.env.DO_ENDPOINT);
-        var fileType = file.type;
-
-        //create spaces instance ---
-        var s3 = new _awsSdk2.default.S3({
-            endpoint: spacesEndpoint,
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-        });
-
-        //spaces options ---
-        var s3Params = {
-            Bucket: process.env.S3_BUCKET,
-            Key: unique,
-            Expires: 60,
-            ContentType: fileType,
-            ContentDisposition: 'inline',
-            ACL: 'public-read',
-            Body: file.data
-        };
-
-        //upload to spaces ---
-        s3.upload(s3Params, function (s3Err, data) {
-            if (s3Err) throw s3Err;
-            console.log('File uploaded successfully at ' + data.Location);
-
-            _this5.cover_image = unique;
-            _this5.save();
-
-            //delete the old avatar ---
-            if (oldfile) {
-                try {
-
-                    s3.deleteObject({
-                        Bucket: process.env.S3_BUCKET,
-                        Key: oldfile
-                    }, function (err, data) {
-                        if (err) console.log(err, err.stack);
-                    });
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-
-            resolve(unique);
-        });
+    //create spaces instance ---
+    var s3 = new _awsSdk2.default.S3({
+      endpoint: spacesEndpoint,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     });
+
+    //spaces options ---
+    var s3Params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: unique,
+      Expires: 60,
+      ContentType: fileType,
+      ContentDisposition: 'inline',
+      ACL: 'public-read',
+      Body: file.data
+
+      //upload to spaces ---
+    };s3.upload(s3Params, function (s3Err, data) {
+      if (s3Err) throw s3Err;
+      console.log('File uploaded successfully at ' + data.Location);
+
+      _this5.cover_image = unique;
+      _this5.save();
+
+      //delete the old avatar ---
+      if (oldfile) {
+        try {
+          s3.deleteObject({
+            Bucket: process.env.S3_BUCKET,
+            Key: oldfile
+          }, function (err, data) {
+            if (err) console.log(err, err.stack);
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      resolve(unique);
+    });
+  });
 };
 
 /* 
@@ -361,13 +371,12 @@ UserSchema.methods.updateCover = function (file) {
 |--------------------------------------------------------------------------
 */
 UserSchema.pre('save', function (next) {
-
-    if (!this.isNew) {
-        next();
-    } else {
-        (0, _notifications.notify_newUser)(this);
-        next();
-    }
+  if (!this.isNew) {
+    next();
+  } else {
+    (0, _notifications.notify_newUser)(this);
+    next();
+  }
 });
 
 /* 

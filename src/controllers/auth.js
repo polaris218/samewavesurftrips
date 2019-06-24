@@ -57,7 +57,7 @@ export function passportFBStrategy () {
       },
       function (accessToken, refreshToken, profile, done) {
         let username = `${profile.id}_facebook`
-
+        console.log('Got facebook creds__', profile)
         //check to see if user already exists ---
         User.findOne({ username: username })
           .then(user => {
@@ -66,8 +66,11 @@ export function passportFBStrategy () {
             } else {
               //create new user ---
               User.create({
-                email: username,
                 username: username,
+                email: profile.email,
+                avatar: profile.picture,
+                firstName: profile.first_name,
+                lastName: profile.last_name,
                 password: process.env.DEFAULT_PASS
               })
                 .then(user => {
@@ -173,7 +176,9 @@ export function refreshToken (req, res, next) {
     expiredToken = req.headers.authorization.split(' ')[1]
   }
 
-  const user = jwt.verify(expiredToken, config.auth.secret, {ignoreExpiration: true})
+  const user = jwt.verify(expiredToken, config.auth.secret, {
+    ignoreExpiration: true
+  })
 
   if (
     refreshToken in config.auth.refreshTokens &&
@@ -184,5 +189,5 @@ export function refreshToken (req, res, next) {
     next()
   } else {
     res.status(422).send('Invalid refresh token')
-  } 
+  }
 }

@@ -20,12 +20,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 |--------------------------------------------------------------------------
 */
 exports.getAll = function (req, res) {
-
-	_user2.default.find().then(function (users) {
-		res.json(users);
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+  _user2.default.find().then(function (users) {
+    res.json(users);
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };
 
 /* 
@@ -34,12 +33,11 @@ exports.getAll = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.get = function (req, res) {
-
-	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-		res.json(user);
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+  _user2.default.findOne({ _id: req.params.id }).then(function (user) {
+    res.json(user);
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };
 
 /* 
@@ -48,14 +46,13 @@ exports.get = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.create = function (req, res) {
+  var data = Object.assign({ username: req.body.email }, req.body) || {};
 
-	var data = Object.assign({ username: req.body.email }, req.body) || {};
-
-	_user2.default.create(data).then(function (user) {
-		res.json(user);
-	}).catch(function (err) {
-		res.status(500).send(err);
-	});
+  _user2.default.create(data).then(function (user) {
+    res.json(user);
+  }).catch(function (err) {
+    res.status(500).send(err);
+  });
 };
 
 /* 
@@ -64,14 +61,13 @@ exports.create = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.update = function (req, res) {
+  var data = Object.assign({}, req.body) || {};
 
-	var data = Object.assign({}, req.body) || {};
-
-	_user2.default.findOneAndUpdate({ _id: req.user._id }, data, { new: true }).then(function (user) {
-		res.json(user);
-	}).catch(function (err) {
-		res.status(500).send(err);
-	});
+  _user2.default.findOneAndUpdate({ _id: req.user._id }, data, { new: true }).then(function (user) {
+    res.json(user);
+  }).catch(function (err) {
+    res.status(500).send(err);
+  });
 };
 
 /* 
@@ -80,15 +76,13 @@ exports.update = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.getAvatar = function (req, res) {
+  _user2.default.findOne({ _id: req.params.id }).then(function (user) {
+    var url = 'https://' + process.env.S3_BUCKET + '.' + process.env.DO_ENDPOINT_CDN + '/' + user.avatar;
 
-	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-
-		var url = 'https://' + process.env.S3_BUCKET + '.' + process.env.DO_ENDPOINT_CDN + '/' + user.avatar;
-
-		res.send(url);
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+    res.send(url);
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };
 
 /* 
@@ -97,15 +91,13 @@ exports.getAvatar = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.getCover = function (req, res) {
+  _user2.default.findOne({ _id: req.params.id }).then(function (user) {
+    var url = 'https://' + process.env.S3_BUCKET + '.' + process.env.DO_ENDPOINT_CDN + '/' + user.cover_image;
 
-	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-
-		var url = 'https://' + process.env.S3_BUCKET + '.' + process.env.DO_ENDPOINT_CDN + '/' + user.cover_image;
-
-		res.send(url);
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+    res.send(url);
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };
 
 /* 
@@ -114,15 +106,13 @@ exports.getCover = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.avatar = function (req, res) {
-
-	_user2.default.findOne({ _id: req.user._id }).then(function (user) {
-
-		user.updateAvatar(req.files.avatar).then(function (file) {
-			res.json(file);
-		});
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+  _user2.default.findOne({ _id: req.user._id }).then(function (user) {
+    user.updateAvatar(req.files.avatar).then(function (file) {
+      res.json(file);
+    });
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };
 
 /* 
@@ -131,15 +121,13 @@ exports.avatar = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.coverImage = function (req, res) {
-
-	_user2.default.findOne({ _id: req.user._id }).then(function (user) {
-
-		user.updateCover(req.files.cover).then(function (file) {
-			res.json(file);
-		});
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+  _user2.default.findOne({ _id: req.user._id }).then(function (user) {
+    user.updateCover(req.files.cover).then(function (file) {
+      res.json(file);
+    });
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };
 
 /* 
@@ -148,19 +136,17 @@ exports.coverImage = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.followers = function (req, res) {
+  _user2.default.findOne({ _id: req.params.id }).then(function (user) {
+    user.followers(req.user._id).then(function (follower) {
+      res.json(follower);
+    }).catch(function (err) {
+      res.status(422).send(err);
+    });
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 
-	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-
-		user.followers(req.user._id).then(function (follower) {
-			res.json(follower);
-		}).catch(function (err) {
-			res.status(422).send(err);
-		});
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
-
-	res.status(200);
+  res.status(200);
 };
 
 /* 
@@ -169,18 +155,17 @@ exports.followers = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.follow = function (req, res) {
+  _user2.default.findOne({ _id: req.params.id }).then(function (user) {
+    user.follow(req.user._id).then(function (follower) {
+      res.json(follower);
+    }).catch(function (err) {
+      res.status(422).send(err);
+    });
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 
-	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-		user.follow(req.user._id).then(function (follower) {
-			res.json(follower);
-		}).catch(function (err) {
-			res.status(422).send(err);
-		});
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
-
-	res.status(200);
+  res.status(200);
 };
 
 /* 
@@ -189,20 +174,18 @@ exports.follow = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.unfollow = function (req, res) {
-
-	_user2.default.findOne({ _id: req.params.id }).then(function (user) {
-		user.unfollow(req.user._id).then(function (follower) {
-
-			//return remaining followers
-			user.followers(req.user._id).then(function (followers) {
-				res.json(followers);
-			}).catch(function (err) {
-				res.status(422).send(err);
-			});
-		}).catch(function (err) {
-			res.status(422).send(err);
-		});
-	}).catch(function (err) {
-		res.status(422).send(err.errors);
-	});
+  _user2.default.findOne({ _id: req.params.id }).then(function (user) {
+    user.unfollow(req.user._id).then(function (follower) {
+      //return remaining followers
+      user.followers(req.user._id).then(function (followers) {
+        res.json(followers);
+      }).catch(function (err) {
+        res.status(422).send(err);
+      });
+    }).catch(function (err) {
+      res.status(422).send(err);
+    });
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 };

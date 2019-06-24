@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 exports.routesInit = routesInit;
 exports.routes = routes;
@@ -47,12 +47,12 @@ var app = void 0;
 |--------------------------------------------------------------------------
 */
 function routesInit(a) {
-	app = a;
+  app = a;
 
-	(0, _auth.passportLocalStrategy)();
-	(0, _auth.passportFBStrategy)();
+  (0, _auth.passportLocalStrategy)();
+  (0, _auth.passportFBStrategy)();
 
-	app.use(_passport2.default.initialize());
+  app.use(_passport2.default.initialize());
 }
 
 /* 
@@ -62,102 +62,101 @@ function routesInit(a) {
 */
 var router = _express2.default.Router();
 function routes() {
+  /* 
+  |--------------------------------------------------------------------------
+  | Authenticate Local
+  |--------------------------------------------------------------------------
+  */
+  router.post('/v1/auth', _passport2.default.authenticate('local', {
+    session: false
+  }), _auth.serialize, _auth.generateToken, _auth.respond);
 
-	/* 
- |--------------------------------------------------------------------------
- | Authenticate Local
- |--------------------------------------------------------------------------
- */
-	router.post('/v1/auth', _passport2.default.authenticate('local', {
-		session: false
-	}), _auth.serialize, _auth.generateToken, _auth.respond);
+  /* 
+  |--------------------------------------------------------------------------
+  | Authenticate Facebook
+  |--------------------------------------------------------------------------
+  */
+  router.get('/v1/auth/facebook', _passport2.default.authenticate('facebook', {
+    session: false
+  }), _auth.serialize, _auth.generateToken, _auth.respond);
 
-	/* 
- |--------------------------------------------------------------------------
- | Authenticate Facebook
- |--------------------------------------------------------------------------
- */
-	router.get('/v1/auth/facebook', _passport2.default.authenticate('facebook', {
-		session: false
-	}), _auth.serialize, _auth.generateToken, _auth.respond);
+  app.get('/auth/facebook/callback', _passport2.default.authenticate('facebook', {
+    session: false
+  }), _auth.serialize, _auth.generateToken, _auth.respondFB);
 
-	app.get('/auth/facebook/callback', _passport2.default.authenticate('facebook', {
-		session: false
-	}), _auth.serialize, _auth.generateToken, _auth.respondFB);
+  /* 
+  |--------------------------------------------------------------------------
+  | Sandbox
+  |--------------------------------------------------------------------------
+  */
+  router.get('/sandbox', function (req, res) {
+    res.render('sandbox', { layout: 'main' });
+  });
 
-	/* 
- |--------------------------------------------------------------------------
- | Sandbox
- |--------------------------------------------------------------------------
- */
-	router.get('/sandbox', function (req, res) {
-		res.render('sandbox', { 'layout': 'main' });
-	});
+  /* 
+  |--------------------------------------------------------------------------
+  | User routes
+  |--------------------------------------------------------------------------
+  */
+  router.get('/v1/users', authenticate, _users2.default.getAll);
+  router.get('/v1/user/:id', authenticate, _users2.default.get);
+  router.post('/v1/users', _users2.default.create);
+  router.put('/v1/user', authenticate, _users2.default.update);
+  router.post('/v1/user/avatar', authenticate, _users2.default.avatar);
+  router.post('/v1/user/cover', authenticate, _users2.default.coverImage);
+  router.get('/v1/user/:id/avatar', _users2.default.getAvatar);
+  router.get('/v1/user/:id/cover', _users2.default.getCover);
+  router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
+  router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
+  router.get('/v1/user/:id/followers', authenticate, _users2.default.followers);
+  //   router.get(`/v1/user/:id/following`, authenticate, User.following)
 
-	/* 
- |--------------------------------------------------------------------------
- | User routes
- |--------------------------------------------------------------------------
- */
-	router.get('/v1/users', authenticate, _users2.default.getAll);
-	router.get('/v1/user/:id', authenticate, _users2.default.get);
-	router.post('/v1/users', _users2.default.create);
-	router.put('/v1/user', authenticate, _users2.default.update);
-	router.post('/v1/user/avatar', authenticate, _users2.default.avatar);
-	router.post('/v1/user/cover', authenticate, _users2.default.coverImage);
-	router.get('/v1/user/:id/avatar', _users2.default.getAvatar);
-	router.get('/v1/user/:id/cover', _users2.default.getCover);
-	router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
-	router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
-	router.get('/v1/user/:id/followers', authenticate, _users2.default.followers);
+  /* 
+  |--------------------------------------------------------------------------
+  | Trip routes
+  |--------------------------------------------------------------------------
+  */
+  router.get('/v1/trips', authenticate, _trips2.default.getAll);
+  router.get('/v1/trips/:userid', authenticate, _trips2.default.getUserTrips);
+  router.post('/v1/trips', authenticate, _trips2.default.create);
+  router.put('/v1/trip/:id', authenticate, _trips2.default.update);
+  router.delete('/v1/trip/:id', authenticate, _trips2.default.delete);
+  router.get('/v1/trip/:id/join', authenticate, _trips2.default.join);
+  router.get('/v1/trip/:id/leave', authenticate, _trips2.default.leave);
+  //router.get(`/v1/trips/geocode`, Trip.geocode);
 
-	/* 
- |--------------------------------------------------------------------------
- | Trip routes
- |--------------------------------------------------------------------------
- */
-	router.get('/v1/trips', authenticate, _trips2.default.getAll);
-	router.get('/v1/trips/:userid', authenticate, _trips2.default.getUserTrips);
-	router.post('/v1/trips', authenticate, _trips2.default.create);
-	router.put('/v1/trip/:id', authenticate, _trips2.default.update);
-	router.delete('/v1/trip/:id', authenticate, _trips2.default.delete);
-	router.get('/v1/trip/:id/join', authenticate, _trips2.default.join);
-	router.get('/v1/trip/:id/leave', authenticate, _trips2.default.leave);
-	//router.get(`/v1/trips/geocode`, Trip.geocode); 
+  /* 
+  |--------------------------------------------------------------------------
+  | Search trips
+  |--------------------------------------------------------------------------
+  */
+  router.get('/v1/search/trips', _trips2.default.search);
+  router.get('/v1/search/destination', _trips2.default.searchDestination);
 
+  /* 
+  |--------------------------------------------------------------------------
+  | Message routes
+  |--------------------------------------------------------------------------
+  */
+  router.get('/v1/messages', authenticate, _messages2.default.getAll);
+  router.post('/v1/messages', authenticate, _messages2.default.create);
+  router.delete('/v1/messages/:id', authenticate, _messages2.default.delete);
 
-	/* 
- |--------------------------------------------------------------------------
- | Search trips
- |--------------------------------------------------------------------------
- */
-	router.get('/v1/search/trips', _trips2.default.search);
-	router.get('/v1/search/destination', _trips2.default.searchDestination);
+  /* 
+  |--------------------------------------------------------------------------
+  | Refresh token
+  |--------------------------------------------------------------------------
+  */
+  router.post('/v1/token', _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
 
-	/* 
- |--------------------------------------------------------------------------
- | Message routes
- |--------------------------------------------------------------------------
- */
-	router.get('/v1/messages', authenticate, _messages2.default.getAll);
-	router.post('/v1/messages', authenticate, _messages2.default.create);
-	router.delete('/v1/messages/:id', authenticate, _messages2.default.delete);
+  /* 
+  |--------------------------------------------------------------------------
+  | Home
+  |--------------------------------------------------------------------------
+  */
+  router.get('*', function (req, res) {
+    res.render('samewave', { layout: 'app' });
+  });
 
-	/* 
- |--------------------------------------------------------------------------
- | Refresh token
- |--------------------------------------------------------------------------
- */
-	router.post('/v1/token', _auth.refreshToken, _auth.serialize, _auth.generateToken, _auth.respond);
-
-	/* 
- |--------------------------------------------------------------------------
- | Home
- |--------------------------------------------------------------------------
- */
-	router.get('*', function (req, res) {
-		res.render('samewave', { 'layout': 'app' });
-	});
-
-	return router;
+  return router;
 }

@@ -83,7 +83,7 @@ function passportFBStrategy() {
     profileFields: ['emails']
   }, function (accessToken, refreshToken, profile, done) {
     var username = profile.id + '_facebook';
-
+    console.log('Got facebook creds__', profile);
     //check to see if user already exists ---
     _user2.default.findOne({ username: username }).then(function (user) {
       if (user) {
@@ -91,8 +91,11 @@ function passportFBStrategy() {
       } else {
         //create new user ---
         _user2.default.create({
-          email: username,
           username: username,
+          email: profile.email,
+          avatar: profile.picture,
+          firstName: profile.first_name,
+          lastName: profile.last_name,
           password: process.env.DEFAULT_PASS
         }).then(function (user) {
           done(null, user);
@@ -183,7 +186,9 @@ var db = {
     expiredToken = req.headers.authorization.split(' ')[1];
   }
 
-  var user = _jsonwebtoken2.default.verify(expiredToken, _config2.default.auth.secret, { ignoreExpiration: true });
+  var user = _jsonwebtoken2.default.verify(expiredToken, _config2.default.auth.secret, {
+    ignoreExpiration: true
+  });
 
   if (refreshToken in _config2.default.auth.refreshTokens && _config2.default.auth.refreshTokens[refreshToken] == user._id) {
     req.user = user;
