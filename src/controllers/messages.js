@@ -1,4 +1,5 @@
 import Message from '../models/message';
+import Trip from '../models/trip';
 import mongoose from 'mongoose';
 
 /* 
@@ -31,6 +32,31 @@ exports.create = (req,res) => {
 	}).catch(err => {
 		res.status(500).send(err);
 	});
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Group Message
+|--------------------------------------------------------------------------
+*/
+exports.messageTripAttendees = (req,res) => {
+
+	Trip.findOne({ _id: req.params.tripId })
+    .then(trip => {
+
+		trip.attendees.forEach(user => {
+	
+			const modelData = Object.assign({}, req.body, { 
+				owner_id: req.user._id,
+				recipient_id: mongoose.Types.ObjectId(user)
+			});
+	
+			Message.create(modelData);
+	
+		});
+	  
+
+    });
 }
 
 /* 

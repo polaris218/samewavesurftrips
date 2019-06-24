@@ -136,6 +136,7 @@ export function routes () {
   router.get(`/v1/messages`, authenticate, Message.getAll)
   router.post(`/v1/messages`, authenticate, Message.create)
   router.delete(`/v1/messages/:id`, authenticate, Message.delete)
+  router.post(`/v1/message/trip/:tripId`, authenticate, Message.messageTripAttendees)
 
   /* 
 	|--------------------------------------------------------------------------

@@ -13,6 +13,7 @@ App.prototype = {
             this.routeTest()
             this.createTrip()
             this.sendMessage();
+            this.sendMessageGroup();
             this.refreshToken();
             this.getAvatar();
             this.getCover();
@@ -68,6 +69,36 @@ App.prototype = {
 
         })
         
+    },
+
+    sendMessageGroup: function() {
+        $('#form_create_message_group').submit(function(e){
+            e.preventDefault();
+
+            var subject = $('#message-subject-group').val();
+            var message = $('#message-message-group').val();
+            var token = $('#message-token-group');
+            
+            $.ajax({
+                url: '/v1/message/trip/5d0da33740650c0012579154',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer '+token.val());
+                },
+                method: 'POST',
+                data: {
+                    subject,
+                    message
+                },
+                success: function(res){
+       
+                  $('#message-response-group').val(JSON.stringify(res));
+                },
+                error: function(err) {
+                    $('#message-response-group').val('Not Authorised');
+                }
+              });
+
+        })
     },
 
     sendMessage: function() {
