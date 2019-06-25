@@ -4,6 +4,7 @@ import timestamps from 'mongoose-timestamp';
 import mongooseStringQuery from 'mongoose-string-query';
 import User from './user';
 import Follower from './follower';
+import { notify_tripjoin } from '../controllers/notifications'
 
 /* 
 |--------------------------------------------------------------------------
@@ -130,6 +131,12 @@ TripSchema.methods.join = function(attendee) {
     this.attendees.push(attendee);
     this.save();
     
+    User.findOne({_id: this.owner_id}).then(user => {
+        notify_tripjoin(user);
+	}).catch(err => {
+		console.log(err);
+    });
+
     return;
 };
 

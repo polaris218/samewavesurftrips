@@ -35,3 +35,29 @@ export function notify_newUser(user){
     });
     
 } 
+
+/* 
+|--------------------------------------------------------------------------
+| Send trip join notification
+|--------------------------------------------------------------------------
+*/
+export function notify_tripjoin(user){
+  
+    const hbs = handlebars.create();
+
+    hbs.renderView(`views/email/trip-joined.handlebars`, { layout:'notification' }, function(err, html){
+
+		var data = { 
+            html: html,
+            from: config.mailgun.from,
+            to: user.email,
+            subject: `A new user has joined your trip.`
+        };
+
+        mailgun.messages().send(data, function (error, body) {
+            console.log('MailSent : trip-joined');
+        });
+
+    });
+    
+} 

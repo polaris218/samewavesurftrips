@@ -28,6 +28,8 @@ var _follower = require('./follower');
 
 var _follower2 = _interopRequireDefault(_follower);
 
+var _notifications = require('../controllers/notifications');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* 
@@ -151,6 +153,12 @@ TripSchema.methods.join = function (attendee) {
 
     this.attendees.push(attendee);
     this.save();
+
+    _user2.default.findOne({ _id: this.owner_id }).then(function (user) {
+        (0, _notifications.notify_tripjoin)(user);
+    }).catch(function (err) {
+        console.log(err);
+    });
 
     return;
 };

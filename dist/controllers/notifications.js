@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.notify_newUser = notify_newUser;
+exports.notify_tripjoin = notify_tripjoin;
 
 var _config = require('../config');
 
@@ -44,6 +45,30 @@ function notify_newUser(user) {
 
         mailgun.messages().send(data, function (error, body) {
             console.log('MailSent : newuser-welcome');
+        });
+    });
+}
+
+/* 
+|--------------------------------------------------------------------------
+| Send trip join notification
+|--------------------------------------------------------------------------
+*/
+function notify_tripjoin(user) {
+
+    var hbs = _expressHandlebars2.default.create();
+
+    hbs.renderView('views/email/trip-joined.handlebars', { layout: 'notification' }, function (err, html) {
+
+        var data = {
+            html: html,
+            from: _config2.default.mailgun.from,
+            to: user.email,
+            subject: 'A new user has joined your trip.'
+        };
+
+        mailgun.messages().send(data, function (error, body) {
+            console.log('MailSent : trip-joined');
         });
     });
 }
