@@ -43,3 +43,8 @@ export const PreloadContainer = styled.div`
   width: 100%;
   min-height: 400px;
 `
+export const ContentContainer = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+`

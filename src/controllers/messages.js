@@ -1,37 +1,37 @@
-import Message from '../models/message';
-import Trip from '../models/trip';
-import mongoose from 'mongoose';
+import Message from '../models/message'
+import Trip from '../models/trip'
+import mongoose from 'mongoose'
 
 /* 
 |--------------------------------------------------------------------------
 | Get Messages
 |--------------------------------------------------------------------------
 */
-exports.getAll = (req,res) => {
-
-    Message.find({recipient_id: req.user._id}).then(message => {
-		res.json(message);
-	}).catch(err => {
-		res.status(422).send(err);
-    });
-    
+exports.getAll = (req, res) => {
+  Message.find({ recipient_id: req.user._id })
+    .then(message => {
+      res.json(message)
+    })
+    .catch(err => {
+      res.status(422).send(err)
+    })
 }
-
 
 /* 
 |--------------------------------------------------------------------------
 | Create Message
 |--------------------------------------------------------------------------
 */
-exports.create = (req,res) => {
+exports.create = (req, res) => {
+  const modelData = setDefaultValues(req)
 
-	const modelData = setDefaultValues(req);
-
-    Message.create(modelData).then(message => {
-		res.json(message);
-	}).catch(err => {
-		res.status(500).send(err);
-	});
+  Message.create(modelData)
+    .then(message => {
+      res.json(message)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 }
 
 /* 
@@ -39,24 +39,18 @@ exports.create = (req,res) => {
 | Group Message
 |--------------------------------------------------------------------------
 */
-exports.messageTripAttendees = (req,res) => {
+exports.messageTripAttendees = (req, res) => {
+  Trip.findOne({ _id: req.params.tripId }).then(trip => {
+    trip.attendees.forEach(user => {
+      const modelData = Object.assign({}, req.body, {
+        owner_id: req.user._id,
+        recipient_id: mongoose.Types.ObjectId(user),
+        trip_id: req.params.tripId
+      })
 
-	Trip.findOne({ _id: req.params.tripId })
-    .then(trip => {
-
-		trip.attendees.forEach(user => {
-	
-			const modelData = Object.assign({}, req.body, { 
-				owner_id: req.user._id,
-				recipient_id: mongoose.Types.ObjectId(user)
-			});
-	
-			Message.create(modelData);
-	
-		});
-	  
-
-    });
+      Message.create(modelData)
+    })
+  })
 }
 
 /* 
@@ -64,32 +58,26 @@ exports.messageTripAttendees = (req,res) => {
 | Delete Message
 |--------------------------------------------------------------------------
 */
-exports.delete = (req,res) => {
-
-    Message.remove({_id: req.params.id, recipient_id: req.user._id}).then(message => {
-		res.json(message);
-	}).catch(err => {
-		res.status(500).send(err);
-	});
+exports.delete = (req, res) => {
+  Message.remove({ _id: req.params.id, recipient_id: req.user._id })
+    .then(message => {
+      res.json(message)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 }
-
 
 /* 
 |--------------------------------------------------------------------------
 | Populate nested objects & defaults 
 |--------------------------------------------------------------------------
 */
-function setDefaultValues(req) {
+function setDefaultValues (req) {
+  const modelData = Object.assign({}, req.body, {
+    owner_id: req.user._id,
+    recipient_id: mongoose.Types.ObjectId(req.body.recipient_id)
+  })
 
-	const modelData = Object.assign({}, req.body, { 
-       
-		owner_id: req.user._id,
-		recipient_id: mongoose.Types.ObjectId(req.body.recipient_id)
-        
-	});
-
-	return modelData;
+  return modelData
 }
-
-
-	

@@ -21,7 +21,7 @@ const SurfTripsScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState(0)
   const [ tabs ] = useState([ 'Active', 'Past', 'All' ])
-  const [ trips, setTrips ] = useState([])
+  // const [ trips, setTrips ] = useState([])
 
   useEffect(() => {
     onTabPress(0)

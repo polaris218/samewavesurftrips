@@ -66,11 +66,11 @@ export function passportFBStrategy () {
               //create new user ---
               User.create({
                 username: username,
+                password: process.env.DEFAULT_PASS,
                 email: profile.email,
                 avatar: profile.picture,
                 firstName: profile.first_name,
-                lastName: profile.last_name,
-                password: process.env.DEFAULT_PASS
+                lastName: profile.last_name
               })
                 .then(user => {
                   done(null, user)

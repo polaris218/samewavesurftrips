@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _mongoose = require('mongoose');
@@ -28,26 +28,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 |--------------------------------------------------------------------------
 */
 var MessageSchema = new _mongoose.Schema({
+  owner_id: {
+    type: _mongoose.Schema.Types.ObjectId,
+    required: true
+  },
 
-    owner_id: {
-        type: _mongoose.Schema.Types.ObjectId,
-        required: true
-    },
+  recipient_id: {
+    type: _mongoose.Schema.Types.ObjectId,
+    required: true
+  },
 
-    recipient_id: {
-        type: _mongoose.Schema.Types.ObjectId,
-        required: true
-    },
+  subject: {
+    type: String,
+    required: true
+  },
 
-    subject: {
-        type: String,
-        required: true
-    },
+  message: {
+    type: String,
+    required: true
+  },
 
-    message: {
-        type: String,
-        required: true
-    }
+  trip_id: {
+    type: String,
+    required: false
+  }
 });
 
 /* 

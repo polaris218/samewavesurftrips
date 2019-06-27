@@ -30,6 +30,12 @@ export function userActions (dispatch) {
         payload: credentials
       }
     },
+    getMessages: msgs => {
+      return {
+        type: StoreDefinitions.USER.GET_MESSAGES,
+        payload: msgs
+      }
+    },
     avatarUpload: data => {
       return {
         type: StoreDefinitions.USER.AVATAR,

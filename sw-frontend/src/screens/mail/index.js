@@ -5,6 +5,7 @@ import axios from 'axios'
 import store, { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
+
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import {
   Container,
@@ -13,44 +14,81 @@ import {
   Tabs,
   Footer,
   MsgListItem,
-  Preloader
+  Preloader,
+  Fab
 } from 'components'
 import { Tools } from 'utils'
-import { Mail, Empty, FootContainer, PreloadContainer } from './styles'
+import {
+  Mail,
+  Empty,
+  FootContainer,
+  ContentContainer,
+  PreloadContainer
+} from './styles'
 
 const MailScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ state ] = useState({
-    active: '',
     tabs: [ 'Direct', 'Group' ]
   })
-
+  const [ activeTab, setActiveTab ] = useState(state.tabs[0])
+  const [ messageList, setMessageList ] = useState([])
   const [ messages, setMessages ] = useState([])
 
   useEffect(() => {
     getMessages()
   }, [])
 
+  useEffect(
+    () => {
+      filterMsgs(messages)
+    },
+    [ messages, activeTab ]
+  )
+
   const onTabPress = value => {
-    // console.log('On Tab ', state.tabs[value])
+    console.log('On Tab ', state.tabs[value], activeTab)
+    setActiveTab(state.tabs[value])
   }
 
   const getMessages = async () => {
-    const bearerToken = 'Bearer ' + store.getState().user.accessToken
-    const response = await axios({
-      method: 'GET',
-      url: `${config.EndPoints.messages}`,
-      headers: { Authorization: bearerToken },
-      validateStatus: status => {
-        return true
-      },
-      timeout: config.APITimeout
-    })
-    if (response.status === 200) {
-      console.log('MESSAGES? ___', response)
-      setMessages(response.data)
-      setLoading(false)
+    await dispatch(
+      apiQuery(
+        null,
+        props.getMessages,
+        config.EndPoints.messages,
+        onMessagesResult,
+        'get'
+      )
+    )
+  }
+
+  const onMessagesResult = res => {
+    if (res.status !== 200) {
+      console.log('msgs error', res)
+      return false
     }
+    setMessages(res.data)
+    setLoading(false)
+  }
+
+  const filterMsgs = messages => {
+    const direct = messages.filter(message => !message.trip_id)
+    const group = messages.filter(message => message.trip_id)
+    const uniqueIds = [ ...new Set(group.map(msg => msg.trip_id)) ]
+    const uniqueGroup = []
+
+    group.forEach(msg => {
+      const exists = uniqueGroup.filter(t => t.trip_id === msg.trip_id)
+      console.log('exists__', uniqueGroup)
+      if (exists.length === 0) {
+        uniqueGroup.push(msg)
+      }
+    })
+
+    console.log('direct', direct, group, uniqueGroup, uniqueIds)
+
+    setMessageList(activeTab === state.tabs[0] ? direct : uniqueGroup)
   }
 
   const fetchUserDetails = async userId => {
@@ -72,36 +110,38 @@ const MailScreen = props => {
       <Header title={'Inbox'} />
       <Tabs tabs={state.tabs} onTabPress={onTabPress} />
       <ScrollContainer padTop={false} height={'55'}>
-        <Container>
-          {loading ? (
-            <PreloadContainer>
-              <Preloader />
-            </PreloadContainer>
-          ) : messages.length > 0 ? (
-            messages.map(item => {
-              // fetchUserDetails(item.owner_id)
-              return (
-                <MsgListItem
-                  message={item}
-                  key={item._id}
-                  id={item._id}
-                  title={item.subject}
-                  getUser={fetchUserDetails}
-                />
-              )
-            })
-          ) : (
-            <Empty>
-              {Tools.renderIcon('face_quite')}
-              <div>
-                <strong>OHHHH!</strong>
-                <br />Things are quite at the moment in here.
-                <br />Try joining a surf trip to get going.
-              </div>
-            </Empty>
-          )}
-        </Container>
+        <ContentContainer>
+          <Container>
+            {loading ? (
+              <PreloadContainer>
+                <Preloader />
+              </PreloadContainer>
+            ) : messageList.length > 0 ? (
+              messageList.map(item => {
+                return (
+                  <MsgListItem
+                    message={item}
+                    key={item._id}
+                    id={item._id}
+                    title={item.subject}
+                    getUser={fetchUserDetails}
+                  />
+                )
+              })
+            ) : (
+              <Empty>
+                {Tools.renderIcon('face_quite')}
+                <div>
+                  <strong>OHHHH!</strong>
+                  <br />Things are quite at the moment in here.
+                  <br />Try joining a surf trip to get going.
+                </div>
+              </Empty>
+            )}
+          </Container>
+        </ContentContainer>
       </ScrollContainer>
+      <Fab action='message' />
       <FootContainer>
         <Footer />
       </FootContainer>

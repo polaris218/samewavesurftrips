@@ -91,11 +91,11 @@ function passportFBStrategy() {
         //create new user ---
         _user2.default.create({
           username: username,
+          password: process.env.DEFAULT_PASS,
           email: profile.email,
           avatar: profile.picture,
           firstName: profile.first_name,
-          lastName: profile.last_name,
-          password: process.env.DEFAULT_PASS
+          lastName: profile.last_name
         }).then(function (user) {
           done(null, user);
         }).catch(function (err) {

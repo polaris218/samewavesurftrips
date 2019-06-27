@@ -21,7 +21,7 @@ import {
   Search,
   Footer
 } from 'components'
-import { Dashboard, MapTripDetail, Padd } from './styles'
+import { Dashboard, MapTripDetail } from './styles'
 
 const DashboardScreen = props => {
   const [ loading, setLoading ] = useState(false)

@@ -20,12 +20,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 |--------------------------------------------------------------------------
 */
 exports.getAll = function (req, res) {
-
-	_message2.default.find({ recipient_id: req.user._id }).then(function (message) {
-		res.json(message);
-	}).catch(function (err) {
-		res.status(422).send(err);
-	});
+  _message2.default.find({ recipient_id: req.user._id }).then(function (message) {
+    res.json(message);
+  }).catch(function (err) {
+    res.status(422).send(err);
+  });
 };
 
 /* 
@@ -34,14 +33,13 @@ exports.getAll = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.create = function (req, res) {
+  var modelData = setDefaultValues(req);
 
-	var modelData = setDefaultValues(req);
-
-	_message2.default.create(modelData).then(function (message) {
-		res.json(message);
-	}).catch(function (err) {
-		res.status(500).send(err);
-	});
+  _message2.default.create(modelData).then(function (message) {
+    res.json(message);
+  }).catch(function (err) {
+    res.status(500).send(err);
+  });
 };
 
 /* 
@@ -50,19 +48,17 @@ exports.create = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.messageTripAttendees = function (req, res) {
+  _trip2.default.findOne({ _id: req.params.tripId }).then(function (trip) {
+    trip.attendees.forEach(function (user) {
+      var modelData = Object.assign({}, req.body, {
+        owner_id: req.user._id,
+        recipient_id: _mongoose2.default.Types.ObjectId(user),
+        trip_id: req.params.tripId
+      });
 
-	_trip2.default.findOne({ _id: req.params.tripId }).then(function (trip) {
-
-		trip.attendees.forEach(function (user) {
-
-			var modelData = Object.assign({}, req.body, {
-				owner_id: req.user._id,
-				recipient_id: _mongoose2.default.Types.ObjectId(user)
-			});
-
-			_message2.default.create(modelData);
-		});
-	});
+      _message2.default.create(modelData);
+    });
+  });
 };
 
 /* 
@@ -71,12 +67,11 @@ exports.messageTripAttendees = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.delete = function (req, res) {
-
-	_message2.default.remove({ _id: req.params.id, recipient_id: req.user._id }).then(function (message) {
-		res.json(message);
-	}).catch(function (err) {
-		res.status(500).send(err);
-	});
+  _message2.default.remove({ _id: req.params.id, recipient_id: req.user._id }).then(function (message) {
+    res.json(message);
+  }).catch(function (err) {
+    res.status(500).send(err);
+  });
 };
 
 /* 
@@ -85,13 +80,10 @@ exports.delete = function (req, res) {
 |--------------------------------------------------------------------------
 */
 function setDefaultValues(req) {
+  var modelData = Object.assign({}, req.body, {
+    owner_id: req.user._id,
+    recipient_id: _mongoose2.default.Types.ObjectId(req.body.recipient_id)
+  });
 
-	var modelData = Object.assign({}, req.body, {
-
-		owner_id: req.user._id,
-		recipient_id: _mongoose2.default.Types.ObjectId(req.body.recipient_id)
-
-	});
-
-	return modelData;
+  return modelData;
 }
