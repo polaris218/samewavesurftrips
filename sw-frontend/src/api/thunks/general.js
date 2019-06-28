@@ -1,6 +1,18 @@
 import { executeQuery, refreshToken } from 'api/services'
 import { userActions } from 'api/actions'
-// import store from '../store'
+import store from '../store'
+
+const runQuery = (endpoint, data, type, processData, dispatch, action, callback, params) => {
+  return executeQuery(endpoint, data, type, processData)
+    .then(response => {
+      if (response && response.status === 200) {
+        if (callback) callback(response)
+        dispatch(action(response.data, params))
+      } else {
+        if (callback) callback(response)
+      }
+    })
+}
 
 export const apiQuery = (
   data,
@@ -12,32 +24,27 @@ export const apiQuery = (
   processData
 ) => {
   return dispatch => {
-    return executeQuery(endpoint, data, type, processData)
-      .then(response => {
-        if (response && response.status === 200) {
-          if (callback) callback(response)
-          dispatch(action(response.data, params))
-        } else {
-          if (callback) callback(response)
-        }
-      })
-      .catch(error => {
+    return runQuery(endpoint, data, type, processData, dispatch, action, callback, params)
+      .catch(async error => {
         console.log('1st Error', error)
         if (error.status === 401) {
-          refreshToken()
+          if (store.getState().user.refreshTokenPromise) {
+            await store.getState().user.refreshTokenPromise
+
+            // Now we rerun the same query with Tokens refreshed, otherwise bailout.
+            return runQuery(endpoint, data, type, processData, dispatch, action, callback, params)
+              .catch(error => {
+                console.log('Error', error)
+                if (callback) callback(error)
+              })
+          }
+
+          const refreshTokenPromise = refreshToken()
             .then(response => {
               console.log('Refresh Response', response)
               dispatch(userActions().userTokenRefresh(response.data))
               // Now we rerun the same query with Tokens refreshed, otherwise bailout.
-              executeQuery(endpoint, data, type, processData)
-                .then(response => {
-                  if (response && response.status === 200) {
-                    if (callback) callback(response)
-                    dispatch(action(response.data, params))
-                  } else {
-                    if (callback) callback(response)
-                  }
-                })
+              runQuery(endpoint, data, type, processData, dispatch, action, callback, params)
                 .catch(error => {
                   console.log('Error', error)
                   if (callback) callback(error)
@@ -45,8 +52,11 @@ export const apiQuery = (
             })
             .catch(error => {
               console.log('Refresh token error', error)
+              dispatch(userActions().userTokenRefreshStop())
               if (callback) callback(error)
             })
+
+          dispatch(userActions().userTokenRefreshStart(refreshTokenPromise))
         }
       })
   }

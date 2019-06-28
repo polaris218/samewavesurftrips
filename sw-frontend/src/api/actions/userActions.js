@@ -65,6 +65,17 @@ export function userActions (dispatch) {
         type: StoreDefinitions.USER.REFRESH,
         payload: token
       }
-    }
+    },
+    userTokenRefreshStart: promise => {
+      return {
+        type: StoreDefinitions.USER.REFRESH_START,
+        payload: promise
+      }
+    },
+    userTokenRefreshStop: () => {
+      return {
+        type: StoreDefinitions.USER.REFRESH_STOP,
+      }
+    },
   }
 }
