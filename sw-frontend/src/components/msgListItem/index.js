@@ -7,13 +7,19 @@ import { ListItem, New, Title, From } from './styles'
 
 const ListItemComponent = props => {
   const [ owner, setOwner ] = useState({})
+  let mounted = true
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     const user = props.message.owner_id
       ? props.getUser(props.message.owner_id)
       : null
     user.then(item => {
-      setOwner(item)
+      mounted && setOwner(item)
     })
   }, [])
 

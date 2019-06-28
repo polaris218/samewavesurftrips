@@ -21,7 +21,17 @@ const SurfTripsScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState(0)
   const [ tabs ] = useState([ 'Active', 'Past', 'All' ])
-  // const [ trips, setTrips ] = useState([])
+  let mounted = true
+
+  /*
+  * Component Will Unmount HOOK
+  */
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     onTabPress(0)
@@ -45,12 +55,12 @@ const SurfTripsScreen = props => {
     if (error.status !== 200) {
       console.log('fetch trip error', error)
     } else {
-      setLoading(false)
+      mounted && setLoading(false)
     }
   }
 
   const onTabPress = value => {
-    setActiveTab(value)
+    mounted && setActiveTab(value)
   }
 
   const filterTrips = (trips, value) => {

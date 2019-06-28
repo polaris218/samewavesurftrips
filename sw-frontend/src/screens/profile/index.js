@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import axios from 'axios'
-
-import store, { dispatch } from 'api/store'
+import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Colors } from 'config'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
@@ -44,11 +42,18 @@ const ProfileScreen = props => {
   const [ userId ] = useState(props.match.params.userId)
   const [ following, setFollowing ] = useState(false)
   const [ followers, setFollowers ] = useState([])
+  let mounted = true
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     fetchTrips()
     fetchUserDetails()
-    onFollow(true)
+    onGetFollowers()
   }, [])
 
   const fetchTrips = () => {
@@ -65,7 +70,7 @@ const ProfileScreen = props => {
   }
 
   const fetchUserDetails = () => {
-    setLoading(true)
+    mounted && setLoading(true)
     dispatch(
       apiQuery(
         null,
@@ -81,7 +86,7 @@ const ProfileScreen = props => {
     if (error.status !== 200) {
       console.log('what error', error)
     }
-    setLoading(false)
+    mounted && setLoading(false)
   }
 
   const onTabPress = value => {
@@ -102,33 +107,44 @@ const ProfileScreen = props => {
     return trips
   }
 
-  const onFollow = async (getFollowers = false) => {
-    const bearerToken = 'Bearer ' + store.getState().user.accessToken
-    const response = await axios({
-      method: 'GET',
-      url: `${config.EndPoints.user}/${userId || props.user.id}/${getFollowers
-        ? 'followers'
-        : !following ? 'follow' : 'unfollow'}`,
-      headers: { Authorization: bearerToken },
-      validateStatus: status => {
-        return true
-      },
-      timeout: config.APITimeout
-    })
-    if (response.status === 200) {
-      if (!getFollowers) {
-        setFollowing(!following)
-        onFollow(true)
-      } else {
-        const cleanFollows = []
-        response.data.forEach(user => {
-          if (!cleanFollows.includes(user.follower_id)) {
-            cleanFollows.push(user.follower_id)
-          }
-        })
-        if (cleanFollows.includes(props.user.id)) setFollowing(true)
-        setFollowers(cleanFollows)
-      }
+  const onGetFollowers = () => {
+    const endpoint = `${config.EndPoints.user}/${userId ||
+      props.user.id}/followers`
+    dispatch(
+      apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, 'GET')
+    )
+  }
+
+  const onFollow = () => {
+    const endpoint = `${config.EndPoints.user}/${userId ||
+      props.user.id}/${!following ? 'follow' : 'unfollow'}`
+
+    dispatch(
+      apiQuery(null, props.userFollow, endpoint, onFollowersResult, 'GET')
+    )
+  }
+
+  const onGetFollowersResult = res => {
+    if (res.status !== 200) {
+      console.log('follow user error', res)
+    } else {
+      const cleanFollows = []
+      res.data.forEach(user => {
+        if (!cleanFollows.includes(user.follower_id)) {
+          cleanFollows.push(user.follower_id)
+        }
+      })
+      if (cleanFollows.includes(props.user.id)) setFollowing(true)
+      mounted && setFollowers(cleanFollows)
+    }
+  }
+
+  const onFollowersResult = res => {
+    if (res.status !== 200) {
+      console.log('follow user error', res)
+    } else {
+      mounted && setFollowing(!following)
+      onGetFollowers()
     }
   }
 
@@ -141,7 +157,7 @@ const ProfileScreen = props => {
           title={userId ? '' : 'Profile'}
           rightIcon={!userId && Tools.renderIcon('pencil')}
           rightAction={onEditPress}
-          backButton={userId}
+          backButton={userId && true}
           homeButton={!userId}
         />
 

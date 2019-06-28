@@ -28,6 +28,13 @@ const DashboardScreen = props => {
   const [ searchVisible, setSearchVisible ] = useState(true)
   const [ activeTab, setActiveTab ] = useState('list')
   const [ initalDisplay, setInitialDisplay ] = useState(false)
+  let mounted = true
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     fetchTrips()
@@ -41,8 +48,8 @@ const DashboardScreen = props => {
   )
 
   const fetchTrips = () => {
-    setLoading(true)
-    setInitialDisplay(true)
+    mounted && setLoading(true)
+    mounted && setInitialDisplay(true)
     const searchParams = props.trips.filter
 
     dispatch(
@@ -65,14 +72,14 @@ const DashboardScreen = props => {
   }
 
   const onTogglePress = activeName => {
-    setActiveTab(activeName)
+    mounted && setActiveTab(activeName)
     if (activeName === 'map') {
-      setInitialDisplay(true)
+      mounted && setInitialDisplay(true)
     }
   }
 
   const onSearchPress = () => {
-    setSearchVisible(!searchVisible)
+    mounted && setSearchVisible(!searchVisible)
   }
 
   const onFilterPress = () => {
@@ -80,7 +87,7 @@ const DashboardScreen = props => {
   }
 
   const onMapCardPress = () => {
-    setInitialDisplay(false)
+    mounted && setInitialDisplay(false)
   }
 
   const { current } = props.trips

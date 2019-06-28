@@ -14,6 +14,7 @@ import { TripCard } from './styles'
 const TripCardComponent = props => {
   const [ loading, setLoading ] = useState(true)
   const [ owner, setOwnerDetails ] = useState({ avatar: '' })
+  let mounted = true
 
   useEffect(() => {
     // Get latest Trip Owner details (avatar etc can change)
@@ -74,13 +75,23 @@ const TripCardComponent = props => {
     props.history.push(`/${Routes.TRIP}/${props.id}`)
   }
 
+  /*
+   * Component Will Unmount HOOK
+   */
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
+
   const tripDuration = () => {
     const duration = dateReturn.diff(dateDeparture, 'days') + 1
     return duration > 1 ? duration + ' days' : duration + ' day'
   }
 
   const fetchOwnerDetails = () => {
-    setLoading(true)
+    mounted && setLoading(true)
     dispatch(
       apiQuery(
         null,
@@ -93,11 +104,11 @@ const TripCardComponent = props => {
   }
 
   const onOwnerResult = res => {
-    setLoading(false)
+    mounted && setLoading(false)
     if (res.status !== 200) {
       console.log('fetch error', res)
     } else {
-      setOwnerDetails(res.data)
+      mounted && setOwnerDetails(res.data)
     }
   }
 

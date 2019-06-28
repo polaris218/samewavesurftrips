@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
-import axios from 'axios'
 import DatePicker from 'react-datepicker'
 
 import { userActions, mapDispatchToProps } from 'api/actions'
-import store, { dispatch } from 'api/store'
+import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 
 import { General as config, Routes, Types } from 'config'
@@ -68,6 +67,13 @@ const EditProfileScreen = props => {
       ? config.EndPoints.digitalOcean + props.user.coverImg
       : ''
   )
+  let mounted = true
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   const onEditPress = () => {
     setLoading(true)
@@ -180,22 +186,18 @@ const EditProfileScreen = props => {
     uploadImage(data, type)
   }
 
-  const uploadImage = async (data, type) => {
-    const bearerToken = 'Bearer ' + store.getState().user.accessToken
-    const response = await axios({
-      method: 'POST',
-      url: config.EndPoints.avatar,
-      data: data,
-      processData: false,
-      headers: { Authorization: bearerToken },
-      validateStatus: status => {
-        return true
-      },
-      timeout: config.APITimeout
-    })
-    if (response.status === 200) {
-      setState({ ...state, [type]: response.data })
-    }
+  const uploadImage = (data, type) => {
+    dispatch(
+      apiQuery(data, props.userImageUpload, config.EndPoints.avatar, res => {
+        console.log(res)
+        if (res.status === 200) {
+          mounted && setState({ ...state, [type]: res.data })
+        }
+      }),
+      'POST',
+      {},
+      false // ProcessData
+    )
   }
 
   const onSelectChange = (value, name) => {
@@ -369,7 +371,7 @@ const EditProfileScreen = props => {
                         <Label>Surfing Since</Label>
                         <DateInput>
                           <DatePicker
-                            selected={state.surfing_since}
+                            selected={new Date(state.surfing_since)}
                             onChange={date =>
                               handleDateChange(date, 'surfing_since')}
                           />

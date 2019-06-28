@@ -14,11 +14,7 @@ export const executeQuery = async (
     response = await axios({
       method: type,
       url: endpoint,
-      data: payload
-        ? {
-            ...payload
-          }
-        : null,
+      data: payload ? payload : null,
       processData: processData,
       headers: { Authorization: bearerToken },
       validateStatus: status => {

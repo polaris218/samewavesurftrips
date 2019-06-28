@@ -14,6 +14,12 @@ const Map = ReactMapboxGl({
 
 const MapComponent = props => {
   const [ currentLocation, setCurrectLocation ] = useState(props.position)
+  let mounted = true
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     getCurrentLocation()
@@ -28,7 +34,11 @@ const MapComponent = props => {
   }
 
   const onLocation = position => {
-    setCurrectLocation([ position.coords.longitude, position.coords.latitude ])
+    mounted &&
+      setCurrectLocation([
+        position.coords.longitude,
+        position.coords.latitude
+      ])
   }
 
   const onTripPress = trip => {

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import axios from 'axios'
-import store, { dispatch } from 'api/store'
+import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 
@@ -34,6 +33,17 @@ const MailScreen = props => {
   const [ activeTab, setActiveTab ] = useState(state.tabs[0])
   const [ messageList, setMessageList ] = useState([])
   const [ messages, setMessages ] = useState([])
+  let mounted = true
+
+  /*
+   * Component Will Unmount HOOK
+   */
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     fetchOwnTrips()
@@ -48,11 +58,11 @@ const MailScreen = props => {
 
   const onTabPress = value => {
     console.log('On Tab ', state.tabs[value], activeTab)
-    setActiveTab(state.tabs[value])
+    mounted && setActiveTab(state.tabs[value])
   }
 
   const fetchOwnTrips = () => {
-    setLoading(true)
+    mounted && setLoading(true)
     dispatch(
       apiQuery(
         null,
@@ -89,8 +99,8 @@ const MailScreen = props => {
       console.log('msgs error', res)
       return false
     }
-    setMessages(res.data)
-    setLoading(false)
+    mounted && setMessages(res.data)
+    mounted && setLoading(false)
   }
 
   const filterMsgs = messages => {

@@ -30,6 +30,18 @@ export function userActions (dispatch) {
         payload: credentials
       }
     },
+    userFollow: credentials => {
+      return {
+        type: StoreDefinitions.USER.FOLLOW,
+        payload: credentials
+      }
+    },
+    userImageUpload: data => {
+      return {
+        type: StoreDefinitions.USER.IMAGE_UPLOAD,
+        payload: data
+      }
+    },
     getMessages: msgs => {
       return {
         type: StoreDefinitions.USER.GET_MESSAGES,
@@ -74,8 +86,8 @@ export function userActions (dispatch) {
     },
     userTokenRefreshStop: () => {
       return {
-        type: StoreDefinitions.USER.REFRESH_STOP,
+        type: StoreDefinitions.USER.REFRESH_STOP
       }
-    },
+    }
   }
 }
