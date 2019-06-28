@@ -36,7 +36,7 @@ const MailScreen = props => {
   const [ messages, setMessages ] = useState([])
 
   useEffect(() => {
-    getMessages()
+    fetchOwnTrips()
   }, [])
 
   useEffect(
@@ -49,6 +49,27 @@ const MailScreen = props => {
   const onTabPress = value => {
     console.log('On Tab ', state.tabs[value], activeTab)
     setActiveTab(state.tabs[value])
+  }
+
+  const fetchOwnTrips = () => {
+    setLoading(true)
+    dispatch(
+      apiQuery(
+        null,
+        props.fetchOwnTrips,
+        config.EndPoints.trips + `/${props.user.id}`,
+        onFetchTripsResult,
+        'get'
+      )
+    )
+  }
+
+  const onFetchTripsResult = error => {
+    if (error.status !== 200) {
+      console.log('fetch trip error', error)
+    } else {
+      getMessages()
+    }
   }
 
   const getMessages = async () => {
@@ -80,9 +101,14 @@ const MailScreen = props => {
 
     group.forEach(msg => {
       const exists = uniqueGroup.filter(t => t.trip_id === msg.trip_id)
-      console.log('exists__', uniqueGroup)
+      // Check if still an active Trip memember
+      const activeTrip = props.trips.yourTrips.filter(
+        a => a._id === msg.trip_id
+      )
+      console.log('acitve__', activeTrip)
       if (exists.length === 0) {
-        uniqueGroup.push(msg)
+        // If still joined, populate the list
+        if (activeTrip.length) uniqueGroup.push(msg)
       }
     })
 

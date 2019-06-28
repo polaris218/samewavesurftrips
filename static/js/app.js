@@ -71,7 +71,7 @@ App.prototype = {
       var token = $('#message-token-group')
 
       $.ajax({
-        url: '/v1/message/trip/5d0d9c7840650c0012579153',
+        url: '/v1/message/trip/5cf4b2da2aca2500129e2161',
         beforeSend: function (xhr) {
           xhr.setRequestHeader('Authorization', 'Bearer ' + token.val())
         },

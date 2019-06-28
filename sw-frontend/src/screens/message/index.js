@@ -85,7 +85,7 @@ const MessageScreen = props => {
     setMessages([ ...messages, reply ])
     setMessageReply('')
   }
-
+  console.log('Message', message)
   return (
     <Mail>
       <Header title={''} backButton={true} homeButton={false} />
