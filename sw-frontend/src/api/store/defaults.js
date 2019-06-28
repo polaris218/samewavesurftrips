@@ -30,6 +30,7 @@ export default {
   user: {
     accessToken: null,
     refreshToken: null,
+    refreshTokenPromise: null,
     id: null,
     firstName: null,
     lastName: null,

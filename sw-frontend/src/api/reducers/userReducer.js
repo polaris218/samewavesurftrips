@@ -21,7 +21,20 @@ export default function userReducer (
         ...state,
         accessToken: action.payload.token,
         refreshToken: action.payload.refreshToken,
-        id: action.payload.user._id
+        id: action.payload.user._id,
+        refreshTokenPromise: null
+      }
+      break
+    case StoreDefinitions.USER.REFRESH_START:
+      state = {
+        ...state,
+        refreshTokenPromise: action.payload
+      }
+      break
+    case StoreDefinitions.USER.REFRESH_STOP:
+      state = {
+        ...state,
+        refreshTokenPromise: null
       }
       break
     case StoreDefinitions.USER.LOGOUT:
