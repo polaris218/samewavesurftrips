@@ -104,6 +104,7 @@ export function routes () {
   router.get(`/v1/user/:id/follow`, authenticate, User.follow)
   router.get(`/v1/user/:id/unfollow`, authenticate, User.unfollow)
   router.get(`/v1/user/:id/followers`, authenticate, User.followers)
+
   //   router.get(`/v1/user/:id/following`, authenticate, User.following)
 
   /* 
@@ -136,7 +137,11 @@ export function routes () {
   router.get(`/v1/messages`, authenticate, Message.getAll)
   router.post(`/v1/messages`, authenticate, Message.create)
   router.delete(`/v1/messages/:id`, authenticate, Message.delete)
-  router.post(`/v1/message/trip/:tripId`, authenticate, Message.messageTripAttendees)
+  router.post(
+    `/v1/message/trip/:tripId`,
+    authenticate,
+    Message.messageTripAttendees
+  )
 
   /* 
 	|--------------------------------------------------------------------------

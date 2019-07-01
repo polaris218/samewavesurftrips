@@ -34,6 +34,11 @@ const UserSchema = new Schema({
     required: true
   },
 
+  phone: {
+    type: String,
+    required: false
+  },
+
   username: {
     type: String,
     lowercase: true,
@@ -242,7 +247,7 @@ UserSchema.methods.updateAvatar = function (file) {
     //upload to spaces ---
     s3.upload(s3Params, (s3Err, data) => {
       if (s3Err) throw s3Err
-      console.log(`File uploaded successfully at ${data.Location}`)
+      console.log(`Avatar File uploaded successfully at ${data.Location}`)
 
       this.avatar = unique
       this.save()
@@ -276,13 +281,13 @@ UserSchema.methods.updateAvatar = function (file) {
 */
 UserSchema.methods.updateCover = function (file) {
   return new Promise((resolve, reject) => {
-    let ext, unique, oldfile
+    let ext, unique, oldfileCover
 
     if (!file) {
       reject()
     }
 
-    oldfile = this.cover_image
+    oldfileCover = this.cover_image
 
     ext = file.name.substring(file.name.indexOf('.'))
     unique = uuid.v4() + ext
@@ -311,18 +316,18 @@ UserSchema.methods.updateCover = function (file) {
     //upload to spaces ---
     s3.upload(s3Params, (s3Err, data) => {
       if (s3Err) throw s3Err
-      console.log(`File uploaded successfully at ${data.Location}`)
+      console.log(`Cover File uploaded successfully at - ${data.Location}`)
 
       this.cover_image = unique
       this.save()
 
-      //delete the old avatar ---
-      if (oldfile) {
+      //delete the old cover ---
+      if (oldfileCover) {
         try {
           s3.deleteObject(
             {
               Bucket: process.env.S3_BUCKET,
-              Key: oldfile
+              Key: oldfileCover
             },
             function (err, data) {
               if (err) console.log(err, err.stack)

@@ -63,6 +63,11 @@ var UserSchema = new _mongoose.Schema({
     required: true
   },
 
+  phone: {
+    type: String,
+    required: false
+  },
+
   username: {
     type: String,
     lowercase: true,
@@ -272,7 +277,7 @@ UserSchema.methods.updateAvatar = function (file) {
       //upload to spaces ---
     };s3.upload(s3Params, function (s3Err, data) {
       if (s3Err) throw s3Err;
-      console.log('File uploaded successfully at ' + data.Location);
+      console.log('Avatar File uploaded successfully at ' + data.Location);
 
       _this4.avatar = unique;
       _this4.save();
@@ -307,13 +312,13 @@ UserSchema.methods.updateCover = function (file) {
   return new Promise(function (resolve, reject) {
     var ext = void 0,
         unique = void 0,
-        oldfile = void 0;
+        oldfileCover = void 0;
 
     if (!file) {
       reject();
     }
 
-    oldfile = _this5.cover_image;
+    oldfileCover = _this5.cover_image;
 
     ext = file.name.substring(file.name.indexOf('.'));
     unique = _nodeUuid2.default.v4() + ext;
@@ -341,17 +346,17 @@ UserSchema.methods.updateCover = function (file) {
       //upload to spaces ---
     };s3.upload(s3Params, function (s3Err, data) {
       if (s3Err) throw s3Err;
-      console.log('File uploaded successfully at ' + data.Location);
+      console.log('Cover File uploaded successfully at - ' + data.Location);
 
       _this5.cover_image = unique;
       _this5.save();
 
-      //delete the old avatar ---
-      if (oldfile) {
+      //delete the old cover ---
+      if (oldfileCover) {
         try {
           s3.deleteObject({
             Bucket: process.env.S3_BUCKET,
-            Key: oldfile
+            Key: oldfileCover
           }, function (err, data) {
             if (err) console.log(err, err.stack);
           });
