@@ -18,7 +18,7 @@ const AppComponent = props => {
     ) {
       props.history.push('/')
     }
-  }, [])
+  }, [props.accessToken])
 
   return <App>{props.children}</App>
 }

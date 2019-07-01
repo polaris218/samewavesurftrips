@@ -42,6 +42,9 @@ export const apiQuery = (
           const refreshTokenPromise = refreshToken()
             .then(response => {
               console.log('Refresh Response', response)
+              if (!response) {
+                return userActions(dispatch).userLogout()
+              }
               dispatch(userActions().userTokenRefresh(response.data))
               // Now we rerun the same query with Tokens refreshed, otherwise bailout.
               runQuery(endpoint, data, type, processData, dispatch, action, callback, params)
@@ -52,7 +55,7 @@ export const apiQuery = (
             })
             .catch(error => {
               console.log('Refresh token error', error)
-              dispatch(userActions().userTokenRefreshStop())
+              userActions(dispatch).userLogout()
               if (callback) callback(error)
             })
 
