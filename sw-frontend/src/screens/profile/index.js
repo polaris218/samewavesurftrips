@@ -124,6 +124,10 @@ const ProfileScreen = props => {
     )
   }
 
+  const onMessage = () => {}
+
+  const onCall = () => window.open('tel:' + props.user.surfer.phone)
+
   const onGetFollowersResult = res => {
     if (res.status !== 200) {
       console.log('follow user error', res)
@@ -210,12 +214,20 @@ const ProfileScreen = props => {
                     <div className={'profile__contact'}>
                       <div className={'profile_follow'}>
                         <Button
-                          outline={following}
+                          color={
+                            following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE
+                          }
+                          hoverColor={
+                            following ? Colors.GREY_BASE : Colors.ORANGE_DARK
+                          }
                           onPress={onFollow}
                           title={!following ? 'Follow' : 'Following'}
                         />
                       </div>
-                      <Button title='Message' />
+                      <Button onPress={onMessage} title='Message' />
+                      {props.user.surfer.phone && (
+                        <Button onPress={onCall} title='Call' />
+                      )}
                     </div>
                   )}
                 </div>
@@ -250,7 +262,10 @@ const ProfileScreen = props => {
                         title={!following ? 'Follow' : 'Following'}
                       />
                     </div>
-                    <Button title='Message' />
+                    <Button onPress={onMessage} title='Message' />
+                    {props.user.surfer.phone && (
+                      <Button onPress={onCall} title='Call' />
+                    )}
                   </div>
                 )}
               </Container>

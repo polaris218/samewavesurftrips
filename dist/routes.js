@@ -109,6 +109,7 @@ function routes() {
   router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
   router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
   router.get('/v1/user/:id/followers', authenticate, _users2.default.followers);
+
   //   router.get(`/v1/user/:id/following`, authenticate, User.following)
 
   /* 

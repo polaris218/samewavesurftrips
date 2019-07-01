@@ -82,6 +82,7 @@ const EditProfileScreen = props => {
       first_name: state.firstName,
       last_name: state.lastName,
       email: state.email,
+      phone: state.phone,
       location: state.location,
       bio: state.bio,
       avatar: state.avatar,
@@ -179,21 +180,26 @@ const EditProfileScreen = props => {
       }
     }
     reader.readAsDataURL(input.files[0])
-
+    console.log('TYPE IS ', type)
     const blob = input.files[0]
     const data = new FormData()
-    data.append('avatar', blob, blob.name)
+    data.append(type === 'avatar' ? 'avatar' : 'cover', blob, blob.name)
     uploadImage(data, type)
   }
 
   const uploadImage = (data, type) => {
     dispatch(
-      apiQuery(data, props.userImageUpload, config.EndPoints.avatar, res => {
-        console.log(res)
-        if (res.status === 200) {
-          mounted && setState({ ...state, [type]: res.data })
+      apiQuery(
+        data,
+        props.userImageUpload,
+        type === 'avatar' ? config.EndPoints.avatar : config.EndPoints.cover,
+        res => {
+          console.log(res)
+          if (res.status === 200) {
+            mounted && setState({ ...state, [type]: res.data })
+          }
         }
-      }),
+      ),
       'POST',
       {},
       false // ProcessData
@@ -306,6 +312,15 @@ const EditProfileScreen = props => {
                           value={state.email}
                           fieldName={'email'}
                           error={checkValidField('email')}
+                        />
+
+                        <Input
+                          label='Phone Number'
+                          onChange={onInputChange}
+                          value={state.phone}
+                          fieldName={'phone'}
+                          type={'tel'}
+                          error={checkValidField('phone')}
                         />
 
                         <Input
