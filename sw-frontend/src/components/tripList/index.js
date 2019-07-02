@@ -13,6 +13,9 @@ const TripListComponent = props => {
     to: { opacity: 1, transform: 'translate3d(0,0px,0) scale(1)' }
   })
 
+  // Reverse the Trips list so Newset on top
+  const trips = props.trips.slice(0).reverse()
+
   return (
     <TripList paddingTop={props.paddingTop} paddingSide={props.paddingSide}>
       <ListContainer>
@@ -23,7 +26,7 @@ const TripListComponent = props => {
         )}
         {!props.loading && trail.length > 0 ? (
           trail.map(({ ...rest }, index) => {
-            const trip = props.trips[index]
+            const trip = trips[index]
             return (
               <animated.div
                 key={trip._id}

@@ -29,7 +29,6 @@ const LoginScreen = props => {
 
   useEffect(() => {
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    console.log('FB PROPS PAL', getUrlVars())
     if (getUrlVars().user) {
       setLoading(true)
       setTimeout(() => {

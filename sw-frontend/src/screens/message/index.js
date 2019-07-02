@@ -4,9 +4,8 @@ import { withRouter } from 'react-router-dom'
 import uuid from 'uuid'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
-import { General as config } from 'config'
+import { General as config, Routes } from 'config'
 import { userActions, mapDispatchToProps } from 'api/actions'
-
 import { Button, Input, Header, Footer } from 'components'
 import {
   MessageView,
@@ -25,13 +24,15 @@ const MessageScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ messageReply, setMessageReply ] = useState('')
   const [ messageSubject, setMessageSubject ] = useState('')
-  const [ messages, setMessages ] = useState([
-    {
-      message: message ? message.message : '',
-      owner_id: message ? message.owner_id : null,
-      _id: message ? message._id : uuid()
-    }
-  ])
+  const [ messages, setMessages ] = useState(
+    [
+      // {
+      //   message: message ? message.message : '',
+      //   owner_id: message ? message.owner_id : null,
+      //   _id: message ? message._id : uuid()
+      // }
+    ]
+  )
 
   useEffect(() => {
     getMessages()
@@ -89,19 +90,34 @@ const MessageScreen = props => {
       return false
     }
     const msgs = res.data
-    const conversation = []
+    const conversation = [
+      {
+        message: message ? message.message : '',
+        owner_id: message ? message.owner_id : null,
+        _id: message ? message._id : uuid()
+      }
+    ]
 
     msgs.forEach((msg, i) => {
       if (
-        msg.owner_id === messages[0].owner_id
-        // ||
-        // msg.recipient_id === messages[0].owner_id
+        (msg.owner_id === message.owner_id ||
+          msg.recipient_id === message.owner_id) &&
+        msg.subject === message.subject
       ) {
+        // Exclude last message, its the original on we can see already
+        // if (i !== 0)
         conversation.push(msg)
       }
     })
-    setMessages(conversation)
-    console.log('Got MSgss,', res.data)
+
+    conversation.sort(function (a, b) {
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(a.updatedAt) - new Date(b.updatedAt)
+    })
+
+    setMessages(conversation.splice(1, conversation.length))
+    console.log('Got MSgss,', res.data, conversation)
     setLoading(false)
   }
 
@@ -124,7 +140,12 @@ const MessageScreen = props => {
     setMessageReply('')
     sendMessage()
   }
-  console.log('Message', message)
+
+  const onUserPress = userId => {
+    props.history.push(`/${Routes.USER}/${userId}`)
+  }
+
+  console.log('Message', message, messages)
   return (
     <Mail>
       <Header title={''} backButton={true} homeButton={false} />
@@ -149,7 +170,9 @@ const MessageScreen = props => {
               <Message key={msg._id} self={msg.owner_id === props.user.id}>
                 {message &&
                 message.owner && (
-                  <UserName self={msg.owner_id === props.user.id}>
+                  <UserName
+                    self={msg.owner_id === props.user.id}
+                    onClick={onUserPress.bind(null, msg.owner_id)}>
                     {`${message.owner.first_name
                       ? message.owner.first_name
                       : ''} ${message.owner.last_name

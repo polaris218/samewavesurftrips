@@ -57,7 +57,6 @@ const MailScreen = props => {
   )
 
   const onTabPress = value => {
-    console.log('On Tab ', state.tabs[value], activeTab)
     mounted && setActiveTab(state.tabs[value])
   }
 
@@ -105,9 +104,21 @@ const MailScreen = props => {
   }
 
   const filterMsgs = messages => {
-    const direct = messages.filter(message => !message.trip_id)
+    const direct = messages
+      .slice(0)
+      .reverse()
+      .filter(message => !message.trip_id)
+    const uniqueDirect = []
+    /* Filter out the messages with the same subject */
+    direct.forEach(msg => {
+      const exists = uniqueDirect.filter(t => t.subject === msg.subject)
+      if (exists.length === 0) {
+        uniqueDirect.push(msg)
+      }
+    })
+
     const group = messages.filter(message => message.trip_id)
-    const uniqueIds = [ ...new Set(group.map(msg => msg.trip_id)) ]
+    // const uniqueIds = [ ...new Set(group.map(msg => msg.trip_id)) ]
     const uniqueGroup = []
 
     group.forEach(msg => {
@@ -116,16 +127,15 @@ const MailScreen = props => {
       const activeTrip = props.trips.yourTrips.filter(
         a => a._id === msg.trip_id
       )
-      console.log('acitve__', activeTrip)
       if (exists.length === 0) {
         // If still joined, populate the list
         if (activeTrip.length) uniqueGroup.push(msg)
       }
     })
 
-    console.log('direct', direct, group, uniqueGroup, uniqueIds)
+    console.log('direct', direct, uniqueDirect)
 
-    setMessageList(activeTab === state.tabs[0] ? direct : uniqueGroup)
+    setMessageList(activeTab === state.tabs[0] ? uniqueDirect : uniqueGroup)
   }
 
   const fetchUserDetails = async userId => {
@@ -154,7 +164,7 @@ const MailScreen = props => {
                 <Preloader />
               </PreloadContainer>
             ) : messageList.length > 0 ? (
-              messageList.slice(0).reverse().map(item => {
+              messageList.map(item => {
                 return (
                   <MsgListItem
                     message={item}
