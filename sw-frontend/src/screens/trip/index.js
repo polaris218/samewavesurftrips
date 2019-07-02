@@ -20,7 +20,14 @@ import {
   Modal
 } from 'components'
 import { Tools, PickIcon } from 'utils'
-import { Trip, ContentContainer, Center, Stats, Stat } from './styles'
+import {
+  Attendees,
+  Trip,
+  ContentContainer,
+  Center,
+  Stats,
+  Stat
+} from './styles'
 
 const TripScreen = props => {
   const [ state, setState ] = useState({
@@ -31,6 +38,15 @@ const TripScreen = props => {
   const [ modalVisible, setModalVisible ] = useState(false)
   const [ owner, setOwnerDetails ] = useState({ avatar: '' })
   const [ loading, setLoading ] = useState(true)
+  const [ attendeeProfiles, setAttendeeProfiles ] = useState([])
+  let mounted = true
+  const attendeesTemp = []
+
+  useEffect(() => {
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     // TODO: If not Current Trip prop, get via ID in URL
@@ -40,6 +56,8 @@ const TripScreen = props => {
     })
     // Get latest Trip Owner details (avatar etc can change)
     fetchOwnerDetails()
+    // Get details of all each attendee
+    getAttendeeProfiles()
   }, [])
 
   const onJoinPress = (join = true) => {
@@ -133,7 +151,35 @@ const TripScreen = props => {
       </div>
     )
 
+  const getAttendeeProfiles = () => {
+    trip.attendees.forEach(attendee => {
+      dispatch(
+        apiQuery(
+          null,
+          props.attendeeDetail,
+          config.EndPoints.user + `/${attendee}`,
+          onAttendeeResult,
+          'GET'
+        )
+      )
+    })
+  }
+
+  const onAttendeeResult = res => {
+    if (res.status !== 200) {
+      console.log('attendee detail error', res)
+    } else {
+      attendeesTemp.push(res.data)
+      mounted && setAttendeeProfiles([ ...attendeesTemp ])
+    }
+  }
+
+  const onAttendeePress = id => {
+    props.history.push(`/${Routes.USER}/${id}`)
+  }
+
   const trip = props.trips.current
+  console.log('WHO WE GOT? ', attendeeProfiles)
 
   return (
     <Trip>
@@ -191,6 +237,9 @@ const TripScreen = props => {
                 <Card>
                   <div className={'trip__title'}>
                     {trip.title}
+                    <div className={'trip__description'}>
+                      {trip.trip_details}
+                    </div>
                     {/* <div className={'trip__location-header'}>trip created: </div> */}
                   </div>
                 </Card>
@@ -221,12 +270,6 @@ const TripScreen = props => {
                           new Date(trip.date_times.return_date_time)
                         ).format('ddd MMM Do')}
                       </div>
-                    </div>
-                    <div className={'trip__description'}>
-                      <div className={'trip__location-header'}>
-                        trip details:
-                      </div>
-                      {trip.trip_details}
                     </div>
                   </Card>
                 </div>
@@ -274,6 +317,38 @@ const TripScreen = props => {
                     </Stats>
                   </Card>
                 </div>
+                {trip.attendees.length > 0 && (
+                  <div className={'trip__card'}>
+                    <Card>
+                      <div className={'trip__location-meta t-right'}>
+                        <div className={'trip__location-header'}>
+                          surfers going:
+                        </div>
+                        <Attendees>
+                          {trip.attendees.map((attendee, i) => (
+                            <Avatar
+                              onPress={
+                                attendeeProfiles[i] ? (
+                                  onAttendeePress.bind(
+                                    null,
+                                    attendeeProfiles[i]._id
+                                  )
+                                ) : (
+                                  () => {}
+                                )
+                              }
+                              image={
+                                attendeeProfiles[i] &&
+                                config.EndPoints.digitalOcean +
+                                  attendeeProfiles[i].avatar
+                              }
+                            />
+                          ))}
+                        </Attendees>
+                      </div>
+                    </Card>
+                  </div>
+                )}
               </div>
             </Container>
           </Center>

@@ -180,9 +180,11 @@ export const Trip = styled.div`
   }
 
   .trip__description {
-    margin: ${Spacings.MEDIUM}px 0;
+    /* margin: ${Spacings.MEDIUM}px 0; */
     font-size: ${Spacings.FONT.BODY};
+    font-weight: 500;
     color: ${Colors.GREY_BASE};
+    text-transform: lowercase;
   }
 
   .tripcad__viewdetails {
@@ -262,4 +264,15 @@ export const Stat = styled.div`
   align-items: center;
   color: ${Colors.BLUE_BASE};
   font-weight: 500;
+`
+export const Attendees = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding-top: ${Spacings.MEDIUM}px;
+
+  div,
+  img {
+    width: 35px;
+    height: 35px;
+  }
 `
