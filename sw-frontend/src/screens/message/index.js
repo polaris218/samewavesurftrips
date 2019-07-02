@@ -7,8 +7,7 @@ import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import { userActions, mapDispatchToProps } from 'api/actions'
 
-import { Header, Footer } from 'components'
-import { Button, Input } from 'components'
+import { Button, Input, Header, Footer } from 'components'
 import {
   MessageView,
   Message,
@@ -25,11 +24,12 @@ const MessageScreen = props => {
   const message = props.location.state
   const [ loading, setLoading ] = useState(true)
   const [ messageReply, setMessageReply ] = useState('')
+  const [ messageSubject, setMessageSubject ] = useState('')
   const [ messages, setMessages ] = useState([
     {
       message: message ? message.message : '',
       owner_id: message ? message.owner_id : null,
-      _id: message ? message._id : null
+      _id: message ? message._id : uuid()
     }
   ])
 
@@ -47,6 +47,40 @@ const MessageScreen = props => {
         'GET'
       )
     )
+  }
+
+  const sendMessage = () => {
+    const messageData = {
+      subject: message.subject
+        ? message.subject
+        : messageSubject ? messageSubject : 'Hello!..',
+      message: messageReply,
+      recipient_id:
+        message.recipient_id !== props.user.id
+          ? message.recipient_id
+          : message.owner_id,
+      owner_id:
+        message.owner_id !== props.user.id
+          ? props.user.id
+          : message.recipient_id
+    }
+
+    dispatch(
+      apiQuery(
+        messageData,
+        props.sendMessage,
+        config.EndPoints.messages,
+        onSendResult,
+        'POST'
+      )
+    )
+  }
+
+  const onSendResult = res => {
+    if (res.status !== 200) {
+      console.log('send error', res)
+      return false
+    }
   }
 
   const onMessagesResult = res => {
@@ -75,6 +109,10 @@ const MessageScreen = props => {
     setMessageReply(value)
   }
 
+  const onSubjectChange = (value, name) => {
+    setMessageSubject(value)
+  }
+
   const onSendPress = () => {
     const reply = {
       message: messageReply,
@@ -84,16 +122,30 @@ const MessageScreen = props => {
     }
     setMessages([ ...messages, reply ])
     setMessageReply('')
+    sendMessage()
   }
   console.log('Message', message)
   return (
     <Mail>
       <Header title={''} backButton={true} homeButton={false} />
-      <HeadTitle>{message && message.subject}</HeadTitle>
+      <HeadTitle>
+        {message && message.subject ? (
+          message.subject
+        ) : (
+          <Input
+            label='Enter Message Subject..'
+            onChange={onSubjectChange}
+            value={messageSubject}
+            fieldName={'msgSubject'}
+          />
+        )}
+      </HeadTitle>
       <MessageView>
         {messages.map(msg => {
           return (
-            <MsgAlign self={msg.owner_id === props.user.id} key={msg._id}>
+            <MsgAlign
+              self={msg.owner_id === props.user.id}
+              key={msg._id + uuid()}>
               <Message key={msg._id} self={msg.owner_id === props.user.id}>
                 {message &&
                 message.owner && (

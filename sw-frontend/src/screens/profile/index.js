@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import uuid from 'uuid'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Colors } from 'config'
@@ -64,7 +65,7 @@ const ProfileScreen = props => {
         props.fetchOwnTrips,
         config.EndPoints.trips + `/${userId ? userId : props.user.id}`,
         onFetchResult,
-        'get'
+        'GET'
       )
     )
   }
@@ -77,14 +78,14 @@ const ProfileScreen = props => {
         userId ? props.surferDetails : props.userDetails,
         config.EndPoints.user + `/${userId ? userId : props.user.id}`,
         onFetchResult,
-        'get'
+        'GET'
       )
     )
   }
 
-  const onFetchResult = error => {
-    if (error.status !== 200) {
-      console.log('what error', error)
+  const onFetchResult = res => {
+    if (res.status !== 200) {
+      console.log('what error', res)
     }
     mounted && setLoading(false)
   }
@@ -124,7 +125,12 @@ const ProfileScreen = props => {
     )
   }
 
-  const onMessage = () => {}
+  const onMessage = user => {
+    console.log('user, ', user)
+    props.history.push(`/${Routes.MESSAGE}/${uuid()}`, {
+      recipient_id: user.id
+    })
+  }
 
   const onGetFollowersResult = res => {
     if (res.status !== 200) {
@@ -220,7 +226,10 @@ const ProfileScreen = props => {
                           title={!following ? 'Follow' : 'Following'}
                         />
                       </div>
-                      <Button onPress={onMessage} title='Message' />
+                      <Button
+                        onPress={onMessage.bind(null, user)}
+                        title='Message'
+                      />
                       {props.user.surfer.phone && (
                         <a
                           href={`tel:${props.user.surfer.phone}`}
@@ -262,7 +271,10 @@ const ProfileScreen = props => {
                         title={!following ? 'Follow' : 'Following'}
                       />
                     </div>
-                    <Button onPress={onMessage} title='Message' />
+                    <Button
+                      onPress={onMessage.bind(null, user)}
+                      title='Message'
+                    />
                     {props.user.surfer.phone && (
                       <a
                         href={`tel:${props.user.surfer.phone}`}

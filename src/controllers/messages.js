@@ -10,7 +10,15 @@ import mongoose from 'mongoose'
 exports.getAll = (req, res) => {
   Message.find({ recipient_id: req.user._id })
     .then(message => {
-      res.json(message)
+      // res.json(message)
+      Message.find({ owner_id: req.user._id })
+        .then(ownMessage => {
+          const allMsgs = [ ...ownMessage, ...message ]
+          res.json(allMsgs)
+        })
+        .catch(err => {
+          res.status(422).send(err)
+        })
     })
     .catch(err => {
       res.status(422).send(err)
@@ -75,7 +83,7 @@ exports.delete = (req, res) => {
 */
 function setDefaultValues (req) {
   const modelData = Object.assign({}, req.body, {
-    owner_id: req.user._id,
+    owner_id: mongoose.Types.ObjectId(req.body.owner_id) || req.user._id,
     recipient_id: mongoose.Types.ObjectId(req.body.recipient_id)
   })
 

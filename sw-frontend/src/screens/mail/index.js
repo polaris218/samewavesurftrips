@@ -69,7 +69,7 @@ const MailScreen = props => {
         props.fetchOwnTrips,
         config.EndPoints.trips + `/${props.user.id}`,
         onFetchTripsResult,
-        'get'
+        'GET'
       )
     )
   }
@@ -89,7 +89,7 @@ const MailScreen = props => {
         props.getMessages,
         config.EndPoints.messages,
         onMessagesResult,
-        'get'
+        'GET'
       )
     )
   }
@@ -99,6 +99,7 @@ const MailScreen = props => {
       console.log('msgs error', res)
       return false
     }
+    console.log('GET MESGAES', res.data)
     mounted && setMessages(res.data)
     mounted && setLoading(false)
   }
@@ -153,7 +154,7 @@ const MailScreen = props => {
                 <Preloader />
               </PreloadContainer>
             ) : messageList.length > 0 ? (
-              messageList.map(item => {
+              messageList.slice(0).reverse().map(item => {
                 return (
                   <MsgListItem
                     message={item}

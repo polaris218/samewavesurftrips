@@ -327,6 +327,7 @@ const TripScreen = props => {
                         <Attendees>
                           {trip.attendees.map((attendee, i) => (
                             <Avatar
+                              key={attendee}
                               onPress={
                                 attendeeProfiles[i] ? (
                                   onAttendeePress.bind(

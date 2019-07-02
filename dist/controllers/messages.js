@@ -14,6 +14,8 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /* 
 |--------------------------------------------------------------------------
 | Get Messages
@@ -21,7 +23,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 exports.getAll = function (req, res) {
   _message2.default.find({ recipient_id: req.user._id }).then(function (message) {
-    res.json(message);
+    // res.json(message)
+    _message2.default.find({ owner_id: req.user._id }).then(function (ownMessage) {
+      var allMsgs = [].concat(_toConsumableArray(ownMessage), _toConsumableArray(message));
+      res.json(allMsgs);
+    }).catch(function (err) {
+      res.status(422).send(err);
+    });
   }).catch(function (err) {
     res.status(422).send(err);
   });
@@ -81,7 +89,7 @@ exports.delete = function (req, res) {
 */
 function setDefaultValues(req) {
   var modelData = Object.assign({}, req.body, {
-    owner_id: req.user._id,
+    owner_id: _mongoose2.default.Types.ObjectId(req.body.owner_id) || req.user._id,
     recipient_id: _mongoose2.default.Types.ObjectId(req.body.recipient_id)
   });
 

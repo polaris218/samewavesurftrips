@@ -18,6 +18,15 @@ export const HeadTitle = styled.div`
   justify-content: center;
   align-items: center;
   color: black;
+
+  input {
+    &::before {
+      border-bottom: 0px;
+    }
+
+    margin-top: 20px;
+  }
+
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     margin-top: 50px;
   }
