@@ -167,19 +167,16 @@ const TripScreen = props => {
               <div className={'trip__header-meta'}>
                 <div className='trip__person' onClick={visitProfile}>
                   <p className={'trip__name'}>
-                    {trip.owner_details &&
-                      `${trip.owner_details.first_name} ${trip.owner_details
-                        .last_name}`}
+                    {`${owner.first_name
+                      ? owner.first_name
+                      : ''} ${owner.last_name ? owner.last_name : ''}`}
                   </p>
                   <div className={'trip__location'}>
                     {Tools.renderIcon('pin')}{' '}
-                    {trip.owner_details && trip.owner_details.location ? !trip
-                      .owner_details.location.coordinates ? (
-                      trip.owner_details.location
+                    {owner.location && owner.location.name ? (
+                      owner.location.name
                     ) : (
-                      trip.owner_details.location.coordinates.name
-                    ) : (
-                      ``
+                      `Unknown User Location`
                     )}
                   </div>
                 </div>

@@ -200,12 +200,10 @@ const ProfileScreen = props => {
                     </p>
                     <div className={'profile__location'}>
                       {Tools.renderIcon('pin')}{' '}
-                      {user && user.location ? !user.location.coordinates ? (
-                        user.location
+                      {user && user.location && user.location.name ? (
+                        user.location.name
                       ) : (
-                        user && user.location.coordinates.name
-                      ) : (
-                        `Your Location`
+                        `Unknown Location`
                       )}
                     </div>
                   </div>
@@ -226,7 +224,11 @@ const ProfileScreen = props => {
                       </div>
                       <Button onPress={onMessage} title='Message' />
                       {props.user.surfer.phone && (
-                        <Button onPress={onCall} title='Call' />
+                        <a
+                          href={`tel:${props.user.surfer.phone}`}
+                          data-rel='external'>
+                          <Button title='Call' />
+                        </a>
                       )}
                     </div>
                   )}
@@ -264,7 +266,11 @@ const ProfileScreen = props => {
                     </div>
                     <Button onPress={onMessage} title='Message' />
                     {props.user.surfer.phone && (
-                      <Button onPress={onCall} title='Call' />
+                      <a
+                        href={`tel:${props.user.surfer.phone}`}
+                        data-rel='external'>
+                        <Button title='Call' />
+                      </a>
                     )}
                   </div>
                 )}
@@ -343,9 +349,12 @@ const ProfileScreen = props => {
                             {user &&
                               user.interests &&
                               user.interests.length > 0 &&
-                              user.interests.map(item => (
-                                <Interest key={item}>{item}</Interest>
-                              ))}
+                              user.interests.map(
+                                item =>
+                                  item !== '' && (
+                                    <Interest key={item}>{item}</Interest>
+                                  )
+                              )}
                           </div>
                         </div>
                       </div>

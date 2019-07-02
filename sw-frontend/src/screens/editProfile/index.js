@@ -20,7 +20,8 @@ import {
   Heading,
   Header,
   Preloader,
-  Select
+  Select,
+  Places
 } from 'components'
 import {
   Center,
@@ -44,14 +45,14 @@ const EditProfileScreen = props => {
     lastName: props.user.lastName || '',
     email: props.user.email || '',
     bio: props.user.bio || '',
-    gender: props.user.gender || '',
-    location: props.user.location || '',
+    gender: '',
+    location: props.user.location || { name: '' },
     phone: props.user.phone || '',
     surf_level: props.user.surf_level || '',
     surf_modality: props.user.surf_modality || '',
     stance: props.user.stance || '',
     interests: props.user.interests || [ '' ],
-    surfing_since: props.user.surfing_since || '',
+    surfing_since: props.user.surfing_since || new Date(),
     optIn: props.user.optIn,
     invalid: [],
     avatar: props.user.avatar,
@@ -149,6 +150,14 @@ const EditProfileScreen = props => {
     setState({
       ...state,
       [name]: value
+    })
+  }
+
+  const onSetLocation = (location, field) => {
+    console.log('Location ', location)
+    setState({
+      ...state,
+      location
     })
   }
 
@@ -254,12 +263,14 @@ const EditProfileScreen = props => {
                                 <Preloader />
                               </ImgCenter>
                             ) : (
-                              <img
-                                src={avatar}
-                                width='200'
-                                height='200'
-                                alt='avatar'
-                              />
+                              state.avatar && (
+                                <img
+                                  src={avatar}
+                                  width='200'
+                                  height='200'
+                                  alt='avatar'
+                                />
+                              )
                             )}
                           </div>
 
@@ -279,12 +290,14 @@ const EditProfileScreen = props => {
                                 <Preloader />
                               </ImgCenter>
                             ) : (
-                              <img
-                                src={coverImg}
-                                width='200'
-                                height='auto'
-                                alt='cover'
-                              />
+                              state.coverImg && (
+                                <img
+                                  src={coverImg}
+                                  width='200'
+                                  height='auto'
+                                  alt='cover'
+                                />
+                              )
                             )}
                           </div>
                         </form>
@@ -323,11 +336,11 @@ const EditProfileScreen = props => {
                           error={checkValidField('phone')}
                         />
 
-                        <Input
-                          label='Location'
-                          onChange={onInputChange}
-                          value={state.location}
-                          fieldName={'location'}
+                        <Places
+                          label='Your Location'
+                          onChange={location =>
+                            onSetLocation(location, 'location')}
+                          value={state.location.name}
                           error={checkValidField('location')}
                         />
                         <Select
@@ -340,7 +353,7 @@ const EditProfileScreen = props => {
                         />
                         <Label>Bio</Label>
                         <Input
-                          label='Bio'
+                          label='Add something interesting about yourself'
                           onChange={onInputChange}
                           value={state.bio}
                           fieldName={'bio'}

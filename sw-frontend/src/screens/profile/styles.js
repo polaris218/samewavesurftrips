@@ -177,6 +177,11 @@ export const Profile = styled.div`
       left: calc(5% - ${Spacings.MEDIUM}px);
     }
   }
+
+  a:link,
+  a:visited {
+    text-decoration: none;
+  }
 `
 export const Stats = styled.div`
   display: flex;

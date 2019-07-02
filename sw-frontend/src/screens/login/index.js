@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
-import { apiQuery } from 'api/thunks/general'
+import { apiQuery, apiSingleQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import {
   BackgroundImage,
@@ -52,16 +52,22 @@ const LoginScreen = props => {
     }
     setLoading(true)
     dispatch(
-      apiQuery(data, props.userLogin, config.EndPoints.auth, onLoginResult)
+      apiSingleQuery(
+        data,
+        props.userLogin,
+        config.EndPoints.auth,
+        onLoginResult
+      )
     )
   }
 
-  const onLoginResult = error => {
-    if (error.status !== 200) {
+  const onLoginResult = res => {
+    console.log('login res', res)
+    if (res.status !== 200) {
       setLoading(false)
       setState({
         ...state,
-        error
+        error: true
       })
     } else {
       props.history.push('/' + Routes.DASHBOARD)

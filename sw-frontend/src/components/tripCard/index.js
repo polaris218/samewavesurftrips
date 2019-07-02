@@ -123,20 +123,22 @@ const TripCardComponent = props => {
           <Avatar
             borderWidth={1}
             image={!loading ? config.EndPoints.digitalOcean + owner.avatar : ''}
-            // image={
-            //   props.owner_details &&
-            //   props.owner_details.avatar &&
-            //   config.EndPoints.digitalOcean + props.owner_details.avatar
-            // }
           />
         </div>
         <div className={'tripcard__header-meta'}>
-          {props.owner_details && (
-            <p className={'tripcard__name'}>{`${props.owner_details
-              .first_name} ${props.owner_details.last_name}`}</p>
+          {owner && (
+            <p className={'tripcard__name'}>
+              {`${owner.first_name ? owner.first_name : ''} ${owner.last_name
+                ? owner.last_name
+                : ''}`}
+            </p>
           )}
           <p className={'tripcard__level'}>
-            {props.owner_details && props.owner_details.location}
+            {owner && owner.location && owner.location.name ? (
+              owner.location.name
+            ) : (
+              ''
+            )}
           </p>
         </div>
         <p className={'tripcard__title'}>{props.title}</p>

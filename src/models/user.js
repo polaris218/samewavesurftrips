@@ -75,8 +75,10 @@ const UserSchema = new Schema({
   },
 
   location: {
-    type: { type: String },
-    coordinates: []
+    type: Schema.Types.Mixed,
+    lat: Number,
+    lng: Number,
+    name: String
   },
 
   surf_level: {

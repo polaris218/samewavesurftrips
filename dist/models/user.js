@@ -104,8 +104,10 @@ var UserSchema = new _mongoose.Schema({
   },
 
   location: {
-    type: { type: String },
-    coordinates: []
+    type: _mongoose.Schema.Types.Mixed,
+    lat: Number,
+    lng: Number,
+    name: String
   },
 
   surf_level: {

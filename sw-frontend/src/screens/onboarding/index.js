@@ -125,7 +125,7 @@ const OnboardingScreen = props => {
         last_name: state.lastName,
         email: state.email.toLowerCase(),
         password: state.password,
-        gender: 'unknown'
+        gender: null
       }
 
       setState({
