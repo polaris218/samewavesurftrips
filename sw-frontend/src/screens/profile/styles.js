@@ -61,7 +61,10 @@ export const Profile = styled.div`
     flex-direction: row;
     align-items: center;
     height: 20px;
-    padding-top: 4px;
+    padding-top: 12px;
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      padding-top: 4px;
+    }
   }
   .profile__name {
     font-weight: 700;
@@ -85,7 +88,7 @@ export const Profile = styled.div`
   .profile__contact_mobile {
     display: flex;
     button {
-      margin: ${Spacings.SMALL}px ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
+      margin: ${Spacings.SMALL}px ${Spacings.TINY}px ${Spacings.MEDIUM}px;
     }
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
       display: none;

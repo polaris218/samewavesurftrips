@@ -69,7 +69,10 @@ export const Trip = styled.div`
     flex-direction: row;
     align-items: center;
     height: 20px;
-    padding-top: 4px;
+    padding-top: 12px;
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      padding-top: 4px;
+    }
   }
   .trip__name {
     font-weight: 700;

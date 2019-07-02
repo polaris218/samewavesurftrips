@@ -95,10 +95,10 @@ const TripCardComponent = props => {
     dispatch(
       apiQuery(
         null,
-        props.surferDetails,
+        props.usersListDetails,
         config.EndPoints.user + `/${props.owner_id}`,
         onOwnerResult,
-        'get'
+        'GET'
       )
     )
   }

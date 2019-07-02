@@ -126,8 +126,6 @@ const ProfileScreen = props => {
 
   const onMessage = () => {}
 
-  const onCall = () => window.open('tel:' + props.user.surfer.phone)
-
   const onGetFollowersResult = res => {
     if (res.status !== 200) {
       console.log('follow user error', res)

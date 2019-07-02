@@ -72,6 +72,12 @@ export function userActions (dispatch) {
         payload: userId
       }
     },
+    usersListDetails: users => {
+      return {
+        type: StoreDefinitions.USER.USERS_LIST_DETAILS,
+        payload: users
+      }
+    },
     userTokenRefresh: token => {
       return {
         type: StoreDefinitions.USER.REFRESH,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
-import { apiQuery, apiSingleQuery } from 'api/thunks/general'
+import { apiSingleQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import {
   BackgroundImage,
