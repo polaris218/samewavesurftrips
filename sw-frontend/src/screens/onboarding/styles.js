@@ -3,7 +3,7 @@ import { Colors, Spacings } from 'config'
 
 export const Onboard = styled.div`
   width: 100%;
-  min-height: 780px;
+  min-height: 850px;
   padding: ${Spacings.MEDIUM}px 0px;
   background-color: ${Colors.BLUE_DARK};
   display: flex;

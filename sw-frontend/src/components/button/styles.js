@@ -17,6 +17,7 @@ export const Button = styled.button`
   height: 55px;
   outline: none;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   transition: background 0.25s ease, transform .15s ease-in-out,

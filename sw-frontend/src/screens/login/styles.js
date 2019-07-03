@@ -3,7 +3,7 @@ import { Colors, Spacings } from 'config'
 
 export const Login = styled.div`
   width: 100%;
-  min-height: 630px;
+  min-height: 700px;
   padding: ${Spacings.MEDIUM}px 0px;
   background-color: ${Colors.BLUE_DARK};
   display: flex;
@@ -27,8 +27,13 @@ export const Login = styled.div`
 
   .login__logo {
     margin: ${Spacings.MEDIUM}px 0 0;
-    width: 130px;
-    height: 150px;
+    width: 65px;
+    height: 75px;
+
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      width: 130px;
+      height: 150px;
+    }
   }
 
   .login__fb {
