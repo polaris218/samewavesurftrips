@@ -32,7 +32,9 @@ var api_key = _config2.default.mailgun.key,
 */
 function notify_newUser(user) {
 
-    var hbs = _expressHandlebars2.default.create();
+    var hbs = _expressHandlebars2.default.create({
+        partialsDir: 'views/partials'
+    });
 
     hbs.renderView('views/email/newuser-welcome.handlebars', { layout: 'notification', email: user.email, first_name: user.first_name }, function (err, html) {
 

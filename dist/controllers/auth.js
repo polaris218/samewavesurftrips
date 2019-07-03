@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.passportLocalStrategy = passportLocalStrategy;
-exports.passportFBStrategy = passportFBStrategy;
+exports.passportFBCustom = passportFBCustom;
 exports.generateToken = generateToken;
 exports.respond = respond;
 exports.respondFB = respondFB;
@@ -19,9 +19,9 @@ var _passportLocal = require('passport-local');
 
 var _passportLocal2 = _interopRequireDefault(_passportLocal);
 
-var _passportFacebook = require('passport-facebook');
+var _passportCustom = require('passport-custom');
 
-var _passportFacebook2 = _interopRequireDefault(_passportFacebook);
+var _passportCustom2 = _interopRequireDefault(_passportCustom);
 
 var _jsonwebtoken = require('jsonwebtoken');
 
@@ -75,35 +75,77 @@ function passportLocalStrategy() {
 | passport strategy - facebook
 |--------------------------------------------------------------------------
 */
-function passportFBStrategy() {
-  _passport2.default.use(new _passportFacebook2.default({
-    clientID: _config2.default.auth.facebook_app_id,
-    clientSecret: _config2.default.auth.facebook_app_secret,
-    callbackURL: 'https://' + _config2.default.domain + '/auth/facebook/callback',
-    profileFields: ['emails']
-  }, function (accessToken, refreshToken, profile, done) {
+
+// export function passportFBStrategy () {
+//   passport.use(
+//     new FacebookStrategy(
+//       {
+//         clientID: config.auth.facebook_app_id,
+//         clientSecret: config.auth.facebook_app_secret,
+//         callbackURL: `https://${config.domain}/auth/facebook/callback`,
+//         profileFields: [ 'emails' ]
+//       },
+//       function (accessToken, refreshToken, profile, done) {
+//         let username = `${profile.id}_facebook`
+//         //check to see if user already exists ---
+//         User.findOne({ username: username })
+//           .then(user => {
+//             if (user) {
+//               done(null, user)
+//             } else {
+//               //create new user ---
+//               User.create({
+//                 username: username,
+//                 password: process.env.DEFAULT_PASS,
+//                 email: profile.email,
+//                 avatar: profile.picture,
+//                 firstName: profile.first_name,
+//                 lastName: profile.last_name
+//               })
+//                 .then(user => {
+//                   done(null, user)
+//                 })
+//                 .catch(err => {
+//                   done(null, false)
+//                 })
+//             }
+//           })
+//           .catch(err => {
+//             done(null, false)
+//           })
+//       }
+//     )
+//   )
+// }
+
+function passportFBCustom() {
+  _passport2.default.use('fb-custom', new _passportCustom2.default(function (req, done) {
+    var profile = req.body;
     var username = profile.id + '_facebook';
-    //check to see if user already exists ---
+
+    //check to see if user already exists
     _user2.default.findOne({ username: username }).then(function (user) {
+      // user exists
       if (user) {
-        done(null, user);
-      } else {
-        //create new user ---
-        _user2.default.create({
-          username: username,
-          password: process.env.DEFAULT_PASS,
-          email: profile.email,
-          avatar: profile.picture,
-          firstName: profile.first_name,
-          lastName: profile.last_name
-        }).then(function (user) {
-          done(null, user);
-        }).catch(function (err) {
-          done(null, false);
-        });
+        return done(null, user);
       }
+
+      // user doesn't exist - create new user
+      var data = {
+        username: username,
+        password: process.env.DEFAULT_PASS,
+        email: profile.email,
+        avatar: profile.picture.data.url,
+        first_name: profile.name,
+        last_name: profile.name
+      };
+      _user2.default.create(data).then(function (user) {
+        return done(null, user);
+      }).catch(function (err) {
+        return done(err, false);
+      });
     }).catch(function (err) {
-      done(null, false);
+      return done(err, false);
     });
   }));
 }

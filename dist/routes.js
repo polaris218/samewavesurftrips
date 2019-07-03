@@ -49,10 +49,11 @@ var app = void 0;
 function routesInit(a) {
   app = a;
 
-  (0, _auth.passportLocalStrategy)();
-  (0, _auth.passportFBStrategy)();
-
   app.use(_passport2.default.initialize());
+
+  (0, _auth.passportLocalStrategy)();
+  // passportFBStrategy()
+  (0, _auth.passportFBCustom)();
 }
 
 /* 
@@ -76,13 +77,29 @@ function routes() {
   | Authenticate Facebook
   |--------------------------------------------------------------------------
   */
-  router.get('/v1/auth/facebook', _passport2.default.authenticate('facebook', {
+  // router.get(
+  //   '/v1/auth/facebook',
+  //   passport.authenticate('facebook', {
+  //     session: false
+  //   }),
+  //   serialize,
+  //   generateToken,
+  //   respond
+  // )
+  //
+  // app.get(
+  //   '/auth/facebook/callback',
+  //   passport.authenticate('facebook', {
+  //     session: false
+  //   }),
+  //   serialize,
+  //   generateToken,
+  //   respondFB
+  // )
+
+  router.post('/v1/auth/facebook', _passport2.default.authenticate('fb-custom', {
     session: false
   }), _auth.serialize, _auth.generateToken, _auth.respond);
-
-  app.get('/auth/facebook/callback', _passport2.default.authenticate('facebook', {
-    session: false
-  }), _auth.serialize, _auth.generateToken, _auth.respondFB);
 
   /* 
   |--------------------------------------------------------------------------
