@@ -3,6 +3,7 @@ import { Colors, Spacings } from 'config'
 
 export const Trip = styled.div`
   width: 100%;
+  height: 100%;
   color: ${Colors.GREY_BASE};
   background-color: ${Colors.GREY_MID};
   .trip__avatar {

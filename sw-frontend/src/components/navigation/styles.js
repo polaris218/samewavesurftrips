@@ -5,6 +5,7 @@ export const Navigation = styled.ul`
   width: 100%;
   height: 55px;
   bottom: 0px;
+  left: 0px;
   padding: 0px;
   margin: 0;
   position: absolute;

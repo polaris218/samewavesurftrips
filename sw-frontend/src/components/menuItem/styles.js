@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { Colors, Spacings} from 'config';
+import styled from 'styled-components'
+import { Colors, Spacings } from 'config'
 
 export const MenuItem = styled.button`
     padding: ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
-    /* margin-bottom: ${Spacings.SMALL/2}px; */
+    /* margin-bottom: ${Spacings.SMALL / 2}px; */
     border: 0;
     width: 100%;
     height: 40px;
@@ -12,6 +12,7 @@ export const MenuItem = styled.button`
     justify-content: flex-start;
     align-items: center;
     background: ${props => props.color};
+    text-align: left;
     :hover {
         background: ${props => props.hoverColor};
         p {
@@ -23,7 +24,7 @@ export const MenuItem = styled.button`
         font-size: ${Spacings.FONT.LABEL};
         font-weight: 400;
         font-family: 'Ubuntu', sans-serif;
-        color: ${props => props.outline ? Colors.BLUE_BASE : Colors.WHITE};
+        color: ${props => (props.outline ? Colors.BLUE_BASE : Colors.WHITE)};
     }
 
     .menuitem__icon {
@@ -34,13 +35,12 @@ export const MenuItem = styled.button`
             fill: ${Colors.WHITE};
         }
     }
-`;
+`
 
 export const MenuItemContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-`;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`

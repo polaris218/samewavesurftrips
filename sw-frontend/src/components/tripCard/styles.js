@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Colors, Spacings } from 'config'
 
 export const TripCard = styled.div`
+    position: relative;
     padding: ${Spacings.MEDIUM}px;
     margin: 0 0 ${Spacings.MEDIUM}px;
     border-radius: 10px;
@@ -33,6 +34,7 @@ export const TripCard = styled.div`
     .tripcard__header {
         display: flex;
         flex-direction: row;
+        position: relative;
         /* margin-bottom: ${Spacings.MEDIUM}px; */
     }
 
@@ -72,8 +74,10 @@ export const TripCard = styled.div`
 
     .tripcard__title {
         position: absolute;
-        width: calc(100% - ${Spacings.LARGE}px);
+        left: 0px;
+        width: 100%;
         margin: ${Spacings.LARGE}px 0 0;
+        padding: 0;
         text-align: center;
         font-size: ${Spacings.FONT.BODY};
         font-weight: 900;

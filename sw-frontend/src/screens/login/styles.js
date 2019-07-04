@@ -5,7 +5,7 @@ export const Login = styled.div`
   width: 100%;
   min-height: 700px;
   padding: ${Spacings.MEDIUM}px 0px;
-  background-color: ${Colors.BLUE_DARK};
+  background-color: ${Colors.BLUE_BASE};
   display: flex;
   a,
   a:visited,

@@ -9,6 +9,7 @@ export const TripList = styled.div`
     100% - ${props => (props.paddingSide ? Spacings.LARGE : Spacings.MEDIUM)}px
   );
   overflow-y: scroll;
+  overflow-x: hidden;
   position: relative;
   display: flex;
   flex-direction: row;

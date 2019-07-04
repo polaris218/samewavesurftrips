@@ -8,7 +8,7 @@ export const Trip = styled.div`
 
   .trip__container {
     width: 100%;
-    padding: 80px 0 0;
+    padding: 80px 0 40px;
   }
   .trip__back {
     position: absolute;

@@ -7,6 +7,7 @@ export const BackButton = styled.div`
   border-radius: 20px;
   position: absolute;
   left: ${Spacings.MEDIUM}px;
+  top: 12px;
   display: flex;
   justify-content: center;
   align-items: center;

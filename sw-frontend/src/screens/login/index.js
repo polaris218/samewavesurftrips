@@ -27,20 +27,20 @@ const LoginScreen = props => {
     error: false
   })
 
-  useEffect(() => {
-    document.body.scrollTop = document.documentElement.scrollTop = 0
-    if (getUrlVars().user) {
-      setLoading(true)
-      setTimeout(() => {
-        props.userLoginFB({
-          token: getUrlVars().token,
-          refreshToken: getUrlVars().refreshToken,
-          user: { _id: getUrlVars().user }
-        })
-        props.history.push('/' + Routes.DASHBOARD)
-      }, 500)
-    }
-  }, [])
+  // useEffect(() => {
+  //   document.body.scrollTop = document.documentElement.scrollTop = 0
+  //   if (getUrlVars().user) {
+  //     setLoading(true)
+  //     setTimeout(() => {
+  //       props.userLoginFB({
+  //         token: getUrlVars().token,
+  //         refreshToken: getUrlVars().refreshToken,
+  //         user: { _id: getUrlVars().user }
+  //       })
+  //       props.history.push('/' + Routes.DASHBOARD)
+  //     }, 500)
+  //   }
+  // }, [])
 
   // const onFetchUserResult = user => console.log('user___', user)
 
@@ -112,7 +112,7 @@ const LoginScreen = props => {
 
   return (
     <Login>
-      <BackgroundImage blur={0} opacity={0.5} />
+      {/* <BackgroundImage blur={0} opacity={0.5} /> */}
       <Container>
         <div className={'login__logo'}>
           <Logo color='white' icon />
@@ -120,32 +120,31 @@ const LoginScreen = props => {
 
         {!loading ? (
           <div className={'login__form'}>
-            <form>
-              <Input
-                label='Email address'
-                onChange={onEmailChange}
-                value={state.email}
+            <Input
+              label='Email address'
+              onChange={onEmailChange}
+              value={state.email}
+            />
+            <Input
+              label='Password'
+              type={'password'}
+              onChange={onPasswordChange}
+              value={state.password}
+            />
+            <div className={'login__forgotpw'}>
+              <Link onClick={onForgotPassword}>Forgot password</Link>
+            </div>
+            <Button onPress={onLoginPress} title='LOGIN' />
+            <div className={'login__fb'}>
+              <Button
+                onPress={onFacebookPress}
+                title='LOGIN WITH FACEBOOK'
+                color='#3a5ca9'
+                hoverColor='#3668d9'
+                icon={IconFB}
               />
-              <Input
-                label='Password'
-                type={'password'}
-                onChange={onPasswordChange}
-                value={state.password}
-              />
-              <div className={'login__forgotpw'}>
-                <Link onClick={onForgotPassword}>Forgot password</Link>
-              </div>
-              <Button onPress={onLoginPress} title='LOGIN' primary />
-              <div className={'login__fb'}>
-                <Button
-                  onPress={onFacebookPress}
-                  title='LOGIN WITH FACEBOOK'
-                  color='#3a5ca9'
-                  hoverColor='#3668d9'
-                  icon={IconFB}
-                />
-              </div>
-              {/* 
+            </div>
+            {/* 
               <FacebookLogin
                 appId='877477202605334'
                 autoLoad={true}
@@ -153,7 +152,6 @@ const LoginScreen = props => {
                 onClick={FBClicked}
                 callback={responseFacebook}
               /> */}
-            </form>
             {state.error && (
               <div className={'login__error'}>
                 * Please check your login details

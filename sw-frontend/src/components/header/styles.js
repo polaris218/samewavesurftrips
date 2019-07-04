@@ -2,8 +2,9 @@ import styled from 'styled-components'
 import { Colors, Spacings } from 'config'
 
 export const Header = styled.header`
-  position: fixed;
+  position: absolute;
   top: 0;
+  left: 0px;
   z-index: 100;
   width: 100%;
   height: 50px;
@@ -27,6 +28,7 @@ export const Header = styled.header`
     height: 25px;
     position: absolute;
     right: ${Spacings.MEDIUM}px;
+    top: 12px;
     cursor: pointer;
 
     svg path {
@@ -105,6 +107,7 @@ export const HomeButton = styled.div`
   position: absolute;
   cursor: pointer;
   left: ${Spacings.MEDIUM}px;
+  top: 12px;
   svg path {
     fill: ${Colors.WHITE};
   }
