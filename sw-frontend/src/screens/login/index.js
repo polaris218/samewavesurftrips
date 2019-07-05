@@ -73,19 +73,8 @@ const LoginScreen = props => {
     setState({ ...state, password })
   }
 
-  const getUrlVars = () => {
-    const vars = {}
-    // eslint-disable-next-line no-unused-vars
-    const parts = window.location.href.replace(
-      /[?&]+([^=&]+)=([^&]*)/gi,
-      function (m, key, value) {
-        vars[key] = value
-      }
-    )
-    return vars
-  }
-
   const responseFacebook = data => {
+    console.log('Got FB data ', data)
     setLoading(true)
     dispatch(
       apiSingleQuery(
@@ -129,6 +118,7 @@ const LoginScreen = props => {
                 scope='public_profile, email'
                 callback={responseFacebook}
                 redirectUri={'https://samewave.herokuapp.com/'}
+                isMobile={false}
                 cssClass='facebook-login-button'
                 icon={
                   <img
