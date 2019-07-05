@@ -43,6 +43,7 @@ const ProfileScreen = props => {
   const [ userId ] = useState(props.match.params.userId)
   const [ following, setFollowing ] = useState(false)
   const [ followers, setFollowers ] = useState([])
+  const user = userId ? props.user.surfer : props.user
   let mounted = true
 
   useEffect(() => {
@@ -156,7 +157,15 @@ const ProfileScreen = props => {
     }
   }
 
-  const user = userId ? props.user.surfer : props.user
+  const userAvatar = () => {
+    const avatar = null
+    if (user && user.avatar) {
+      if (user.avatar.includes('https://')) return user.avatar
+      return config.EndPoints.digitalOcean + user.avatar
+    }
+
+    return avatar
+  }
 
   return (
     <Profile>
@@ -185,13 +194,7 @@ const ProfileScreen = props => {
             <Center>
               <Container noPadd>
                 <div className={'profile__avatar'}>
-                  <Avatar
-                    image={
-                      user && user.avatar ? (
-                        config.EndPoints.digitalOcean + user.avatar
-                      ) : null
-                    }
-                  />
+                  <Avatar image={userAvatar()} />
                 </div>
                 <div className={'profile__header-meta'}>
                   <div className='profile__person'>

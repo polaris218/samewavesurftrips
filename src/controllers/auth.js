@@ -89,35 +89,37 @@ export function passportLocalStrategy () {
 //   )
 // }
 
-export function passportFBCustom() {
-  passport.use('fb-custom', new CustomStrategy((req, done) => {
-    const profile = req.body
-    const username = `${profile.id}_facebook`
+export function passportFBCustom () {
+  passport.use(
+    'fb-custom',
+    new CustomStrategy((req, done) => {
+      const profile = req.body
+      const username = `${profile.id}_facebook`
 
-    //check to see if user already exists
-    User.findOne({ username })
-      .then(user => {
-        // user exists
-        if (user) {
-          return done(null, user)
-        }
+      //check to see if user already exists
+      User.findOne({ username })
+        .then(user => {
+          // user exists
+          if (user) {
+            return done(null, user)
+          }
 
-        // user doesn't exist - create new user
-        const data = {
-          username,
-          password: process.env.DEFAULT_PASS,
-          email: profile.email,
-          avatar: profile.picture.data.url,
-          first_name: profile.name,
-          last_name: profile.name
-        };
-        User.create(data)
-          .then(user => done(null, user))
-          .catch(err => done(err, false))
-
-      })
-      .catch(err => done(err, false));
-  }))
+          // user doesn't exist - create new user
+          const data = {
+            username,
+            password: process.env.DEFAULT_PASS,
+            email: profile.email,
+            avatar: profile.picture.data.url,
+            first_name: profile.first_name,
+            last_name: profile.last_name
+          }
+          User.create(data)
+            .then(user => done(null, user))
+            .catch(err => done(err, false))
+        })
+        .catch(err => done(err, false))
+    })
+  )
 }
 
 /* 

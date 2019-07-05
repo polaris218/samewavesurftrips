@@ -28,23 +28,6 @@ const LoginScreen = props => {
     error: false
   })
 
-  // useEffect(() => {
-  //   document.body.scrollTop = document.documentElement.scrollTop = 0
-  //   if (getUrlVars().user) {
-  //     setLoading(true)
-  //     setTimeout(() => {
-  //       props.userLoginFB({
-  //         token: getUrlVars().token,
-  //         refreshToken: getUrlVars().refreshToken,
-  //         user: { _id: getUrlVars().user }
-  //       })
-  //       props.history.push('/' + Routes.DASHBOARD)
-  //     }, 500)
-  //   }
-  // }, [])
-
-  // const onFetchUserResult = user => console.log('user___', user)
-
   const onLoginPress = () => {
     const data = {
       username: state.email.toLowerCase(),
@@ -73,15 +56,6 @@ const LoginScreen = props => {
       props.history.push('/' + Routes.DASHBOARD)
     }
   }
-
-  // const onFacebookPress = () => {
-  //   window.open(
-  //     'https://samewave.herokuapp.com/v1/auth/facebook'
-  //     // '_self'
-  //     // 'popUpWindow'
-  //     // 'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes'
-  //   )
-  // }
 
   const onRegisterPress = () => {
     props.history.push('/' + Routes.ONBOARD)

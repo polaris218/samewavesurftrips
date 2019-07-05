@@ -60,9 +60,7 @@ const EditProfileScreen = props => {
     avatarLoading: false,
     coverLoading: false
   })
-  const [ avatar, setAvatar ] = useState(
-    props.user.avatar ? config.EndPoints.digitalOcean + props.user.avatar : ''
-  )
+  const [ avatar, setAvatar ] = useState('')
   const [ coverImg, setCoverImg ] = useState(
     props.user.coverImg
       ? config.EndPoints.digitalOcean + props.user.coverImg
@@ -74,6 +72,10 @@ const EditProfileScreen = props => {
     return () => {
       mounted = false
     }
+  }, [])
+
+  useEffect(() => {
+    setAvatar(userAvatar())
   }, [])
 
   const onEditPress = () => {
@@ -227,6 +229,17 @@ const EditProfileScreen = props => {
       ...state,
       [field]: date
     })
+  }
+
+  const userAvatar = () => {
+    let image = ''
+    if (props.user.avatar) {
+      if (props.user.avatar && props.user.avatar.includes('https://'))
+        return props.user.avatar
+      image = config.EndPoints.digitalOcean + props.user.avatar
+    }
+
+    return image
   }
 
   return (

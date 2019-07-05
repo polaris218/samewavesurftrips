@@ -112,6 +112,16 @@ const TripCardComponent = props => {
     }
   }
 
+  const userAvatar = () => {
+    let image = ''
+    if (owner.avatar) {
+      if (owner.avatar.includes('https://')) return owner.avatar
+      image = config.EndPoints.digitalOcean + owner.avatar
+    }
+
+    return image
+  }
+
   const dateDeparture = moment(new Date(props.date_times.departure_date_time))
   const dateReturn = moment(new Date(props.date_times.return_date_time))
 
@@ -120,10 +130,7 @@ const TripCardComponent = props => {
     <TripCard style={{ ...props.style }} onClick={onTripPress}>
       <div className={'tripcard__header'}>
         <div className={'tripcard__avatar'}>
-          <Avatar
-            borderWidth={1}
-            image={!loading ? config.EndPoints.digitalOcean + owner.avatar : ''}
-          />
+          <Avatar borderWidth={1} image={!loading ? userAvatar() : ''} />
         </div>
         <div className={'tripcard__header-meta'}>
           {owner && (

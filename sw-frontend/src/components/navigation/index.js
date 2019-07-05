@@ -23,6 +23,17 @@ const NavigationComponent = props => {
   ) {
     return null
   }
+
+  const userAvatar = () => {
+    let image = null
+    if (props.userImg) {
+      if (props.userImg.includes('https://')) return props.userImg
+      image = config.EndPoints.digitalOcean + props.userImg
+    }
+
+    return image
+  }
+
   return (
     <Navigation visible={visible}>
       <Tabs>
@@ -47,9 +58,7 @@ const NavigationComponent = props => {
         <Tab
           active={props.location.pathname}
           icon='profile'
-          userImg={
-            props.userImg && config.EndPoints.digitalOcean + props.userImg
-          }
+          userImg={userAvatar()}
           title={Routes.PROFILE}
           onTabPress={() => onTabPress(Routes.PROFILE)}
         />

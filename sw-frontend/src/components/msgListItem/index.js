@@ -33,16 +33,21 @@ const ListItemComponent = props => {
       owner
     })
   }
+
+  const userAvatar = () => {
+    let image = null
+    if (owner && owner.avatar) {
+      if (owner.avatar.includes('https://')) return owner.avatar
+      image = config.EndPoints.digitalOcean + owner.avatar
+    }
+
+    return image
+  }
+
   return (
     <ListItem onClick={onClick}>
       <From>
-        <Avatar
-          image={
-            owner && owner.avatar ? (
-              config.EndPoints.digitalOcean + owner.avatar
-            ) : null
-          }
-        />
+        <Avatar image={userAvatar()} />
         {`${owner.first_name ? owner.first_name : ''} ${owner.last_name
           ? owner.last_name
           : ''}`}

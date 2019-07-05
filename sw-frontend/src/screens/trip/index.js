@@ -178,6 +178,16 @@ const TripScreen = props => {
     props.history.push(`/${Routes.USER}/${id}`)
   }
 
+  const userAvatar = owner => {
+    let image = ''
+    if (owner.avatar) {
+      if (owner.avatar.includes('https://')) return owner.avatar
+      image = config.EndPoints.digitalOcean + owner.avatar
+    }
+
+    return image
+  }
+
   const trip = props.trips.current
   console.log('WHO WE GOT? ', attendeeProfiles)
 
@@ -204,11 +214,7 @@ const TripScreen = props => {
           <Center>
             <Container>
               <div className={'trip__avatar'} onClick={visitProfile}>
-                <Avatar
-                  image={
-                    !loading ? config.EndPoints.digitalOcean + owner.avatar : ''
-                  }
-                />
+                <Avatar image={!loading ? userAvatar(owner) : ''} />
               </div>
               <div className={'trip__header-meta'}>
                 <div className='trip__person' onClick={visitProfile}>
@@ -339,9 +345,11 @@ const TripScreen = props => {
                                 )
                               }
                               image={
-                                attendeeProfiles[i] &&
-                                config.EndPoints.digitalOcean +
-                                  attendeeProfiles[i].avatar
+                                attendeeProfiles[i] ? (
+                                  userAvatar(attendeeProfiles[i])
+                                ) : (
+                                  ''
+                                )
                               }
                             />
                           ))}
