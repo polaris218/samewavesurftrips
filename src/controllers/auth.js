@@ -1,6 +1,6 @@
 import passport from 'passport'
 import Strategy from 'passport-local'
-import FacebookStrategy from 'passport-facebook'
+import CustomStrategy from 'passport-custom'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import randtoken from 'rand-token'
@@ -46,46 +46,78 @@ export function passportLocalStrategy () {
 | passport strategy - facebook
 |--------------------------------------------------------------------------
 */
-export function passportFBStrategy () {
-  passport.use(
-    new FacebookStrategy(
-      {
-        clientID: config.auth.facebook_app_id,
-        clientSecret: config.auth.facebook_app_secret,
-        callbackURL: `https://${config.domain}/auth/facebook/callback`,
-        profileFields: [ 'emails' ]
-      },
-      function (accessToken, refreshToken, profile, done) {
-        let username = `${profile.id}_facebook`
-        //check to see if user already exists ---
-        User.findOne({ username: username })
-          .then(user => {
-            if (user) {
-              done(null, user)
-            } else {
-              //create new user ---
-              User.create({
-                username: username,
-                password: process.env.DEFAULT_PASS,
-                email: profile.email,
-                avatar: profile.picture,
-                firstName: profile.first_name,
-                lastName: profile.last_name
-              })
-                .then(user => {
-                  done(null, user)
-                })
-                .catch(err => {
-                  done(null, false)
-                })
-            }
-          })
-          .catch(err => {
-            done(null, false)
-          })
-      }
-    )
-  )
+
+// export function passportFBStrategy () {
+//   passport.use(
+//     new FacebookStrategy(
+//       {
+//         clientID: config.auth.facebook_app_id,
+//         clientSecret: config.auth.facebook_app_secret,
+//         callbackURL: `https://${config.domain}/auth/facebook/callback`,
+//         profileFields: [ 'emails' ]
+//       },
+//       function (accessToken, refreshToken, profile, done) {
+//         let username = `${profile.id}_facebook`
+//         //check to see if user already exists ---
+//         User.findOne({ username: username })
+//           .then(user => {
+//             if (user) {
+//               done(null, user)
+//             } else {
+//               //create new user ---
+//               User.create({
+//                 username: username,
+//                 password: process.env.DEFAULT_PASS,
+//                 email: profile.email,
+//                 avatar: profile.picture,
+//                 firstName: profile.first_name,
+//                 lastName: profile.last_name
+//               })
+//                 .then(user => {
+//                   done(null, user)
+//                 })
+//                 .catch(err => {
+//                   done(null, false)
+//                 })
+//             }
+//           })
+//           .catch(err => {
+//             done(null, false)
+//           })
+//       }
+//     )
+//   )
+// }
+
+export function passportFBCustom() {
+  passport.use('fb-custom', new CustomStrategy((req, done) => {
+    const profile = req.body
+    const username = `${profile.id}_facebook`
+
+    //check to see if user already exists
+    User.findOne({ username })
+      .then(user => {
+        // user exists
+        if (user) {
+          return done(null, user)
+        }
+
+        // user doesn't exist - create new user
+        const data = {
+          username,
+          password: process.env.DEFAULT_PASS,
+          email: profile.email,
+          avatar: profile.picture.data.url,
+          first_name: profile.name,
+          last_name: profile.name
+        };
+        User.create(data)
+          .then(user => done(null, user))
+          .catch(err => done(err, false))
+
+      })
+      .catch(err => done(err, false));
+  }))
 }
 
 /* 

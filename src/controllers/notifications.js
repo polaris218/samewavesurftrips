@@ -16,12 +16,14 @@ const api_key = config.mailgun.key,
 |--------------------------------------------------------------------------
 */
 export function notify_newUser(user){
-  
-    const hbs = handlebars.create();
+
+    const hbs = handlebars.create({
+      partialsDir: 'views/partials'
+    });
 
     hbs.renderView(`views/email/newuser-welcome.handlebars`, { layout:'notification', email: user.email, first_name: user.first_name }, function(err, html){
 
-		var data = { 
+		    var data = {
             html: html,
             from: config.mailgun.from,
             to: user.email,

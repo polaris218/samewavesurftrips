@@ -9,7 +9,8 @@ import {
   respond,
   respondFB,
   refreshToken,
-  passportFBStrategy
+  passportFBCustom,
+  // passportFBStrategy
 } from './controllers/auth'
 import Trip from './controllers/trips'
 import User from './controllers/users'
@@ -26,10 +27,11 @@ let app
 export function routesInit (a) {
   app = a
 
-  passportLocalStrategy()
-  passportFBStrategy()
-
   app.use(passport.initialize())
+
+  passportLocalStrategy()
+  // passportFBStrategy()
+  passportFBCustom()
 }
 
 /* 
@@ -59,24 +61,34 @@ export function routes () {
 	| Authenticate Facebook
 	|--------------------------------------------------------------------------
 	*/
-  router.get(
+  // router.get(
+  //   '/v1/auth/facebook',
+  //   passport.authenticate('facebook', {
+  //     session: false
+  //   }),
+  //   serialize,
+  //   generateToken,
+  //   respond
+  // )
+  //
+  // app.get(
+  //   '/auth/facebook/callback',
+  //   passport.authenticate('facebook', {
+  //     session: false
+  //   }),
+  //   serialize,
+  //   generateToken,
+  //   respondFB
+  // )
+
+  router.post(
     '/v1/auth/facebook',
-    passport.authenticate('facebook', {
+    passport.authenticate('fb-custom', {
       session: false
     }),
     serialize,
     generateToken,
     respond
-  )
-
-  app.get(
-    '/auth/facebook/callback',
-    passport.authenticate('facebook', {
-      session: false
-    }),
-    serialize,
-    generateToken,
-    respondFB
   )
 
   /* 

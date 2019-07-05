@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import FacebookLogin from 'react-facebook-login'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiSingleQuery } from 'api/thunks/general'
@@ -73,14 +74,14 @@ const LoginScreen = props => {
     }
   }
 
-  const onFacebookPress = () => {
-    window.open(
-      'https://samewave.herokuapp.com/v1/auth/facebook'
-      // '_self'
-      // 'popUpWindow'
-      // 'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes'
-    )
-  }
+  // const onFacebookPress = () => {
+  //   window.open(
+  //     'https://samewave.herokuapp.com/v1/auth/facebook'
+  //     // '_self'
+  //     // 'popUpWindow'
+  //     // 'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes'
+  //   )
+  // }
 
   const onRegisterPress = () => {
     props.history.push('/' + Routes.ONBOARD)
@@ -110,6 +111,18 @@ const LoginScreen = props => {
     return vars
   }
 
+  const responseFacebook = data => {
+    setLoading(true)
+    dispatch(
+      apiSingleQuery(
+        data,
+        props.userLogin,
+        `${config.EndPoints.auth}/facebook`,
+        onLoginResult
+      )
+    )
+  }
+
   return (
     <Login>
       {/* <BackgroundImage blur={0} opacity={0.5} /> */}
@@ -136,22 +149,22 @@ const LoginScreen = props => {
             </div>
             <Button onPress={onLoginPress} title='LOGIN' />
             <div className={'login__fb'}>
-              <Button
-                onPress={onFacebookPress}
-                title='LOGIN WITH FACEBOOK'
-                color='#3a5ca9'
-                hoverColor='#3668d9'
-                icon={IconFB}
-              />
-            </div>
-            {/* 
               <FacebookLogin
                 appId='877477202605334'
-                autoLoad={true}
-                fields='name,email,picture'
-                onClick={FBClicked}
+                fields='id,first_name,last_name,email,picture.height(1000)'
+                scope='public_profile, email'
                 callback={responseFacebook}
-              /> */}
+                cssClass='facebook-login-button'
+                icon={
+                  <img
+                    className='button__icon'
+                    src={IconFB}
+                    height={20}
+                    alt='LOGIN WITH FACEBOOK'
+                  />
+                }
+              />
+            </div>{' '}
             {state.error && (
               <div className={'login__error'}>
                 * Please check your login details

@@ -48,3 +48,46 @@ code {
 }
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+.login__fb span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.facebook-login-button {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 8px;
+  border: none;
+  background: #3a5ca9;
+  color: #fff;
+  width: 100%;
+  max-width: 300px;
+  height: 55px;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.25s ease, transform .15s ease-in-out, box-shadow .45s ease;
+  pointer-events: auto;
+  opacity: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Ubuntu', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.facebook-login-button:hover {
+  border: none;
+  background: #3668d9;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 22px rgba(23, 23, 77, 0.22);
+}
+
+.button__icon {
+  margin: 0 6px 0 0;
+}
