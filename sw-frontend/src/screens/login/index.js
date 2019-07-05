@@ -128,6 +128,7 @@ const LoginScreen = props => {
                 fields='id,first_name,last_name,email,picture.height(1000)'
                 scope='public_profile, email'
                 callback={responseFacebook}
+                redirectUri={'https://samewave.herokuapp.com/'}
                 cssClass='facebook-login-button'
                 icon={
                   <img

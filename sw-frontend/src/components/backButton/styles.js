@@ -29,4 +29,8 @@ export const BackButton = styled.div`
       fill: ${Colors.GREY_LIGHT};
     }
   }
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    top: auto;
+  }
 `

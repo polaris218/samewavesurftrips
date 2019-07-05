@@ -37,6 +37,7 @@ export const Header = styled.header`
 
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
       right: 70px;
+      top: auto;
     }
   }
   .header__logo {
@@ -113,6 +114,7 @@ export const HomeButton = styled.div`
   }
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     display: none;
+    top: auto;
   }
 `
 export const Container = styled.div`
