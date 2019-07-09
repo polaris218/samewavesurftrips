@@ -27,6 +27,10 @@ export const executeQuery = async (
         console.log('USE REFRESH TOKEN_')
         // eslint-disable-next-line no-throw-literal
         throw { status: 401 }
+        case 400:
+          console.log('case 2=',response)
+          // eslint-disable-next-line no-throw-literal
+          throw { status: 400,response:response }
       default:
         //
         break
