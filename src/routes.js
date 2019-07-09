@@ -111,7 +111,7 @@ export function routes() {
   router.get(`/v1/user/:id`, authenticate, User.get)
   router.post(`/v1/users`, User.create)
   router.post(`/v1/user/forgot`, User.forgot)
-  router.post('/v1/users/reset-password', User.resetPassword);
+  router.post('/v1/user/reset-password', User.resetPassword);
   router.put(`/v1/user`, authenticate, User.update)
   router.post(`/v1/user/avatar`, authenticate, User.avatar)
   router.post(`/v1/user/cover`, authenticate, User.coverImage)

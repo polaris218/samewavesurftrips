@@ -42,6 +42,9 @@ export const Forgot = styled.div`
     display: flex;
     flex-direction: column;
   }
+  .onboard__account{
+    margin-top:1em;
+  }
 
   a {
     color: ${Colors.GREY_LIGHT};

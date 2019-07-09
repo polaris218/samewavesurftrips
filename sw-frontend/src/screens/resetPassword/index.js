@@ -21,9 +21,13 @@ import { Forgot, Label } from './styles'
 const ResetPasswordScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ state, setState ] = useState({
-    password:'',
-    cpassword:'',
-    error: false
+    password: '',
+    passwordConfirm: '',
+    token: '',
+    error: false,
+    valid: {
+      password: true
+    },
   })
 
   useEffect(() => {
@@ -36,22 +40,86 @@ const ResetPasswordScreen = props => {
       props.history.push(`/${Routes.DASHBOARD}`)
     }
   })
-  function password(){
-    console.log("Forgot Run1=",state.password);
-    console.log("Forgot Run1=",state.cpassword);
+  const onLinkPress = link => {
+    let route
 
-  }
-
-  const onResetPress = () => {
-    const data = {
-      username: state.password
+    switch (link) {
+      case 'terms':
+        route = Routes.TERMS
+        break
+      case 'data':
+        route = Routes.PRIVACY
+        break
+      case 'privacy':
+        route = Routes.PRIVACY
+        break
+      default:
+        route = Routes.LOGIN
+        break
     }
-    setLoading(true)
-    // TODO: ADD API FORGOT
-    // setTimeout(() => setLoading(false), 800)
-    dispatch(
-      apiForgotQuery(data, props.userForgot, config.EndPoints.forgot, onResetResult)
-    )
+
+    props.history.push('/' + route)
+  }
+  const onLoginPress = () => {
+    props.history.push('/' + Routes.LOGIN)
+  }
+  // function password(){
+  //   console.log("Forgot Run1=",state.password);
+  //   console.log("Forgot Run1=",state.cpassword);
+
+  // }
+  const validateInputs = () => {
+     if (state.password !== state.passwordConfirm || state.password === '') {
+      setState({
+        ...state,
+        valid: {
+          ...state.valid,
+          password: false
+        }
+      })
+      return false
+    }
+
+    return true
+  }
+  const onResetPress = () => {
+    console.log("aa=",props.location.search.split('?token=')[1]);
+    state.token=props.location.search.split('?token=')[1];
+
+    if(!state.token){
+    return;
+    }
+
+    const validForm = validateInputs()
+    if (validForm) {
+      const data = {
+        password: state.password,
+        token: state.token
+      }
+
+      setState({
+        ...state,
+        error: false
+      })
+
+      dispatch(
+        apiForgotQuery(data, props.userReset, config.EndPoints.reset, onResetResult)
+      )
+    }
+    // if(state.password.trim() ==state.cpassword.trim()){
+    //   const data = {
+    //     password: state.password
+    //   }
+    //   setLoading(true)
+    //   // TODO: ADD API FORGOT
+    //   // setTimeout(() => setLoading(false), 800)
+    //   dispatch(
+    //     apiForgotQuery(data, props.userForgot, config.EndPoints.forgot, onResetResult)
+    //   )
+    // }else{
+    //   console.log("Password Not Matched");
+    // }
+
   }
 
     const onResetResult = error => {
@@ -65,8 +133,14 @@ const ResetPasswordScreen = props => {
       }
     }
 
-  const onEmailChange = email => {
-    setState({ ...state, email })
+  // const onEmailChange = email => {
+  //   setState({ ...state, email })
+  // }
+  const onInputChange = (value, name) => {
+    setState({
+      ...state,
+      [name]: value
+    })
   }
 
   return (
@@ -80,9 +154,13 @@ const ResetPasswordScreen = props => {
         {!loading ? (
           <div className={'login__form'}>
             <Label>Reset Password  </Label>
-            <Input label='Password' onChange={password} value={state.password}/>
-            <Input label='Confirm Password' onChange={password} value={state.cpassword}/>
+            <Input label='Password' type='password' onChange={onInputChange} fieldName={'password'} error={!state.valid.password}/>
+            <Input label='Confirm Password' type='password' value={state.passwordConfirm} onChange={onInputChange} fieldName={'passwordConfirm'} error={!state.valid.password} />
             <Button onPress={onResetPress} title='Reset' primary />
+            {state.error && ( <p className='onboard__error'>{state.errorMsg}</p>  )}
+            <div className='onboard__account'>
+                  <Button onPress={onLoginPress} title='LOGIN' outline />
+            </div>
           </div>
         ) : (
           <div className={'login__form'}>

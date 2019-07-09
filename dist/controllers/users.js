@@ -138,9 +138,16 @@ exports.resetPassword = function (req, res) {
   _user2.default.findOneAndUpdate(match, data1, {
     new: true
   }).then(function (user) {
-    res.status(200).json({
-      message: "Password reset Successfully"
-    });
+    console.log("u1=", user);
+    if (user) {
+      return res.status(200).json({
+        message: "Password reset Successfully"
+      });
+    } else {
+      return res.status(400).json({
+        'message': 'Invalid Token oR Token Expire :'
+      });
+    }
   }).catch(function (err) {
     res.status(500).send(err);
   });

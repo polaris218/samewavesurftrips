@@ -1,5 +1,5 @@
- export const baseAPI = 'https://samewave.herokuapp.com/v1/'
-//export const baseAPI = `http://localhost:5000/v1/`
+//  export const baseAPI = 'https://samewave.herokuapp.com/v1/'
+export const baseAPI = `http://localhost:5000/v1/`
 
 export default {
   Root: '/app/',
@@ -12,6 +12,7 @@ export default {
     cover: baseAPI + 'user/cover',
     user: baseAPI + 'user',
     forgot: baseAPI + 'user/forgot',
+    reset: baseAPI + 'user/reset-password',
     users: baseAPI + 'users',
     trips: baseAPI + 'trips',
     trip: baseAPI + 'trip',
