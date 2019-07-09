@@ -11,6 +11,7 @@ export default {
     avatar: baseAPI + 'user/avatar',
     cover: baseAPI + 'user/cover',
     user: baseAPI + 'user',
+    forgot: baseAPI + 'user/forgot',
     users: baseAPI + 'users',
     trips: baseAPI + 'trips',
     trip: baseAPI + 'trip',

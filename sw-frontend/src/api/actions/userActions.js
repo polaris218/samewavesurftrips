@@ -30,6 +30,12 @@ export function userActions (dispatch) {
         payload: credentials
       }
     },
+    userForgot: data => {
+      return {
+        type: StoreDefinitions.USER.FORGOT,
+        payload: data
+      }
+    },
     userFollow: credentials => {
       return {
         type: StoreDefinitions.USER.FOLLOW,

@@ -13,6 +13,7 @@ import EditTrip from './editTrip'
 import EditProfile from './editProfile'
 import Forgot from './forgot'
 import Message from './message'
+import ResetPassword from './resetPassword'
 
 export {
   Dashboard,
@@ -29,5 +30,6 @@ export {
   EditTrip,
   EditProfile,
   Forgot,
-  Message
+  Message,
+  ResetPassword
 }

@@ -18,7 +18,8 @@ import {
   EditTrip,
   EditProfile,
   Forgot,
-  Message
+  Message,
+  ResetPassword
 } from 'screens'
 import { Routes } from 'config'
 import 'assets/style/app.css'
@@ -41,6 +42,7 @@ const AppRouter = props => {
         <Route path={`/${Routes.LOGIN}`} component={Login} />
         <Route path={`/${Routes.FORGOT}`} component={Forgot} />
         <Route path={`/${Routes.AUTH}`} component={Login} />
+        <Route path={`/${Routes.RESET_PASSWORD}`} component={ResetPassword} />
         <Route path={`/${Routes.ONBOARD}`} component={Onboarding} />
         <Route exact path={`/${Routes.SEARCH}`} component={Search} />
         <Route path={`/${Routes.SEARCH}/:id`} component={Search} />

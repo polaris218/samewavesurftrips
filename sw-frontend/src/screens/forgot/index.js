@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { userActions, mapDispatchToProps } from 'api/actions'
-// import { dispatch } from 'api/store'
-// import { apiQuery } from 'api/thunks/general'
-// import { General as config } from 'config'
+import { dispatch } from 'api/store'
+import { apiForgotQuery } from 'api/thunks/general'
+import { General as config } from 'config'
+
 import {
   BackgroundImage,
   Button,
@@ -21,7 +22,6 @@ const ForgotScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ state, setState ] = useState({
     email: '',
-    password: '',
     error: false
   })
 
@@ -36,27 +36,28 @@ const ForgotScreen = props => {
     }
   })
 
-  const onLoginPress = () => {
-    // const data = {
-    //   username: state.email.toLowerCase()
-    // }
+  const onForgotPress = () => {
+    const data = {
+      username: state.email.toLowerCase()
+    }
     setLoading(true)
     // TODO: ADD API FORGOT
-    setTimeout(() => setLoading(false), 800)
-    // dispatch(
-    //   apiQuery(data, props.userLogin, config.EndPoints.auth, onLoginResult)
-    // )
+    // setTimeout(() => setLoading(false), 800)
+    dispatch(
+      apiForgotQuery(data, props.userForgot, config.EndPoints.forgot, onForgotResult)
+    )
   }
 
-  //   const onLoginResult = error => {
-  //     if (error) {
-  //       setLoading(false)
-  //       setState({
-  //         ...state,
-  //         error
-  //       })
-  //     }
-  //   }
+    const onForgotResult = error => {
+      if (error) {
+        console.log("error");
+        setLoading(false)
+        setState({
+          ...state,
+          error
+        })
+      }
+    }
 
   const onEmailChange = email => {
     setState({ ...state, email })
@@ -76,12 +77,8 @@ const ForgotScreen = props => {
               Enter your registered email and we will send out instructions on
               resetting access
             </Label>
-            <Input
-              label='Email address'
-              onChange={onEmailChange}
-              value={state.email}
-            />
-            <Button onPress={onLoginPress} title='LOGIN' primary />
+            <Input label='Email address' onChange={onEmailChange} value={state.email}  />
+            <Button onPress={onForgotPress} title='FORGOT' primary />
           </div>
         ) : (
           <div className={'login__form'}>

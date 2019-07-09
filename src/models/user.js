@@ -1,8 +1,10 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, {
+  Schema
+} from 'mongoose'
 import bcrypt from 'mongoose-bcrypt'
 import timestamps from 'mongoose-timestamp'
 import mongooseStringQuery from 'mongoose-string-query'
-import { notify_newUser } from '../controllers/notifications'
+import {  notify_newUser } from '../controllers/notifications'
 import Follower from './follower'
 import aws from 'aws-sdk'
 import uuid from 'node-uuid'
@@ -116,7 +118,14 @@ const UserSchema = new Schema({
     type: Array,
     required: false,
     default: []
-  }
+  },
+  resetToken: {
+    type: String
+  },
+  resetPassword: {
+    type: Boolean,
+    default: false
+  },
 })
 
 /* 
@@ -126,7 +135,10 @@ const UserSchema = new Schema({
 */
 UserSchema.methods.follow = function (follower_id) {
   return new Promise((resolve, reject) => {
-    Follower.create({ user_id: this._id, follower_id })
+    Follower.create({
+        user_id: this._id,
+        follower_id
+      })
       .then(follower => {
         resolve(follower)
       })
@@ -143,7 +155,10 @@ UserSchema.methods.follow = function (follower_id) {
 */
 UserSchema.methods.unfollow = function (follower_id) {
   return new Promise((resolve, reject) => {
-    Follower.findOneAndDelete({ user_id: this._id, follower_id }, function (
+    Follower.findOneAndDelete({
+      user_id: this._id,
+      follower_id
+    }, function (
       err,
       follower
     ) {
@@ -160,7 +175,9 @@ UserSchema.methods.unfollow = function (follower_id) {
 */
 UserSchema.methods.followers = function () {
   return new Promise((resolve, reject) => {
-    Follower.find({ user_id: this._id })
+    Follower.find({
+        user_id: this._id
+      })
       .then(followers => {
         resolve(followers)
       })
@@ -257,8 +274,7 @@ UserSchema.methods.updateAvatar = function (file) {
       //delete the old avatar ---
       if (oldfile) {
         try {
-          s3.deleteObject(
-            {
+          s3.deleteObject({
               Bucket: process.env.S3_BUCKET,
               Key: oldfile
             },
@@ -326,8 +342,7 @@ UserSchema.methods.updateCover = function (file) {
       //delete the old cover ---
       if (oldfileCover) {
         try {
-          s3.deleteObject(
-            {
+          s3.deleteObject({
               Bucket: process.env.S3_BUCKET,
               Key: oldfileCover
             },
@@ -373,6 +388,9 @@ UserSchema.plugin(mongooseStringQuery)
 | Set indexes
 |--------------------------------------------------------------------------
 */
-UserSchema.index({ email: 1, username: 1 })
+UserSchema.index({
+  email: 1,
+  username: 1
+})
 
 export default mongoose.model('User', UserSchema)

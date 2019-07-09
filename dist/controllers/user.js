@@ -19,7 +19,11 @@ var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 
 /* 
 |--------------------------------------------------------------------------
@@ -40,12 +44,34 @@ function userUpdateEmail(req, res) {
         }
     }).then(function (user) {
         if (user.errors) {
-            res.render('autologin', { api: _config2.default.app_url, random: Math.round(Math.random() * 1000), layout: 'admin', url: _config2.default.shop_url + '/account/login', customerId: customerId, email: '', error: user.errors.email });
+            res.render('autologin', {
+                api: _config2.default.app_url,
+                random: Math.round(Math.random() * 1000),
+                layout: 'admin',
+                url: _config2.default.shop_url + '/account/login',
+                customerId: customerId,
+                email: '',
+                error: user.errors.email
+            });
         } else {
-            _models2.default['users'].update({ email: req.body.email }, { where: { customerId: customerId } }).then(function (users) {
+            _models2.default['users'].update({
+                email: req.body.email
+            }, {
+                where: {
+                    customerId: customerId
+                }
+            }).then(function (users) {
                 console.log(users);
-                res.render('autologin', { api: _config2.default.app_url, random: Math.round(Math.random() * 1000), layout: 'admin', url: _config2.default.shop_url + '/account/login', customerId: customerId, email: req.body.email });
+                res.render('autologin', {
+                    api: _config2.default.app_url,
+                    random: Math.round(Math.random() * 1000),
+                    layout: 'admin',
+                    url: _config2.default.shop_url + '/account/login',
+                    customerId: customerId,
+                    email: req.body.email
+                });
             });
         }
     });
 }
+

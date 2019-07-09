@@ -145,6 +145,13 @@ var UserSchema = new _mongoose.Schema({
     type: Array,
     required: false,
     default: []
+  },
+  resetToken: {
+    type: String
+  },
+  resetPassword: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -157,7 +164,10 @@ UserSchema.methods.follow = function (follower_id) {
   var _this = this;
 
   return new Promise(function (resolve, reject) {
-    _follower2.default.create({ user_id: _this._id, follower_id: follower_id }).then(function (follower) {
+    _follower2.default.create({
+      user_id: _this._id,
+      follower_id: follower_id
+    }).then(function (follower) {
       resolve(follower);
     }).catch(function (err) {
       reject(err);
@@ -174,7 +184,10 @@ UserSchema.methods.unfollow = function (follower_id) {
   var _this2 = this;
 
   return new Promise(function (resolve, reject) {
-    _follower2.default.findOneAndDelete({ user_id: _this2._id, follower_id: follower_id }, function (err, follower) {
+    _follower2.default.findOneAndDelete({
+      user_id: _this2._id,
+      follower_id: follower_id
+    }, function (err, follower) {
       if (!err) resolve();else reject(err);
     });
   });
@@ -189,7 +202,9 @@ UserSchema.methods.followers = function () {
   var _this3 = this;
 
   return new Promise(function (resolve, reject) {
-    _follower2.default.find({ user_id: _this3._id }).then(function (followers) {
+    _follower2.default.find({
+      user_id: _this3._id
+    }).then(function (followers) {
       resolve(followers);
     }).catch(function (err) {
       reject(err);
@@ -400,6 +415,9 @@ UserSchema.plugin(_mongooseStringQuery2.default);
 | Set indexes
 |--------------------------------------------------------------------------
 */
-UserSchema.index({ email: 1, username: 1 });
+UserSchema.index({
+  email: 1,
+  username: 1
+});
 
 exports.default = _mongoose2.default.model('User', UserSchema);
