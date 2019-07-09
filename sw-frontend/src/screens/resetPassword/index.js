@@ -18,10 +18,11 @@ import {
 import { Routes } from 'config'
 import { Forgot, Label } from './styles'
 
-const ForgotScreen = props => {
+const ResetPasswordScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ state, setState ] = useState({
-    email: '',
+    password:'',
+    cpassword:'',
     error: false
   })
 
@@ -35,20 +36,25 @@ const ForgotScreen = props => {
       props.history.push(`/${Routes.DASHBOARD}`)
     }
   })
+  function password(){
+    console.log("Forgot Run1=",state.password);
+    console.log("Forgot Run1=",state.cpassword);
 
-  const onForgotPress = () => {
+  }
+
+  const onResetPress = () => {
     const data = {
-      username: state.email.toLowerCase()
+      username: state.password
     }
     setLoading(true)
     // TODO: ADD API FORGOT
     // setTimeout(() => setLoading(false), 800)
     dispatch(
-      apiForgotQuery(data, props.userForgot, config.EndPoints.forgot, onForgotResult)
+      apiForgotQuery(data, props.userForgot, config.EndPoints.forgot, onResetResult)
     )
   }
 
-    const onForgotResult = error => {
+    const onResetResult = error => {
       if (error) {
         console.log("error");
         setLoading(false)
@@ -73,12 +79,10 @@ const ForgotScreen = props => {
 
         {!loading ? (
           <div className={'login__form'}>
-            <Label>
-              Enter your registered email and we will send out instructions on
-              resetting access
-            </Label>
-            <Input label='Email address' onChange={onEmailChange} value={state.email}  />
-            <Button onPress={onForgotPress} title='FORGOT' primary />
+            <Label>Reset Password  </Label>
+            <Input label='Password' onChange={password} value={state.password}/>
+            <Input label='Confirm Password' onChange={password} value={state.cpassword}/>
+            <Button onPress={onResetPress} title='Reset' primary />
           </div>
         ) : (
           <div className={'login__form'}>
@@ -90,12 +94,12 @@ const ForgotScreen = props => {
   )
 }
 
-ForgotScreen.propTypes = {
+ResetPasswordScreen.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object
 }
 
-ForgotScreen.defaultProps = {
+ResetPasswordScreen.defaultProps = {
   history: {},
   location: ''
 }
@@ -106,4 +110,4 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, dispatch =>
   mapDispatchToProps(dispatch, [ userActions ])
-)(withRouter(ForgotScreen))
+)(withRouter(ResetPasswordScreen))

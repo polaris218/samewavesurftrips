@@ -18,7 +18,8 @@ import {
   EditTrip,
   EditProfile,
   Forgot,
-  Message
+  Message,
+  ResetPassword
 } from 'screens'
 import { Routes } from 'config'
 import 'assets/style/app.css'
@@ -31,16 +32,14 @@ const AppRouter = props => {
           exact
           path='/'
           render={() =>
-            props.user.accessToken ? (
-              <Redirect to={`/${Routes.DASHBOARD}`} />
-            ) : (
-              <Login />
+            props.user.accessToken ? (<Redirect to={`/${Routes.DASHBOARD}`} /> ) : (<Login />
             )}
         />
         <Route path={`/${Routes.DASHBOARD}`} component={Dashboard} />
         <Route path={`/${Routes.LOGIN}`} component={Login} />
         <Route path={`/${Routes.FORGOT}`} component={Forgot} />
         <Route path={`/${Routes.AUTH}`} component={Login} />
+        <Route path={`/${Routes.RESET_PASSWORD}`} component={ResetPassword} />
         <Route path={`/${Routes.ONBOARD}`} component={Onboarding} />
         <Route exact path={`/${Routes.SEARCH}`} component={Search} />
         <Route path={`/${Routes.SEARCH}/:id`} component={Search} />
@@ -51,17 +50,11 @@ const AppRouter = props => {
         <Route exact path={`/${Routes.PROFILE}`} component={Profile} />
         <Route exact path={`/${Routes.USER}/:userId`} component={Profile} />
         <Route exact path={`/${Routes.EDIT_PROFILE}`} component={EditProfile} />
-        <Route exact path={`/${Routes.MAIL}`} component={Mail} />
-        <Route
-          exact
-          path={`/${Routes.MESSAGE}/:messageId`}
-          component={Message}
-        />
+         <Route exact path={`/${Routes.MAIL}`} component={Mail} />
+        <Route exact path={`/${Routes.MESSAGE}/:messageId`} component={Message} />
         <Route exact path={`/${Routes.TERMS}`} component={Terms} />
         <Route exact path={`/${Routes.PRIVACY}`} component={Privacy} />
-        <Navigation
-          accessToken={props.user.accessToken}
-          userImg={props.user.avatar}
+        <Navigation  accessToken={props.user.accessToken} userImg={props.user.avatar}
         />
         {/* <Footer accessToken={props.user.accessToken} /> */}
       </App>

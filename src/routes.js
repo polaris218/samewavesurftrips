@@ -16,7 +16,9 @@ import Trip from './controllers/trips'
 import User from './controllers/users'
 import Message from './controllers/messages'
 
-const authenticate = expressJwt({ secret: config.auth.secret })
+const authenticate = expressJwt({
+  secret: config.auth.secret
+})
 let app
 
 /* 
@@ -24,7 +26,7 @@ let app
 | Routes Init
 |--------------------------------------------------------------------------
 */
-export function routesInit (a) {
+export function routesInit(a) {
   app = a
 
   app.use(passport.initialize())
@@ -40,15 +42,13 @@ export function routesInit (a) {
 |--------------------------------------------------------------------------
 */
 const router = express.Router()
-export function routes () {
+export function routes() {
   /* 
 	|--------------------------------------------------------------------------
 	| Authenticate Local
 	|--------------------------------------------------------------------------
 	*/
-  router.post(
-    '/v1/auth',
-    passport.authenticate('local', {
+  router.post('/v1/auth', passport.authenticate('local', {
       session: false
     }),
     serialize,
@@ -97,7 +97,9 @@ export function routes () {
 	|--------------------------------------------------------------------------
 	*/
   router.get(`/sandbox`, function (req, res) {
-    res.render('sandbox', { layout: 'main' })
+    res.render('sandbox', {
+      layout: 'main'
+    })
   })
 
   /* 
@@ -108,6 +110,8 @@ export function routes () {
   router.get(`/v1/users`, authenticate, User.getAll)
   router.get(`/v1/user/:id`, authenticate, User.get)
   router.post(`/v1/users`, User.create)
+  router.post(`/v1/user/forgot`, User.forgot)
+  router.post('/v1/users/reset-password', User.resetPassword);
   router.put(`/v1/user`, authenticate, User.update)
   router.post(`/v1/user/avatar`, authenticate, User.avatar)
   router.post(`/v1/user/cover`, authenticate, User.coverImage)
@@ -168,7 +172,9 @@ export function routes () {
 	|--------------------------------------------------------------------------
 	*/
   router.get(`*`, function (req, res) {
-    res.render('samewave', { layout: 'app' })
+    res.render('samewave', {
+      layout: 'app'
+    })
   })
 
   return router

@@ -14,6 +14,7 @@ const AppComponent = props => {
         props.location.pathname !== `/${Routes.FORGOT}` &&
         props.location.pathname !== `/${Routes.AUTH}` &&
         props.location.pathname !== `/${Routes.PRIVACY}` &&
+        props.location.pathname !== `/${Routes.RESET_PASSWORD}` &&
         props.location.pathname !== `/${Routes.TERMS}`)
     ) {
       props.history.push('/')

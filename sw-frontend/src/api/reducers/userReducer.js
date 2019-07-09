@@ -42,8 +42,7 @@ export default function userReducer (
         ...state,
         ...defaultValues.user,
         accessToken: null,
-        id: null
-      }
+        id: null      }
       break
     case StoreDefinitions.USER.AVATAR:
       console.log('avatar action.payload', action.payload)
@@ -71,6 +70,13 @@ export default function userReducer (
         interests: action.payload.interests,
         surfing_since: action.payload.surfing_since,
         optIn: action.payload.optIn
+      }
+      break
+      case StoreDefinitions.USER.FORGOT:
+      console.log('reducer forgot=', action.payload)
+      state = {
+        ...state,
+        email: action.payload.email,
       }
       break
     case StoreDefinitions.USER.DETAILS:

@@ -136,8 +136,8 @@ function passportFBCustom() {
         password: process.env.DEFAULT_PASS,
         email: profile.email,
         avatar: profile.picture.data.url,
-        first_name: profile.name,
-        last_name: profile.name
+        first_name: profile.first_name,
+        last_name: profile.last_name
       };
       _user2.default.create(data).then(function (user) {
         return done(null, user);

@@ -170,7 +170,7 @@ app.use('/', (0, _routes.routes)());
 |--------------------------------------------------------------------------
 */
 server.listen(app.get('port'));
-console.log('SAMEWAVE API RUNNING...');
+console.log('SAMEWAVE API RUNNING...', app.get('port'));
 
 /*
 |--------------------------------------------------------------------------

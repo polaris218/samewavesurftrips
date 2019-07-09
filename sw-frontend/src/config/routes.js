@@ -15,5 +15,6 @@ export default {
   USER: 'user',
   AUTH: 'auth',
   FORGOT: 'forgot',
-  MESSAGE: 'message'
+  MESSAGE: 'message',
+  RESET_PASSWORD: 'reset_password'
 }
