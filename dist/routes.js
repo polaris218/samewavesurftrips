@@ -123,7 +123,7 @@ function routes() {
   router.get('/v1/user/:id', authenticate, _users2.default.get);
   router.post('/v1/users', _users2.default.create);
   router.post('/v1/user/forgot', _users2.default.forgot);
-  router.post('/v1/users/reset-password', _users2.default.resetPassword);
+  router.post('/v1/user/reset-password', _users2.default.resetPassword);
   router.put('/v1/user', authenticate, _users2.default.update);
   router.post('/v1/user/avatar', authenticate, _users2.default.avatar);
   router.post('/v1/user/cover', authenticate, _users2.default.coverImage);

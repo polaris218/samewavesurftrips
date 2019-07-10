@@ -36,6 +36,12 @@ export function userActions (dispatch) {
         payload: data
       }
     },
+    userReset: data => {
+      return {
+        type: StoreDefinitions.USER.RESET,
+        payload: data
+      }
+    },
     userFollow: credentials => {
       return {
         type: StoreDefinitions.USER.FOLLOW,

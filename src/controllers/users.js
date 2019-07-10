@@ -88,11 +88,11 @@ exports.forgot = (req, res) => {
       if(user){
         notify_forgot(user, url);
         return res.status(200).json({
-          'message': 'Mail Sent to your email id :' + req.body.username
+          'message': 'Mail Sent to your email id : ' + req.body.username
         });
       }else{
         return res.status(400).json({
-          'message': 'Invalid Email :'
+          'message': 'Invalid Email'
         });
       }
     })
@@ -110,12 +110,12 @@ exports.resetPassword = (req, res) => {
 
   if (!req.body.token || (req.body.token.trim().length == 0)) {
     return res.status(400).json({
-      "message": "token field is required"
+      "message": "Invalid Token"
     });
   }
   if (!req.body.password || (req.body.password.trim().length == 0)) {
     return res.status(400).json({
-      "message": "password field is required"
+      "message": "Password field is required"
     });
   }
   var token = req.body.token.trim();
@@ -133,12 +133,19 @@ exports.resetPassword = (req, res) => {
   User.findOneAndUpdate(match, data1, {
       new: true
     }).then(user => {
-      res.status(200).json({
-        message: "Password reset Successfully"
-      });
+      console.log("u1=",user);
+      if(user){
+        return res.status(200).json({
+          message: "Password Reset Successfully"
+        });
+      }else{
+        return res.status(400).json({
+          'message': 'Invalid Token or Token Expired'
+        });        
+      }
     })
     .catch(err => {
-      res.status(500).send(err)
+      res.status(400).send(err)
     })
 }
 

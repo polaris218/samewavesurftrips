@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
-import DatePicker from 'react-datepicker'
+import DatePicker from 'react-datepicker';
+import ReactCrop from 'react-image-crop';
 
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
@@ -11,35 +12,14 @@ import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Types } from 'config'
 import { Tools } from 'utils'
 
-import {
-  ScrollContainer,
-  Button,
-  Container,
-  Input,
-  Card,
-  Heading,
-  Header,
-  Preloader,
-  Select,
-  Places
-} from 'components'
-import {
-  Center,
-  Label,
-  Stack,
-  Profile,
-  ContentContainer,
-  Images,
-  InputFile,
-  Details,
-  Sub,
-  DateInput,
-  ImgCenter
-} from './styles'
+import { ScrollContainer, Button, Container, Input, Card, Heading, Header, Preloader, Select, Places} from 'components'
+import { Center, Label, Stack, Profile, ContentContainer, Images, InputFile, Details, Sub, DateInput, ImgCenter} from './styles'
 
 const EditProfileScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ editSuccess, setEditSuccess ] = useState(false)
+  const [crop, setCrop] = useState({ aspect: 1 / 1 });
+  // const {  croppedImageUrl, src } = this.state;
   const [ state, setState ] = useState({
     firstName: props.user.firstName || '',
     lastName: props.user.lastName || '',
@@ -58,7 +38,13 @@ const EditProfileScreen = props => {
     avatar: props.user.avatar,
     coverImg: props.user.coverImg,
     avatarLoading: false,
-    coverLoading: false
+    coverLoading: false,
+    src: null,
+    crop: {
+      unit: "%",
+      width:50,
+      aspect: 1 / 1
+    }
   })
   const [ avatar, setAvatar ] = useState('')
   const [ coverImg, setCoverImg ] = useState(
@@ -262,8 +248,12 @@ const EditProfileScreen = props => {
                         <form onSubmit={e => onImageUpload()}>
                           <Label>PROFILE PICTURE</Label>
                           <Sub>for best results use 512x512px</Sub>
+                          <Button variant="primary" onClick={this.handleShow}> Launch demo modal </Button>
+
                           <InputFile>
+                            
                             <button className='btn'>Upload avatar</button>
+
                             <input
                               type='file'
                               accept='image/*'
@@ -291,131 +281,38 @@ const EditProfileScreen = props => {
                           <Sub>for best results use 1200x600px</Sub>
                           <InputFile>
                             <button className='btn'>Upload cover</button>
-                            <input
-                              type='file'
-                              accept='image/*'
-                              onChange={e => onImageChange(e, 'coverImg')}
-                            />
+                            <input type='file' accept='image/*' onChange={e => onImageChange(e, 'coverImg')} />
                           </InputFile>
                           <div className='profile__cover'>
-                            {state.coverLoading ? (
-                              <ImgCenter>
-                                <Preloader />
-                              </ImgCenter>
-                            ) : (
+                            {state.coverLoading ? (<ImgCenter><Preloader/></ImgCenter>) : (
                               state.coverImg && (
-                                <img
-                                  src={coverImg}
-                                  width='200'
-                                  height='auto'
-                                  alt='cover'
-                                />
+                                <img src={coverImg} width='200' height='auto' alt='cover' />
                               )
                             )}
                           </div>
+                          <ReactCrop src={state.src} crop={state.crop} onChange={crop => setCrop(state.crop)} />
                         </form>
                       </Images>
                       <Details>
                         <Label>User Details</Label>
-                        <Input
-                          label='First Name'
-                          onChange={onInputChange}
-                          value={state.firstName}
-                          fieldName={'firstName'}
-                          error={checkValidField('firstName')}
-                        />
-                        <Input
-                          label='Last Name'
-                          onChange={onInputChange}
-                          value={state.lastName}
-                          fieldName={'lastName'}
-                          error={checkValidField('lastName')}
-                        />
-
-                        <Input
-                          label='Email'
-                          onChange={onInputChange}
-                          value={state.email}
-                          fieldName={'email'}
-                          error={checkValidField('email')}
-                        />
-
-                        <Input
-                          label='Phone Number'
-                          onChange={onInputChange}
-                          value={state.phone}
-                          fieldName={'phone'}
-                          type={'tel'}
-                          error={checkValidField('phone')}
-                        />
-
-                        <Places
-                          label='Your Location'
-                          onChange={location =>
-                            onSetLocation(location, 'location')}
-                          value={state.location.name}
-                          error={checkValidField('location')}
-                        />
-                        <Select
-                          items={Types.gender}
-                          fieldName={'gender'}
-                          placeholder={'Gender'}
-                          error={checkValidField('gender')}
-                          value={state.gender}
-                          onChange={onSelectChange}
-                        />
+                        <Input label='First Name' onChange={onInputChange} value={state.firstName} fieldName={'firstName'} error={checkValidField('firstName')} />
+                        <Input label='Last Name' onChange={onInputChange} value={state.lastName} fieldName={'lastName'} error={checkValidField('lastName')}/>
+                        <Input label='Email' onChange={onInputChange} value={state.email} fieldName={'email'} error={checkValidField('email')}/>
+                        <Input label='Phone Number' onChange={onInputChange} value={state.phone} fieldName={'phone'} type={'tel'} error={checkValidField('phone')}/>
+                        <Places label='Your Location' onChange={location =>   onSetLocation(location, 'location')} value={state.location.name} error={checkValidField('location')}/>
+                        <Select items={Types.gender} fieldName={'gender'} placeholder={'Gender'} error={checkValidField('gender')} value={state.gender} onChange={onSelectChange}/>
                         <Label>Bio</Label>
-                        <Input
-                          label='Add something interesting about yourself'
-                          onChange={onInputChange}
-                          value={state.bio}
-                          fieldName={'bio'}
-                          error={checkValidField('bio')}
-                          multiline={true}
-                          rows={5}
-                        />
+                        <Input label='Add something interesting about yourself' onChange={onInputChange} value={state.bio} fieldName={'bio'} error={checkValidField('bio')} multiline={true} rows={5}/>
                         <Label>Interests</Label>
                         <Sub>Seperate each interest with a comma</Sub>
-                        <Input
-                          label='Interests'
-                          onChange={onInterestsChange}
-                          value={state.interests}
-                          fieldName={'interests'}
-                          error={checkValidField('interests')}
-                        />
+                        <Input label='Interests' onChange={onInterestsChange} value={state.interests} fieldName={'interests'} error={checkValidField('interests')}/>
                         <Label>Surf Style</Label>
-                        <Select
-                          items={Types.modality}
-                          fieldName={'surf_modality'}
-                          placeholder={'Surf Modality'}
-                          error={checkValidField('surf_modality')}
-                          value={state.surf_modality}
-                          onChange={onInputChange}
-                        />
-
-                        <Select
-                          items={Types.surfLevel}
-                          fieldName={'surf_level'}
-                          placeholder={'Surf Level'}
-                          error={checkValidField('surf_level')}
-                          value={state.surf_level}
-                          onChange={onInputChange}
-                        />
-                        <Select
-                          items={Types.stance}
-                          fieldName={'stance'}
-                          placeholder={'Stance'}
-                          error={checkValidField('stance')}
-                          value={state.stance}
-                          onChange={onInputChange}
-                        />
+                        <Select items={Types.modality} fieldName={'surf_modality'} placeholder={'Surf Modality'} error={checkValidField('surf_modality')} value={state.surf_modality} onChange={onInputChange}/>
+                        <Select items={Types.surfLevel} fieldName={'surf_level'} placeholder={'Surf Level'} error={checkValidField('surf_level')} value={state.surf_level} onChange={onInputChange}/>
+                        <Select items={Types.stance} fieldName={'stance'} placeholder={'Stance'} error={checkValidField('stance')} value={state.stance} onChange={onInputChange} />
                         <Label>Surfing Since</Label>
                         <DateInput>
-                          <DatePicker
-                            selected={new Date(state.surfing_since)}
-                            onChange={date =>
-                              handleDateChange(date, 'surfing_since')}
-                          />
+                          <DatePicker selected={new Date(state.surfing_since)} onChange={date => handleDateChange(date, 'surfing_since')}/>
                         </DateInput>
                       </Details>
                     </Stack>
@@ -434,30 +331,17 @@ const EditProfileScreen = props => {
             </Center>
           ) : (
             <Spring
-              from={{
-                opacity: 0,
-                transform: 'translate3d(0,120px,0) scale(0.9)'
-              }}
-              to={{
-                opacity: 1,
-                transform: 'translate3d(0,40px,0) scale(1)'
-              }}>
+              from={{opacity: 0,transform: 'translate3d(0,120px,0) scale(0.9)' }}
+              to={{ opacity: 1, transform: 'translate3d(0,40px,0) scale(1)' }}>
               {props => (
                 <div className={'profile__success'} style={props}>
                   <div className={'profile__success-content'}>
                     <Card>
-                      <div className={'profile__icon'}>
-                        {Tools.renderIcon('face_happy')}
-                      </div>
+                      <div className={'profile__icon'}>{Tools.renderIcon('face_happy')} </div>
                       <Heading title='GREAT!' />
-                      <div className='profile__complete'>
-                        Your profile has been updated.
-                      </div>
+                      <div className='profile__complete'>Your profile has been updated. </div>
                       <div className={'profile__button'}>
-                        <Button
-                          onPress={onCompleteButton}
-                          title='VIEW MY PROFILE'
-                        />
+                        <Button onPress={onCompleteButton} title='VIEW MY PROFILE'/>
                       </div>
                     </Card>
                   </div>
