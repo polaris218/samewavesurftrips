@@ -79,6 +79,14 @@ export default function userReducer (
         email: action.payload.email,
       }
       break
+      case StoreDefinitions.USER.RESET:
+      console.log('reducer Reset=', action.payload)
+      state = {
+        ...state,
+        password: action.payload.password,
+        token: action.payload.token
+      }
+      break
     case StoreDefinitions.USER.DETAILS:
       state = {
         ...state,

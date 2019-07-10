@@ -42,6 +42,42 @@ export const Forgot = styled.div`
     display: flex;
     flex-direction: column;
   }
+  .onboard__account {
+    border-top: 1px solid ${Colors.GREY_LIGHT};
+    width: 100%;
+    margin-top: ${Spacings.LARGE}px;
+    margin-bottom: ${Spacings.LARGE}px;
+    font-size: ${Spacings.FONT.BODY};
+    color: ${Colors.WHITE};
+    text-align: center;
+  }
+  .onboard__account Button{
+    margin-top:1em;
+  }
+  .error {
+    margin-top: ${Spacings.MEDIUM}px;
+    color:red;
+    font-size: ${Spacings.FONT.LABEL};
+  }
+   .onboard_success {
+    text-align: center;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    h3 {
+      margin: 0;
+      padding: 0;
+      color: black;
+      font-size: ${Spacings.FONT.TITLE};
+    }
+    .onboard_success-info {
+      text-shadow: -2px 1px 4px black;
+      color: #20d630;
+      font-size: 20px;
+    }
+  }
 
   a {
     color: ${Colors.GREY_LIGHT};

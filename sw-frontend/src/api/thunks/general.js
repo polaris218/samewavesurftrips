@@ -7,16 +7,7 @@ import {
 } from 'api/actions'
 import store from '../store'
 
-const runQuery = (
-  endpoint,
-  data,
-  type,
-  processData,
-  dispatch,
-  action,
-  callback,
-  params
-) => {
+const runQuery = (endpoint, data, type, processData, dispatch, action, callback, params) => {
   return executeQuery(endpoint, data, type, processData).then(response => {
     if (response && response.status === 200) {
       if (callback) callback(response)
