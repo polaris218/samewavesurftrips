@@ -83,7 +83,10 @@ exports.forgot = function (req, res) {
   }
 
   var token = tokenid();
-  var data = Object.assign({ resetToken: token, resetPassword: false }) || {};
+  var data = Object.assign({
+    resetToken: token,
+    resetPassword: false
+  }) || {};
   var url = 'http://' + req.headers.host + '/reset_password?token=' + token;
 
   _user2.default.findOneAndUpdate({
@@ -138,7 +141,6 @@ exports.resetPassword = function (req, res) {
   _user2.default.findOneAndUpdate(match, data1, {
     new: true
   }).then(function (user) {
-    console.log("u1=", user);
     if (user) {
       return res.status(200).json({
         message: "Password Reset Successfully"
@@ -250,14 +252,13 @@ exports.followers = function (req, res) {
     _id: req.params.id
   }).then(function (user) {
     user.followers(req.user._id).then(function (follower) {
-      res.json(follower);
+      return res.json(follower);
     }).catch(function (err) {
       res.status(422).send(err);
     });
   }).catch(function (err) {
     res.status(422).send(err.errors);
   });
-
   res.status(200);
 };
 
@@ -271,6 +272,32 @@ exports.follow = function (req, res) {
     _id: req.params.id
   }).then(function (user) {
     user.follow(req.user._id).then(function (follower) {
+      console.log("user 1", user._id);
+      console.log(" req=", req.user._id);
+
+      _user2.default.findOneAndUpdate({ _id: req.user._id }, {
+        $push: {
+          following: [user._id]
+        }
+      }, {
+        new: true
+      }).then(function (user1) {
+        console.log("u1=", user1);
+        // if (user) {
+        //   return res.status(200).json({
+        //     message: "Password Reset Successfully"
+        //   });
+        // } else {
+        //   return res.status(400).json({
+        //     'message': 'Invalid Token or Token Expired'
+        //   });
+        // }
+      });
+      // .catch(err => {
+      //   res.status(400).send(err)
+      // })
+
+
       res.json(follower);
     }).catch(function (err) {
       res.status(422).send(err);
@@ -294,6 +321,28 @@ exports.unfollow = function (req, res) {
     user.unfollow(req.user._id).then(function (follower) {
       //return remaining followers
       user.followers(req.user._id).then(function (followers) {
+
+        console.log("user21=", user._id);
+        console.log(" req 2=", req.user._id);
+        _user2.default.findOneAndUpdate({ _id: req.user._id }, {
+          $pullAll: {
+            following: [user._id]
+          }
+        }, {
+          new: true
+        }).then(function (user1) {
+          console.log("\nunfolow=", user1);
+          // if (user) {
+          //   return res.status(200).json({
+          //     message: "Password Reset Successfully"
+          //   });
+          // } else {
+          //   return res.status(400).json({
+          //     'message': 'Invalid Token or Token Expired'
+          //   });
+          // }
+        });
+
         res.json(followers);
       }).catch(function (err) {
         res.status(422).send(err);

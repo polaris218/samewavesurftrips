@@ -50,7 +50,6 @@ var app = void 0;
 */
 function routesInit(a) {
   app = a;
-
   app.use(_passport2.default.initialize());
 
   (0, _auth.passportLocalStrategy)();
@@ -99,9 +98,7 @@ function routes() {
   //   respondFB
   // )
 
-  router.post('/v1/auth/facebook', _passport2.default.authenticate('fb-custom', {
-    session: false
-  }), _auth.serialize, _auth.generateToken, _auth.respond);
+  router.post('/v1/auth/facebook', _passport2.default.authenticate('fb-custom', { session: false }), _auth.serialize, _auth.generateToken, _auth.respond);
 
   /* 
   |--------------------------------------------------------------------------
@@ -132,8 +129,7 @@ function routes() {
   router.get('/v1/user/:id/follow', authenticate, _users2.default.follow);
   router.get('/v1/user/:id/unfollow', authenticate, _users2.default.unfollow);
   router.get('/v1/user/:id/followers', authenticate, _users2.default.followers);
-
-  //   router.get(`/v1/user/:id/following`, authenticate, User.following)
+  // router.get(`/v1/user/:id/following`, authenticate, User.following)
 
   /* 
   |--------------------------------------------------------------------------
