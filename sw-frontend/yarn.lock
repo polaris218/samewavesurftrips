@@ -2071,6 +2071,10 @@ clone-deep@^2.0.1:
     kind-of "^6.0.0"
     shallow-clone "^1.0.0"
 
+clsx@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.0.4.tgz#0c0171f6d5cb2fe83848463c15fcc26b4df8c2ec"
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -2255,6 +2259,10 @@ core-js@2.5.7, core-js@^2.4.0, core-js@^2.5.0:
 core-js@^1.0.0:
   version "1.2.7"
   resolved "http://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
+
+core-js@^3.0.1:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.4.tgz#3a2837fc48e582e1ae25907afcd6cf03b0cc7a07"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -7034,6 +7042,14 @@ prop-types@^15.5.8:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+prop-types@^15.7.2:
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.8.1"
+
 protocol-buffers-schema@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/protocol-buffers-schema/-/protocol-buffers-schema-3.3.2.tgz#00434f608b4e8df54c59e070efeefc37fb4bb859"
@@ -7248,6 +7264,14 @@ react-event-listener@^0.6.2:
 react-facebook-login@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
+
+react-image-crop@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-8.1.0.tgz#b5e44b84d6ffc0e1b8d9c5ad912ef197aaeeb4cf"
+  dependencies:
+    clsx "^1.0.4"
+    core-js "^3.0.1"
+    prop-types "^15.7.2"
 
 react-is@^16.3.2, react-is@^16.6.3:
   version "16.7.0"
