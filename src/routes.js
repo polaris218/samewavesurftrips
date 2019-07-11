@@ -2,15 +2,8 @@ import express from 'express'
 import config from './config'
 import expressJwt from 'express-jwt'
 import passport from 'passport'
-import {
-  passportLocalStrategy,
-  serialize,
-  generateToken,
-  respond,
-  respondFB,
-  refreshToken,
-  passportFBCustom,
-  // passportFBStrategy
+import { passportLocalStrategy, serialize, generateToken, respond, respondFB, refreshToken, passportFBCustom,
+   // passportFBStrategy
 } from './controllers/auth'
 import Trip from './controllers/trips'
 import User from './controllers/users'
@@ -28,7 +21,6 @@ let app
 */
 export function routesInit(a) {
   app = a
-
   app.use(passport.initialize())
 
   passportLocalStrategy()
@@ -83,11 +75,7 @@ export function routes() {
 
   router.post(
     '/v1/auth/facebook',
-    passport.authenticate('fb-custom', {
-      session: false
-    }),
-    serialize,
-    generateToken,
+    passport.authenticate('fb-custom', { session: false}), serialize, generateToken,
     respond
   )
 
@@ -120,8 +108,7 @@ export function routes() {
   router.get(`/v1/user/:id/follow`, authenticate, User.follow)
   router.get(`/v1/user/:id/unfollow`, authenticate, User.unfollow)
   router.get(`/v1/user/:id/followers`, authenticate, User.followers)
-
-  //   router.get(`/v1/user/:id/following`, authenticate, User.following)
+  // router.get(`/v1/user/:id/following`, authenticate, User.following)
 
   /* 
 	|--------------------------------------------------------------------------
