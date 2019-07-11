@@ -59,9 +59,11 @@ exports.getAll = (req, res) => {
 */
 exports.getUserTrips = (req, res) => {
   Trip.find({
-    // owner_id: req.params.userid,
-    attendees: { $in: [ req.params.userid ] }
-  })
+      // owner_id: req.params.userid,
+      attendees: {
+        $in: [req.params.userid]
+      }
+    })
     .then(trips => {
       res.json(trips)
     })
@@ -94,11 +96,14 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   const modelData = setDefaultValues(req)
 
-  Trip.findOneAndUpdate(
-    { _id: req.params.id, owner_id: req.user._id },
-    modelData,
-    { new: true }
-  )
+  Trip.findOneAndUpdate({
+        _id: req.params.id,
+        owner_id: req.user._id
+      },
+      modelData, {
+        new: true
+      }
+    )
     .then(trip => {
       res.json(trip)
     })
@@ -113,7 +118,10 @@ exports.update = (req, res) => {
 |--------------------------------------------------------------------------
 */
 exports.delete = (req, res) => {
-  Trip.remove({ _id: req.params.id, owner_id: req.user._id })
+  Trip.remove({
+      _id: req.params.id,
+      owner_id: req.user._id
+    })
     .then(trip => {
       res.json(trip)
     })
@@ -128,7 +136,9 @@ exports.delete = (req, res) => {
 |--------------------------------------------------------------------------
 */
 exports.join = (req, res) => {
-  Trip.findOne({ _id: req.params.id })
+  Trip.findOne({
+      _id: req.params.id
+    })
     .then(trip => {
       trip.join(req.user._id)
       res.json(trip)
@@ -144,7 +154,9 @@ exports.join = (req, res) => {
 |--------------------------------------------------------------------------
 */
 exports.leave = (req, res) => {
-  Trip.findOne({ _id: req.params.id })
+  Trip.findOne({
+      _id: req.params.id
+    })
     .then(trip => {
       trip.leave(req.user._id)
       res.json(trip)
@@ -163,48 +175,55 @@ exports.search = (req, res) => {
   const skip = parseInt(req.query.skip) || 0
   var query = {}
 
+    let lng = req.query['lng'] || 0,
+    lat = req.query['lat'] || 0,
+    radius = req.query['radius'] || 10
+
+   var query = {
+    departing_loc: {
+      $geoWithin: {
+        $centerSphere: [
+          [lng, lat],radius / 3963.2
+        ]
+      }
+    }
+    }  
+
+  // search departure_date_time ---
+  req.query['departure_date_time'] != undefined ?
+    (query['date_times.departure_date_time'] = {"$gte": new Date(req.query['departure_date_time'])}) : undefined;
+
+  //search return_date_time ---
+  req.query['return_date_time'] != undefined ?
+    (query['date_times.return_date_time'] = {"$lte": new Date(req.query['return_date_time'])}) : undefined;
+
   //search title ---
-  req.query['title'] != undefined
-    ? (query['title'] = new RegExp(`.*${req.query['title']}.*`, 'i'))
-    : undefined
+  req.query['title'] != undefined ?(query['title'] = new RegExp(`.*${req.query['title']}.*`, 'i')) : undefined;
 
   //search gender ---
-  req.query['gender'] != undefined
-    ? (query['gender'] = req.query['gender'])
-    : undefined
+  req.query['gender'] != undefined ? (query['gender'] = req.query['gender']) : undefined;
 
   //search surf modality ---
-  req.query['surf_modality'] != undefined
-    ? (query['surf_modality'] = req.query['surf_modality'])
-    : undefined
+  req.query['surf_modality'] != undefined ? (query['surf_modality'] = req.query['surf_modality']) : undefined;
 
   //search surf level ---
-  req.query['surf_level'] != undefined
-    ? (query['surf_level'] = req.query['surf_level'])
-    : undefined
+  req.query['surf_level'] != undefined ?(query['surf_level'] = req.query['surf_level']) : undefined;
 
   //search transport ---
-  req.query['transport'] != undefined
-    ? (query['transport'] = req.query['transport'])
-    : undefined
+  req.query['transport'] != undefined ?(query['transport'] = req.query['transport']) : undefined;
 
   //search accomodation ---
-  req.query['accomodation'] != undefined
-    ? (query['accomodation'] = req.query['accomodation'])
-    : undefined
+  req.query['accomodation'] != undefined ? (query['accomodation'] = req.query['accomodation']) :  undefined;
 
   //search max no. surfers ---
-  req.query['number_of_surfers'] != undefined
-    ? (query['number_of_surfers'] = { $lte: req.query['number_of_surfers'] })
-    : undefined
+  req.query['number_of_surfers'] != undefined ?
+    (query['number_of_surfers'] = {  $lte: req.query['number_of_surfers']}) : undefined;
 
-  Trip.find(query)
-    .skip(skip)
-    .limit(50)
-    .then(trips => {
+  Trip.find(query).skip(skip).limit(50).then(trips => {
       res.json(trips)
     })
     .catch(err => {
+      console.log("err=",err)
       res.status(422).send(err)
     })
 }
@@ -230,40 +249,44 @@ exports.searchDestination = (req, res) => {
   var query = {
     destination_loc: {
       $geoWithin: {
-        $centerSphere: [ [ lng, lat ], milesToRadian(radius) ]
+        $centerSphere: [
+          [lng, lat], milesToRadian(radius)
+        ]
       }
     }
   }
 
   //search gender ---
-  req.query['gender'] != undefined
-    ? (query['gender'] = req.query['gender'])
-    : undefined
+  req.query['gender'] != undefined ?
+    (query['gender'] = req.query['gender']) :
+    undefined
 
   //search surf modality ---
-  req.query['surf_modality'] != undefined
-    ? (query['surf_modality'] = req.query['surf_modality'])
-    : undefined
+  req.query['surf_modality'] != undefined ?
+    (query['surf_modality'] = req.query['surf_modality']) :
+    undefined
 
   //search surf level ---
-  req.query['surf_level'] != undefined
-    ? (query['surf_level'] = req.query['surf_level'])
-    : undefined
+  req.query['surf_level'] != undefined ?
+    (query['surf_level'] = req.query['surf_level']) :
+    undefined
 
   //search transport ---
-  req.query['transport'] != undefined
-    ? (query['transport'] = req.query['transport'])
-    : undefined
+  req.query['transport'] != undefined ?
+    (query['transport'] = req.query['transport']) :
+    undefined
 
   //search accomodation ---
-  req.query['accomodation'] != undefined
-    ? (query['accomodation'] = req.query['accomodation'])
-    : undefined
+  req.query['accomodation'] != undefined ?
+    (query['accomodation'] = req.query['accomodation']) :
+    undefined
 
   //search max no. surfers ---
-  req.query['number_of_surfers'] != undefined
-    ? (query['number_of_surfers'] = { $lte: req.query['number_of_surfers'] })
-    : undefined
+  req.query['number_of_surfers'] != undefined ?
+    (query['number_of_surfers'] = {
+      $lte: req.query['number_of_surfers']
+    }) :
+    undefined
 
   Trip.find(query)
     .skip(skip)
@@ -281,25 +304,26 @@ exports.searchDestination = (req, res) => {
 | Populate nested objects & defaults 
 |--------------------------------------------------------------------------
 */
-function setDefaultValues (req) {
-  let departingLng = req.body.departing.lng || 0,
-    departingLat = req.body.departing.lat || 0,
-    destinationLng = req.body.destination.lng || 0,
-    destinationLat = req.body.destination.lat || 0
+function setDefaultValues(req) {
+
+  let departingLng = JSON.parse(req.body.departing).lng || 0,
+    departingLat = JSON.parse(req.body.departing).lat || 0,
+    destinationLng = JSON.parse(req.body.destination).lng || 0,
+    destinationLat = JSON.parse(req.body.destination).lat || 0
 
   const modelData = Object.assign({}, req.body, {
     owner_id: req.user._id,
     owner_details: {}, //the model will populate this
-    attendees: [ ...req.body.attendees ],
+    attendees: [...req.body.attendees],
 
     departing_loc: {
       type: 'Point',
-      coordinates: [ departingLng, departingLat ]
+      coordinates: [departingLng, departingLat]
     },
 
     destination_loc: {
       type: 'Point',
-      coordinates: [ destinationLng, destinationLat ]
+      coordinates: [destinationLng, destinationLat]
     },
 
     date_times: {

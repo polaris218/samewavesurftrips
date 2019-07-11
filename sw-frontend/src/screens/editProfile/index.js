@@ -93,25 +93,14 @@ const EditProfileScreen = props => {
     console.log(data, state, valid)
     if (valid) {
       // Send
-      dispatch(
-        apiQuery(
-          data,
-          props.userEdit,
-          config.EndPoints.user,
-          onEditResult,
-          'put'
-        )
-      )
+      dispatch(apiQuery( data, props.userEdit, config.EndPoints.user, onEditResult,'put'))
     }
   }
 
   const onEditResult = error => {
     if (error.status !== 200) {
       setLoading(false)
-      setState({
-        ...state,
-        error
-      })
+      setState({...state,error})
     } else {
       setLoading(false)
       setEditSuccess(true)
@@ -121,13 +110,9 @@ const EditProfileScreen = props => {
   const validateForm = data => {
     const errors = []
     if (data.title === '') errors.push('title')
-
     if (errors.length > 0) {
       setLoading(false)
-      setState({
-        ...state,
-        invalid: errors
-      })
+      setState({ ...state, invalid: errors })
       return false
     } else {
       return true
@@ -139,26 +124,17 @@ const EditProfileScreen = props => {
   }
 
   const onInputChange = (value, name) => {
-    setState({
-      ...state,
-      [name]: value
-    })
+    setState({...state, [name]: value })
   }
 
   const onSetLocation = (location, field) => {
     console.log('Location ', location)
-    setState({
-      ...state,
-      location
-    })
+    setState({...state, location})
   }
 
   const onInterestsChange = (value, name) => {
     const interests = value.split(',')
-    setState({
-      ...state,
-      interests
-    })
+    setState({...state,interests})
   }
 
   const onCompleteButton = () => {
@@ -167,7 +143,6 @@ const EditProfileScreen = props => {
 
   const onImageUpload = () => { }
   const onCeverChange = (e, type) => {
-
     const input = e.target
     const reader = new FileReader()
     reader.onload = function () {
@@ -193,7 +168,7 @@ const EditProfileScreen = props => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
       reader.onload = function () {
-        let src2 = reader.result
+        // let src2 = reader.result
         // setState({ src: src2 })
         state.src = reader.result;
         // var dataURL = render.result
@@ -233,9 +208,19 @@ const EditProfileScreen = props => {
         props.userImageUpload,
         type === 'avatar' ? config.EndPoints.avatar : config.EndPoints.cover,
         res => {
-          console.log(res)
           if (res.status === 200) {
-            mounted && setState({ ...state, [type]: res.data })
+            var a=JSON.parse(localStorage.getItem('persist:sw_024_user'));
+            var b='"';
+            if(type==='avatar'){
+              mounted && setState({ ...state,avatar: res.data });
+              a.avatar=b+res.data+b;
+              localStorage.setItem('persist:sw_024_user',JSON.stringify(a));              
+            }
+            if(type==='coverImg'){
+              mounted && setState({ ...state,coverImg: res.data });
+              a.coverImg=b+res.data+b;
+              localStorage.setItem('persist:sw_024_user',JSON.stringify(a)); 
+            }          
             setState({...state,blob:null})
             setState({...state,src:null})
             setState({...state,type:null})
@@ -284,7 +269,6 @@ const EditProfileScreen = props => {
         return props.user.avatar
       image = config.EndPoints.digitalOcean + props.user.avatar
     }
-
     return image
   }
   const getCropped = () => {
@@ -418,16 +402,11 @@ const EditProfileScreen = props => {
         visible={CropmodalVisible}
         title={"CROP"}
         // sub={
-        //   !state.joined ? (
-        //     'are you sure you want to be added to this trip?'
-        //   ) : (
-        //     'are you sure you want leave this trip?'
-        //   )
-        // }
+          /**  !state.joined ? ('are you sure you want to be added to this trip?') : ('are you sure you want leave this trip?'}
+      */
         src={state.src}
         // crop={state.crop}
-        buttonNo='CANCEL'
-        buttonYes="Confirm"
+        buttonNo='CANCEL' buttonYes="Confirm"
         onNoPress={() => {
           setCropModalVisible(false);
           console.log("this is index")

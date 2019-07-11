@@ -66,7 +66,9 @@ exports.geocode = function (req, res) {}
 exports.getUserTrips = function (req, res) {
   _trip2.default.find({
     // owner_id: req.params.userid,
-    attendees: { $in: [req.params.userid] }
+    attendees: {
+      $in: [req.params.userid]
+    }
   }).then(function (trips) {
     res.json(trips);
   }).catch(function (err) {
@@ -96,7 +98,12 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
   var modelData = setDefaultValues(req);
 
-  _trip2.default.findOneAndUpdate({ _id: req.params.id, owner_id: req.user._id }, modelData, { new: true }).then(function (trip) {
+  _trip2.default.findOneAndUpdate({
+    _id: req.params.id,
+    owner_id: req.user._id
+  }, modelData, {
+    new: true
+  }).then(function (trip) {
     res.json(trip);
   }).catch(function (err) {
     res.status(500).send(err);
@@ -109,7 +116,10 @@ exports.update = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.delete = function (req, res) {
-  _trip2.default.remove({ _id: req.params.id, owner_id: req.user._id }).then(function (trip) {
+  _trip2.default.remove({
+    _id: req.params.id,
+    owner_id: req.user._id
+  }).then(function (trip) {
     res.json(trip);
   }).catch(function (err) {
     res.status(500).send(err);
@@ -122,7 +132,9 @@ exports.delete = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.join = function (req, res) {
-  _trip2.default.findOne({ _id: req.params.id }).then(function (trip) {
+  _trip2.default.findOne({
+    _id: req.params.id
+  }).then(function (trip) {
     trip.join(req.user._id);
     res.json(trip);
   }).catch(function (err) {
@@ -136,7 +148,9 @@ exports.join = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.leave = function (req, res) {
-  _trip2.default.findOne({ _id: req.params.id }).then(function (trip) {
+  _trip2.default.findOne({
+    _id: req.params.id
+  }).then(function (trip) {
     trip.leave(req.user._id);
     res.json(trip);
   }).catch(function (err) {
@@ -152,6 +166,23 @@ exports.leave = function (req, res) {
 exports.search = function (req, res) {
   var skip = parseInt(req.query.skip) || 0;
   var query = {};
+
+  var lng = req.query['lng'] || 0,
+      lat = req.query['lat'] || 0,
+      radius = req.query['radius'] || 10;
+
+  var query = {
+    departing_loc: {
+      $geoWithin: {
+        $centerSphere: [[lng, lat], radius / 3963.2]
+      }
+    }
+
+    // search departure_date_time ---
+  };req.query['departure_date_time'] != undefined ? query['date_times.departure_date_time'] = { "$gte": new Date(req.query['departure_date_time']) } : undefined;
+
+  //search return_date_time ---
+  req.query['return_date_time'] != undefined ? query['date_times.return_date_time'] = { "$lte": new Date(req.query['return_date_time']) } : undefined;
 
   //search title ---
   req.query['title'] != undefined ? query['title'] = new RegExp('.*' + req.query['title'] + '.*', 'i') : undefined;
@@ -177,6 +208,7 @@ exports.search = function (req, res) {
   _trip2.default.find(query).skip(skip).limit(50).then(function (trips) {
     res.json(trips);
   }).catch(function (err) {
+    console.log("err=", err);
     res.status(422).send(err);
   });
 };
@@ -222,7 +254,9 @@ exports.searchDestination = function (req, res) {
   req.query['accomodation'] != undefined ? query['accomodation'] = req.query['accomodation'] : undefined;
 
   //search max no. surfers ---
-  req.query['number_of_surfers'] != undefined ? query['number_of_surfers'] = { $lte: req.query['number_of_surfers'] } : undefined;
+  req.query['number_of_surfers'] != undefined ? query['number_of_surfers'] = {
+    $lte: req.query['number_of_surfers']
+  } : undefined;
 
   _trip2.default.find(query).skip(skip).limit(50).then(function (trips) {
     res.json(trips);
@@ -237,10 +271,11 @@ exports.searchDestination = function (req, res) {
 |--------------------------------------------------------------------------
 */
 function setDefaultValues(req) {
-  var departingLng = req.body.departing.lng || 0,
-      departingLat = req.body.departing.lat || 0,
-      destinationLng = req.body.destination.lng || 0,
-      destinationLat = req.body.destination.lat || 0;
+
+  var departingLng = JSON.parse(req.body.departing).lng || 0,
+      departingLat = JSON.parse(req.body.departing).lat || 0,
+      destinationLng = JSON.parse(req.body.destination).lng || 0,
+      destinationLat = JSON.parse(req.body.destination).lat || 0;
 
   var modelData = Object.assign({}, req.body, {
     owner_id: req.user._id,

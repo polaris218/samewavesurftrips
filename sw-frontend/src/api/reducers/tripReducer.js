@@ -22,6 +22,7 @@ export default function tripReducer (
       break
     case StoreDefinitions.TRIP.FETCH_ALL:
       const trips = []
+
       action.payload.forEach(trip => {
         if (trip.destination.startsWith('{')) {
           trip.destination = JSON.parse(trip.destination)
@@ -34,7 +35,8 @@ export default function tripReducer (
 
       state = {
         ...state,
-        allTrips: trips
+        allTrips: trips,
+        filter:"?"
       }
       break
     case StoreDefinitions.TRIP.FILTER:
@@ -52,7 +54,7 @@ export default function tripReducer (
       state = {
         ...state,
         allTrips: filtedTrips,
-        filter: action.payload.filter
+        filter:"?"
       }
       break
     case StoreDefinitions.TRIP.FILTER_QUERY:
