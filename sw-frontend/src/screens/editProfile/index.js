@@ -12,15 +12,16 @@ import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Types } from 'config'
 import { Tools } from 'utils'
 
-import { ScrollContainer, Button, Container, Input, Card, Heading, Header, Preloader, Select, Places} from 'components'
-import { Center, Label, Stack, Profile, ContentContainer, Images, InputFile, Details, Sub, DateInput, ImgCenter} from './styles'
+import { ScrollContainer, Button, Container, Input, Card, Heading, Header, Preloader, Select, Places, Modal, CropModal } from 'components'
+import { Center, Label, Stack, Profile, ContentContainer, Images, InputFile, Details, Sub, DateInput, ImgCenter } from './styles'
 
 const EditProfileScreen = props => {
-  const [ loading, setLoading ] = useState(false)
-  const [ editSuccess, setEditSuccess ] = useState(false)
-  const [crop, setCrop] = useState({ aspect: 1 / 1 });
+  const [loading, setLoading] = useState(false)
+  const [editSuccess, setEditSuccess] = useState(false)
+  const [CropmodalVisible, setCropModalVisible] = useState(false)
+  // const [crop, setCrop] = useState({ aspect: 1 / 1 });
   // const {  croppedImageUrl, src } = this.state;
-  const [ state, setState ] = useState({
+  const [state, setState] = useState({
     firstName: props.user.firstName || '',
     lastName: props.user.lastName || '',
     email: props.user.email || '',
@@ -31,7 +32,7 @@ const EditProfileScreen = props => {
     surf_level: props.user.surf_level || '',
     surf_modality: props.user.surf_modality || '',
     stance: props.user.stance || '',
-    interests: props.user.interests || [ '' ],
+    interests: props.user.interests || [''],
     surfing_since: props.user.surfing_since || new Date(),
     optIn: props.user.optIn,
     invalid: [],
@@ -40,14 +41,17 @@ const EditProfileScreen = props => {
     avatarLoading: false,
     coverLoading: false,
     src: null,
-    crop: {
-      unit: "%",
-      width:50,
-      aspect: 1 / 1
-    }
+    blob: null,
+    type:null,
+    // crop: {
+    //   // unit: '%',
+    //   aspect: 1 / 1,
+    //   width: 80,
+    //   height: 80,
+    // },
   })
-  const [ avatar, setAvatar ] = useState('')
-  const [ coverImg, setCoverImg ] = useState(
+  const [avatar, setAvatar] = useState('')
+  const [coverImg, setCoverImg] = useState(
     props.user.coverImg
       ? config.EndPoints.digitalOcean + props.user.coverImg
       : ''
@@ -161,9 +165,9 @@ const EditProfileScreen = props => {
     props.history.push('/' + Routes.PROFILE)
   }
 
-  const onImageUpload = () => {}
+  const onImageUpload = () => { }
+  const onCeverChange = (e, type) => {
 
-  const onImageChange = (e, type) => {
     const input = e.target
     const reader = new FileReader()
     reader.onload = function () {
@@ -183,6 +187,44 @@ const EditProfileScreen = props => {
     data.append(type === 'avatar' ? 'avatar' : 'cover', blob, blob.name)
     uploadImage(data, type)
   }
+  const onImageChange = (e, type) => {
+    console.log("this is no")
+    state.type=type;
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader()
+      reader.onload = function () {
+        let src2 = reader.result
+        // setState({ src: src2 })
+        state.src = reader.result;
+        // var dataURL = render.result
+        // console.log(state.src);
+        setCropModalVisible(true);
+        // if (type === 'avatar') {
+        //   setState({ ...state, avatarLoading: true })
+        //   setAvatar(dataURL)
+        // } else {
+        //   setState({ ...state, coverLoading: true })
+        //   setCoverImg(dataURL)
+        // }
+      }
+      reader.readAsDataURL(e.target.files[0])
+    }
+
+  }
+  // const getcropppedImage = () => {
+  //   const input = e.target
+  //   const reader = new FileReader()
+  //   reader.onload = function () {
+  //     const dataURL = reader.result
+
+  //   }
+  //   reader.readAsDataURL(input.files[0])
+  //   console.log('TYPE IS ', type)
+  //   const blob = input.files[0]
+  //   const data = new FormData()
+  //   data.append(type === 'avatar' ? 'avatar' : 'cover', blob, blob.name)
+  //   uploadImage(data, type)
+  // }
 
   const uploadImage = (data, type) => {
     dispatch(
@@ -194,6 +236,9 @@ const EditProfileScreen = props => {
           console.log(res)
           if (res.status === 200) {
             mounted && setState({ ...state, [type]: res.data })
+            setState({...state,blob:null})
+            setState({...state,src:null})
+            setState({...state,type:null})
           }
         }
       ),
@@ -210,12 +255,27 @@ const EditProfileScreen = props => {
     })
   }
 
+
+
   const handleDateChange = (date, field) => {
     setState({
       ...state,
       [field]: date
     })
   }
+  // const CropVisible = (e) => {
+  //   console.log("this is no")
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     const reader = new FileReader()
+  //     reader.onload = function () {
+  //       // setState({ src: src2 })
+  //       state.src = reader.result;
+  //       console.log(state.src);
+  //       setCropModalVisible(true);
+  //     }
+  //     reader.readAsDataURL(e.target.files[0])
+  //   }
+  // }
 
   const userAvatar = () => {
     let image = ''
@@ -226,6 +286,9 @@ const EditProfileScreen = props => {
     }
 
     return image
+  }
+  const getCropped = () => {
+    console.log("Blob file");
   }
 
   return (
@@ -248,10 +311,10 @@ const EditProfileScreen = props => {
                         <form onSubmit={e => onImageUpload()}>
                           <Label>PROFILE PICTURE</Label>
                           <Sub>for best results use 512x512px</Sub>
-                          <Button variant="primary" onClick={this.handleShow}> Launch demo modal </Button>
+                          {/* <Button onPress={e => CropVisible(e)} title='Upload Avatar'/> */}
 
                           <InputFile>
-                            
+
                             <button className='btn'>Upload avatar</button>
 
                             <input
@@ -266,53 +329,53 @@ const EditProfileScreen = props => {
                                 <Preloader />
                               </ImgCenter>
                             ) : (
-                              state.avatar && (
-                                <img
-                                  src={avatar}
-                                  width='200'
-                                  height='200'
-                                  alt='avatar'
-                                />
-                              )
-                            )}
+                                state.avatar && (
+                                  <img
+                                    src={avatar}
+                                    width='200'
+                                    height='200'
+                                    alt='avatar'
+                                  />
+                                )
+                              )}
                           </div>
 
                           <Label>COVER PICTURE</Label>
                           <Sub>for best results use 1200x600px</Sub>
                           <InputFile>
                             <button className='btn'>Upload cover</button>
-                            <input type='file' accept='image/*' onChange={e => onImageChange(e, 'coverImg')} />
+                            <input type='file' accept='image/*' onChange={e => onCeverChange(e, 'coverImg')} />
                           </InputFile>
                           <div className='profile__cover'>
-                            {state.coverLoading ? (<ImgCenter><Preloader/></ImgCenter>) : (
+                            {state.coverLoading ? (<ImgCenter><Preloader /></ImgCenter>) : (
                               state.coverImg && (
                                 <img src={coverImg} width='200' height='auto' alt='cover' />
                               )
                             )}
                           </div>
-                          <ReactCrop src={state.src} crop={state.crop} onChange={crop => setCrop(state.crop)} />
+                          {/* <ReactCrop src={state.src} crop={state.crop} onChange={crop => setCrop(state.crop)} /> */}
                         </form>
                       </Images>
                       <Details>
                         <Label>User Details</Label>
                         <Input label='First Name' onChange={onInputChange} value={state.firstName} fieldName={'firstName'} error={checkValidField('firstName')} />
-                        <Input label='Last Name' onChange={onInputChange} value={state.lastName} fieldName={'lastName'} error={checkValidField('lastName')}/>
-                        <Input label='Email' onChange={onInputChange} value={state.email} fieldName={'email'} error={checkValidField('email')}/>
-                        <Input label='Phone Number' onChange={onInputChange} value={state.phone} fieldName={'phone'} type={'tel'} error={checkValidField('phone')}/>
-                        <Places label='Your Location' onChange={location =>   onSetLocation(location, 'location')} value={state.location.name} error={checkValidField('location')}/>
-                        <Select items={Types.gender} fieldName={'gender'} placeholder={'Gender'} error={checkValidField('gender')} value={state.gender} onChange={onSelectChange}/>
+                        <Input label='Last Name' onChange={onInputChange} value={state.lastName} fieldName={'lastName'} error={checkValidField('lastName')} />
+                        <Input label='Email' onChange={onInputChange} value={state.email} fieldName={'email'} error={checkValidField('email')} />
+                        <Input label='Phone Number' onChange={onInputChange} value={state.phone} fieldName={'phone'} type={'tel'} error={checkValidField('phone')} />
+                        <Places label='Your Location' onChange={location => onSetLocation(location, 'location')} value={state.location.name} error={checkValidField('location')} />
+                        <Select items={Types.gender} fieldName={'gender'} placeholder={'Gender'} error={checkValidField('gender')} value={state.gender} onChange={onSelectChange} />
                         <Label>Bio</Label>
-                        <Input label='Add something interesting about yourself' onChange={onInputChange} value={state.bio} fieldName={'bio'} error={checkValidField('bio')} multiline={true} rows={5}/>
+                        <Input label='Add something interesting about yourself' onChange={onInputChange} value={state.bio} fieldName={'bio'} error={checkValidField('bio')} multiline={true} rows={5} />
                         <Label>Interests</Label>
                         <Sub>Seperate each interest with a comma</Sub>
-                        <Input label='Interests' onChange={onInterestsChange} value={state.interests} fieldName={'interests'} error={checkValidField('interests')}/>
+                        <Input label='Interests' onChange={onInterestsChange} value={state.interests} fieldName={'interests'} error={checkValidField('interests')} />
                         <Label>Surf Style</Label>
-                        <Select items={Types.modality} fieldName={'surf_modality'} placeholder={'Surf Modality'} error={checkValidField('surf_modality')} value={state.surf_modality} onChange={onInputChange}/>
-                        <Select items={Types.surfLevel} fieldName={'surf_level'} placeholder={'Surf Level'} error={checkValidField('surf_level')} value={state.surf_level} onChange={onInputChange}/>
+                        <Select items={Types.modality} fieldName={'surf_modality'} placeholder={'Surf Modality'} error={checkValidField('surf_modality')} value={state.surf_modality} onChange={onInputChange} />
+                        <Select items={Types.surfLevel} fieldName={'surf_level'} placeholder={'Surf Level'} error={checkValidField('surf_level')} value={state.surf_level} onChange={onInputChange} />
                         <Select items={Types.stance} fieldName={'stance'} placeholder={'Stance'} error={checkValidField('stance')} value={state.stance} onChange={onInputChange} />
                         <Label>Surfing Since</Label>
                         <DateInput>
-                          <DatePicker selected={new Date(state.surfing_since)} onChange={date => handleDateChange(date, 'surfing_since')}/>
+                          <DatePicker selected={new Date(state.surfing_since)} onChange={date => handleDateChange(date, 'surfing_since')} />
                         </DateInput>
                       </Details>
                     </Stack>
@@ -322,35 +385,76 @@ const EditProfileScreen = props => {
                       <Button onPress={onEditPress} title='UPDATE PROFILE' />
                     </div>
                   ) : (
-                    <div className={'profile__loader'}>
-                      <Preloader />
-                    </div>
-                  )}
+                      <div className={'profile__loader'}>
+                        <Preloader />
+                      </div>
+                    )}
                 </div>
               </Container>
             </Center>
           ) : (
-            <Spring
-              from={{opacity: 0,transform: 'translate3d(0,120px,0) scale(0.9)' }}
-              to={{ opacity: 1, transform: 'translate3d(0,40px,0) scale(1)' }}>
-              {props => (
-                <div className={'profile__success'} style={props}>
-                  <div className={'profile__success-content'}>
-                    <Card>
-                      <div className={'profile__icon'}>{Tools.renderIcon('face_happy')} </div>
-                      <Heading title='GREAT!' />
-                      <div className='profile__complete'>Your profile has been updated. </div>
-                      <div className={'profile__button'}>
-                        <Button onPress={onCompleteButton} title='VIEW MY PROFILE'/>
-                      </div>
-                    </Card>
+              <Spring
+                from={{ opacity: 0, transform: 'translate3d(0,120px,0) scale(0.9)' }}
+                to={{ opacity: 1, transform: 'translate3d(0,40px,0) scale(1)' }}>
+                {props => (
+                  <div className={'profile__success'} style={props}>
+                    <div className={'profile__success-content'}>
+                      <Card>
+                        <div className={'profile__icon'}>{Tools.renderIcon('face_happy')} </div>
+                        <Heading title='GREAT!' />
+                        <div className='profile__complete'>Your profile has been updated. </div>
+                        <div className={'profile__button'}>
+                          <Button onPress={onCompleteButton} title='VIEW MY PROFILE' />
+                        </div>
+                      </Card>
+                    </div>
                   </div>
-                </div>
-              )}
-            </Spring>
-          )}
+                )}
+              </Spring>
+            )}
         </ContentContainer>
       </ScrollContainer>
+      <CropModal
+        visible={CropmodalVisible}
+        title={"CROP"}
+        // sub={
+        //   !state.joined ? (
+        //     'are you sure you want to be added to this trip?'
+        //   ) : (
+        //     'are you sure you want leave this trip?'
+        //   )
+        // }
+        src={state.src}
+        // crop={state.crop}
+        buttonNo='CANCEL'
+        buttonYes="Confirm"
+        onNoPress={() => {
+          setCropModalVisible(false);
+          console.log("this is index")
+        }}
+
+        onYesPress={(blob) => {
+          console.log("this is index::", blob);
+          state.blob = blob;
+          const reader = new FileReader()
+          reader.onload = function () {
+            let src = reader.result;
+            console.log(src)
+            if (state.type === 'avatar') {
+              setState({ ...state, avatarLoading: true })
+              setAvatar(src)
+            } else {
+              setState({ ...state, coverLoading: true })
+              setCoverImg(src)
+            }
+            const data2 = new FormData()
+            data2.append(state.type === 'avatar' ? 'avatar' : 'cover', blob, blob.name)
+            uploadImage(data2, state.type)
+            setCropModalVisible(false);
+          }
+          reader.readAsDataURL(blob)
+        }}
+      />
     </Profile>
   )
 }
@@ -361,5 +465,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, dispatch =>
-  mapDispatchToProps(dispatch, [ userActions ])
+  mapDispatchToProps(dispatch, [userActions])
 )(withRouter(EditProfileScreen))

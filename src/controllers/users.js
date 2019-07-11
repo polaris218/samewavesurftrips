@@ -77,7 +77,10 @@ exports.forgot = (req, res) => {
   }
 
   var token = tokenid();
-  const data = Object.assign({resetToken: token, resetPassword: false}) || {};
+  const data = Object.assign({
+    resetToken: token,
+    resetPassword: false
+  }) || {};
   let url = 'http://' + req.headers.host + '/reset_password?token=' + token;
 
   User.findOneAndUpdate({
@@ -85,12 +88,12 @@ exports.forgot = (req, res) => {
     }, data, {
       new: true
     }).then(user => {
-      if(user){
+      if (user) {
         notify_forgot(user, url);
         return res.status(200).json({
           'message': 'Mail Sent to your email id : ' + req.body.username
         });
-      }else{
+      } else {
         return res.status(400).json({
           'message': 'Invalid Email'
         });
@@ -133,15 +136,14 @@ exports.resetPassword = (req, res) => {
   User.findOneAndUpdate(match, data1, {
       new: true
     }).then(user => {
-      console.log("u1=",user);
-      if(user){
+      if (user) {
         return res.status(200).json({
           message: "Password Reset Successfully"
         });
-      }else{
+      } else {
         return res.status(400).json({
           'message': 'Invalid Token or Token Expired'
-        });        
+        });
       }
     })
     .catch(err => {
@@ -256,12 +258,10 @@ exports.coverImage = (req, res) => {
 exports.followers = (req, res) => {
   User.findOne({
       _id: req.params.id
-    })
-    .then(user => {
-      user
-        .followers(req.user._id)
+    }).then(user => {
+      user.followers(req.user._id)
         .then(follower => {
-          res.json(follower)
+          return res.json(follower)
         })
         .catch(err => {
           res.status(422).send(err)
@@ -270,7 +270,6 @@ exports.followers = (req, res) => {
     .catch(err => {
       res.status(422).send(err.errors)
     })
-
   res.status(200)
 }
 
@@ -287,6 +286,32 @@ exports.follow = (req, res) => {
       user
         .follow(req.user._id)
         .then(follower => {
+          console.log("user 1",user._id);
+          console.log(" req=",req.user._id);
+
+          User.findOneAndUpdate({_id:req.user._id}, {
+            $push: {
+              following: [user._id]
+            }
+          }, {
+            new: true
+          }).then(user1 => {
+            console.log("u1=", user1);
+            // if (user) {
+            //   return res.status(200).json({
+            //     message: "Password Reset Successfully"
+            //   });
+            // } else {
+            //   return res.status(400).json({
+            //     'message': 'Invalid Token or Token Expired'
+            //   });
+            // }
+          })
+          // .catch(err => {
+          //   res.status(400).send(err)
+          // })
+
+
           res.json(follower)
         })
         .catch(err => {
@@ -317,6 +342,30 @@ exports.unfollow = (req, res) => {
           user
             .followers(req.user._id)
             .then(followers => {
+
+              console.log("user21=",user._id);
+              console.log(" req 2=",req.user._id);
+              User.findOneAndUpdate({_id:req.user._id}, {
+                $pullAll: {
+                  following: [user._id]
+                }
+              }, {
+                new: true
+              }).then(user1 => {
+                console.log("\nunfolow=", user1);
+                // if (user) {
+                //   return res.status(200).json({
+                //     message: "Password Reset Successfully"
+                //   });
+                // } else {
+                //   return res.status(400).json({
+                //     'message': 'Invalid Token or Token Expired'
+                //   });
+                // }
+              })
+
+
+
               res.json(followers)
             })
             .catch(err => {

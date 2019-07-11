@@ -33,6 +33,7 @@ import Search from './search'
 import ProfileStat from './profileStat'
 import ProgressBar from './progressBar'
 import Modal from './modal'
+import CropModal from './imagecrop'
 import MsgListItem from './msgListItem'
 
 export {
@@ -71,5 +72,6 @@ export {
   ProfileStat,
   ProgressBar,
   Modal,
-  MsgListItem
+  MsgListItem,
+  CropModal
 }

@@ -6,35 +6,9 @@ import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Colors } from 'config'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
-import {
-  Avatar,
-  Button,
-  Card,
-  Container,
-  Footer,
-  Header,
-  MastHead,
-  Tabs,
-  ScrollContainer,
-  FootItem,
-  TripList,
-  ProfileStat,
-  Preloader
-} from 'components'
+import { Avatar, Button, Card, Container, Footer, Header, MastHead, Tabs, ScrollContainer, FootItem, TripList, ProfileStat, Preloader} from 'components'
 import { Tools, PickIcon } from 'utils'
-import {
-  Profile,
-  Center,
-  ContentContainer,
-  Stats,
-  StatDivide,
-  Interest,
-  PreloadContainer,
-  TabContainer,
-  SurfIcons,
-  SurfStat,
-  Label
-} from './styles'
+import { Profile, Center, ContentContainer, Stats, StatDivide, Interest, PreloadContainer, TabContainer, SurfIcons, SurfStat, Label} from './styles'
 
 const ProfileScreen = props => {
   const [ loading, setLoading ] = useState(true)
@@ -85,6 +59,7 @@ const ProfileScreen = props => {
   }
 
   const onFetchResult = res => {
+   
     if (res.status !== 200) {
       console.log('what error', res)
     }
@@ -116,7 +91,7 @@ const ProfileScreen = props => {
       apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, 'GET')
     )
   }
-
+ 
   const onFollow = () => {
     const endpoint = `${config.EndPoints.user}/${userId ||
       props.user.id}/${!following ? 'follow' : 'unfollow'}`
@@ -127,7 +102,6 @@ const ProfileScreen = props => {
   }
 
   const onMessage = user => {
-    console.log('user, ', user)
     props.history.push(`/${Routes.MESSAGE}/${uuid()}`, {
       recipient_id: user.id
     })
@@ -139,12 +113,13 @@ const ProfileScreen = props => {
     } else {
       const cleanFollows = []
       res.data.forEach(user => {
-        if (!cleanFollows.includes(user.follower_id)) {
+       if (!cleanFollows.includes(user.follower_id)) {
           cleanFollows.push(user.follower_id)
         }
       })
       if (cleanFollows.includes(props.user.id)) setFollowing(true)
       mounted && setFollowers(cleanFollows)
+
     }
   }
 
@@ -152,7 +127,7 @@ const ProfileScreen = props => {
     if (res.status !== 200) {
       console.log('follow user error', res)
     } else {
-      mounted && setFollowing(!following)
+      mounted && setFollowing(following)
       onGetFollowers()
     }
   }

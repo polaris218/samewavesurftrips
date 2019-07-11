@@ -69,7 +69,8 @@ export default function userReducer (
         stance: action.payload.stance,
         interests: action.payload.interests,
         surfing_since: action.payload.surfing_since,
-        optIn: action.payload.optIn
+        optIn: action.payload.optIn,
+        following:action.payload.following.length
       }
       break
       case StoreDefinitions.USER.FORGOT:
@@ -105,7 +106,8 @@ export default function userReducer (
         interests: action.payload.interests,
         surfing_since: action.payload.surfing_since,
         optIn: action.payload.optIn,
-        id: action.payload._id
+        id: action.payload._id,
+        following:action.payload.following.length
       }
       break
     case StoreDefinitions.USER.SURFER_DETAILS:
