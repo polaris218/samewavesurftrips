@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.notify_newUser = notify_newUser;
 exports.notify_forgot = notify_forgot;
@@ -25,8 +25,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var api_key = _config2.default.mailgun.key,
     domain = _config2.default.mailgun.domain,
     mailgun = require('mailgun-js')({
-    apiKey: api_key,
-    domain: domain
+  apiKey: api_key,
+  domain: domain
 });
 
 /* 
@@ -35,28 +35,26 @@ var api_key = _config2.default.mailgun.key,
 |--------------------------------------------------------------------------
 */
 function notify_newUser(user) {
+  var hbs = _expressHandlebars2.default.create({
+    partialsDir: 'views/partials'
+  });
 
-    var hbs = _expressHandlebars2.default.create({
-        partialsDir: 'views/partials'
+  hbs.renderView('views/email/newuser-welcome.handlebars', {
+    layout: 'notification',
+    email: user.email,
+    first_name: user.first_name
+  }, function (err, html) {
+    var data = {
+      html: html,
+      from: _config2.default.mailgun.from,
+      to: user.email,
+      subject: 'Hi ' + user.first_name + ', Welcome to Samewave.'
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log('MailSent : newuser-welcome');
     });
-
-    hbs.renderView('views/email/newuser-welcome.handlebars', {
-        layout: 'notification',
-        email: user.email,
-        first_name: user.first_name
-    }, function (err, html) {
-
-        var data = {
-            html: html,
-            from: _config2.default.mailgun.from,
-            to: user.email,
-            subject: 'Hi ' + user.first_name + ', Welcome to Samewave.'
-        };
-
-        mailgun.messages().send(data, function (error, body) {
-            console.log('MailSent : newuser-welcome');
-        });
-    });
+  });
 }
 
 /* 
@@ -65,28 +63,27 @@ function notify_newUser(user) {
 |--------------------------------------------------------------------------
 */
 function notify_forgot(user, url) {
+  var hbs = _expressHandlebars2.default.create({
+    partialsDir: 'views/partials'
+  });
 
-    var hbs = _expressHandlebars2.default.create({
-        partialsDir: 'views/partials'
+  hbs.renderView('views/email/forgot-password.handlebars', {
+    layout: 'notification',
+    url: url,
+    first_name: user.first_name
+  }, function (err, html) {
+    var data = {
+      html: html,
+      from: _config2.default.mailgun.from,
+      to: user.email,
+      subject: 'Hi ' + user.first_name + ', Forgot Password to Samewave.'
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log('MailSent :Forgot-Password run body=', body);
+      console.log('MailSent :Forgot-Password run');
     });
-
-    hbs.renderView('views/email/forgot-password.handlebars', {
-        layout: 'notification',
-        url: url,
-        first_name: user.first_name
-    }, function (err, html) {
-        var data = {
-            html: html,
-            from: _config2.default.mailgun.from,
-            to: user.email,
-            subject: 'Hi ' + user.first_name + ', Forgot Password to Samewave.'
-        };
-
-        mailgun.messages().send(data, function (error, body) {
-            console.log('MailSent :Forgot-Password run body=', body);
-            console.log('MailSent :Forgot-Password run');
-        });
-    });
+  });
 }
 
 /* 
@@ -94,23 +91,22 @@ function notify_forgot(user, url) {
 | Send trip join notification
 |--------------------------------------------------------------------------
 */
-function notify_tripjoin(user) {
+function notify_tripjoin(user, trip_name) {
+  var hbs = _expressHandlebars2.default.create();
 
-    var hbs = _expressHandlebars2.default.create();
+  hbs.renderView('views/email/trip-joined.handlebars', {
+    layout: 'notification',
+    trip_name: trip_name
+  }, function (err, html) {
+    var data = {
+      html: html,
+      from: _config2.default.mailgun.from,
+      to: user.email,
+      subject: 'A new user has joined your trip, ' + trip_name
+    };
 
-    hbs.renderView('views/email/trip-joined.handlebars', {
-        layout: 'notification'
-    }, function (err, html) {
-
-        var data = {
-            html: html,
-            from: _config2.default.mailgun.from,
-            to: user.email,
-            subject: 'A new user has joined your trip.'
-        };
-
-        mailgun.messages().send(data, function (error, body) {
-            console.log('MailSent : trip-joined');
-        });
+    mailgun.messages().send(data, function (error, body) {
+      console.log('MailSent : trip-joined');
     });
+  });
 }

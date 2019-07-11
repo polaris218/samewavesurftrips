@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _mongoose = require('mongoose');
@@ -38,109 +38,107 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 |--------------------------------------------------------------------------
 */
 var TripSchema = new _mongoose.Schema({
+  owner_id: {
+    type: _mongoose.Schema.Types.ObjectId,
+    required: true
+  },
 
-    owner_id: {
-        type: _mongoose.Schema.Types.ObjectId,
-        required: true
+  owner_details: {
+    type: _mongoose.Schema.Types.Mixed,
+    required: true
+  },
+
+  title: {
+    type: String,
+    required: true
+  },
+
+  departing: {
+    type: String,
+    required: true
+  },
+
+  departing_loc: {
+    type: { type: String },
+    coordinates: []
+  },
+
+  destination: {
+    type: String,
+    required: true
+  },
+
+  destination_loc: {
+    type: { type: String },
+    coordinates: []
+  },
+
+  date_times: {
+    departure_date_time: {
+      type: Date,
+      required: true
     },
 
-    owner_details: {
-        type: _mongoose.Schema.Types.Mixed,
-        required: true
-    },
-
-    title: {
-        type: String,
-        required: true
-    },
-
-    departing: {
-        type: String,
-        required: true
-    },
-
-    departing_loc: {
-        type: { type: String },
-        coordinates: []
-    },
-
-    destination: {
-        type: String,
-        required: true
-    },
-
-    destination_loc: {
-        type: { type: String },
-        coordinates: []
-    },
-
-    date_times: {
-        departure_date_time: {
-            type: Date,
-            required: true
-        },
-
-        return_date_time: {
-            type: Date,
-            required: true
-        }
-    },
-
-    number_of_surfers: {
-        type: Number,
-        required: false
-    },
-
-    gender: {
-        type: String,
-        lowercase: true,
-        required: false
-    },
-
-    surf_modality: {
-        type: String,
-        lowercase: true,
-        required: false
-    },
-
-    surf_level: {
-        type: String,
-        lowercase: true,
-        required: false
-    },
-
-    transport: {
-        type: String,
-        lowercase: true,
-        required: false
-    },
-
-    accomodation: {
-        type: String,
-        lowercase: true,
-        required: false
-    },
-
-    offering_rides: {
-        type: Boolean,
-        required: false
-    },
-
-    available_seats: {
-        type: Number,
-        required: false
-    },
-
-    trip_details: {
-        type: String,
-        required: false
-    },
-
-    attendees: {
-        type: Array,
-        required: true
+    return_date_time: {
+      type: Date,
+      required: true
     }
+  },
 
+  number_of_surfers: {
+    type: Number,
+    required: false
+  },
+
+  gender: {
+    type: String,
+    lowercase: true,
+    required: false
+  },
+
+  surf_modality: {
+    type: String,
+    lowercase: true,
+    required: false
+  },
+
+  surf_level: {
+    type: String,
+    lowercase: true,
+    required: false
+  },
+
+  transport: {
+    type: String,
+    lowercase: true,
+    required: false
+  },
+
+  accomodation: {
+    type: String,
+    lowercase: true,
+    required: false
+  },
+
+  offering_rides: {
+    type: Boolean,
+    required: false
+  },
+
+  available_seats: {
+    type: Number,
+    required: false
+  },
+
+  trip_details: {
+    type: String,
+    required: false
+  },
+
+  attendees: {
+    type: Array,
+    required: true
+  }
 });
 
 /* 
@@ -149,18 +147,20 @@ var TripSchema = new _mongoose.Schema({
 |--------------------------------------------------------------------------
 */
 TripSchema.methods.join = function (attendee) {
-    if (this.attendees.indexOf(attendee) != -1) return;
+  var _this = this;
 
-    this.attendees.push(attendee);
-    this.save();
+  if (this.attendees.indexOf(attendee) != -1) return;
 
-    _user2.default.findOne({ _id: this.owner_id }).then(function (user) {
-        (0, _notifications.notify_tripjoin)(user);
-    }).catch(function (err) {
-        console.log(err);
-    });
+  this.attendees.push(attendee);
+  this.save();
 
-    return;
+  _user2.default.findOne({ _id: this.owner_id }).then(function (user) {
+    (0, _notifications.notify_tripjoin)(user, _this.title);
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+  return;
 };
 
 /* 
@@ -169,14 +169,14 @@ TripSchema.methods.join = function (attendee) {
 |--------------------------------------------------------------------------
 */
 TripSchema.methods.leave = function (attendee) {
-    if (this.attendees.indexOf(attendee) == -1) return;
+  if (this.attendees.indexOf(attendee) == -1) return;
 
-    var index = this.attendees.indexOf(attendee);
+  var index = this.attendees.indexOf(attendee);
 
-    this.attendees.splice(index, 1);
-    this.save();
+  this.attendees.splice(index, 1);
+  this.save();
 
-    return;
+  return;
 };
 
 /* 
@@ -185,21 +185,21 @@ TripSchema.methods.leave = function (attendee) {
 |--------------------------------------------------------------------------
 */
 TripSchema.pre('save', function (next) {
-    var _this = this;
+  var _this2 = this;
 
-    if (!this.isNew) {
-        next();
-    }
+  if (!this.isNew) {
+    next();
+  }
 
-    //add owner details to trip -- 
-    _user2.default.findOne({ _id: this.owner_id }).then(function (user) {
-        var sanitized = user.toObject();
-        delete sanitized.password;
-        _this.owner_details = sanitized;
-        next();
-    }).catch(function (err) {
-        res.status(422).send(err.errors);
-    });
+  //add owner details to trip --
+  _user2.default.findOne({ _id: this.owner_id }).then(function (user) {
+    var sanitized = user.toObject();
+    delete sanitized.password;
+    _this2.owner_details = sanitized;
+    next();
+  }).catch(function (err) {
+    res.status(422).send(err.errors);
+  });
 });
 
 /* 
