@@ -96,7 +96,8 @@ function notify_tripjoin(user, trip_name) {
 
   hbs.renderView('views/email/trip-joined.handlebars', {
     layout: 'notification',
-    trip_name: trip_name
+    trip_name: trip_name,
+    first_name: user.first_name
   }, function (err, html) {
     var data = {
       html: html,

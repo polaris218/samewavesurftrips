@@ -90,7 +90,8 @@ export function notify_tripjoin (user, trip_name) {
     `views/email/trip-joined.handlebars`,
     {
       layout: 'notification',
-      trip_name: trip_name
+      trip_name: trip_name,
+      first_name: user.first_name
     },
     function (err, html) {
       var data = {
