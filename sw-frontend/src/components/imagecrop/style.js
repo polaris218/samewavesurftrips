@@ -35,10 +35,9 @@ export const Sub = styled.h3`
 `
 
 export const ButtonContainer = styled.div`
-
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
   flex-direction: row;
-  margin-bottom: ${Spacings.MEDIUM}px;
+  margin: ${Spacings.MEDIUM}px 0;
   button {
     width: 90%;
   }

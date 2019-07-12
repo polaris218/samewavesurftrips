@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
 import DatePicker from 'react-datepicker'
-import ReactCrop from 'react-image-crop'
 
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
@@ -22,7 +21,8 @@ import {
   Header,
   Preloader,
   Select,
-  Places
+  Places,
+  CropModal
 } from 'components'
 import {
   Center,
@@ -41,8 +41,7 @@ import {
 const EditProfileScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ editSuccess, setEditSuccess ] = useState(false)
-  const [ crop, setCrop ] = useState({ aspect: 1 / 1 })
-  // const {  croppedImageUrl, src } = this.state;
+  const [ CropmodalVisible, setCropModalVisible ] = useState(false)
   const [ state, setState ] = useState({
     firstName: props.user.firstName || '',
     lastName: props.user.lastName || '',
@@ -63,11 +62,8 @@ const EditProfileScreen = props => {
     avatarLoading: false,
     coverLoading: false,
     src: null,
-    crop: {
-      unit: '%',
-      width: 50,
-      aspect: 1 / 1
-    }
+    blob: null,
+    type: null
   })
   const [ avatar, setAvatar ] = useState('')
   const [ coverImg, setCoverImg ] = useState(
@@ -127,10 +123,7 @@ const EditProfileScreen = props => {
   const onEditResult = error => {
     if (error.status !== 200) {
       setLoading(false)
-      setState({
-        ...state,
-        error
-      })
+      setState({ ...state, error })
     } else {
       setLoading(false)
       setEditSuccess(true)
@@ -140,13 +133,9 @@ const EditProfileScreen = props => {
   const validateForm = data => {
     const errors = []
     if (data.title === '') errors.push('title')
-
     if (errors.length > 0) {
       setLoading(false)
-      setState({
-        ...state,
-        invalid: errors
-      })
+      setState({ ...state, invalid: errors })
       return false
     } else {
       return true
@@ -158,26 +147,17 @@ const EditProfileScreen = props => {
   }
 
   const onInputChange = (value, name) => {
-    setState({
-      ...state,
-      [name]: value
-    })
+    setState({ ...state, [name]: value })
   }
 
   const onSetLocation = (location, field) => {
     console.log('Location ', location)
-    setState({
-      ...state,
-      location
-    })
+    setState({ ...state, location })
   }
 
   const onInterestsChange = (value, name) => {
     const interests = value.split(',')
-    setState({
-      ...state,
-      interests
-    })
+    setState({ ...state, interests })
   }
 
   const onCompleteButton = () => {
@@ -185,8 +165,7 @@ const EditProfileScreen = props => {
   }
 
   const onImageUpload = () => {}
-
-  const onImageChange = (e, type) => {
+  const onCeverChange = (e, type) => {
     const input = e.target
     const reader = new FileReader()
     reader.onload = function () {
@@ -206,6 +185,18 @@ const EditProfileScreen = props => {
     data.append(type === 'avatar' ? 'avatar' : 'cover', blob, blob.name)
     uploadImage(data, type)
   }
+  const onImageChange = (e, type) => {
+    console.log('this is no')
+    state.type = type
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader()
+      reader.onload = function () {
+        state.src = reader.result
+        setCropModalVisible(true)
+      }
+      reader.readAsDataURL(e.target.files[0])
+    }
+  }
 
   const uploadImage = (data, type) => {
     dispatch(
@@ -214,9 +205,28 @@ const EditProfileScreen = props => {
         props.userImageUpload,
         type === 'avatar' ? config.EndPoints.avatar : config.EndPoints.cover,
         res => {
-          console.log(res)
           if (res.status === 200) {
-            mounted && setState({ ...state, [type]: res.data })
+            console.log('image uploaded ', res.data, type)
+            if (type === 'avatar') {
+              mounted &&
+                setState({
+                  ...state,
+                  avatar: res.data,
+                  blob: null,
+                  src: null,
+                  type: null
+                })
+            }
+            if (type === 'coverImg') {
+              mounted &&
+                setState({
+                  ...state,
+                  coverImg: res.data,
+                  blob: null,
+                  src: null,
+                  type: null
+                })
+            }
           }
         }
       ),
@@ -247,7 +257,6 @@ const EditProfileScreen = props => {
         return props.user.avatar
       image = config.EndPoints.digitalOcean + props.user.avatar
     }
-
     return image
   }
 
@@ -271,7 +280,7 @@ const EditProfileScreen = props => {
                         <form onSubmit={e => onImageUpload()}>
                           <Label>PROFILE PICTURE</Label>
                           <Sub>for best results use 512x512px</Sub>
-                          {/* <Button variant='primary'> Launch demo modal </Button> */}
+                          {/* <Button onPress={e => CropVisible(e)} title='Upload Avatar'/> */}
 
                           <InputFile>
                             <button className='btn'>Upload avatar</button>
@@ -306,7 +315,7 @@ const EditProfileScreen = props => {
                             <input
                               type='file'
                               accept='image/*'
-                              onChange={e => onImageChange(e, 'coverImg')}
+                              onChange={e => onCeverChange(e, 'coverImg')}
                             />
                           </InputFile>
                           <div className='profile__cover'>
@@ -325,11 +334,7 @@ const EditProfileScreen = props => {
                               )
                             )}
                           </div>
-                          <ReactCrop
-                            src={state.src}
-                            crop={state.crop}
-                            onChange={crop => setCrop(state.crop)}
-                          />
+                          {/* <ReactCrop src={state.src} crop={state.crop} onChange={crop => setCrop(state.crop)} /> */}
                         </form>
                       </Images>
                       <Details>
@@ -477,6 +482,40 @@ const EditProfileScreen = props => {
           )}
         </ContentContainer>
       </ScrollContainer>
+      <CropModal
+        visible={CropmodalVisible}
+        title={'CROP'}
+        src={state.src}
+        buttonNo='CANCEL'
+        buttonYes='Confirm'
+        onNoPress={() => {
+          setCropModalVisible(false)
+        }}
+        onYesPress={blob => {
+          state.blob = blob
+          const reader = new FileReader()
+          reader.onload = function () {
+            let src = reader.result
+            // console.log(src)
+            if (state.type === 'avatar') {
+              setState({ ...state, avatarLoading: true })
+              setAvatar(src)
+            } else {
+              setState({ ...state, coverLoading: true })
+              setCoverImg(src)
+            }
+            const data2 = new FormData()
+            data2.append(
+              state.type === 'avatar' ? 'avatar' : 'cover',
+              blob,
+              blob.name
+            )
+            uploadImage(data2, state.type)
+            setCropModalVisible(false)
+          }
+          reader.readAsDataURL(blob)
+        }}
+      />
     </Profile>
   )
 }

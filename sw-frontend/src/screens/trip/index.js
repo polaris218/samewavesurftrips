@@ -96,6 +96,7 @@ const TripScreen = props => {
   }
 
   const visitProfile = () => {
+    console.log("push profile");
     props.history.push(`/${Routes.USER}/${trip.owner_id}`)
   }
 
@@ -226,10 +227,7 @@ const TripScreen = props => {
                             recommended surf level:
                           </div> */}
                           <div className='trip__level-value'>
-                            <img
-                              src={PickIcon(trip.surf_level)}
-                              alt={trip.surf_level}
-                            />
+                            <img src={PickIcon(trip.surf_level)} alt={trip.surf_level} />
                             <span>{trip.surf_level}</span>
                           </div>
                         </div>
@@ -238,10 +236,7 @@ const TripScreen = props => {
                       <div className={'trip__level'}>
                         <div>
                           <div className='trip__level-value'>
-                            <img
-                              src={PickIcon(trip.surf_modality)}
-                              alt={trip.surf_modality}
-                            />
+                            <img src={PickIcon(trip.surf_modality)} alt={trip.surf_modality} />
                             <span>{trip.surf_modality}</span>
                           </div>
                         </div>

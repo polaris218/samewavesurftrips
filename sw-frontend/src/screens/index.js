@@ -15,21 +15,4 @@ import Forgot from './forgot'
 import Message from './message'
 import ResetPassword from './resetPassword'
 
-export {
-  Dashboard,
-  Login,
-  Search,
-  SurfTrips,
-  Profile,
-  Onboarding,
-  Terms,
-  Privacy,
-  Trip,
-  CreateTrip,
-  Mail,
-  EditTrip,
-  EditProfile,
-  Forgot,
-  Message,
-  ResetPassword
-}
+export { Dashboard, Login, Search, SurfTrips, Profile, Onboarding, Terms, Privacy, Trip, CreateTrip, Mail, EditTrip, EditProfile, Forgot, Message, ResetPassword}
