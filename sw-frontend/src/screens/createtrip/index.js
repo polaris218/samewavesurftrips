@@ -86,6 +86,7 @@ const CreateTripScreen = props => {
       attendees: [ props.user.id ]
     }
 
+
     //Validate from .....
     const valid = validateForm(data)
     if (valid) {
@@ -334,11 +335,7 @@ const CreateTripScreen = props => {
                     {step === 4 ? (
                       <ButtonRow>
                         <Button outline onPress={onBackPress} title='PREV' />
-                        <Button
-                          primary
-                          onPress={onCreatePress}
-                          title='CREATE'
-                        />
+                        <Button primary onPress={onCreatePress} title='CREATE' />
                       </ButtonRow>
                     ) : (
                       <ButtonRow>

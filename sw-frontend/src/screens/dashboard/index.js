@@ -53,14 +53,7 @@ const DashboardScreen = props => {
     const searchParams = props.trips.filter
 
     dispatch(
-      apiQuery(
-        null,
-        props.fetchAllTrips,
-        config.EndPoints.search + searchParams,
-        onFetchResult,
-        'get',
-        searchParams
-      )
+      apiQuery(null, props.fetchAllTrips, config.EndPoints.search + searchParams, onFetchResult, 'get', searchParams)
     )
   }
 
@@ -107,26 +100,13 @@ const DashboardScreen = props => {
     <Dashboard>
       <ScrollContainer height={'55'}>
         <Header
-          title='Search Trips'
-          rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')}
-          rightAction={onSearchPress}
+          title='Search Trips' rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')} rightAction={onSearchPress}
         />
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
-        ) : (
-          <TripList
-            trips={props.trips.allTrips}
-            loading={loading}
-            paddingTop={140}
-            paddingSide
-          />
-        )}
+        ) : ( <TripList trips={props.trips.allTrips} loading={loading} paddingTop={140} paddingSide/> )}
         <div className={'dashboard__switch'}>
-          <Toggle
-            onPress={onTogglePress}
-            items={[ 'map', 'list' ]}
-            active={activeTab}
-          />
+          <Toggle onPress={onTogglePress}items={[ 'map', 'list' ]}  active={activeTab} />
         </div>
         <Fab />
         {activeTab === 'map' && (

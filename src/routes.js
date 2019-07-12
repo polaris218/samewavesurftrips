@@ -129,7 +129,7 @@ export function routes() {
 	| Search trips
 	|--------------------------------------------------------------------------
 	*/
-  router.get(`/v1/search/trips`, Trip.search)
+  router.get(`/v1/search/trips`,Trip.search)
   router.get(`/v1/search/destination`, Trip.searchDestination)
 
   /* 
