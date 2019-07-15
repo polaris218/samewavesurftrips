@@ -10,17 +10,7 @@ import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import { Tools } from 'utils'
 // import { Routes } from 'config';
-import {
-  Fab,
-  Map,
-  Toggle,
-  TripList,
-  Header,
-  MapCard,
-  ScrollContainer,
-  Search,
-  Footer
-} from 'components'
+import { Fab, Map,Toggle, TripList, Header, MapCard, ScrollContainer, Search, Footer} from 'components'
 import { Dashboard, MapTripDetail } from './styles'
 
 const DashboardScreen = props => {
@@ -30,28 +20,16 @@ const DashboardScreen = props => {
   const [ initalDisplay, setInitialDisplay ] = useState(false)
   let mounted = true
 
-  useEffect(() => {
-    return () => {
-      mounted = false
-    }
-  }, [])
+  useEffect(() => { return () => { mounted = false } }, [])
 
-  useEffect(() => {
-    fetchTrips()
-  }, [])
+  useEffect(() => { fetchTrips() }, [])
 
-  useEffect(
-    () => {
-      onMapCardPress()
-    },
-    [ props.trips.current._id ]
-  )
+  useEffect(() => { onMapCardPress() },[ props.trips.current.id ])
 
   const fetchTrips = () => {
     mounted && setLoading(true)
     mounted && setInitialDisplay(true)
     const searchParams = props.trips.filter
-
     dispatch(
       apiQuery(null, props.fetchAllTrips, config.EndPoints.search + searchParams, onFetchResult, 'get', searchParams)
     )
@@ -72,6 +50,8 @@ const DashboardScreen = props => {
   }
 
   const onSearchPress = () => {
+    if(!searchVisible){onMapCardPress()}
+    console.log("searchVisible=",searchVisible);
     mounted && setSearchVisible(!searchVisible)
   }
 
@@ -80,6 +60,8 @@ const DashboardScreen = props => {
   }
 
   const onMapCardPress = () => {
+    console.log("map mcard press 1=",JSON.stringify(props.trips.current));
+    console.log("map mcard press 22=",props.trips.current._id);
     mounted && setInitialDisplay(false)
   }
 
@@ -91,8 +73,7 @@ const DashboardScreen = props => {
   const springProps = useSpring({
     from: startSpring,
     to: initalDisplay
-      ? startSpring
-      : { opacity: 1, transform: 'translate3d(0,0,0) scale(1)' },
+      ? startSpring : { opacity: 1, transform: 'translate3d(0,0,0) scale(1)' },
     reset: true
   })
 
@@ -100,15 +81,13 @@ const DashboardScreen = props => {
     <Dashboard>
       <ScrollContainer height={'55'}>
         <Header
-          title='Search Trips' rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')} rightAction={onSearchPress}
-        />
-        {activeTab === 'map' ? (
-          <Map trips={props.trips.allTrips} />
-        ) : ( <TripList trips={props.trips.allTrips} loading={loading} paddingTop={140} paddingSide/> )}
+          title='Search Trips' rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')} rightAction={onSearchPress}/>
+        {activeTab === 'map' ? (<Map trips={props.trips.allTrips} />) :
+         (<TripList trips={props.trips.allTrips} loading={loading} paddingTop={140} paddingSide/> )}
         <div className={'dashboard__switch'}>
           <Toggle onPress={onTogglePress}items={[ 'map', 'list' ]}  active={activeTab} />
         </div>
-        <Fab />
+        <Fab/>
         {activeTab === 'map' && (
           <MapTripDetail>
             <animated.div style={springProps}>
@@ -124,14 +103,13 @@ const DashboardScreen = props => {
                 number_of_surfers={current.number_of_surfers}
                 gender={current.gender}
                 surf_modality={current.surf_modality}
-                surf_level={current.surf_level}
-              />
+                surf_level={current.surf_level}/>
             </animated.div>
           </MapTripDetail>
         )}
         <Search visible={searchVisible} onFilter={onFilterPress} />
       </ScrollContainer>
-      {activeTab === 'list' && <Footer />}
+      {activeTab === 'list' && <Footer/>}
     </Dashboard>
   )
 }

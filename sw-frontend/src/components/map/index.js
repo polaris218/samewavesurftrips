@@ -8,25 +8,30 @@ import { MapIcon } from 'components'
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl'
 import MapContainer from './styles'
 
-const Map = ReactMapboxGl({
-  accessToken: config.MapboxToken
-})
+const Map = ReactMapboxGl({ accessToken: config.MapboxToken})
 
 const MapComponent = props => {
-  const [ currentLocation, setCurrectLocation ] = useState(props.position)
-  let mounted = true
-  useEffect(() => {
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const [ currentLocation, setCurrectLocation ] = useState(props.position);
+  let mounted = true;
+  useEffect(() => { return () => { mounted = false }}, []);
 
-  useEffect(() => {
-    getCurrentLocation()
-  }, [])
+  useEffect(() => { getCurrentLocation()}, []);
+  useEffect(() => { 
+    console.log("Run loc map=");
+
+if(JSON.parse(localStorage.getItem('search_loc'))){
+  console.log("Run loc map if=");
+  setCurrectLocation([
+    JSON.parse(localStorage.getItem('search_loc')).lng,
+    JSON.parse(localStorage.getItem('search_loc')).lat
+  ])
+}
+
+  }, []);
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
+      console.log("Current Location Run=");
       navigator.geolocation.getCurrentPosition(onLocation)
     } else {
       console.warn('Geolocation is not supported by this browser.')
@@ -34,6 +39,7 @@ const MapComponent = props => {
   }
 
   const onLocation = position => {
+    console.log("map onLocation=",position);
     mounted &&
       setCurrectLocation([
         position.coords.longitude,
@@ -41,22 +47,20 @@ const MapComponent = props => {
       ])
   }
 
-  const onTripPress = trip => {
-    dispatch(
-      props.setCurrentTrip({
-        ...trip
-      })
-    )
-  }
+  const onTripPress = trip => { 
+    console.log("map onTripPress=",trip);
+    console.log("map props.trips=",props.trips);   
+
+    dispatch( props.setCurrentTrip({...trip}) )}
 
   const { current } = props.trips
   return (
     <MapContainer>
       <Map
-        // eslint-disable-next-line react/style-prop-object
+        // eslint-disable-next-line={'react/style-prop-object'}
         style={'mapbox://styles/deprogram/cjno44eaf0xb42rpdmw1y2co6'}
-        // bearing={props.banner && [230]}
-        // pitch={props.banner && [85]}
+        bearing={props.banner && [230]}
+        pitch={props.banner && [85]}
         center={currentLocation}
         // zoom={[props.zoom]}
         containerStyle={{
@@ -68,52 +72,26 @@ const MapComponent = props => {
           zoom: props.autoPosition ? 10 : props.zoom,
           speed: props.autoPosition ? 2.4 : 0
         }}>
+           {getCurrentLocation()}
         {props.banner ? (
           <div key={current._id}>
-            <Marker
-              coordinates={[ current.departing.lng, current.departing.lat ]}
-              anchor='bottom'>
-              <MapIcon
-                size='large'
-                trip={current}
-                type={'departing'}
-                onTripPress={onTripPress}
-              />
+            <Marker coordinates={[ current.departing.lng, current.departing.lat ]} anchor='bottom'>
+              <MapIcon size='large' trip={current} type={'departing'} onTripPress={onTripPress}/>
             </Marker>
-            <Marker
-              coordinates={[ current.destination.lng, current.destination.lat ]}
-              anchor='bottom'>
-              <MapIcon
-                size='large'
-                trip={current}
-                type={'destination'}
-                onTripPress={onTripPress}
-              />
+            <Marker coordinates={[ current.destination.lng, current.destination.lat ]} anchor='bottom'>
+              <MapIcon size='large' trip={current} type={'destination'} onTripPress={onTripPress} />
             </Marker>
           </div>
         ) : (
           props.trips.allTrips.map(trip => (
+            
             <div key={trip._id}>
-              <Marker
-                coordinates={[ trip.departing.lng, trip.departing.lat ]}
-                anchor='bottom'>
-                <MapIcon
-                  trip={trip}
-                  type={'departing'}
-                  onTripPress={onTripPress}
-                  active={props.trips.current._id === trip._id}
-                />
+              <Marker coordinates={[ trip.departing.lng, trip.departing.lat ]} anchor='bottom'>
+                <MapIcon trip={trip} type={'departing'}  active={true}/>
               </Marker>
-              {/* <Marker
-                coordinates={[ trip.destination.lng, trip.destination.lat ]}
-                anchor='bottom'>
-                <MapIcon
-                  trip={trip}
-                  type={'destination'}
-                  onTripPress={onTripPress}
-                  active={props.trips.current._id === trip._id}
-                />
-              </Marker> */}
+              {<Marker coordinates={[ trip.destination.lng, trip.destination.lat ]} anchor='bottom'>
+                <MapIcon trip={trip} type={'destination'}  active={true}/>
+              </Marker>}
             </div>
           ))
         )}

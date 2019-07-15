@@ -1,4 +1,4 @@
-  export const baseAPI = 'https://samewave.herokuapp.com/v1/'
+export const baseAPI = 'https://samewave.herokuapp.com/v1/'
 
 export default {
   Root: '/app/',
