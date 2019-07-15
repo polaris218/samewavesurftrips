@@ -1,5 +1,4 @@
   export const baseAPI = 'https://samewave.herokuapp.com/v1/'
-//export const baseAPI = `http://localhost:5000/v1/`
 
 export default {
   Root: '/app/',
@@ -19,6 +18,7 @@ export default {
     refresh: baseAPI + 'token',
     search: baseAPI + 'search/trips',
     messages: baseAPI + 'messages',
+    messagesupdate: baseAPI + 'messages/update',
     digitalOcean: 'https://samewave.sfo2.cdn.digitaloceanspaces.com/'
   }
 }

@@ -162,6 +162,7 @@ function routes() {
   router.post('/v1/messages', authenticate, _messages2.default.create);
   router.delete('/v1/messages/:id', authenticate, _messages2.default.delete);
   router.post('/v1/message/trip/:tripId', authenticate, _messages2.default.messageTripAttendees);
+  router.put('/v1/messages/update', authenticate, _messages2.default.update);
 
   /* 
   |--------------------------------------------------------------------------

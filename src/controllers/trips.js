@@ -177,7 +177,7 @@ exports.search = (req, res) => {
 
     let lng = req.query['lng'] || 0,
     lat = req.query['lat'] || 0,
-    radius = req.query['radius'] || 10
+    radius = req.query['radius'] || 20
 
    var query = {
     departing_loc: {
@@ -239,7 +239,7 @@ exports.searchDestination = (req, res) => {
 
   let lng = req.query.lng || 0,
     lat = req.query.lat || 0,
-    radius = req.query.radius || 10
+    radius = req.query.radius || 20
 
   var milesToRadian = function (miles) {
     var earthRadiusInMiles = 3959

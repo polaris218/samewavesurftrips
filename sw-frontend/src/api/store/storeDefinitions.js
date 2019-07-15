@@ -22,6 +22,7 @@ export default {
     IMAGE_UPLOAD: 'IMAGE_UPLOAD',
     FORGOT: 'USER_FORGOT',
     RESET:'USER_RESET',
+    MSG_UPDATE:'USER_MSG_UPDATE'
   },
   TRIP: {
     CREATE: 'TRIP_CREATE',

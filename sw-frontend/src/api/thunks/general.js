@@ -58,10 +58,8 @@ export const apiQuery = (data, action, endpoint, callback, type, params, process
   }
 }
 
-export const apiSingleQuery = (data, action, endpoint, callback, type, params, processData) => {
-  
-  return dispatch => {
-    
+export const apiSingleQuery = (data, action, endpoint, callback, type, params, processData) => {  
+  return dispatch => {    
     return runQuery(endpoint, data, type, processData, dispatch, action, callback, params).catch(async error => {
       console.log('Query Error', error)
       if (callback) callback(error)
@@ -79,6 +77,14 @@ export const apiForgotQuery = (data, action, endpoint, callback, type, params, p
   }
 }
 export const apiResetQuery = (data, action, endpoint, callback, type, params, processData) => {
+  return dispatch => {  
+    return runQuery(endpoint, data, type, processData, dispatch, action, callback, params).catch(async error => {
+      if (callback) callback(error)
+      return error.status;
+    })
+  }
+}
+export const apiMsgUpdate= (data, action, endpoint, callback, type, params, processData) => {
   return dispatch => {  
     return runQuery(endpoint, data, type, processData, dispatch, action, callback, params).catch(async error => {
       if (callback) callback(error)
