@@ -8,24 +8,24 @@ import { MapIcon } from 'components'
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl'
 import MapContainer from './styles'
 
-const Map = ReactMapboxGl({ accessToken: config.MapboxToken})
+const Map = ReactMapboxGl({ accessToken: config.MapboxToken })
 
 const MapComponent = props => {
-  const [ currentLocation, setCurrectLocation ] = useState(props.position);
+  const [currentLocation, setCurrectLocation] = useState(props.position);
   let mounted = true;
-  useEffect(() => { return () => { mounted = false }}, []);
+  useEffect(() => { return () => { mounted = false } }, []);
 
-  useEffect(() => { getCurrentLocation()}, []);
-  useEffect(() => { 
+  useEffect(() => { console.log("Run loc map="); onLocation() }, []);
+  useEffect(() => {
     console.log("Run loc map=");
 
-if(JSON.parse(localStorage.getItem('search_loc'))){
-  console.log("Run loc map if=");
-  setCurrectLocation([
-    JSON.parse(localStorage.getItem('search_loc')).lng,
-    JSON.parse(localStorage.getItem('search_loc')).lat
-  ])
-}
+    if (JSON.parse(localStorage.getItem('search_loc'))) {
+      console.log("Run loc map if=");
+      setCurrectLocation([
+        JSON.parse(localStorage.getItem('search_loc')).lng,
+        JSON.parse(localStorage.getItem('search_loc')).lat
+      ])
+    }
 
   }, []);
 
@@ -39,20 +39,31 @@ if(JSON.parse(localStorage.getItem('search_loc'))){
   }
 
   const onLocation = position => {
-    console.log("map onLocation=",position);
+    console.log("map onLocation=", position);
     mounted &&
       setCurrectLocation([
-        position.coords.longitude,
-        position.coords.latitude
+        JSON.parse(localStorage.getItem('search_loc')).lng,
+        JSON.parse(localStorage.getItem('search_loc')).lat
       ])
   }
 
-  const onTripPress = trip => { 
-    console.log("map onTripPress=",trip);
-    console.log("map props.trips=",props.trips);   
+  const onTripPress = trip => {
+    console.log("map onTripPress=", trip);
+    console.log("map props.trips=", props.trips);
 
-    dispatch( props.setCurrentTrip({...trip}) )}
+    dispatch(props.setCurrentTrip({ ...trip }))
+  }
+  // const events = {
 
+  // }
+  // Map.onMoveStart = () => {
+  //   console.log("move start")
+  // }
+    // Map.on("touchstart",'point',{start})
+
+    // const start = () => {
+    //   console.log("touch start")
+    // }
   const { current } = props.trips
   return (
     <MapContainer>
@@ -67,34 +78,45 @@ if(JSON.parse(localStorage.getItem('search_loc'))){
           height: props.banner ? '100%' : '100vh',
           width: '100vw'
         }}
+        onDragStart={
+          console.log("onDragStart")
+        }
+        onMouseDown={
+          console.log("onmousedown")
+        }
+        onMoveStart={
+          console.log("onMoveStart")
+        }
         flyToOptions={{
           center: props.autoPosition ? currentLocation : props.position,
           zoom: props.autoPosition ? 10 : props.zoom,
           speed: props.autoPosition ? 2.4 : 0
         }}>
-           {getCurrentLocation()}
+        {getCurrentLocation()}
         {props.banner ? (
           <div key={current._id}>
-            <Marker coordinates={[ current.departing.lng, current.departing.lat ]} anchor='bottom'>
-              <MapIcon size='large' trip={current} type={'departing'} onTripPress={onTripPress}/>
+            <Marker coordinates={[current.departing.lng, current.departing.lat]} anchor='bottom'>
+              <MapIcon size='large' trip={current} type={'departing'} onTripPress={onTripPress} />
             </Marker>
-            <Marker coordinates={[ current.destination.lng, current.destination.lat ]} anchor='bottom'>
+            <Marker coordinates={[current.destination.lng, current.destination.lat]} anchor='bottom'>
               <MapIcon size='large' trip={current} type={'destination'} onTripPress={onTripPress} />
             </Marker>
           </div>
         ) : (
-          props.trips.allTrips.map(trip => (
-            
-            <div key={trip._id}>
-              <Marker coordinates={[ trip.departing.lng, trip.departing.lat ]} anchor='bottom'>
-                <MapIcon trip={trip} type={'departing'}  active={true}/>
-              </Marker>
-              {<Marker coordinates={[ trip.destination.lng, trip.destination.lat ]} anchor='bottom'>
-                <MapIcon trip={trip} type={'destination'}  active={true}/>
-              </Marker>}
-            </div>
-          ))
-        )}
+            props.trips.allTrips.map(trip => (
+
+              <div key={trip._id}>
+                <Marker coordinates={[trip.departing.lng, trip.departing.lat]} anchor='bottom'>
+                  <MapIcon trip={trip} type={'departing'} onTripPress={onTripPress}
+                    active={props.trips.current._id === trip._id} />
+                </Marker>
+                {<Marker coordinates={[trip.destination.lng, trip.destination.lat]} anchor='bottom'>
+                  <MapIcon trip={trip} type={'destination'} onTripPress={onTripPress}
+                    active={props.trips.current._id === trip._id}   />
+                </Marker>}
+              </div>
+            ))
+          )}
       </Map>
     </MapContainer>
   )
@@ -109,7 +131,7 @@ MapComponent.ropTypes = {
 
 MapComponent.defaultProps = {
   banner: false,
-  position: [ 134.489563, -25.734968 ],
+  position: [134.489563, -25.734968],
   zoom: 7,
   autoPosition: true
 }
@@ -119,5 +141,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, dispatch =>
-  mapDispatchToProps(dispatch, [ tripActions ])
+  mapDispatchToProps(dispatch, [tripActions])
 )(MapComponent)
