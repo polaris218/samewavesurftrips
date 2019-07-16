@@ -47,21 +47,14 @@ exports.getAll = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.create = function (req, res) {
+  req.body.msg_read = false;
   var modelData = setDefaultValues(req);
-
   _message2.default.create(modelData).then(function (message) {
     _message2.default.updateMany({
-      "msg_read": false,
+      "subject": message.subject,
       "recipient_id": message.owner_id,
       "owner_id": message.recipient_id
-    }, {
-      $set: {
-        "msg_read": true
-      }
-    }, {
-      upsert: false,
-      multi: true
-    }, function (err, res1) {});
+    }, { $set: { "msg_read": true } }, { upsert: false, multi: true }, function (err, res1) {});
     res.json(message);
   }).catch(function (err) {
     res.status(500).send(err);
@@ -76,7 +69,6 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
   if (req.body.subject != 'undefined' && req.body.recipient_id != 'undefined' && req.body.owner_id != 'undefined' && req.body.msg_read != 'undefined') {
     _message2.default.updateMany({
-      "msg_read": false,
       "subject": req.body.subject,
       "recipient_id": _mongoose2.default.Types.ObjectId(req.body.recipient_id),
       "owner_id": _mongoose2.default.Types.ObjectId(req.body.owner_id) }, { $set: { "msg_read": true } }, { upsert: false, multi: true }).then(function (data) {
@@ -102,7 +94,6 @@ exports.messageTripAttendees = function (req, res) {
         recipient_id: _mongoose2.default.Types.ObjectId(user),
         trip_id: req.params.tripId
       });
-
       _message2.default.create(modelData);
     });
   });
