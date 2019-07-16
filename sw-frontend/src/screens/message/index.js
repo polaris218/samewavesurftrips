@@ -26,12 +26,12 @@ const MessageScreen = props => {
 
   useEffect(() => {
     getMessages();
-    if(message && message.msg_read===false){
+    if(message){
       const msgupdate = {
         owner_id: message.owner_id,
         recipient_id: message.recipient_id,
         subject: message.subject,
-        msg_read:message.msg_read,
+        msg_read:message.msg_read || false,
       }
       dispatch(apiMsgUpdate( msgupdate, props.msgupdate, config.EndPoints.messagesupdate, onmsgupdateResult,'put'))
     }
