@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { Routes } from 'config'
+import ReactGA from 'react-ga'
+import { Routes, General as Config } from 'config'
 import { App } from './styles'
 
 const AppComponent = props => {
+  useEffect(() => {
+    // Setup Google Tracking
+    ReactGA.initialize(Config.GA_ID)
+  }, [])
+
   useEffect(
     () => {
       // If not logged in, reset the route

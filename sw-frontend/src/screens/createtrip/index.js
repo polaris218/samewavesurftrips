@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import { Spring } from 'react-spring/renderprops'
-
+import ReactGA from 'react-ga'
 import { tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
@@ -86,7 +86,6 @@ const CreateTripScreen = props => {
       attendees: [ props.user.id ]
     }
 
-
     //Validate from .....
     const valid = validateForm(data)
     if (valid) {
@@ -167,6 +166,11 @@ const CreateTripScreen = props => {
 
   const onCompleteButton = () => {
     props.history.push('/' + Routes.SURFTRIPS)
+    ReactGA.event({
+      category: 'Trip',
+      action: 'User created a surftrip',
+      label: state.title
+    })
   }
 
   const onNextPress = () => {
@@ -335,7 +339,11 @@ const CreateTripScreen = props => {
                     {step === 4 ? (
                       <ButtonRow>
                         <Button outline onPress={onBackPress} title='PREV' />
-                        <Button primary onPress={onCreatePress} title='CREATE' />
+                        <Button
+                          primary
+                          onPress={onCreatePress}
+                          title='CREATE'
+                        />
                       </ButtonRow>
                     ) : (
                       <ButtonRow>

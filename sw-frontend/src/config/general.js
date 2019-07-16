@@ -6,6 +6,7 @@ export default {
   MapboxToken:
     'pk.eyJ1IjoiZGVwcm9ncmFtIiwiYSI6ImNqMmJiZnVsbzAwdjYzM284NWhwMWlmZmcifQ.1zrQ2Kozur-dRTtSOKjyvA',
   APITimeout: 7000,
+  GA_ID: 'UA-143449129-2',
   EndPoints: {
     auth: baseAPI + 'auth',
     avatar: baseAPI + 'user/avatar',

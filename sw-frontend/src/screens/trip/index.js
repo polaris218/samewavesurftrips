@@ -3,13 +3,32 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import ReactGA from 'react-ga'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Colors } from 'config'
-import { Avatar, Button, Card, Container, Header, MastHead, Map, ScrollContainer, FootItem, Modal} from 'components'
+import {
+  Avatar,
+  Button,
+  Card,
+  Container,
+  Header,
+  MastHead,
+  Map,
+  ScrollContainer,
+  FootItem,
+  Modal
+} from 'components'
 import { Tools, PickIcon } from 'utils'
-import {Attendees,Trip,ContentContainer,Center,Stats,Stat} from './styles'
+import {
+  Attendees,
+  Trip,
+  ContentContainer,
+  Center,
+  Stats,
+  Stat
+} from './styles'
 
 const TripScreen = props => {
   const [ state, setState ] = useState({
@@ -47,8 +66,15 @@ const TripScreen = props => {
       params: { id: props.trips.current.id },
       user: { _id: props.user.id }
     }
-    let action = 'join';
-    if (!join) action = 'leave';
+    let action = 'join'
+    if (!join) action = 'leave'
+
+    // Record Activity in GA
+    ReactGA.event({
+      category: 'Trip',
+      action: `User ${join ? 'joined' : 'left'} a surftrip`,
+      label: `${props.trips.current.id}`
+    })
 
     setState({
       ...state,
@@ -56,14 +82,29 @@ const TripScreen = props => {
       joined: join
     })
 
-    dispatch(apiQuery(data,props.joinTrip,config.EndPoints.trip + `/${props.trips.current.id}/${action}`,onTripResult,'get'))
+    dispatch(
+      apiQuery(
+        data,
+        props.joinTrip,
+        config.EndPoints.trip + `/${props.trips.current.id}/${action}`,
+        onTripResult,
+        'get'
+      )
+    )
     setModalVisible(false)
   }
 
   const fetchOwnerDetails = () => {
     setLoading(true)
     dispatch(
-      apiQuery(null,props.surferDetails,config.EndPoints.user + `/${props.trips.current.owner_id}`,onOwnerResult,'get'))
+      apiQuery(
+        null,
+        props.surferDetails,
+        config.EndPoints.user + `/${props.trips.current.owner_id}`,
+        onOwnerResult,
+        'get'
+      )
+    )
   }
 
   const onOwnerResult = res => {
@@ -96,25 +137,42 @@ const TripScreen = props => {
   }
 
   const visitProfile = () => {
-    console.log("push profile");
+    console.log('push profile')
     props.history.push(`/${Routes.USER}/${trip.owner_id}`)
   }
 
   const joinButton = () =>
     new Date(trip.date_times.return_date_time) > new Date() && (
       <div className={'trip__join'}>
-        {!state.joined ? ( <Button onPress={() => setModalVisible(true)} title='JOIN THIS SURF TRIP'/>) : (
-          <Button onPress={() => setModalVisible(true)} title='LEAVE THE TRIP' color={Colors.RED_BASE} hoverColor={Colors.RED_DARK}/>
+        {!state.joined ? (
+          <Button
+            onPress={() => setModalVisible(true)}
+            title='JOIN THIS SURF TRIP'
+          />
+        ) : (
+          <Button
+            onPress={() => setModalVisible(true)}
+            title='LEAVE THE TRIP'
+            color={Colors.RED_BASE}
+            hoverColor={Colors.RED_DARK}
+          />
         )}
       </div>
     )
 
   const getAttendeeProfiles = () => {
     trip.attendees.forEach(attendee => {
-      dispatch(apiQuery(null,props.attendeeDetail, config.EndPoints.user + `/${attendee}`,onAttendeeResult,'GET'))
+      dispatch(
+        apiQuery(
+          null,
+          props.attendeeDetail,
+          config.EndPoints.user + `/${attendee}`,
+          onAttendeeResult,
+          'GET'
+        )
+      )
     })
   }
-
 
   const onAttendeeResult = res => {
     if (res.status !== 200) {
@@ -140,15 +198,26 @@ const TripScreen = props => {
   }
 
   const trip = props.trips.current
-  console.log('WHO WE GOT? ', attendeeProfiles)
 
   return (
     <Trip>
       <ScrollContainer navbar={false}>
-        <Header backButton homeButton={false} nav={false} rightIcon={trip.owner_id === props.user.id ? tripOwner() : null} rightAction={onEditPress}/>
+        <Header
+          backButton
+          homeButton={false}
+          nav={false}
+          rightIcon={trip.owner_id === props.user.id ? tripOwner() : null}
+          rightAction={onEditPress}
+        />
         <ContentContainer>
           <MastHead>
-            <Map autoPosition={false} banner position={[ trip.destination.lng, trip.destination.lat ]} zoom={15} showMapCard={false}/>
+            <Map
+              autoPosition={false}
+              banner
+              position={[ trip.destination.lng, trip.destination.lat ]}
+              zoom={15}
+              showMapCard={false}
+            />
           </MastHead>
           <Center>
             <Container>
@@ -227,7 +296,10 @@ const TripScreen = props => {
                             recommended surf level:
                           </div> */}
                           <div className='trip__level-value'>
-                            <img src={PickIcon(trip.surf_level)} alt={trip.surf_level} />
+                            <img
+                              src={PickIcon(trip.surf_level)}
+                              alt={trip.surf_level}
+                            />
                             <span>{trip.surf_level}</span>
                           </div>
                         </div>
@@ -236,7 +308,10 @@ const TripScreen = props => {
                       <div className={'trip__level'}>
                         <div>
                           <div className='trip__level-value'>
-                            <img src={PickIcon(trip.surf_modality)} alt={trip.surf_modality} />
+                            <img
+                              src={PickIcon(trip.surf_modality)}
+                              alt={trip.surf_modality}
+                            />
                             <span>{trip.surf_modality}</span>
                           </div>
                         </div>
