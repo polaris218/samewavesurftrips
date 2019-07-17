@@ -1,7 +1,27 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring'
 import { Colors, Spacings } from 'config'
 
-export const Login = styled.div`
+export const LoginLogo = styled(animated.div)`
+  margin: -${Spacings.LARGE}px 0 ${Spacings.MEDIUM}px;
+  width: 80px;
+  height: 75px;
+  opacity: 0;
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    margin: ${Spacings.MEDIUM}px 0 0;
+    width: 130px;
+    height: 150px;
+  }
+`
+
+export const FormContent = styled(animated.div)`
+  opacity: 0;
+  width: 100%;
+  max-width: 340px;
+`
+
+export const Login = styled(animated.div)`
   width: 100%;
   min-height: 700px;
   padding: ${Spacings.MEDIUM}px 0px;
@@ -24,18 +44,6 @@ export const Login = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-  }
-
-  .login__logo {
-    margin: ${Spacings.SMALL}px 0 ${Spacings.SMALL}px;
-    width: 80px;
-    height: 75px;
-
-    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
-      margin: ${Spacings.MEDIUM}px 0 0;
-      width: 130px;
-      height: 150px;
-    }
   }
 
   .login__fb {

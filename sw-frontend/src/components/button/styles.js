@@ -34,7 +34,6 @@ export const Button = styled.button`
         : props.outline
           ? 'none'
           : props.hoverColor ? props.hoverColor : Colors.ORANGE_DARK};
-    color: blue;
     p {
       color: ${props => (props.outline ? Colors.GREY_LIGHT : Colors.WHITE)};
     }
