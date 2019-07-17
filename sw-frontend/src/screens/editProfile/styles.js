@@ -29,6 +29,15 @@ export const Profile = styled.div`
       width: ${Spacings.MEDIUM}px;
     }
   }
+  .profile__button_complete {
+    margin: ${Spacings.LARGE}px 0 ${Spacings.LARGE}px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .__block {
+      width: ${Spacings.MEDIUM}px;
+    }
+  }
   .profile__success {
     display: flex;
     align-items: center;

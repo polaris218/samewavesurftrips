@@ -5,7 +5,8 @@ export const Onboard = styled.div`
   width: 100%;
   min-height: 850px;
   padding: ${Spacings.MEDIUM}px 0px;
-  background-color: ${Colors.BLUE_DARK};
+  background: ${Colors.BLUE_BASE};
+  background: linear-gradient(to right, #0072ff, #16b2ce);
   display: flex;
 
   a,
@@ -18,9 +19,15 @@ export const Onboard = styled.div`
     color: ${Colors.GREY_LIGHT};
   }
   .onboard__logo {
-    margin: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
-    width: 100px;
-    height: 120px;
+    margin: 0 0 ${Spacings.LARGE}px;
+    width: 80px;
+    height: 75px;
+
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      margin: ${Spacings.MEDIUM}px 0 0;
+      width: 130px;
+      height: 150px;
+    }
   }
 
   .onboard__account {
@@ -40,7 +47,7 @@ export const Onboard = styled.div`
   }
   .onboard__form {
     width: 100%;
-    max-width: 500px;
+    max-width: 340px;
     min-height: 630px;
     align-items: center;
     justify-content: center;
@@ -49,7 +56,7 @@ export const Onboard = styled.div`
   }
   .onboard__error {
     margin-top: ${Spacings.MEDIUM}px;
-    color: ${Colors.RED};
+    color: ${Colors.BLACK};
     font-size: ${Spacings.FONT.LABEL};
   }
   .onboard_success {

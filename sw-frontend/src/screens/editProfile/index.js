@@ -468,7 +468,7 @@ const EditProfileScreen = props => {
                       <div className='profile__complete'>
                         Your profile has been updated.{' '}
                       </div>
-                      <div className={'profile__button'}>
+                      <div className={'profile__button_complete'}>
                         <Button
                           onPress={onCompleteButton}
                           title='VIEW MY PROFILE'

@@ -5,7 +5,8 @@ export const Login = styled.div`
   width: 100%;
   min-height: 700px;
   padding: ${Spacings.MEDIUM}px 0px;
-  background-color: ${Colors.BLUE_BASE};
+  background: ${Colors.BLUE_BASE};
+  background: linear-gradient(to right, #0072ff, #16b2ce);
   display: flex;
   a,
   a:visited,
@@ -26,11 +27,12 @@ export const Login = styled.div`
   }
 
   .login__logo {
-    margin: ${Spacings.MEDIUM}px 0 0;
-    width: 65px;
+    margin: ${Spacings.SMALL}px 0 ${Spacings.SMALL}px;
+    width: 80px;
     height: 75px;
 
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      margin: ${Spacings.MEDIUM}px 0 0;
       width: 130px;
       height: 150px;
     }
@@ -39,6 +41,9 @@ export const Login = styled.div`
   .login__fb {
     margin-top: ${Spacings.MEDIUM}px;
     width: 100%;
+    button {
+      border-radius: ${Spacings.LARGE}px;
+    }
   }
 
   .login__forgotpw {
@@ -57,8 +62,8 @@ export const Login = styled.div`
   .login__register {
     border-top: 1px solid ${Colors.GREY_LIGHT};
     width: 100%;
-    max-width: 500px;
-    margin-top: ${Spacings.LARGE}px;
+    max-width: 400px;
+    margin-top: ${Spacings.MEDIUM}px;
     font-size: ${Spacings.FONT.BODY};
     color: ${Colors.WHITE};
     text-align: center;
@@ -66,7 +71,7 @@ export const Login = styled.div`
 
   .login__form {
     width: 100%;
-    max-width: 500px;
+    max-width: 340px;
     min-height: 350px;
     align-items: center;
     justify-content: center;
@@ -76,7 +81,7 @@ export const Login = styled.div`
 
   .login__error {
     margin-top: ${Spacings.MEDIUM}px;
-    color: ${Colors.RED};
+    color: ${Colors.BLACK};
     font-size: ${Spacings.FONT.BODY};
   }
 

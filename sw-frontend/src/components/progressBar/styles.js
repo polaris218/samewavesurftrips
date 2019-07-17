@@ -10,7 +10,7 @@ export const ProgressBar = styled.div`
   overflow: hidden;
 `
 export const Bar = styled.div`
-  background-color: ${Colors.BLUE_BASE};
+  background-color: ${Colors.ORANGE_BASE};
   width: 100%;
   height: 100%;
   left: -100%;

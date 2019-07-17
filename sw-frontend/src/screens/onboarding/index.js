@@ -166,7 +166,7 @@ const OnboardingScreen = props => {
 
   return (
     <Onboard>
-      <BackgroundImage blur={0} opacity={0.3} />
+      {/* <BackgroundImage blur={0} opacity={0.3} /> */}
       <Container>
         <div className={'onboard__logo'}>
           <Logo color='white' icon />

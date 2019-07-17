@@ -11,10 +11,11 @@ export const MenuItem = styled.button`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    background: ${props => props.color};
+    background: transparent; /* ${props => props.color}; */
+    
     text-align: left;
     :hover {
-        background: ${props => props.hoverColor};
+        background: rgba(255,255,255,0.5);
         p {
             color: ${Colors.WHITE};
         }
@@ -22,7 +23,7 @@ export const MenuItem = styled.button`
 
     p {
         font-size: ${Spacings.FONT.LABEL};
-        font-weight: 400;
+        font-weight: 700;
         font-family: 'Ubuntu', sans-serif;
         color: ${props => (props.outline ? Colors.BLUE_BASE : Colors.WHITE)};
     }
@@ -30,7 +31,7 @@ export const MenuItem = styled.button`
     .menuitem__icon {
         width: 20px;
         height: 20px;
-        margin: 0px 6px 0 0px;
+        margin: 4px 6px 0 0px;
         svg {
             fill: ${Colors.WHITE};
         }

@@ -177,7 +177,7 @@ const MailScreen = props => {
               })
             ) : (
               <Empty>
-                {Tools.renderIcon('face_quite')}
+                {Tools.renderIcon('face_sad')}
                 <div>
                   <strong>OHHHH!</strong>
                   <br />Things are quite at the moment in here.
@@ -188,7 +188,7 @@ const MailScreen = props => {
           </Container>
         </ContentContainer>
       </ScrollContainer>
-      <Fab action='message' />
+      {/* <Fab action='message' /> */}
       <FootContainer>
         <Footer />
       </FootContainer>

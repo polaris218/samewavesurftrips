@@ -107,11 +107,12 @@ export const Step = styled.div`
   min-height: 350px;
 `
 export const Steps = styled.div`
-  color: ${Colors.GREY_BASE};
+  color: ${Colors.WHITE};
   padding: ${Spacings.MEDIUM}px;
   margin-bottom: ${Spacings.MEDIUM}px;
   span {
     font-size: ${Spacings.FONT.TINY};
+    font-weight: 700;
     text-align: right;
     width: 100%;
     padding-top: 4px;

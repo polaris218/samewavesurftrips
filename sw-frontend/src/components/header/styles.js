@@ -13,7 +13,7 @@ export const Header = styled.header`
   align-items: center;
   justify-content: center;
   color: white;
-  border-bottom: 1px solid ${Colors.GREY_LIGHT};
+  /* border-bottom: 1px solid ${Colors.GREY_LIGHT}; */
   background-color: ${Colors.BLUE_BASE};
   box-shadow: 0 2px 2px 0px #33333312;
 
