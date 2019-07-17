@@ -148,7 +148,7 @@ const TripScreen = props => {
         <Header backButton homeButton={false} nav={false} rightIcon={trip.owner_id === props.user.id ? tripOwner() : null} rightAction={onEditPress}/>
         <ContentContainer>
           <MastHead>
-            <Map autoPosition={true} banner position={[ trip.destination.lng, trip.destination.lat ]} zoom={15} showMapCard={false}/>
+            <Map autoPosition={true} banner position={[ props.trips.search.lng, props.trips.search.lng ]} zoom={15} showMapCard={false}/>
           </MastHead>
           <Center>
             <Container>

@@ -49,7 +49,15 @@ const SearchComponent = props => {
   const onFilterPress = () => {
 
     let searchParams = ''
-
+    let params ={
+      dateDeparture:dateDeparture?dateDeparture.toString():'',
+      dateReturn:dateReturn?dateReturn.toString():'',
+      lng:locationReturn.lng||'',
+      lat:locationReturn.lat||'',
+      gender:selectGender||'',
+      modality:selectModality||'',
+      Level:selectLevel||'',
+    }
     if (dateDeparture) {
       searchParams += `&departure_date_time=${dateDeparture}`;
     }
@@ -65,6 +73,8 @@ const SearchComponent = props => {
 
     searchParams = `?${searchParams}`
     setLoading(true)
+    // debugger
+    dispatch(props.searchDetails({ ...params }))    
     dispatch(
       apiQuery(null, props.filterTrips, config.EndPoints.search + searchParams, onFilterhResult,'get',searchParams)
     )

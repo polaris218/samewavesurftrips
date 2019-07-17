@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { tripActions, mapDispatchToProps } from 'api/actions'
+import { userActions,tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { General as config } from 'config'
 import { MapIcon } from 'components'
+import { apiQuery} from 'api/thunks/general'
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl'
 import MapContainer from './styles'
 
 const Map = ReactMapboxGl({ accessToken: config.MapboxToken })
-
 const MapComponent = props => {
+const [loaded,setLoaded] = useState(false);
   const [currentLocation, setCurrectLocation] = useState(props.position);
   let mounted = true;
   useEffect(() => { return () => { mounted = false } }, []);
@@ -32,6 +33,7 @@ const MapComponent = props => {
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       console.log("Current Location Run=");
+      if(!loaded) return
       navigator.geolocation.getCurrentPosition(onLocation)
     } else {
       console.warn('Geolocation is not supported by this browser.')
@@ -47,7 +49,7 @@ const MapComponent = props => {
       ])
   }
 
-  const onTripPress = trip => {
+  const onTripPress = trip => { 
     console.log("map onTripPress=", trip);
     console.log("map props.trips=", props.trips);
 
@@ -59,15 +61,24 @@ const MapComponent = props => {
   // Map.onMoveStart = () => {
   //   console.log("move start")
   // }
-    // Map.on("touchstart",'point',{start})
+  // Map.on("touchstart",'point',{start})
 
-    // const start = () => {
-    //   console.log("touch start")
-    // }
+  // const start = () => {
+  //   console.log("touch start")
+  // }
+  const onFilterhResult = error => {
+    if (error.status !== 200) {
+      console.log('what error', error)
+    }
+    // setLoading(false)
+    props.onFilter()
+  }
   const { current } = props.trips
   return (
     <MapContainer>
       <Map
+      // transitionDuration={1000}
+      // transitionInterpolator={new FlyToInterpolator()}
         // eslint-disable-next-line={'react/style-prop-object'}
         style={'mapbox://styles/deprogram/cjno44eaf0xb42rpdmw1y2co6'}
         bearing={props.banner && [230]}
@@ -78,20 +89,56 @@ const MapComponent = props => {
           height: props.banner ? '100%' : '100vh',
           width: '100vw'
         }}
-        onDragStart={
-          console.log("onDragStart")
-        }
-        onMouseDown={
-          console.log("onmousedown")
-        }
-        onMoveStart={
-          console.log("onMoveStart")
-        }
-        flyToOptions={{
-          center: props.autoPosition ? currentLocation : props.position,
-          zoom: props.autoPosition ? 10 : props.zoom,
-          speed: props.autoPosition ? 2.4 : 0
-        }}>
+        // onMoveStart={data => {
+        //   console.log("move start:", data);
+        // }
+        // onStyleLoad={map=>{
+        //   console.log(map);
+        // }}
+        // }
+        onStyleLoad={Map=>{
+          setLoaded(true);
+          // console.log("map is:::::",Map);
+          Map.flyTo({
+            center: props.autoPosition ? currentLocation: props.position   ,
+            zoom: props.autoPosition ? 15 : props.zoom,
+            speed: props.autoPosition ? 1.4 : 0
+          })
+        }}
+        // flyToOptions={{
+        //   center: props.autoPosition ? currentLocation : props.position,
+        //   zoom: props.autoPosition ? 10 : props.zoom,
+        //   speed: props.autoPosition ? 1.4 : 0
+        // }}
+        onMoveEnd={data => {
+
+          console.log('MAP JUST MOVED YO!, ', data)
+          console.log("props ar::::",props)
+          let searchParams = ''
+          if (props.trips.search.dateDeparture!='') {
+            searchParams += `&departure_date_time=${props.trips.search.dateDeparture}`;
+          }
+          if (props.trips.search.dateReturn!='') {
+            searchParams += `&return_date_time=${props.trips.search.dateReturn}`;
+          }
+          // if (props.trips.search.lat!='')
+          //   searchParams += `&lng=${props.trips.search.lng}&lat=${props.trips.search.lat}`
+          if (props.trips.search.gender!='') searchParams += `&gender=${props.trips.search.gender}`
+          if (props.trips.search.modality!='')
+            searchParams += `&surf_modality=${props.trips.search.modality}`
+          if (props.trips.search.Level!='') searchParams += `&surf_level=${props.trips.search.Level}`
+      
+          searchParams = `?${searchParams}`
+          // setLoading(true)
+          // debugger
+          // dispatch(props.searchDetails({ ...params })) 
+          // debugger   
+          dispatch(
+            apiQuery(null, props.filterTrips, config.EndPoints.search + searchParams, onFilterhResult,'get',searchParams)
+          )
+          // debugger
+        }}
+      >
         {getCurrentLocation()}
         {props.banner ? (
           <div key={current._id}>
@@ -112,7 +159,7 @@ const MapComponent = props => {
                 </Marker>
                 {<Marker coordinates={[trip.destination.lng, trip.destination.lat]} anchor='bottom'>
                   <MapIcon trip={trip} type={'destination'} onTripPress={onTripPress}
-                    active={props.trips.current._id === trip._id}   />
+                    active={props.trips.current._id === trip._id} />
                 </Marker>}
               </div>
             ))
@@ -122,24 +169,27 @@ const MapComponent = props => {
   )
 }
 
-MapComponent.ropTypes = {
+MapComponent.propTypes = {
   autoPosition: PropTypes.bool,
   banner: PropTypes.bool,
   position: PropTypes.array,
-  zoom: PropTypes.number
+  zoom: PropTypes.number,
+  onFilter: PropTypes.func
 }
 
 MapComponent.defaultProps = {
   banner: false,
   position: [134.489563, -25.734968],
   zoom: 7,
-  autoPosition: true
+  autoPosition: true,
+  onFilter: () => {}
 }
 
 const mapStateToProps = state => ({
+  user: state.user,
   trips: state.trips
 })
 
 export default connect(mapStateToProps, dispatch =>
-  mapDispatchToProps(dispatch, [tripActions])
+  mapDispatchToProps(dispatch, [userActions,tripActions])
 )(MapComponent)

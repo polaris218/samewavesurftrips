@@ -44,6 +44,12 @@ export function tripActions (dispatch) {
         payload: attendee
       }
     },
+    searchDetails: filter => {
+      return {
+        type: StoreDefinitions.TRIP.FILTER_QUERY,
+        payload: filter
+      }
+    },
     filterTrips: (data, query) => {
       return {
         type: StoreDefinitions.TRIP.FILTER,

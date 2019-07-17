@@ -37,3 +37,12 @@ export const Padd = styled.div`
   padding: 0 ${Spacings.MEDIUM}px;
   height: 100vh;
 `
+export const ButtonContainer = styled.div`
+margin: ${Spacings.MEDIUM}px 0;
+padding: 0px 138px 0px 0px;
+display: flex;
+flex-direction: row;
+button {
+    margin: 0 0px;
+}
+`

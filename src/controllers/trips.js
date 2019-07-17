@@ -174,27 +174,33 @@ exports.leave = (req, res) => {
 exports.search = (req, res) => {
   const skip = parseInt(req.query.skip) || 0
   var query = {}
+  console.log("lat",req.query.lat);
+if(req.query.lat){
+  let lng = req.query['lng'] || 0,
+  lat = req.query['lat'] || 0,
+  radius = req.query['radius'] || 20
 
-    let lng = req.query['lng'] || 0,
-    lat = req.query['lat'] || 0,
-    radius = req.query['radius'] || 20
-
-   var query = {
-    departing_loc: {
-      $geoWithin: {
-        $centerSphere: [
-          [lng, lat],radius / 3963.2
-        ]
-      }
+ var query = {
+  departing_loc: {
+    $geoWithin: {
+      $centerSphere: [
+        [lng, lat],radius / 3963.2
+      ]
     }
-    }  
+  }
+  }
+}
+  
 
+    console.log("query==",query)
+    var lteDate1=new Date(req.query['departure_date_time'])
+    lteDate1.setDate(lteDate1.getDate() + 1);
   // search departure_date_time ---
-  req.query['departure_date_time'] != undefined ?
-    (query['date_times.departure_date_time'] = {"$gte": new Date(req.query['departure_date_time'])}) : undefined;
+  req.query['departure_date_time'] != undefined ||'' ?
+    (query['date_times.departure_date_time'] = {"$gte": new Date(req.query['departure_date_time']),"$lte": lteDate1}) : undefined;
 
   //search return_date_time ---
-  req.query['return_date_time'] != undefined ?
+  req.query['return_date_time'] != undefined||'' ?
     (query['date_times.return_date_time'] = {"$lte": new Date(req.query['return_date_time'])}) : undefined;
 
   //search title ---
@@ -218,7 +224,7 @@ exports.search = (req, res) => {
   //search max no. surfers ---
   req.query['number_of_surfers'] != undefined ?
     (query['number_of_surfers'] = {  $lte: req.query['number_of_surfers']}) : undefined;
-
+console.log("final query ",query);
   Trip.find(query).skip(skip).limit(50).then(trips => {
       res.json(trips)
     })
