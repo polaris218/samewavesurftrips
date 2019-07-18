@@ -15,10 +15,8 @@ const ListItemComponent = props => {
   }, [])
 
   useEffect(() => {
-    const user = props.message.owner_id
-      ? props.getUser(props.message.owner_id)
-      : null
-    user.then(item => {
+	 const user = props.message.owner_id? props.getUser(props.message.owner_id) : null;
+    user.then(item => { 
       mounted && setOwner(item)
     })
   }, [])
@@ -28,10 +26,7 @@ const ListItemComponent = props => {
       ev.preventDefault()
       props.onClick()
     }
-    props.history.push(`/${Routes.MESSAGE}/${props.id}`, {
-      ...props.message,
-      owner
-    })
+    props.history.push(`/${Routes.MESSAGE}/${props.id}`, {...props.message, owner })
   }
 
   const userAvatar = () => {
@@ -40,7 +35,6 @@ const ListItemComponent = props => {
       if (owner.avatar.includes('https://')) return owner.avatar
       image = config.EndPoints.digitalOcean + owner.avatar
     }
-
     return image
   }
 
@@ -48,12 +42,10 @@ const ListItemComponent = props => {
     <ListItem onClick={onClick}>
       <From>
         <Avatar image={userAvatar()} />
-        {`${owner.first_name ? owner.first_name : ''} ${owner.last_name
-          ? owner.last_name
-          : ''}`}
+        {`${owner.first_name ? owner.first_name : ''} ${owner.last_name? owner.last_name : ''}`}
       </From>
       <Title>{props.title}</Title>
-      <New>New</New>
+      {props.message.msg_read?'':(<New>NEW</New>)}
     </ListItem>
   )
 }

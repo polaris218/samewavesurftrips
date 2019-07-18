@@ -49,7 +49,15 @@ const SearchComponent = props => {
   const onFilterPress = () => {
 
     let searchParams = ''
-
+    let params ={
+      dateDeparture:dateDeparture?dateDeparture.toString():'',
+      dateReturn:dateReturn?dateReturn.toString():'',
+      lng:locationReturn.lng||'',
+      lat:locationReturn.lat||'',
+      gender:selectGender||'',
+      modality:selectModality||'',
+      Level:selectLevel||'',
+    }
     if (dateDeparture) {
       searchParams += `&departure_date_time=${dateDeparture}`;
     }
@@ -65,6 +73,8 @@ const SearchComponent = props => {
 
     searchParams = `?${searchParams}`
     setLoading(true)
+    // debugger
+    dispatch(props.searchDetails({ ...params }))    
     dispatch(
       apiQuery(null, props.filterTrips, config.EndPoints.search + searchParams, onFilterhResult,'get',searchParams)
     )
@@ -151,14 +161,14 @@ const SearchComponent = props => {
         <DatePicker selected = {dateReturn }onChange = { date => handleDateChange(date, 'destination')}/>
       </DateInput>
     <Label> Prefered gender </Label>
-      <Select items = {['Any', ...Types.gender] }fieldName = {'gender' } placeholder = {'Gender'} onChange = {onSelectChange} />
+      <Select items = {['Any', ...Types.gender] } fieldName={'gender' } placeholder={'Gender'} onChange={onSelectChange} />
     <Label> Board type </Label>
-      <Select items = { ['Any', ...Types.modality]}fieldName = {'modality'} placeholder = {'Surf Modality' } onChange = { onSelectChange}/>
+      <Select items = { ['Any', ...Types.modality]}fieldName={'modality'} placeholder={'Surf Modality'} onChange={ onSelectChange}/>
     <Label> Skill level </Label>
-      <Select items = {['Any', ...Types.surfLevel]} fieldName = {'level'} placeholder = {'Surf Level'} onChange = { onSelectChange } />
+      <Select items = {['Any', ...Types.surfLevel]} fieldName={'level'} placeholder={'Surf Level'} onChange={ onSelectChange } />
     <FilterButton>
-      <Button title = {'CLEAR' } onPress = { onClearPress } color = {Colors.RED_BASE} hoverColor = {Colors.RED_DARK} />
-      <Button primary title = {'FILTER' }onPress = {onFilterPress}/>
+      <Button title = {'CLEAR'} onPress={onClearPress } color={Colors.RED_BASE} hoverColor={Colors.RED_DARK} />
+      <Button primary title={'FILTER'} onPress={onFilterPress}/>
     </FilterButton>
     </div> 
     </Container> 

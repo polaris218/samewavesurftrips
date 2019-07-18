@@ -49,6 +49,8 @@ const MapComponent = props => {
     )
   }
 
+  console.log('currentLocation___ ', currentLocation)
+
   const { current } = props.trips
   return (
     <MapContainer>

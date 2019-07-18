@@ -60,7 +60,8 @@ export default function tripReducer (
     case StoreDefinitions.TRIP.FILTER_QUERY:
       state = {
         ...state,
-        filter: action.payload
+        filter: action.payload,
+        search: action.payload
       }
       break
     case StoreDefinitions.TRIP.FETCH_OWN:
@@ -104,6 +105,12 @@ export default function tripReducer (
         current: action.payload
       }
       break
+      case StoreDefinitions.TRIP.SEARCH_PARAM:
+        state = {
+          ...state,
+          filter: action.payload
+        }
+        break
     case StoreDefinitions.TRIP.JOIN:
       state = {
         ...state,

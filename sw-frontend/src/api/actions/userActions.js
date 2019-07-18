@@ -66,6 +66,12 @@ export function userActions (dispatch) {
         payload: msg
       }
     },
+    msgupdate: data => {
+      return {
+        type: StoreDefinitions.USER.USER_MSG_UPDATE,
+        payload: data
+      }
+    },
     avatarUpload: data => {
       return {
         type: StoreDefinitions.USER.AVATAR,

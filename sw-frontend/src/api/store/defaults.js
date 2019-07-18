@@ -54,6 +54,7 @@ export default {
     current: TRIP,
     allTrips: [],
     yourTrips: [],
-    filter: '?'
+    filter: '?',
+    search:''
   }
 }

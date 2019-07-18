@@ -8,6 +8,7 @@ export {
 }
 
 export function mapDispatchToProps(dispatch, actions) {
+
     let result = {}; //generalActions(dispatch);
     if (actions instanceof Array) {
         actions.forEach(element => {

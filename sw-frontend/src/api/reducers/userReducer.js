@@ -88,6 +88,7 @@ export default function userReducer (
         token: action.payload.token
       }
       break
+   
     case StoreDefinitions.USER.DETAILS:
       state = {
         ...state,

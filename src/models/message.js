@@ -32,6 +32,10 @@ const MessageSchema = new Schema({
   trip_id: {
     type: String,
     required: false
+  },
+  msg_read: {
+    type: Boolean,
+    default:false,
   }
 })
 

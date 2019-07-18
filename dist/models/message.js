@@ -51,6 +51,10 @@ var MessageSchema = new _mongoose.Schema({
   trip_id: {
     type: String,
     required: false
+  },
+  msg_read: {
+    type: Boolean,
+    default: false
   }
 });
 
