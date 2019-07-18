@@ -54,7 +54,7 @@ const MapComponent = props => {
     <MapContainer>
       <Map
         // eslint-disable-next-line react/style-prop-object
-        style={'mapbox://styles/deprogram/cjno44eaf0xb42rpdmw1y2co6'}
+        style={'mapbox://styles/deprogram/cjraahsal0q442spjtew995hf'}
         // bearing={props.banner && [230]}
         // pitch={props.banner && [85]}
         center={currentLocation}
