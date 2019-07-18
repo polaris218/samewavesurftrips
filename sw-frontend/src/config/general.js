@@ -20,6 +20,6 @@ export default {
     refresh: baseAPI + 'token',
     search: baseAPI + 'search/trips',
     messages: baseAPI + 'messages',
-    digitalOcean: 'https://samewave.sfo2.cdn.digitaloceanspaces.com/'
+    digitalOcean: 'https://samewave.sfo2.digitaloceanspaces.com/'
   }
 }
