@@ -1,5 +1,5 @@
-//export const baseAPI = 'https://samewave.herokuapp.com/v1/'
-export const baseAPI = 'http://localhost:5000/v1/'
+export const baseAPI = 'https://samewave.herokuapp.com/v1/'
+// export const baseAPI = 'http://localhost:5000/v1/'
 export default {
   Root: '/app/',
   MapboxToken:
