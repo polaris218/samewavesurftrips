@@ -4,7 +4,7 @@ import { Colors, Spacings } from 'config'
 export const Button = styled.button`
   padding: ${Spacings.SMALL}px ${Spacings.MEDIUM}px;
   border: 0px;
-  border-radius: ${Spacings.LARGE}px;
+  border-radius: 5px;
   border: ${props => (props.outline ? `2px solid ${Colors.WHITE}` : `none`)};
   background: ${props =>
     props.primary

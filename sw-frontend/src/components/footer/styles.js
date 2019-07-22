@@ -12,7 +12,7 @@ export const Footer = styled.footer`
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: ${Colors.GREY_LIGHT};
+  background: ${Colors.GREY_MID};
   p {
     font-size: ${Spacings.FONT.SMALL};
     line-height: 20px;

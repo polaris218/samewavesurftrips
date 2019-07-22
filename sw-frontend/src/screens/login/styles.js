@@ -50,7 +50,7 @@ export const Login = styled(animated.div)`
     margin-top: ${Spacings.MEDIUM}px;
     width: 100%;
     button {
-      border-radius: ${Spacings.LARGE}px;
+      border-radius: 5px;
     }
   }
 

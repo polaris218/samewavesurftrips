@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { userActions, mapDispatchToProps } from 'api/actions'
-import { Routes } from 'config'
+import { Routes, Colors } from 'config'
 import Drawer from '@material-ui/core/Drawer'
 import { Tools } from 'utils'
 import { BackButton, Logo, MenuItem } from 'components'
@@ -59,7 +59,7 @@ const HeaderComponent = props => {
     <Header>
       <Container>
         <LogoContainer>
-          <Logo color='white' icon />
+          <Logo color={Colors.BLUE_BASE} icon />
         </LogoContainer>
         {props.backButton && <BackButton />}
         {props.homeButton && (

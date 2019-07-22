@@ -25,7 +25,8 @@ export const MenuItem = styled.button`
         font-size: ${Spacings.FONT.LABEL};
         font-weight: 700;
         font-family: 'Ubuntu', sans-serif;
-        color: ${props => (props.outline ? Colors.BLUE_BASE : Colors.WHITE)};
+        color: ${props =>
+          props.outline ? Colors.BLUE_BASE : Colors.BLUE_BASE};
     }
 
     .menuitem__icon {
@@ -33,7 +34,7 @@ export const MenuItem = styled.button`
         height: 20px;
         margin: 4px 6px 0 0px;
         svg {
-            fill: ${Colors.WHITE};
+            fill: ${Colors.BLUE_BASE};
         }
     }
 `

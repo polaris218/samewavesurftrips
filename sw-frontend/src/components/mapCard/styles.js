@@ -9,16 +9,16 @@ export const MapCard = styled.div`
   min-width: 200px;
   display: flex;
   flex-direction: column;
-  background-color: ${Colors.BLUE_BASE}99;
+  background-color: ${Colors.WHITE};
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .15);
   position: relative;
   z-index: 10;
-  color: ${Colors.WHITE};
+  color: ${Colors.GREY_BASE};
   cursor: pointer;
   outline: none;
   /* transform: translateY(200px); */
   &:hover {
-    background-color: ${Colors.BLUE_BASE};
+    background-color: ${Colors.GREY_MID};
   }
   .mapcard__avatar {
     width: 30px;
@@ -31,18 +31,38 @@ export const MapCard = styled.div`
     justify-content: center;
   }
 
+  .mapcard__days {
+    display: flex;
+    flex-direction: row;
+    font-weight: 600;
+    color: ${Colors.GREY_BASE};
+    margin-right: ${Spacings.MEDIUM}px;
+    .__icon {
+      margin-right: ${Spacings.SMALL / 2}px;
+      margin-top: -4px;
+      svg {
+        path {
+          /* fill: ${Colors.GREY_BASE};
+          stroke: ${Colors.GREY_BASE}; */
+        }
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
   .mapcard__count {
     display: flex;
     flex-direction: row;
     font-weight: 600;
-    color: ${Colors.WHITE};
-    margin-right: ${Spacings.MEDIUM}px;
+    color: ${Colors.GREY_BASE};
     .__icon {
       margin-right: ${Spacings.SMALL / 2}px;
+      margin-top: -4px;
       svg {
         path {
-          fill: ${Colors.WHITE};
-          stroke: ${Colors.WHITE};
+          /* fill: ${Colors.GREY_BASE};
+          stroke: ${Colors.GREY_BASE}; */
         }
         width: 20px;
         height: 20px;
@@ -81,13 +101,51 @@ export const MapCard = styled.div`
     .__icon {
       svg {
         path {
-          fill: ${Colors.WHITE};
-          stroke: ${Colors.WHITE};
+          fill: ${Colors.BLUE_BASE};
+          stroke: ${Colors.BLUE_BASE};
         }
         width: 20px;
         height: 20px;
       }
     }
+  }
+
+  .mapcard__divider {
+    /* display: none; */
+    flex-direction: row;
+    position: relative;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10%;
+    padding: 16px 0%;
+  }
+
+  .mapcard__divider-start {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: ${Colors.WHITE};
+    border: 2px solid ${Colors.BLUE_BASE};
+    position: absolute;
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+  .mapcard__divider-rule {
+    height: 2px;
+    width: 100%;
+    background-color: ${Colors.BLUE_BASE};
+  }
+  .mapcard__divider-end {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: ${Colors.BLUE_BASE};
+    border: 2px solid ${Colors.BLUE_BASE};
+    position: absolute;
+    right: 0;
+    margin-left: -6px;
+    margin-top: -7px;
   }
 
   .mapcard__location-place {
@@ -97,11 +155,8 @@ export const MapCard = styled.div`
   }
 
   .mapcard__location-date {
-    position: absolute;
-    right: ${Spacings.MEDIUM}px;
-    color: ${Colors.WHITE};
-    margin-top: -2px;
-    font-size: ${Spacings.FONT.SMALL};
+    color: ${Colors.GREY_LIGHT};
+    font-size: ${Spacings.FONT.TINY};
   }
 
   .tripcad__viewdetails {
@@ -118,6 +173,7 @@ export const MapCard = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    font-size: 12px;
     p {
       margin: 0;
       padding: 0;

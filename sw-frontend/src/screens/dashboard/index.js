@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Colors } from 'config'
-// import { Card, Button } from 'components'
-
-// import { Button } from 'reactstrap';
 import { useSpring, animated } from 'react-spring'
 import ReactGA from 'react-ga'
 
@@ -14,7 +11,6 @@ import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import { Tools } from 'utils'
-// import { Routes } from 'config';
 import {
   Button,
   Fab,
@@ -209,7 +205,7 @@ const DashboardScreen = props => {
           <MapTripDetail>
             <ButtonContainer>
               {/* <Button primary title={'FILTER'} onPress={onFilterPress}/> */}
-              <Button primary title={'Re-Search'} onPress={onReasearchPress} />
+              {/* <Button primary title={'Re-Search'} onPress={onReasearchPress} /> */}
             </ButtonContainer>
             <animated.div style={springProps}>
               <MapCard

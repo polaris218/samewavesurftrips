@@ -78,37 +78,48 @@ const MapCardComponent = props => {
       <div className={'mapcard__header'}>
         <div className={'mapcard__title'}>{props.title}</div>
       </div>
+      <div className={'mapcard__divider'}>
+        <div className={'mapcard__divider-start'} />
+        <div className={'mapcard__divider-rule'} />
+        <div className={'mapcard__divider-end'} />
+      </div>
       <div className={'mapcard__location'}>
         <div className={'mapcard__location-meta'}>
           <div className={'mapcard__location-header'}>
-            <div className='__icon'>{Tools.renderIcon('van')}</div>
+            {/* <div className='__icon'>{Tools.renderIcon('van')}</div> */}
           </div>
           <div className={'mapcard__location-place'}>
-            {props.departing.name}
+            {Tools.cutName(props.departing.name)}
+          </div>
+          <div className={'mapcard__location-date'}>
+            {dateDeparture.format('ddd MMM Do')}
           </div>
         </div>
         <div className={'mapcard__location-meta t-right'}>
           <div className={'mapcard__location-header'}>
-            <div className='__icon'>{Tools.renderIcon('board')}</div>
+            {/* <div className='__icon'>{Tools.renderIcon('board')}</div> */}
           </div>
           <div className={'mapcard__location-place'}>
-            {props.destination.name}
+            {Tools.cutName(props.destination.name)}
+          </div>
+          <div className={'mapcard__location-date'}>
+            {dateReturn.format('ddd MMM Do')}
           </div>
         </div>
       </div>
       <div className={'mapcard__footer'}>
-        <div className={'mapcard__count'}>
+        <div className={'mapcard__days'}>
           <div className='__icon'>{Tools.renderIcon('calendar')}</div>
           {tripDuration()}
         </div>
         <div className={'mapcard__count'}>
-          <div className='__icon'>{Tools.renderIcon('thumb')}</div>
-          {props.attendees.length}
+          <div className='__icon'>{Tools.renderIcon('groovy')}</div>
+          {props.attendees.length} Surfers in
         </div>
         <div className={'tripcad__viewdetails'}>
-          <div className={'mapcard__location-date'}>
+          {/* <div className={'mapcard__location-date'}>
             {dateDeparture.format('MMM Do')}
-          </div>
+          </div> */}
         </div>
       </div>
     </MapCard>

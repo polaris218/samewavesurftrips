@@ -9,7 +9,7 @@ export const TabsContainer = styled.div`
     props.align === 'center' ? 'center' : 'flex-start'};
   padding-left: ${props => (props.align === 'center' ? 0 : '10%')};
   background-color: ${props => props.backgroundColor};
-  border-bottom: 1px solid ${Colors.GREY_LIGHT};
+  border-bottom: 1px solid ${Colors.GREY_MID};
   position: relative;
   .MuiPrivateTabIndicator-root-35 {
     background-color: ${Colors.BLUE_BASE};

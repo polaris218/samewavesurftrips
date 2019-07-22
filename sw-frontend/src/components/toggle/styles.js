@@ -32,10 +32,10 @@ export const ToggleItem = styled.div`
   border-bottom-left-radius: ${props => (props.index === 1 ? '0px' : '20px')};
   border-top-right-radius: ${props => (props.index === 1 ? '20px' : '0px')};
   border-bottom-right-radius: ${props => (props.index === 1 ? '20px' : '0px')};
-  color: ${props => (props.active ? Colors.WHITE : Colors.ORANGE_BASE)};
+  color: ${props => (props.active ? Colors.WHITE : Colors.BLUE_BASE)};
   font-weight: 600;
   line-height: 20px;
   background-color: ${props =>
-    props.active ? Colors.ORANGE_BASE : Colors.WHITE};
+    props.active ? Colors.BLUE_BASE : Colors.WHITE};
   transition: background .25s ease, color .25s .15s;
 `

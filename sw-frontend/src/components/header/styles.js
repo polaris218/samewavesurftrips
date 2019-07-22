@@ -14,11 +14,11 @@ export const Header = styled.header`
   justify-content: center;
   color: white;
   /* border-bottom: 1px solid ${Colors.GREY_LIGHT}; */
-  background-color: ${Colors.BLUE_BASE};
+  background-color: ${Colors.WHITE};
   box-shadow: 0 2px 2px 0px #33333312;
 
   .header__title {
-    color: ${Colors.WHITE};
+    color: ${Colors.BLUE_BASE};
     letter-spacing: 1px;
     font-size: ${Spacings.FONT.TITLE};
     font-weight: 600;
@@ -32,7 +32,7 @@ export const Header = styled.header`
     cursor: pointer;
 
     svg path {
-      fill: ${Colors.WHITE};
+      fill: ${Colors.BLUE_BASE};
     }
 
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
@@ -60,17 +60,22 @@ export const Header = styled.header`
 export const LogoContainer = styled.div`
   height: 100%;
   width: 60px;
-    height: 90%;
-    position: absolute;
-    left: 70px;
-    top: 16px;
-    display: none;
+  height: 90%;
+  position: absolute;
+  left: 70px;
+  top: 16px;
+  display: none;
 
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
       display: block;
     }
-}
-`
+  
+  svg path {
+    fill: ${Colors.BLUE_BASE};
+    stroke: ${Colors.BLUE_BASE};
+  }
+}`
+
 export const NavFooter = styled.div`
   position: absolute;
   bottom: 0;
@@ -110,7 +115,7 @@ export const HomeButton = styled.div`
   left: ${Spacings.MEDIUM}px;
   top: 12px;
   svg path {
-    fill: ${Colors.WHITE};
+    fill: ${Colors.BLUE_BASE};
   }
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     display: none;
@@ -146,7 +151,7 @@ export const NavItem = styled.button`
   align-items: center;
   height: 40px;
   margin: 0 ${Spacings.SMALL}px;
-  color: ${({ active }) => (active ? Colors.GREY_LIGHT : Colors.WHITE)};
+  color: ${({ active }) => (active ? Colors.GREY_LIGHT : Colors.BLUE_BASE)};
   font-size: 20px;
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New";
   cursor: pointer;
