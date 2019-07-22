@@ -17,7 +17,7 @@ export const MenuItem = styled.button`
     :hover {
         background: rgba(255,255,255,0.5);
         p {
-            color: ${Colors.WHITE};
+            color: ${Colors.GREY_BASE};
         }
     }
 

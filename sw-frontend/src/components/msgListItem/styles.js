@@ -6,8 +6,8 @@ export const ListItem = styled.div`
   padding: ${Spacings.MEDIUM}px;
   width: 100%;
   height: 60px;
-  border-bottom: 1px solid ${Colors.GREY_LIGHT};
-  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid ${Colors.GREY_MID};
+  background: ${Colors.WHITE};
   cursor: pointer;
   &:hover {
     background: rgba(0, 0, 0, 0.035);
@@ -15,7 +15,7 @@ export const ListItem = styled.div`
   }
 `
 export const Title = styled.p`
-  padding: 0;
+  padding: 0 ${Spacings.LARGE + 14}px;
   margin: 0 0;
   color: ${Colors.GREY_BASE};
 `
@@ -35,16 +35,17 @@ export const From = styled.div`
   flex-direction: row;
   align-items: center;
   height: 16px;
-  padding: 0px;
+  padding: ${Spacings.SMALL}px;
   margin: -6px 0 12px;
 
   div {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+    margin-top: ${Spacings.SMALL}px;
     margin-right: 4px;
   }
   img {
-    width: 24px;
-    height: 24px;
+    width: 34px;
+    height: 34px;
   }
 `

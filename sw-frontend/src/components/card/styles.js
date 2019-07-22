@@ -4,9 +4,9 @@ import { Spacings } from 'config'
 export const Card = styled.div`
     padding: ${Spacings.MEDIUM}px;
     width: calc(100% - (${Spacings.MEDIUM}*2px));
-    border-radius: ${Spacings.SMALL}px;
+    border-radius: 5px;
     margin-bottom: ${props => props.marginBottom}px;
-    box-shadow: 0px 14px 32px rgba(23, 23, 77, 0.22);
+    box-shadow: 0px 7px 16px rgba(23, 23, 77, 0.22);
     background-color: rgba(255,255,255, 1);
 
     /* @media (min-width: ${Spacings.SCREEN.TABLET}px) {

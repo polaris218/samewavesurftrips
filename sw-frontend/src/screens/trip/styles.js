@@ -220,7 +220,23 @@ export const Trip = styled.div`
 
   .trip__join {
     /* width: 100%; */
-    margin-top: 4px;
+    position: fixed;
+    z-index: 99;
+    bottom: 0;
+    width: 100%;
+    padding: ${Spacings.MEDIUM}px 0;
+    background: ${Colors.WHITE};
+    
+    @media (max-width: ${Spacings.SCREEN.TABLET}px) {
+      div {
+        padding: ${Spacings.SMALL}px;
+        width: calc(100% - ${Spacings.MEDIUM}px);
+      }
+      button {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
   }
 
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
@@ -232,6 +248,7 @@ export const Trip = styled.div`
 
 export const ContentContainer = styled.div`
   width: 100%;
+  padding-top: 100px;
   overflow-y: scroll;
   overflow-x: hidden;
 `

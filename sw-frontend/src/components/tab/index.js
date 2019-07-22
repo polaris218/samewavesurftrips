@@ -60,7 +60,7 @@ const TabComponent = props => {
       onClick={() => onTabPress()}
       className={props.active === `/${props.title}` ? 'tab-active' : null}>
       {props.userImg ? (
-        <AvatarConatiner>
+        <AvatarConatiner active={props.active === `/profile`}>
           <Avatar image={props.userImg} />
         </AvatarConatiner>
       ) : (

@@ -46,7 +46,10 @@ export const Tab = styled.li`
 export const AvatarConatiner = styled.div`
   width: 22px;
   height: 22px;
-
+  div {
+    border: 2px solid blue;
+    border-color: ${({ active }) => (active ? Colors.BLUE_BRIGHT : 'white')};
+  }
   img {
     width: 26px;
     height: 26px;

@@ -201,8 +201,9 @@ const TripScreen = props => {
 
   return (
     <Trip>
-      <ScrollContainer navbar={false}>
+      <ScrollContainer navbar={false} color='transparent'>
         <Header
+          title='SURF TRIP DETAILS'
           backButton
           homeButton={false}
           nav={false}
@@ -210,17 +211,9 @@ const TripScreen = props => {
           rightAction={onEditPress}
         />
         <ContentContainer>
-          <MastHead>
-            <Map
-              autoPosition={false}
-              banner
-              position={[ trip.destination.lng, trip.destination.lat ]}
-              zoom={15}
-              showMapCard={false}
-            />
-          </MastHead>
           <Center>
             <Container>
+              <div className={'trip__location-header'}>SURF TRIP ORGANIZER</div>
               <div className={'trip__avatar'} onClick={visitProfile}>
                 <Avatar image={!loading ? userAvatar(owner) : ''} />
               </div>
@@ -240,27 +233,18 @@ const TripScreen = props => {
                     )}
                   </div>
                 </div>
-                {trip.owner_id !== props.user.id && (
-                  <div className='trip__join-desktop'>{joinButton()}</div>
-                )}
               </div>
-              {trip.owner_id !== props.user.id && (
-                <div className='trip__join-mobile'>{joinButton()}</div>
-              )}
-              <div className={'trip__card'}>
-                <Card>
+              <Card>
+                <div className={'trip__card'}>
                   <div className={'trip__title'}>
                     {trip.title}
                     <div className={'trip__description'}>
-                      {trip.trip_details}
+                      "{trip.trip_details}"
                     </div>
-                    {/* <div className={'trip__location-header'}>trip created: </div> */}
                   </div>
-                </Card>
-              </div>
-              <div className={'trip__details'}>
-                <div className={'trip__card'}>
-                  <Card>
+                </div>
+                <div className={'trip__details'}>
+                  <div className={'trip__card'}>
                     <div className={'trip__location-meta'}>
                       <div className={'trip__location-header'}>departing:</div>
                       <div className={'trip__location-place'}>
@@ -285,16 +269,12 @@ const TripScreen = props => {
                         ).format('ddd MMM Do')}
                       </div>
                     </div>
-                  </Card>
-                </div>
-                <div className={'trip__card'}>
+                  </div>
+                  {/* <div className={'trip__card'}>
                   <Card>
                     <Stats>
                       <div className={'trip__level'}>
                         <div>
-                          {/* <div className={'trip__location-header'}>
-                            recommended surf level:
-                          </div> */}
                           <div className='trip__level-value'>
                             <img
                               src={PickIcon(trip.surf_level)}
@@ -330,13 +310,12 @@ const TripScreen = props => {
                       </div>
                     </Stats>
                   </Card>
-                </div>
-                {trip.attendees.length > 0 && (
-                  <div className={'trip__card'}>
-                    <Card>
+                </div> */}
+                  {trip.attendees.length > 0 && (
+                    <div className={'trip__card'}>
                       <div className={'trip__location-meta t-right'}>
                         <div className={'trip__location-header'}>
-                          surfers going:
+                          surfers in:
                         </div>
                         <Attendees>
                           {trip.attendees.map((attendee, i) => (
@@ -363,11 +342,25 @@ const TripScreen = props => {
                           ))}
                         </Attendees>
                       </div>
-                    </Card>
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
+              </Card>
             </Container>
+
+            {trip.owner_id !== props.user.id && (
+              <div className='trip__join'>{joinButton()}</div>
+            )}
+
+            {/* <MastHead>
+              <Map
+                autoPosition={false}
+                banner
+                position={[ trip.destination.lng, trip.destination.lat ]}
+                zoom={15}
+                showMapCard={false}
+              />
+            </MastHead> */}
           </Center>
           <FootItem />
         </ContentContainer>

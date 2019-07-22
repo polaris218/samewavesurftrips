@@ -6,9 +6,36 @@ import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Routes, Colors } from 'config'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
-import { Avatar, Button, Card, Container, Footer, Header, MastHead, Tabs, ScrollContainer, FootItem, TripList, ProfileStat, Preloader} from 'components'
+import {
+  Avatar,
+  Button,
+  Card,
+  Container,
+  Fab,
+  Footer,
+  Header,
+  MastHead,
+  Tabs,
+  ScrollContainer,
+  FootItem,
+  TripList,
+  ProfileStat,
+  Preloader
+} from 'components'
 import { Tools, PickIcon } from 'utils'
-import { Profile, Center, ContentContainer, Stats, StatDivide, Interest, PreloadContainer, TabContainer, SurfIcons, SurfStat, Label} from './styles'
+import {
+  Profile,
+  Center,
+  ContentContainer,
+  Stats,
+  StatDivide,
+  Interest,
+  PreloadContainer,
+  TabContainer,
+  SurfIcons,
+  SurfStat,
+  Label
+} from './styles'
 
 const ProfileScreen = props => {
   const [ loading, setLoading ] = useState(true)
@@ -59,7 +86,6 @@ const ProfileScreen = props => {
   }
 
   const onFetchResult = res => {
-   
     if (res.status !== 200) {
       console.log('what error', res)
     }
@@ -91,7 +117,7 @@ const ProfileScreen = props => {
       apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, 'GET')
     )
   }
- 
+
   const onFollow = () => {
     const endpoint = `${config.EndPoints.user}/${userId ||
       props.user.id}/${!following ? 'follow' : 'unfollow'}`
@@ -112,13 +138,14 @@ const ProfileScreen = props => {
     } else {
       const cleanFollows = []
       res.data.forEach(user => {
-       if (!cleanFollows.includes(user.follower_id)) {
+        if (!cleanFollows.includes(user.follower_id)) {
           cleanFollows.push(user.follower_id)
         }
       })
-      if (cleanFollows.includes(props.user.id)){ setFollowing(true)
-      mounted && setFollowers(cleanFollows)}
-      else{
+      if (cleanFollows.includes(props.user.id)) {
+        setFollowing(true)
+        mounted && setFollowers(cleanFollows)
+      } else {
         setFollowing(false)
         mounted && setFollowers(cleanFollows)
       }
@@ -161,7 +188,11 @@ const ProfileScreen = props => {
         ) : (
           <ContentContainer>
             <MastHead
-              image={user && user.coverImg ? ( config.EndPoints.digitalOcean + user.coverImg) : null}
+              image={
+                user && user.coverImg ? (
+                  config.EndPoints.digitalOcean + user.coverImg
+                ) : null
+              }
             />
             <Center>
               <Container noPadd>
@@ -171,11 +202,19 @@ const ProfileScreen = props => {
                 <div className={'profile__header-meta'}>
                   <div className='profile__person'>
                     <p className={'profile__name'}>
-                      {user && user.firstName ? (user.firstName+" "+user.lastName) :"Your Name"}
+                      {user && user.firstName ? (
+                        user.firstName + ' ' + user.lastName
+                      ) : (
+                        'Your Name'
+                      )}
                     </p>
                     <div className={'profile__location'}>
                       {Tools.renderIcon('pin')}{' '}
-                      {user && user.location && user.location.name ? (user.location.name) : (`Unknown Location`)}
+                      {user && user.location && user.location.name ? (
+                        user.location.name
+                      ) : (
+                        `Unknown Location`
+                      )}
                     </div>
                   </div>
                   {userId &&
@@ -183,14 +222,24 @@ const ProfileScreen = props => {
                     <div className={'profile__contact'}>
                       <div className={'profile_follow'}>
                         <Button
-                          color={following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE}
-                          hoverColor={following ? Colors.GREY_BASE : Colors.ORANGE_DARK}
-                          onPress={onFollow} title={!following? 'Follow' : 'Following'}
+                          color={
+                            following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE
+                          }
+                          hoverColor={
+                            following ? Colors.GREY_BASE : Colors.ORANGE_DARK
+                          }
+                          onPress={onFollow}
+                          title={!following ? 'Follow' : 'Following'}
                         />
                       </div>
-                      <Button onPress={onMessage.bind(null, user)} title='Message' />
+                      <Button
+                        onPress={onMessage.bind(null, user)}
+                        title='Message'
+                      />
                       {props.user.surfer.phone && (
-                        <a href={`tel:${props.user.surfer.phone}`} data-rel='external'>
+                        <a
+                          href={`tel:${props.user.surfer.phone}`}
+                          data-rel='external'>
                           <Button title='Call' />
                         </a>
                       )}
@@ -200,26 +249,42 @@ const ProfileScreen = props => {
               </Container>
               <Container noPadd>
                 <Stats>
-                  <ProfileStat stat={props.trips.yourTrips.length} label='SURF TRIPS' />
+                  <ProfileStat
+                    stat={props.trips.yourTrips.length}
+                    label='SURF TRIPS'
+                  />
                   <StatDivide />
                   <ProfileStat stat={followers.length} label='FOLLOWERS' />
                   <StatDivide />
-                  <ProfileStat stat={user && user.following} label='FOLLOWING' />
+                  <ProfileStat
+                    stat={user && user.following}
+                    label='FOLLOWING'
+                  />
                 </Stats>
 
                 {userId &&
                 userId !== props.user.id && (
                   <div className={'profile__contact_mobile'}>
                     <div className={'profile__follow'}>
-                      <Button color={ following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE }
-                        hoverColor={ following ? Colors.GREY_BASE : Colors.ORANGE_DARK }
+                      <Button
+                        color={
+                          following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE
+                        }
+                        hoverColor={
+                          following ? Colors.GREY_BASE : Colors.ORANGE_DARK
+                        }
                         onPress={onFollow}
                         title={!following ? 'Follow' : 'Following'}
                       />
                     </div>
-                    <Button onPress={onMessage.bind(null, user)} title='Message' />
+                    <Button
+                      onPress={onMessage.bind(null, user)}
+                      title='Message'
+                    />
                     {props.user.surfer.phone && (
-                      <a href={`tel:${props.user.surfer.phone}`}  data-rel='external'>
+                      <a
+                        href={`tel:${props.user.surfer.phone}`}
+                        data-rel='external'>
                         <Button title='Call' />
                       </a>
                     )}
@@ -227,7 +292,12 @@ const ProfileScreen = props => {
                 )}
               </Container>
               <TabContainer>
-                <Tabs align='left' backgroundColor='transparent' tabs={tabTitles} onTabPress={onTabPress} />
+                <Tabs
+                  align='left'
+                  backgroundColor='transparent'
+                  tabs={tabTitles}
+                  onTabPress={onTabPress}
+                />
               </TabContainer>
               {activeTab === 'about' ? (
                 <Container>
@@ -237,34 +307,49 @@ const ProfileScreen = props => {
                         {user &&
                         user.surf_level && (
                           <SurfStat>
-                            <img src={PickIcon(user.surf_level.toLowerCase())} alt={user.surf_level}  />
+                            <img
+                              src={PickIcon(user.surf_level.toLowerCase())}
+                              alt={user.surf_level}
+                            />
                             <span>Skill Level</span>
                           </SurfStat>
                         )}
                         {user &&
                         user.stance && (
                           <SurfStat>
-                            <img src={PickIcon(user.stance.toLowerCase())} alt={user.stance} />
+                            <img
+                              src={PickIcon(user.stance.toLowerCase())}
+                              alt={user.stance}
+                            />
                             <span>{user.stance}</span>
                           </SurfStat>
                         )}
                         {user &&
                         user.surf_modality && (
                           <SurfStat>
-                            <img src={PickIcon(user.surf_modality.toLowerCase())}  alt={user.surf_modality} />
+                            <img
+                              src={PickIcon(user.surf_modality.toLowerCase())}
+                              alt={user.surf_modality}
+                            />
                             <span>{user.surf_modality}</span>
                           </SurfStat>
                         )}
                       </SurfIcons>
                       <Label>
                         Surfing Since:{' '}
-                        {user && user.surfing_since && new Date(user.surfing_since).getFullYear()}
+                        {user &&
+                          user.surfing_since &&
+                          new Date(user.surfing_since).getFullYear()}
                       </Label>
 
                       <Card>
                         <div className={'profile__description'}>
                           <div className={'profile__location-header'}>bio:</div>
-                          {user && user.bio ? ( `${user.bio}` ) : ('Add something interesting about yourself here' )}
+                          {user && user.bio ? (
+                            `${user.bio}`
+                          ) : (
+                            'Add something interesting about yourself here'
+                          )}
                         </div>
                       </Card>
                     </div>
@@ -277,7 +362,9 @@ const ProfileScreen = props => {
                             INTERESTS:
                           </div>
                           <div className={'profile_interests'}>
-                            {user && user.interests &&  user.interests.length > 0 &&
+                            {user &&
+                              user.interests &&
+                              user.interests.length > 0 &&
                               user.interests.map(
                                 item =>
                                   item !== '' && (
@@ -299,6 +386,7 @@ const ProfileScreen = props => {
               )}
               <FootItem />
             </Center>
+            <Fab />
             <Footer />
           </ContentContainer>
         )}

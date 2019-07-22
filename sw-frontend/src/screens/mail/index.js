@@ -188,7 +188,7 @@ const MailScreen = props => {
           </Container>
         </ContentContainer>
       </ScrollContainer>
-      {/* <Fab action='message' /> */}
+      <Fab />
       <FootContainer>
         <Footer />
       </FootContainer>
