@@ -26,6 +26,7 @@ import {
   Trip,
   ContentContainer,
   Center,
+  TripDivider,
   Stats,
   Stat
 } from './styles'
@@ -120,17 +121,27 @@ const TripScreen = props => {
 
   const tripOwner = () => {
     // TODO: CHECK IF THE OWENER OF THE TRIP
-    return Tools.renderIcon('pencil')
+    return Tools.renderIcon('share')
   }
 
   const onEditPress = () => {
     props.history.push('/' + Routes.EDIT_TRIP)
   }
 
+  const onSharePress = () => {
+    navigator.share({
+      title: document.title,
+      text: 'Check out this Same Wave Surf Trip',
+      url: window.location.href
+    })
+  }
+
   const checkTripStatus = () => {
-    for (let i = 0; i < props.trips.current.attendees.length; i++) {
-      if (props.trips.current.attendees[i] === props.user.id) {
-        return true
+    if (props.trips.current.attendees) {
+      for (let i = 0; i < props.trips.current.attendees.length; i++) {
+        if (props.trips.current.attendees[i] === props.user.id) {
+          return true
+        }
       }
     }
     return false
@@ -147,18 +158,28 @@ const TripScreen = props => {
         {!state.joined ? (
           <Button
             onPress={() => setModalVisible(true)}
-            title='JOIN THIS SURF TRIP'
+            title='JOIN SURF TRIP'
           />
         ) : (
           <Button
             onPress={() => setModalVisible(true)}
-            title='LEAVE THE TRIP'
+            title='LEAVE SURF TRIP'
             color={Colors.RED_BASE}
             hoverColor={Colors.RED_DARK}
           />
         )}
       </div>
     )
+
+  const editButton = () => (
+    <div className={'trip__join'}>
+      <Button
+        color={Colors.GREY_BASE}
+        onPress={onEditPress}
+        title='EDIT SURF TRIP'
+      />
+    </div>
+  )
 
   const getAttendeeProfiles = () => {
     trip.attendees.forEach(attendee => {
@@ -207,13 +228,15 @@ const TripScreen = props => {
           backButton
           homeButton={false}
           nav={false}
-          rightIcon={trip.owner_id === props.user.id ? tripOwner() : null}
-          rightAction={onEditPress}
+          rightIcon={tripOwner()}
+          rightAction={onSharePress}
         />
         <ContentContainer>
           <Center>
+            <div className={'trip__location-header-top'}>
+              SURF TRIP ORGANIZER
+            </div>
             <Container>
-              <div className={'trip__location-header'}>SURF TRIP ORGANIZER</div>
               <div className={'trip__avatar'} onClick={visitProfile}>
                 <Avatar image={!loading ? userAvatar(owner) : ''} />
               </div>
@@ -246,7 +269,7 @@ const TripScreen = props => {
                 <div className={'trip__details'}>
                   <div className={'trip__card'}>
                     <div className={'trip__location-meta'}>
-                      <div className={'trip__location-header'}>departing:</div>
+                      <div className={'trip__location-header'}>route</div>
                       <div className={'trip__location-place'}>
                         {trip.departing && trip.departing.name}
                       </div>
@@ -256,10 +279,12 @@ const TripScreen = props => {
                         ).format('ddd MMM Do')}
                       </div>
                     </div>
+                    <TripDivider>
+                      <div className={'trip__divider-start'} />
+                      <div className={'trip__divider-rule'} />
+                      <div className={'trip__divider-end'} />
+                    </TripDivider>
                     <div className={'trip__location-meta t-right'}>
-                      <div className={'trip__location-header'}>
-                        destination:
-                      </div>
                       <div className={'trip__location-place'}>
                         {trip.destination && trip.destination.name}
                       </div>
@@ -311,11 +336,12 @@ const TripScreen = props => {
                     </Stats>
                   </Card>
                 </div> */}
-                  {trip.attendees.length > 0 && (
+                  {trip.attendees &&
+                  trip.attendees.length > 0 && (
                     <div className={'trip__card'}>
                       <div className={'trip__location-meta t-right'}>
                         <div className={'trip__location-header'}>
-                          surfers in:
+                          surfers in
                         </div>
                         <Attendees>
                           {trip.attendees.map((attendee, i) => (
@@ -347,11 +373,9 @@ const TripScreen = props => {
                 </div>
               </Card>
             </Container>
-
-            {trip.owner_id !== props.user.id && (
-              <div className='trip__join'>{joinButton()}</div>
-            )}
-
+            <div className='trip__join'>
+              {trip.owner_id === props.user.id ? editButton() : joinButton()}
+            </div>
             {/* <MastHead>
               <Map
                 autoPosition={false}

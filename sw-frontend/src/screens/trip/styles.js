@@ -103,11 +103,19 @@ export const Trip = styled.div`
   }
   .trip__title {
     position: relative;
+    text-align: center;
     width: 100%;
-    font-size: ${Spacings.FONT.HEADER};
+    font-size: ${Spacings.FONT.TITLE};
     font-weight: 900;
     text-transform: uppercase;
     color: ${Colors.GREY_BASE};
+    div {
+      margin: ${Spacings.MEDIUM}px 0 0;
+    }
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      text-align: left;
+      font-size: ${Spacings.FONT.HEADER};
+    }
   }
 
   .trip__level {
@@ -166,18 +174,37 @@ export const Trip = styled.div`
   .trip__location-header {
     font-size: ${Spacings.FONT.SMALL};
     color: ${Colors.BLUE_BASE};
-    font-weight: 400;
+    font-weight: 600;
     text-transform: uppercase;
+    margin: ${Spacings.SMALL}px 0;
+  }
+  .trip__location-header-top {
+    font-size: ${Spacings.FONT.SMALL};
+    color: ${Colors.BLUE_BASE};
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: ${Spacings.SMALL}px 0;
+    width: calc(100% - 262px);
+    /* padding-left: 262px; */
+    transform: translateY(12px);
+
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      /* padding-left: calc(10% + 210px); */
+      width: calc(100% - (10% + 210px));
+
+    }
   }
 
   .trip__location-place {
+    text-align: center;
     font-weight: 600;
     color: ${Colors.GREY_BASE};
   }
 
   .trip__location-date {
+    text-align: center;
     color: ${Colors.GREY_BASE};
-    font-size: ${Spacings.FONT.BODY};
+    font-size: ${Spacings.FONT.SMALL};
   }
 
   .trip__description {
@@ -237,6 +264,8 @@ export const Trip = styled.div`
         max-width: 100%;
       }
     }
+
+    
   }
 
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
@@ -246,9 +275,40 @@ export const Trip = styled.div`
   }
 `
 
+export const TripDivider = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  margin: 0 0 ${Spacings.MEDIUM}px;
+  /* background: red; */
+
+  .trip__divider-start {
+    width: 11px;
+    height: 12px;
+    border-radius: 12px;
+    background-color: ${Colors.WHITE};
+    border: 2px solid ${Colors.BLUE_BASE};
+  }
+  .trip__divider-rule {
+    height: 100%;
+    width: 2px;
+    background-color: ${Colors.BLUE_BASE};
+  }
+  .trip__divider-end {
+    width: 11px;
+    height: 12px;
+    border-radius: 12px;
+    background-color: ${Colors.BLUE_BASE};
+    border: 2px solid ${Colors.BLUE_BASE};
+  }
+`
+
 export const ContentContainer = styled.div`
   width: 100%;
-  padding-top: 100px;
+  padding-top: 70px;
   overflow-y: scroll;
   overflow-x: hidden;
 `
@@ -286,11 +346,15 @@ export const Stat = styled.div`
 export const Attendees = styled.div`
   display: flex;
   flex-direction: row;
-  padding-top: ${Spacings.MEDIUM}px;
+  padding-top: ${Spacings.SMALL}px;
+  padding-left: 10px;
 
+  div {
+    margin-left: -10px;
+  }
   div,
   img {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
   }
 `

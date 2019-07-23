@@ -9,7 +9,7 @@ import { TripList, ListContainer, PreloadContainer } from './styles'
 
 const TripListComponent = props => {
   const trail = useTrail(props.trips.length, {
-    from: { opacity: 0, transform: 'translate3d(0,-20px,0) scale(0.9)' },
+    from: { opacity: 0, transform: 'translate3d(0,30px,0) scale(1)' },
     to: { opacity: 1, transform: 'translate3d(0,0px,0) scale(1)' }
   })
 
