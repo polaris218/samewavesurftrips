@@ -157,14 +157,14 @@ export const renderIcon = name => {
           height='16'
           viewBox='0 0 16 16'>
           <defs>
-            <clipPath id='clip-path'>
+            <clipPath id='clipPath'>
               <rect width='16' height='16' fill='none' />
             </clipPath>
           </defs>
           <g
             id='Component_59_1'
             data-name='Component 59 – 1'
-            clip-path='url(#clip-path)'>
+            clipPath='url(#clipPath)'>
             <g id='shaka-sign' transform='translate(0)'>
               <g id='Group_86' data-name='Group 86'>
                 <path
@@ -178,7 +178,7 @@ export const renderIcon = name => {
             <g
               id='Symbol_218_1'
               data-name='Symbol 218 – 1'
-              clip-path='url(#clip-path)'>
+              clipPath='url(#clipPath)'>
               <rect
                 id='Rectangle_1452'
                 data-name='Rectangle 1452'
@@ -243,7 +243,7 @@ export const renderIcon = name => {
               d='M2,5v9H14V5ZM13,2h2a.945.945,0,0,1,1,1V15a.945.945,0,0,1-1,1H1a.945.945,0,0,1-1-1V3A.945.945,0,0,1,1,2H3V1A.945.945,0,0,1,4,0,.945.945,0,0,1,5,1V2h6V1a1,1,0,0,1,2,0ZM12,12H10V10h2ZM9,12H7V10H9Zm3-3H10V7h2ZM9,9H7V7H9ZM6,12H4V10H6Z'
               transform='translate(24 242)'
               fill='#454545'
-              fill-rule='evenodd'
+              fillRule='evenodd'
             />
           </g>
         </svg>

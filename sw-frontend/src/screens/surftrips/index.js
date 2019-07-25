@@ -20,7 +20,7 @@ import { Trips, ContentContainer, FootContainer } from './styles'
 const SurfTripsScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState(0)
-  const [ tabs ] = useState([ 'Active', 'Past', 'All' ])
+  const [ tabs ] = useState([ 'Active trips', 'Past trips', 'All trips' ])
   let mounted = true
 
   /*
@@ -86,7 +86,7 @@ const SurfTripsScreen = props => {
 
   return (
     <Trips>
-      <Header title={'Your Trips'} />
+      <Header title={'Surf Trips'} />
       <Tabs tabs={tabs} onTabPress={onTabPress} />
       <ScrollContainer padTop={false}>
         <ContentContainer>

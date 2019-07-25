@@ -35,10 +35,12 @@ import ProgressBar from './progressBar'
 import Modal from './modal'
 import CropModal from './imagecrop'
 import MsgListItem from './msgListItem'
+import ButtonGroup from './buttonGroup'
 
 export {
   App,
   Button,
+  ButtonGroup,
   BackButton,
   Container,
   Fab,

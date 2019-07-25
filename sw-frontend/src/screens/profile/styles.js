@@ -192,7 +192,7 @@ export const Stats = styled.div`
 `
 export const StatDivide = styled.div`
   width: 1px;
-  height: 55px;
+  height: 45px;
   background: ${Colors.GREY_LIGHT};
   margin: 0 ${Spacings.MEDIUM}px;
 `
@@ -239,7 +239,7 @@ export const TabContainer = styled.div`
 export const SurfIcons = styled.div`
   display: flex;
   flex-direction: row;
-  margin: ${Spacings.MEDIUM}px;
+  margin: 0 ${Spacings.MEDIUM}px ${Spacings.MEDIUM}px;
   img {
     width: 50px;
     height: 50px;
@@ -262,4 +262,19 @@ export const Label = styled.div`
   color: ${Colors.BLUE_BASE};
   text-transform: uppercase;
   padding: 0 ${Spacings.MEDIUM}px ${Spacings.MEDIUM}px;
+`
+export const TripsType = styled.div`
+  width: 100%;
+  div {
+    width: calc(100% - ${Spacings.SMALL}px);
+    padding: 0 ${Spacings.SMALL / 2}px;
+  }
+  button {
+    width: 100%;
+    height: 30px;
+    p {
+      font-size: ${Spacings.FONT.TINY};
+      text-transform: uppercase;
+    }
+  }
 `

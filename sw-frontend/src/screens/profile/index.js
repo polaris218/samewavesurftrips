@@ -9,6 +9,7 @@ import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import {
   Avatar,
   Button,
+  ButtonGroup,
   Card,
   Container,
   Fab,
@@ -34,7 +35,8 @@ import {
   TabContainer,
   SurfIcons,
   SurfStat,
-  Label
+  Label,
+  TripsType
 } from './styles'
 
 const ProfileScreen = props => {
@@ -44,6 +46,7 @@ const ProfileScreen = props => {
   const [ userId ] = useState(props.match.params.userId)
   const [ following, setFollowing ] = useState(false)
   const [ followers, setFollowers ] = useState([])
+  const [ tripsType, setTripsType ] = useState(0)
   const user = userId ? props.user.surfer : props.user
   let mounted = true
 
@@ -101,13 +104,24 @@ const ProfileScreen = props => {
   }
 
   const activeTrips = () => {
-    const trips = []
+    const active = []
+    const old = []
     props.trips.yourTrips.forEach(trip => {
-      if (new Date(trip.date_times.return_date_time) > new Date()) {
-        trips.push(trip)
+      if (new Date(trip.date_times.return_date_time) >= new Date()) {
+        active.push(trip)
+      } else {
+        old.push(trip)
       }
     })
-    return trips
+
+    switch (tripsType) {
+      case 0:
+        return active
+      case 1:
+        return old
+      default:
+        return props.trips.yourTrips
+    }
   }
 
   const onGetFollowers = () => {
@@ -170,12 +184,16 @@ const ProfileScreen = props => {
     return avatar
   }
 
+  const onTripTypeFilter = value => {
+    setTripsType(value)
+  }
+
   return (
     <Profile>
       <ScrollContainer height={'55px'}>
         <Header
           title={userId ? '' : 'Profile'}
-          rightIcon={!userId && Tools.renderIcon('pencil')}
+          // rightIcon={!userId && Tools.renderIcon('pencil')}
           rightAction={onEditPress}
           backButton={userId && true}
           homeButton={!userId}
@@ -217,8 +235,7 @@ const ProfileScreen = props => {
                       )}
                     </div>
                   </div>
-                  {userId &&
-                  userId !== props.user.id && (
+                  {userId && userId !== props.user.id ? (
                     <div className={'profile__contact'}>
                       <div className={'profile_follow'}>
                         <Button
@@ -244,6 +261,16 @@ const ProfileScreen = props => {
                         </a>
                       )}
                     </div>
+                  ) : (
+                    <div className={'profile__contact'}>
+                      <Button
+                        icon={'pencil'}
+                        iconSvg
+                        onPress={onEditPress}
+                        title='Edit Profile'
+                        outlineDark
+                      />
+                    </div>
                   )}
                 </div>
               </Container>
@@ -262,8 +289,7 @@ const ProfileScreen = props => {
                   />
                 </Stats>
 
-                {userId &&
-                userId !== props.user.id && (
+                {userId && userId !== props.user.id ? (
                   <div className={'profile__contact_mobile'}>
                     <div className={'profile__follow'}>
                       <Button
@@ -289,6 +315,16 @@ const ProfileScreen = props => {
                       </a>
                     )}
                   </div>
+                ) : (
+                  <div className={'profile__contact_mobile'}>
+                    <Button
+                      icon={'pencil'}
+                      iconSvg
+                      onPress={onEditPress}
+                      title='Edit Profile'
+                      outlineDark
+                    />
+                  </div>
                 )}
               </Container>
               <TabContainer>
@@ -303,6 +339,12 @@ const ProfileScreen = props => {
                 <Container>
                   <div className={'profile__detail'}>
                     <div className={'profile__card'}>
+                      <Label>
+                        Surfing Since:{' '}
+                        {user &&
+                          user.surfing_since &&
+                          new Date(user.surfing_since).getFullYear()}
+                      </Label>
                       <SurfIcons>
                         {user &&
                         user.surf_level && (
@@ -335,12 +377,6 @@ const ProfileScreen = props => {
                           </SurfStat>
                         )}
                       </SurfIcons>
-                      <Label>
-                        Surfing Since:{' '}
-                        {user &&
-                          user.surfing_since &&
-                          new Date(user.surfing_since).getFullYear()}
-                      </Label>
 
                       <Card>
                         <div className={'profile__description'}>
@@ -380,6 +416,25 @@ const ProfileScreen = props => {
               ) : (
                 <Container>
                   <div className={'profile__trips'}>
+                    <TripsType>
+                      <ButtonGroup
+                        selected={tripsType}
+                        items={[
+                          {
+                            title: 'Active trips',
+                            action: onTripTypeFilter
+                          },
+                          {
+                            title: 'Past trips',
+                            action: onTripTypeFilter
+                          },
+                          {
+                            title: 'All trips',
+                            action: onTripTypeFilter
+                          }
+                        ]}
+                      />
+                    </TripsType>
                     <TripList trips={activeTrips()} loading={loading} />
                   </div>
                 </Container>

@@ -4,7 +4,7 @@ import { Colors, Spacings } from 'config'
 export const MastHead = styled.div`
   width: 100%;
   height: 300px;
-  background-color: ${Colors.BLUE_MID};
+  background-color: #fcc27f;
   position: relative;
   overflow: hidden;
 

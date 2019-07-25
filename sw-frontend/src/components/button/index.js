@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { P } from 'components'
+import { Tools } from 'utils'
 import { Button, ButtonContainer } from './styles'
 
 class ButtonComponent extends PureComponent {
@@ -11,7 +12,9 @@ class ButtonComponent extends PureComponent {
     primary: PropTypes.bool,
     onPress: PropTypes.func,
     icon: PropTypes.string,
-    disabled: PropTypes.bool
+    iconSvg: PropTypes.bool,
+    disabled: PropTypes.bool,
+    selected: PropTypes.bool
   }
 
   static defaultProps = {
@@ -20,9 +23,12 @@ class ButtonComponent extends PureComponent {
     title: 'title',
     primary: false,
     outline: false,
+    outlineDark: false,
     icon: null,
+    iconSvg: true,
     onPress: () => {},
-    disabled: false
+    disabled: false,
+    selected: false
   }
 
   onButtonPress = () => {
@@ -38,15 +44,20 @@ class ButtonComponent extends PureComponent {
           primary={this.props.primary}
           color={this.props.color}
           hoverColor={this.props.hoverColor}
-          outline={this.props.outline}>
-          {this.props.icon && (
-            <img
-              className='button__icon'
-              src={this.props.icon}
-              height={20}
-              alt={this.props.title}
-            />
-          )}
+          outlineDark={this.props.outlineDark}
+          outline={this.props.outline}
+          selected={this.props.selected}>
+          {this.props.icon &&
+            (!this.props.iconSvg ? (
+              <img
+                className='button__icon'
+                src={this.props.icon}
+                height={20}
+                alt={this.props.title}
+              />
+            ) : (
+              Tools.renderIcon(this.props.icon)
+            ))}
           <P className='button__title'>{this.props.title}</P>
         </Button>
       </ButtonContainer>

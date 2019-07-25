@@ -129,11 +129,12 @@ const TripScreen = props => {
   }
 
   const onSharePress = () => {
-    navigator.share({
-      title: document.title,
-      text: 'Check out this Same Wave Surf Trip',
-      url: window.location.href
-    })
+    navigator.share &&
+      navigator.share({
+        title: document.title,
+        text: 'Check out this Same Wave Surf Trip',
+        url: window.location.href
+      })
   }
 
   const checkTripStatus = () => {
