@@ -61,7 +61,7 @@ const HeaderComponent = props => {
         <LogoContainer>
           <Logo color={Colors.BLUE_BASE} icon />
         </LogoContainer>
-        {props.backButton && <BackButton />}
+        {props.backButton && <BackButton onPress={props.backAction} />}
         {props.homeButton && (
           <HomeButton role='button' onClick={toggleDrawer.bind(null, true)}>
             {Tools.renderIcon('burger')}
@@ -136,6 +136,7 @@ const HeaderComponent = props => {
 
 HeaderComponent.propTypes = {
   backButton: PropTypes.bool,
+  backAction: PropTypes.func,
   homeButton: PropTypes.bool,
   title: PropTypes.string,
   nav: PropTypes.bool,
@@ -145,6 +146,7 @@ HeaderComponent.propTypes = {
 
 HeaderComponent.defaultProps = {
   backButton: false,
+  backAction: null,
   homeButton: true,
   title: '',
   nav: true,

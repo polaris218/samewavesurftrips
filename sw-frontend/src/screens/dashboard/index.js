@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Colors } from 'config'
+// import { Colors } from 'config'
 import { useSpring, animated } from 'react-spring'
 import ReactGA from 'react-ga'
 
@@ -12,7 +12,7 @@ import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import { Tools } from 'utils'
 import {
-  Button,
+  // Button,
   Fab,
   Map,
   Toggle,
@@ -122,20 +122,20 @@ const DashboardScreen = props => {
   }
   const onReasearchPress = () => {
     let searchParams = ''
-    if (props.trips.search.dateDeparture != '') {
+    if (props.trips.search.dateDeparture !== '') {
       searchParams += `&departure_date_time=${props.trips.search.dateDeparture}`
     }
-    if (props.trips.search.dateReturn != '') {
+    if (props.trips.search.dateReturn !== '') {
       searchParams += `&return_date_time=${props.trips.search.dateReturn}`
     }
-    if (props.trips.search.lat != '')
+    if (props.trips.search.lat !== '')
       searchParams += `&lng=${props.trips.search.lng}&lat=${props.trips.search
         .lat}`
-    if (props.trips.search.gender != '')
+    if (props.trips.search.gender !== '')
       searchParams += `&gender=${props.trips.search.gender}`
-    if (props.trips.search.modality != '')
+    if (props.trips.search.modality !== '')
       searchParams += `&surf_modality=${props.trips.search.modality}`
-    if (props.trips.search.Level != '')
+    if (props.trips.search.Level !== '')
       searchParams += `&surf_level=${props.trips.search.Level}`
 
     searchParams = `?${searchParams}`
@@ -151,8 +151,8 @@ const DashboardScreen = props => {
     )
   }
   const onMapCardPress = () => {
-    console.log('map mcard press 1=', JSON.stringify(props.trips.current))
-    console.log('map mcard press 22=', props.trips.current._id)
+    // console.log('map mcard press 1=', JSON.stringify(props.trips.current))
+    // console.log('map mcard press 22=', props.trips.current._id)
     mounted && setInitialDisplay(false)
   }
 

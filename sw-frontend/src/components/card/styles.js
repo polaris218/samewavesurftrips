@@ -2,8 +2,14 @@ import styled from 'styled-components'
 import { Spacings } from 'config'
 
 export const Card = styled.div`
-    padding: ${Spacings.MEDIUM}px;
-    width: calc(100% - (${Spacings.MEDIUM}*2px));
+    padding: ${({ slim }) =>
+      slim
+        ? `${Spacings.MEDIUM}px ${Spacings.SMALL}px`
+        : `${Spacings.MEDIUM}px`};
+    width: ${({ slim }) =>
+      slim
+        ? `calc(100% - (${Spacings.MEDIUM}px))`
+        : `calc(100% - (${Spacings.LARGE}px))`};
     border-radius: 5px;
     margin-bottom: ${props => props.marginBottom}px;
     box-shadow: 0px 5px 8px rgba(23, 23, 77, 0.22);

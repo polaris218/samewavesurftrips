@@ -15,6 +15,8 @@ export default {
     'Wind Surf',
     'Kite Surf'
   ],
-  gender: [ 'Male', 'Female', 'Other' ],
-  stance: [ 'Goofy', 'Regular' ]
+  gender: [ 'Male', 'Female', 'Unspecified' ],
+  stance: [ 'Goofy', 'Regular' ],
+  transport: [ 'Unspecified', 'Car', 'Plane', 'Train', 'Boat' ],
+  accomodation: [ 'Unspecified', 'Surfcamp', 'Hostel', 'Resort', 'Camping' ]
 }

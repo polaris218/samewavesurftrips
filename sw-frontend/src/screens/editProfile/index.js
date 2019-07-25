@@ -25,6 +25,7 @@ import {
   CropModal
 } from 'components'
 import {
+  ButtonFooter,
   Center,
   Label,
   Stack,
@@ -262,7 +263,7 @@ const EditProfileScreen = props => {
 
   return (
     <Profile>
-      <ScrollContainer color={'orange'} navbar={false}>
+      <ScrollContainer navbar={false}>
         <Header
           nav={false}
           backButton
@@ -274,7 +275,7 @@ const EditProfileScreen = props => {
             <Center>
               <Container>
                 <div className='profile__container'>
-                  <Card>
+                  <Card slim>
                     <Stack>
                       <Images>
                         <form onSubmit={e => onImageUpload()}>
@@ -438,15 +439,6 @@ const EditProfileScreen = props => {
                       </Details>
                     </Stack>
                   </Card>
-                  {!loading ? (
-                    <div className={'profile__button'}>
-                      <Button onPress={onEditPress} title='UPDATE PROFILE' />
-                    </div>
-                  ) : (
-                    <div className={'profile__loader'}>
-                      <Preloader />
-                    </div>
-                  )}
                 </div>
               </Container>
             </Center>
@@ -482,6 +474,17 @@ const EditProfileScreen = props => {
           )}
         </ContentContainer>
       </ScrollContainer>
+      {!editSuccess &&
+      <ButtonFooter>
+        {!loading ? (
+          <>
+            <Button onPress={onEditPress} title='UPDATE PROFILE' />
+            </>
+        ) : (
+          <Preloader />
+        )}
+      </ButtonFooter>
+      }
       <CropModal
         visible={CropmodalVisible}
         title={'CROP'}

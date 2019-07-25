@@ -46,7 +46,7 @@ export const MessageView = styled.div`
   }
 `
 export const Message = styled.div`
-  background: ${({ self }) => (self ? Colors.BLUE_BASE : Colors.GREY_LIGHT)};
+  background: ${({ self }) => (self ? Colors.BLUE_BASE : '#d9d9d9')};
   border-radius: ${Spacings.SMALL}px;
   margin: ${Spacings.SMALL}px;
   display: table;
@@ -69,7 +69,7 @@ export const MessageInput = styled.div`
   width: 100%;
   height: 70px;
   bottom: 0px;
-  background: ${Colors.GREY_LIGHT};
+  background: #d9d9d9;
   div {
     width: calc(100% - 12px);
     padding: 6px;

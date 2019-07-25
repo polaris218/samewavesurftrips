@@ -12,6 +12,7 @@ import { Tools } from 'utils'
 import {
   ScrollContainer,
   Button,
+  ButtonGroup,
   Container,
   Input,
   Places,
@@ -19,17 +20,18 @@ import {
   Card,
   Heading,
   Header,
-  Preloader,
-  ProgressBar
+  Preloader
+  // ProgressBar,
 } from 'components'
 import {
-  ButtonRow,
+  ButtonFooter,
+  ButtonGroupRow,
   Label,
   Trip,
   DateInput,
   ContentContainer,
   Step,
-  Steps,
+  // Steps,
   Title,
   Error
 } from './styles'
@@ -55,6 +57,14 @@ const CreateTripScreen = props => {
     invalid: [],
     attendees: []
   })
+  const [genders, setGenders] = useState([])
+  const [genderSelected, setGenderSelected] = useState(0)
+  const [modality, setModality] = useState([])
+  const [modalitySelected, setModalitySelected] = useState(0)
+  const [accomodation, setAccomodation] = useState([])
+  const [accomodationSelected, setAccomodationSelected] = useState(0)
+  const [transport, setTransport] = useState([])
+  const [transportSelected, setTransportSelected] = useState(0)
   const scoller = useRef(null)
   const [ step, setStep ] = useState(0)
 
@@ -62,7 +72,81 @@ const CreateTripScreen = props => {
     setTimeout(() => {
       setStep(1)
     }, 500)
+
+    // Set the Types
+    // Gender
+    const GTypes = ['Anyone', 'Only Women', 'Only Men']
+    const tempGenders = []
+    GTypes.forEach((gender, i) => {
+      tempGenders.push({
+        title: gender,
+        action: onGenderPress
+      })
+    })
+    setGenders(tempGenders)
+    //Modailty
+    const tempMods = [{
+      title: 'Any',
+      action: onModalityPress.bind(null,0)
+    }]
+    Types.modality.forEach((mod, i) => {
+      tempMods.push({
+        title: mod,
+        action: onModalityPress
+      })
+    })
+    setModality(tempMods)
+    //Accomodation
+    const tempAccom = []
+    Types.accomodation.forEach((accom, i) => {
+      tempAccom.push({
+        title: accom,
+        action: onAccommodationPress
+      })
+    })
+    setAccomodation(tempAccom)
+    //Transport
+    const tempTrans = []
+    Types.transport.forEach((trans, i) => {
+      tempTrans.push({
+        title: trans,
+        action: onTransportPress
+      })
+    })
+    setTransport(tempTrans)
   }, [])
+
+  const onGenderPress = (index) => {
+    setGenderSelected(index)
+    setState({
+      ...state,
+      gender: genders[index] && genders[index].title
+    })
+  }
+
+  const onModalityPress = (index) => {
+    setModalitySelected(index)
+    setState({
+      ...state,
+      modality: modality[index] && modality[index].title
+    })
+  }
+
+  const onAccommodationPress = (index) => {
+    setAccomodationSelected(index)
+    setState({
+      ...state,
+      accomodation: accomodation[index] && accomodation[index].title
+    })
+  }
+
+  const onTransportPress = (index) => {
+    setTransportSelected(index)
+    setState({
+      ...state,
+      transport: transport[index] && transport[index].title
+    })
+  }
 
   const onCreatePress = () => {
     setLoading(true)
@@ -189,28 +273,34 @@ const CreateTripScreen = props => {
     })
   }
 
+  const onClose = () => {
+    props.history.goBack()
+  }
+
   return (
     <Trip>
       <ScrollContainer
         ref={scoller}
-        color='orange'
         navbar={false}
         align='center'>
         <Header
           nav={false}
-          backButton
+          backButton={step > 1}
+          backAction={onBackPress}
           homeButton={false}
-          title='Create your Trip'
+          title='Create SURF Trip'
+          rightIcon={Tools.renderIcon('close')}
+          rightAction={onClose}
         />
         <ContentContainer>
           {!createSuccess ? (
             <Container noPadd>
               <div className='trip__container'>
-                <Steps>
+                {/* <Steps>
                   <ProgressBar current={step} total={4} />
                   <span>step {step} / 4</span>
-                </Steps>
-                <Card marginBottom={80}>
+                </Steps> */}
+                <Card marginBottom={80} slim>
                   {(step === 1 || step === 0) && (
                     <Step>
                       <Title>Name your Surf Trip & enter the location</Title>
@@ -238,7 +328,7 @@ const CreateTripScreen = props => {
                         value={state.destination}
                         error={checkValidField('destination')}
                       />
-                      <Title>When will it take place?</Title>
+                      <Title>DATES</Title>
                       <Label>FROM</Label>
                       <DateInput>
                         <DatePicker
@@ -270,21 +360,19 @@ const CreateTripScreen = props => {
                         error={checkValidField('surferCount')}
                       />
                       <Label>ANY GENDER RESTRICTION?</Label>
-                      <Select
-                        items={Types.gender}
-                        fieldName={'gender'}
-                        placeholder={'Gender'}
-                        error={checkValidField('gender')}
-                        onChange={onSelectChange}
-                      />
+                      <ButtonGroupRow>
+                        <ButtonGroup 
+                          items={genders}
+                          selected={genderSelected}
+                        />
+                      </ButtonGroupRow>
                       <Label>SPECIFIC SURF MODALITY</Label>
-                      <Select
-                        items={Types.modality}
-                        fieldName={'modality'}
-                        placeholder={'Surf Modality'}
-                        error={checkValidField('modality')}
-                        onChange={onSelectChange}
-                      />
+                      <ButtonGroupRow>
+                        <ButtonGroup 
+                          items={modality}
+                          selected={modalitySelected}
+                        />
+                      </ButtonGroupRow>
                       <Label>SPECIFIC SURF LEVEL</Label>
                       <Select
                         items={Types.surfLevel}
@@ -298,6 +386,13 @@ const CreateTripScreen = props => {
                   {step === 3 && (
                     <Step>
                       <Title>Travel & accomodation</Title>
+                      <Label>TRANSPORT</Label>
+                      <ButtonGroupRow>
+                        <ButtonGroup 
+                          items={transport}
+                          selected={transportSelected}
+                        />
+                      </ButtonGroupRow>
                       <Label>ARE YOU OFFERING RIDES?</Label>
                       <Label>Avalible Seats</Label>
                       <Input
@@ -309,13 +404,12 @@ const CreateTripScreen = props => {
                         error={checkValidField('available_seats')}
                       />
                       <Label>Accomodation</Label>
-                      <Input
-                        label='Accomodation'
-                        onChange={onInputChange}
-                        value={state.accomodation}
-                        fieldName={'accomodation'}
-                        error={checkValidField('accomodation')}
-                      />
+                      <ButtonGroupRow>
+                        <ButtonGroup 
+                          items={accomodation}
+                          selected={accomodationSelected}
+                        />
+                      </ButtonGroupRow>
                     </Step>
                   )}
                   {step === 4 && (
@@ -323,7 +417,7 @@ const CreateTripScreen = props => {
                       <Title>Any extra details you would like to add? </Title>
                       <Label>SURF TRIP BIO</Label>
                       <Input
-                        label='Something cool about the surfers or location?'
+                        label='“You are very close to be ripping somewhere! Tell other surfers why this trip is going to be epic!'
                         onChange={onInputChange}
                         value={state.trip_details}
                         fieldName={'trip_details'}
@@ -334,38 +428,6 @@ const CreateTripScreen = props => {
                     </Step>
                   )}
                 </Card>
-                {!loading ? (
-                  <div className={'trip__button'}>
-                    {step === 4 ? (
-                      <ButtonRow>
-                        <Button outline onPress={onBackPress} title='PREV' />
-                        <Button
-                          primary
-                          onPress={onCreatePress}
-                          title='CREATE'
-                        />
-                      </ButtonRow>
-                    ) : (
-                      <ButtonRow>
-                        <Button
-                          disabled={step === 1 || step === 0}
-                          color={Colors.GREY_LIGHT}
-                          hoverColor={Colors.GREY_BASE}
-                          onPress={onBackPress}
-                          title='PREV'
-                        />
-                        <Button onPress={onNextPress} title='NEXT' />
-                      </ButtonRow>
-                    )}
-                    {state.invalid.length !== 0 && (
-                      <Error>* check all fields have been filed</Error>
-                    )}
-                  </div>
-                ) : (
-                  <div className={'trip__loader'}>
-                    <Preloader />
-                  </div>
-                )}
               </div>
             </Container>
           ) : (
@@ -387,7 +449,7 @@ const CreateTripScreen = props => {
                       </div>
                       <Heading title='AWESOME!' />
                       <div className='trip__complete'>
-                        Your trip has been created,<br />sit back, chill and<br />
+                        Your surf trip has been created,<br />sit back, chill and<br />
                         wait for others to join
                       </div>
                       <div className={'trip__success__button'}>
@@ -404,6 +466,26 @@ const CreateTripScreen = props => {
           )}
         </ContentContainer>
       </ScrollContainer>
+      {!createSuccess &&
+      <ButtonFooter>
+        {!loading ? (
+          <>
+            {step === 4 ? (
+              <Button primary onPress={onCreatePress} title='POST SURF TRIP' />
+            ) : (
+              <Button onPress={onNextPress} title='NEXT' />
+            )}
+            {state.invalid.length !== 0 && (
+              <Error>* check all fields have been filed</Error>
+            )}
+            </>
+        ) : (
+          <div className={'trip__loader'}>
+            <Preloader />
+          </div>
+        )}
+      </ButtonFooter>
+      }
     </Trip>
   )
 }

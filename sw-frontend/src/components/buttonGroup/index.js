@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'components'
 import { ButtonGroup } from './styles'
@@ -13,6 +13,7 @@ const ButtonGroupComponent = props => {
     <ButtonGroup>
       {props.items.map((item, i) => (
         <Button
+          animated={false}
           key={item.title}
           title={item.title}
           onPress={onButtonPress.bind(null, i)}
@@ -27,7 +28,7 @@ const ButtonGroupComponent = props => {
 ButtonGroupComponent.propTypes = {
   type: PropTypes.string,
   items: PropTypes.array,
-  selected: PropTypes.bool
+  selected: PropTypes.number
 }
 
 ButtonGroupComponent.defaultProps = {

@@ -6,15 +6,7 @@ import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiForgotQuery } from 'api/thunks/general'
 import { General as config } from 'config'
-
-import {
-  BackgroundImage,
-  Button,
-  Container,
-  Logo,
-  Input,
-  Preloader
-} from 'components'
+import { Button, Container, Logo, Input, Preloader } from 'components'
 import { Routes } from 'config'
 import { Tools } from 'utils'
 import { Forgot, Label } from './styles'

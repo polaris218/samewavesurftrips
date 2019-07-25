@@ -8,7 +8,7 @@ export const Trip = styled.div`
 
   .trip__container {
     width: 100%;
-    padding: 80px 0 40px;
+    padding: 60px 0 40px;
   }
   .trip__back {
     position: absolute;
@@ -88,7 +88,7 @@ export const Label = styled.p`
   width: 100%;
   padding: 0;
   margin: ${Spacings.SMALL}px 0 0;
-  color: ${Colors.ORANGE_DARK};
+  color: ${Colors.BLUE_BRIGHT};
   font-weight: 600;
   text-transform: uppercase;
   font-size: ${Spacings.FONT.SMALL};
@@ -135,10 +135,53 @@ export const ButtonRow = styled.div`
     flex-direction: row;
   }
 `
-export const Title = styled.h3`color: ${Colors.GREY_BASE};`
+export const Title = styled.h3`
+  margin: 0 0 ${Spacings.MEDIUM}px;
+  color: ${Colors.GREY_BASE};
+  text-transform: uppercase;
+  font-size: ${Spacings.FONT.SMALL};
+`
 export const Error = styled.div`
   margin-top: 4px;
   text-align: center;
   color: ${Colors.RED_BASE};
   font-size: ${Spacings.FONT.SMALL};
+`
+export const ButtonFooter = styled.div`
+  position: fixed;
+  z-index: 99;
+  bottom: 0;
+  width: calc(100% - ${Spacings.MEDIUM}px);
+  padding: ${Spacings.SMALL}px;
+  background: ${Colors.WHITE};
+
+  @media (max-width: ${Spacings.SCREEN.TABLET}px) {
+    div {
+      padding: ${Spacings.SMALL}px;
+      width: calc(100% - ${Spacings.MEDIUM}px);
+    }
+    button {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+`
+
+export const ButtonGroupRow = styled.div`
+  display: block;
+  width: calc(100% - ${Spacings.MEDIUM}px);
+  margin: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
+  overflow-x: scroll;
+  padding: 0 0 0 ${Spacings.SMALL}px;
+  div: {
+    width: auto;
+  }
+  button {
+    width: auto;
+    min-width: 100px;
+    margin: 0 ${Spacings.SMALL}px;
+    p {
+      font-size: ${Spacings.FONT.TINY};
+    }
+  }
 `

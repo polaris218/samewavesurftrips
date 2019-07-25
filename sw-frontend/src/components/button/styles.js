@@ -36,11 +36,13 @@ export const Button = styled.button`
         ? `2px solid ${Colors.GREY_LIGHT}`
         : props.outlineDark ? `2px solid ${Colors.BLUE_BASE}` : `none`};
     background: ${props =>
-      props.primary
-        ? Colors.GREY_LIGHT
-        : props.outline || props.outlineDark
-          ? 'none'
-          : props.hoverColor ? props.hoverColor : Colors.ORANGE_DARK};
+      props.selected
+        ? Colors.BLUE_BASE
+        : props.primary
+          ? Colors.GREY_LIGHT
+          : props.outline || props.outlineDark
+            ? 'none'
+            : props.hoverColor ? props.hoverColor : Colors.ORANGE_DARK};
     p {
       color: ${props =>
         props.selected
@@ -49,7 +51,7 @@ export const Button = styled.button`
             ? Colors.GREY_LIGHT
             : props.outlineDark ? Colors.GREY_LIGHT : Colors.WHITE};
     }
-    transform: translateY(-3px);
+    transform: ${({ animated }) => (animated ? 'translateY(-3px)' : 'none')};
     box-shadow: 0px 7px 12px rgba(23, 23, 57, 0.22);
   }
 

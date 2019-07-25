@@ -7,7 +7,7 @@ export const Profile = styled.div`
 
   .profile__container {
     width: 100%;
-    padding: 80px 0 0;
+    padding: 60px 0 50px;
   }
   .profile__back {
     position: absolute;
@@ -84,7 +84,7 @@ export const Label = styled.p`
   width: 100%;
   padding: 0;
   margin: ${Spacings.SMALL}px 0;
-  color: ${Colors.ORANGE_DARK};
+  color: ${Colors.BLUE_BRIGHT};
   font-weight: 600;
   text-transform: uppercase;
   font-size: ${Spacings.FONT.SMALL};
@@ -185,5 +185,24 @@ export const ImgCenter = styled.div`
   align-items: center;
   div {
     height: 40px;
+  }
+`
+export const ButtonFooter = styled.div`
+  position: fixed;
+  z-index: 99;
+  bottom: 0;
+  width: calc(100% - ${Spacings.MEDIUM}px);
+  padding: ${Spacings.SMALL}px;
+  background: ${Colors.WHITE};
+
+  @media (max-width: ${Spacings.SCREEN.TABLET}px) {
+    div {
+      padding: ${Spacings.SMALL}px;
+      width: calc(100% - ${Spacings.MEDIUM}px);
+    }
+    button {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 `
