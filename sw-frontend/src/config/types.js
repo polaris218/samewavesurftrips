@@ -1,5 +1,6 @@
 export default {
   surfLevel: [
+    'Unspecified',
     'Beginner',
     'Pre-Intemediate',
     'Intemediate',
@@ -7,6 +8,7 @@ export default {
     'Advanced'
   ],
   modality: [
+    'Unspecified',
     'Shortboard',
     'Longboard',
     'Bodyboard',

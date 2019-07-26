@@ -165,6 +165,10 @@ export const Profile = styled.div`
   }
   .profile__trips {
     width: calc(100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     margin: ${Spacings.MEDIUM}px 0 ${Spacings.MEDIUM}px;
   }
 
@@ -265,6 +269,10 @@ export const Label = styled.div`
 `
 export const TripsType = styled.div`
   width: 100%;
+  max-width: 800px;
+  /* margin-left: 50%;
+  transform: translate3d(-50%); */
+
   div {
     width: calc(100% - ${Spacings.SMALL}px);
     padding: 0 ${Spacings.SMALL / 2}px;

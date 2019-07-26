@@ -22,7 +22,8 @@ import {
   Preloader,
   Select,
   Places,
-  CropModal
+  CropModal,
+  ButtonGroup
 } from 'components'
 import {
   ButtonFooter,
@@ -36,7 +37,8 @@ import {
   Details,
   Sub,
   DateInput,
-  ImgCenter
+  ImgCenter,
+  ButtonGroupRow
 } from './styles'
 
 const EditProfileScreen = props => {
@@ -48,7 +50,7 @@ const EditProfileScreen = props => {
     lastName: props.user.lastName || '',
     email: props.user.email || '',
     bio: props.user.bio || '',
-    gender: '',
+    gender: props.user.gender || '',
     location: props.user.location || { name: '' },
     phone: props.user.phone || '',
     surf_level: props.user.surf_level || '',
@@ -72,6 +74,15 @@ const EditProfileScreen = props => {
       ? config.EndPoints.digitalOcean + props.user.coverImg
       : ''
   )
+  const [genderOptions, setGenders] = useState([])
+  const [genderSelected, setGenderSelected] = useState(0)
+  const [modality, setModality] = useState([])
+  const [modalitySelected, setModalitySelected] = useState(0)
+  const [stance, setStance] = useState([])
+  const [stanceSelected, setStanceSelected] = useState(0)
+  const [surfLevel, setSurfLevel] = useState([])
+  const [surfLevelSelected, setSurfLevelSelected] = useState(0)
+
   let mounted = true
 
   useEffect(() => {
@@ -82,7 +93,78 @@ const EditProfileScreen = props => {
 
   useEffect(() => {
     setAvatar(userAvatar())
+    // Gender
+    const tempGenders = []
+    Types.gender.forEach((gender, i) => {
+      tempGenders.push({
+        title: gender,
+      })
+      if(props.user.gender === gender)  setGenderSelected(i)
+      console.log(props.user.gender, gender, i)
+    })
+    setGenders(tempGenders)
+
+    //Modailty
+    const tempMods = []
+    Types.modality.forEach((mod, i) => {
+      tempMods.push({
+        title: mod,
+      })
+      if(props.user.surf_modality === mod)  setModalitySelected(i)
+    })
+    setModality(tempMods)
+    //Stance
+    const stanceMods = []
+    Types.stance.forEach((st, i) => {
+      stanceMods.push({
+        title: st,
+      })
+      if(props.user.stance === st)  setStanceSelected(i)
+    })
+    setStance(stanceMods)
+    //SurfLevel
+    const levelMods = []
+    Types.surfLevel.forEach((level, i) => {
+      levelMods.push({
+        title: level,
+      })
+      if(props.user.surf_level === level)  setSurfLevelSelected(i)
+    })
+    setSurfLevel(levelMods)
   }, [])
+
+
+  const onGenderPress = (index) => {
+    setGenderSelected(index)
+    setState({
+      ...state,
+      gender: genderOptions[index].title
+    })
+  }
+
+  const onModalityPress = (index) => {
+    setModalitySelected(index)
+    setState({
+      ...state,
+      surf_modality: modality[index].title
+    })
+  }
+
+  const onStancePress = (index) => {
+    setStanceSelected(index)
+    setState({
+      ...state,
+      stance: stance[index].title
+    })
+  }
+
+  const onSurfLevelPress = (index) => {
+    setSurfLevelSelected(index)
+    setState({
+      ...state,
+      surf_level: surfLevel[index].title
+    })
+  }
 
   const onEditPress = () => {
     setLoading(true)
@@ -281,11 +363,8 @@ const EditProfileScreen = props => {
                         <form onSubmit={e => onImageUpload()}>
                           <Label>PROFILE PICTURE</Label>
                           <Sub>for best results use 512x512px</Sub>
-                          {/* <Button onPress={e => CropVisible(e)} title='Upload Avatar'/> */}
-
                           <InputFile>
                             <button className='btn'>Upload avatar</button>
-
                             <input
                               type='file'
                               accept='image/*'
@@ -304,6 +383,7 @@ const EditProfileScreen = props => {
                                   width='200'
                                   height='200'
                                   alt='avatar'
+                                  onClick={(e) => onImageChange(e, 'coverImg')}
                                 />
                               )
                             )}
@@ -316,7 +396,6 @@ const EditProfileScreen = props => {
                             <input
                               type='file'
                               accept='image/*'
-                              onChange={e => onCeverChange(e, 'coverImg')}
                             />
                           </InputFile>
                           <div className='profile__cover'>
@@ -335,7 +414,6 @@ const EditProfileScreen = props => {
                               )
                             )}
                           </div>
-                          {/* <ReactCrop src={state.src} crop={state.crop} onChange={crop => setCrop(state.crop)} /> */}
                         </form>
                       </Images>
                       <Details>
@@ -376,14 +454,58 @@ const EditProfileScreen = props => {
                           value={state.location.name}
                           error={checkValidField('location')}
                         />
-                        <Select
-                          items={Types.gender}
-                          fieldName={'gender'}
-                          placeholder={'Gender'}
-                          error={checkValidField('gender')}
-                          value={state.gender}
-                          onChange={onSelectChange}
+                        <Label>Gender</Label>
+                        <ButtonGroupRow>
+                          <ButtonGroup 
+                            action={onGenderPress}
+                            items={genderOptions}
+                            selected={genderSelected}
+                          />
+                        </ButtonGroupRow>
+                      
+                        <Label>WHAT IS YOUR MAIN SURF MODALITY?</Label>
+                        <ButtonGroupRow>
+                          <ButtonGroup 
+                            action={onModalityPress}
+                            items={modality}
+                            selected={modalitySelected}
+                          />
+                        </ButtonGroupRow>
+                        <Label>WHAT IS YOUR MAIN SURFING LEVEL?</Label>
+                        <ButtonGroupRow>
+                          <ButtonGroup 
+                            action={onSurfLevelPress}
+                            items={surfLevel}
+                            selected={surfLevelSelected}
+                          />
+                        </ButtonGroupRow>
+                        <Label>WHAT IS YOUR STANCE?</Label>
+                        <ButtonGroupRow>
+                          <ButtonGroup 
+                            action={onStancePress}
+                            items={stance}
+                            selected={stanceSelected}
+                          />
+                        </ButtonGroupRow>
+                        <Label>Surfing Since</Label>
+                        <DateInput>
+                          <DatePicker
+                            selected={new Date(state.surfing_since)}
+                            onChange={date =>
+                              handleDateChange(date, 'surfing_since')}
+                          />
+                        </DateInput>
+
+                        <Label>Interests</Label>
+                        <Sub>* SEPERATE EACH INTEREST WITH A COMMA ,</Sub>
+                        <Input
+                          label='Interests'
+                          onChange={onInterestsChange}
+                          value={state.interests}
+                          fieldName={'interests'}
+                          error={checkValidField('interests')}
                         />
+
                         <Label>Bio</Label>
                         <Input
                           label='Add something interesting about yourself'
@@ -394,48 +516,6 @@ const EditProfileScreen = props => {
                           multiline={true}
                           rows={5}
                         />
-                        <Label>Interests</Label>
-                        <Sub>Seperate each interest with a comma</Sub>
-                        <Input
-                          label='Interests'
-                          onChange={onInterestsChange}
-                          value={state.interests}
-                          fieldName={'interests'}
-                          error={checkValidField('interests')}
-                        />
-                        <Label>Surf Style</Label>
-                        <Select
-                          items={Types.modality}
-                          fieldName={'surf_modality'}
-                          placeholder={'Surf Modality'}
-                          error={checkValidField('surf_modality')}
-                          value={state.surf_modality}
-                          onChange={onInputChange}
-                        />
-                        <Select
-                          items={Types.surfLevel}
-                          fieldName={'surf_level'}
-                          placeholder={'Surf Level'}
-                          error={checkValidField('surf_level')}
-                          value={state.surf_level}
-                          onChange={onInputChange}
-                        />
-                        <Select
-                          items={Types.stance}
-                          fieldName={'stance'}
-                          placeholder={'Stance'}
-                          error={checkValidField('stance')}
-                          value={state.stance}
-                          onChange={onInputChange}
-                        />
-                        <Label>Surfing Since</Label>
-                        <DateInput>
-                          <DatePicker
-                            selected={new Date(state.surfing_since)}
-                            onChange={date =>
-                              handleDateChange(date, 'surfing_since')}
-                          />
-                        </DateInput>
                       </Details>
                     </Stack>
                   </Card>

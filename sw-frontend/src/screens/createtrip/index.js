@@ -80,19 +80,14 @@ const CreateTripScreen = props => {
     GTypes.forEach((gender, i) => {
       tempGenders.push({
         title: gender,
-        action: onGenderPress
       })
     })
     setGenders(tempGenders)
     //Modailty
-    const tempMods = [{
-      title: 'Any',
-      action: onModalityPress.bind(null,0)
-    }]
+    const tempMods = []
     Types.modality.forEach((mod, i) => {
       tempMods.push({
         title: mod,
-        action: onModalityPress
       })
     })
     setModality(tempMods)
@@ -101,7 +96,6 @@ const CreateTripScreen = props => {
     Types.accomodation.forEach((accom, i) => {
       tempAccom.push({
         title: accom,
-        action: onAccommodationPress
       })
     })
     setAccomodation(tempAccom)
@@ -110,7 +104,6 @@ const CreateTripScreen = props => {
     Types.transport.forEach((trans, i) => {
       tempTrans.push({
         title: trans,
-        action: onTransportPress
       })
     })
     setTransport(tempTrans)
@@ -362,6 +355,7 @@ const CreateTripScreen = props => {
                       <Label>ANY GENDER RESTRICTION?</Label>
                       <ButtonGroupRow>
                         <ButtonGroup 
+                          action={onGenderPress}
                           items={genders}
                           selected={genderSelected}
                         />
@@ -369,6 +363,7 @@ const CreateTripScreen = props => {
                       <Label>SPECIFIC SURF MODALITY</Label>
                       <ButtonGroupRow>
                         <ButtonGroup 
+                          action={onModalityPress}
                           items={modality}
                           selected={modalitySelected}
                         />
@@ -389,6 +384,7 @@ const CreateTripScreen = props => {
                       <Label>TRANSPORT</Label>
                       <ButtonGroupRow>
                         <ButtonGroup 
+                          action={onTransportPress}
                           items={transport}
                           selected={transportSelected}
                         />
@@ -406,6 +402,7 @@ const CreateTripScreen = props => {
                       <Label>Accomodation</Label>
                       <ButtonGroupRow>
                         <ButtonGroup 
+                          action={onAccommodationPress}
                           items={accomodation}
                           selected={accomodationSelected}
                         />

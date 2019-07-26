@@ -6,7 +6,7 @@ import { ButtonGroup } from './styles'
 const ButtonGroupComponent = props => {
   const onButtonPress = index => {
     console.log('set', index)
-    props.items[index].action(index)
+    props.action(index)
   }
 
   return (
@@ -34,6 +34,7 @@ ButtonGroupComponent.propTypes = {
 ButtonGroupComponent.defaultProps = {
   type: 'default',
   selected: 0,
+  action: () => {},
   items: [
     {
       title: 'default 1',

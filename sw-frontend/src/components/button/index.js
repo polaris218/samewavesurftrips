@@ -14,10 +14,12 @@ class ButtonComponent extends PureComponent {
     icon: PropTypes.string,
     iconSvg: PropTypes.bool,
     disabled: PropTypes.bool,
-    selected: PropTypes.bool
+    selected: PropTypes.bool,
+    animated: PropTypes.bool
   }
 
   static defaultProps = {
+    animated: true,
     color: null,
     hoverColor: null,
     title: 'title',

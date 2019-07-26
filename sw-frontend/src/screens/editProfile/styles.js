@@ -153,6 +153,7 @@ export const Details = styled.div`
 export const Stack = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     flex-direction: row;
   }
@@ -191,6 +192,9 @@ export const ButtonFooter = styled.div`
   position: fixed;
   z-index: 99;
   bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   width: calc(100% - ${Spacings.MEDIUM}px);
   padding: ${Spacings.SMALL}px;
   background: ${Colors.WHITE};
@@ -204,5 +208,27 @@ export const ButtonFooter = styled.div`
       width: 100%;
       max-width: 100%;
     }
+  }
+`
+export const ButtonGroupRow = styled.div`
+  display: block;
+  width: calc(100% - ${Spacings.MEDIUM}px);
+  margin: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
+  overflow-x: scroll;
+  padding: 0 0 0 ${Spacings.SMALL}px;
+  div: {
+    width: auto;
+  }
+  button {
+    width: auto;
+    min-width: 100px;
+    margin: 0 ${Spacings.SMALL}px;
+    p {
+      font-size: ${Spacings.FONT.TINY};
+    }
+  }
+
+  @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+    /* width: calc(100% - 64px); */
   }
 `

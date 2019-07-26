@@ -418,19 +418,17 @@ const ProfileScreen = props => {
                   <div className={'profile__trips'}>
                     <TripsType>
                       <ButtonGroup
+                        action={onTripTypeFilter}
                         selected={tripsType}
                         items={[
                           {
-                            title: 'Active trips',
-                            action: onTripTypeFilter
+                            title: 'Active trips'
                           },
                           {
-                            title: 'Past trips',
-                            action: onTripTypeFilter
+                            title: 'Past trips'
                           },
                           {
-                            title: 'All trips',
-                            action: onTripTypeFilter
+                            title: 'All trips'
                           }
                         ]}
                       />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
@@ -12,6 +12,7 @@ import { Tools } from 'utils'
 import {
   ScrollContainer,
   Button,
+  ButtonGroup,
   Container,
   Input,
   Places,
@@ -22,7 +23,14 @@ import {
   Preloader,
   Modal
 } from 'components'
-import { Label, Trip, DateInput, ContentContainer } from './styles'
+import {
+  Label,
+  Trip,
+  DateInput,
+  ContentContainer,
+  ButtonFooter,
+  ButtonGroupRow
+} from './styles'
 
 const EditTripScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -42,6 +50,87 @@ const EditTripScreen = props => {
     level: props.trips.current.surf_level,
     invalid: []
   })
+  const [genders, setGenders] = useState([])
+  const [genderSelected, setGenderSelected] = useState(0)
+  const [modality, setModality] = useState([])
+  const [modalitySelected, setModalitySelected] = useState(0)
+  const [accomodation, setAccomodation] = useState([])
+  const [accomodationSelected, setAccomodationSelected] = useState(0)
+  const [transport, setTransport] = useState([])
+  const [transportSelected, setTransportSelected] = useState(0)
+
+  useEffect(() => {
+    // Set the Types
+    // Gender
+    const GTypes = ['Anyone', 'Only Women', 'Only Men']
+    const tempGenders = []
+    GTypes.forEach((gender, i) => {
+      tempGenders.push({
+        title: gender,
+      })
+      if(props.trips.current.gender === gender.toLowerCase()) setGenderSelected(i)
+    })
+    setGenders(tempGenders)
+    //Modailty
+    const tempMods = []
+    Types.modality.forEach((mod, i) => {
+      tempMods.push({
+        title: mod,
+      })
+      if(props.trips.current.surf_modality === mod.toLowerCase()) setModalitySelected(i)
+    })
+    setModality(tempMods)
+    //Accomodation
+    const tempAccom = []
+    Types.accomodation.forEach((accom, i) => {
+      tempAccom.push({
+        title: accom,
+      })
+      if(props.trips.current.accomodation === accom.toLowerCase()) setAccomodationSelected(i)
+    })
+    setAccomodation(tempAccom)
+    //Transport
+    const tempTrans = []
+    Types.transport.forEach((trans, i) => {
+      tempTrans.push({
+        title: trans,
+      })
+      if(props.trips.current.transport === trans.toLowerCase()) setTransportSelected(i)
+    })
+    setTransport(tempTrans)
+  }, [])
+
+  const onGenderPress = (index) => {
+    setGenderSelected(index)
+    setState({
+      ...state,
+      gender: genders[index] && genders[index].title
+    })
+  }
+
+  const onModalityPress = (index) => {
+    setModalitySelected(index)
+    setState({
+      ...state,
+      modality: modality[index] && modality[index].title
+    })
+  }
+
+  const onAccommodationPress = (index) => {
+    setAccomodationSelected(index)
+    setState({
+      ...state,
+      accomodation: accomodation[index] && accomodation[index].title
+    })
+  }
+
+  const onTransportPress = (index) => {
+    setTransportSelected(index)
+    setState({
+      ...state,
+      transport: transport[index] && transport[index].title
+    })
+  }
 
   const onDeletePress = () => {
     const data = {
@@ -172,7 +261,7 @@ const EditTripScreen = props => {
 
   return (
     <Trip>
-      <ScrollContainer color={'orange'} navbar={false} align={'center'}>
+      <ScrollContainer navbar={false} align={'center'}>
         <Header
           nav={false}
           backButton
@@ -183,7 +272,7 @@ const EditTripScreen = props => {
           {!editSuccess ? (
             <Container>
               <div className='trip__container'>
-                <Card>
+                <Card slim>
                   <Label>Title</Label>
                   <Input
                     label='Trip Title'
@@ -237,22 +326,22 @@ const EditTripScreen = props => {
                     error={checkValidField('surferCount')}
                   />
 
-                  <Label>Prefered gender</Label>
-                  <Select
-                    items={[ 'Any', ...Types.gender ]}
-                    fieldName={'gender'}
-                    placeholder={state.gender}
-                    error={checkValidField('gender')}
-                    onChange={onSelectChange}
-                  />
-                  <Label>Board type recommended</Label>
-                  <Select
-                    items={[ ...Types.modality ]}
-                    fieldName={'modality'}
-                    placeholder={state.modality}
-                    error={checkValidField('modality')}
-                    onChange={onSelectChange}
-                  />
+                  <Label>GENDER RESTRICTION</Label>
+                  <ButtonGroupRow>
+                        <ButtonGroup 
+                          action={onGenderPress}
+                          items={genders}
+                          selected={genderSelected}
+                        />
+                      </ButtonGroupRow>
+                  <Label>SPECIFIC SURF MODALITY</Label>
+                  <ButtonGroupRow>
+                        <ButtonGroup 
+                          action={onModalityPress}
+                          items={modality}
+                          selected={modalitySelected}
+                        />
+                      </ButtonGroupRow>
                   <Label>Skill level</Label>
                   <Select
                     items={[ 'Any', Types.surfLevel ]}
@@ -261,6 +350,14 @@ const EditTripScreen = props => {
                     error={checkValidField('level')}
                     onChange={onSelectChange}
                   />
+                  <Label>TRANSPORT</Label>
+                      <ButtonGroupRow>
+                        <ButtonGroup 
+                          action={onTransportPress}
+                          items={transport}
+                          selected={transportSelected}
+                        />
+                      </ButtonGroupRow>
                   <Label>Offering Rides</Label>
                   <Label>Avalible Seats</Label>
                   <Input
@@ -272,13 +369,13 @@ const EditTripScreen = props => {
                     error={checkValidField('avalibleSeats')}
                   />
                   <Label>Accomodation</Label>
-                  <Input
-                    label='Accomodation'
-                    onChange={onInputChange}
-                    value={state.accomodation}
-                    fieldName={'accomodation'}
-                    error={checkValidField('accomodation')}
-                  />
+                  <ButtonGroupRow>
+                        <ButtonGroup 
+                          action={onAccommodationPress}
+                          items={accomodation}
+                          selected={accomodationSelected}
+                        />
+                      </ButtonGroupRow>
                   <Label>Trip Description</Label>
                   <Input
                     label='Any more details?'
@@ -288,22 +385,6 @@ const EditTripScreen = props => {
                     error={checkValidField('details')}
                   />
                 </Card>
-                {!loading ? (
-                  <div className={'trip__button'}>
-                    <Button
-                      onPress={() => setModalVisible(true)}
-                      title='DELETE'
-                      color={Colors.RED_DARK}
-                      hoverColor={Colors.RED_BASE}
-                    />
-                    <div className='__block' />
-                    <Button onPress={onEditPress} title='UPDATE' />
-                  </div>
-                ) : (
-                  <div className={'trip__loader'}>
-                    <Preloader />
-                  </div>
-                )}
               </div>
             </Container>
           ) : (
@@ -341,6 +422,28 @@ const EditTripScreen = props => {
           )}
         </ContentContainer>
       </ScrollContainer>
+      {!editSuccess &&
+      <ButtonFooter>
+        {!loading ? (
+          <>
+           <div className={'trip__button'}>
+              <Button
+                onPress={() => setModalVisible(true)}
+                title='DELETE'
+                color={Colors.RED_DARK}
+                hoverColor={Colors.RED_BASE}
+              />
+              <div className='__block' />
+              <Button onPress={onEditPress} title='UPDATE' />
+            </div>
+          </>
+        ) : (
+          <div className={'trip__loader'}>
+            <Preloader />
+          </div>
+        )}
+      </ButtonFooter>
+      }
       <Modal
         visible={modalVisible}
         title={'Delete Your Trip'}
