@@ -37,7 +37,7 @@ export const FootContainer = styled.div`
 `
 export const MessageView = styled.div`
   width: calc(100% - ${Spacings.MEDIUM}px);
-  height: calc(100% - 100px);
+  height: calc(100% - 140px);
   padding: 60px ${Spacings.SMALL}px ${Spacings.LARGE}px;
   overflow-y: scroll;
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
@@ -74,6 +74,10 @@ export const MessageInput = styled.div`
     width: calc(100% - 12px);
     padding: 6px;
   }
+
+  textarea {
+    padding-right: 90px;
+  }
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     textarea {
       padding-right: 100px;
@@ -82,7 +86,7 @@ export const MessageInput = styled.div`
 `
 export const SendMsg = styled.div`
   position: fixed;
-  top: 10px;
+  bottom: 30px;
   right: ${Spacings.MEDIUM}px;
   z-index: 100;
 

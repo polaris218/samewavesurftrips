@@ -65,6 +65,8 @@ const CreateTripScreen = props => {
   const [accomodationSelected, setAccomodationSelected] = useState(0)
   const [transport, setTransport] = useState([])
   const [transportSelected, setTransportSelected] = useState(0)
+  const [surfLevel, setSurfLevel] = useState([])
+  const [surfLevelSelected, setSurfLevelSelected] = useState(0)
   const scoller = useRef(null)
   const [ step, setStep ] = useState(0)
 
@@ -107,6 +109,14 @@ const CreateTripScreen = props => {
       })
     })
     setTransport(tempTrans)
+    //SurfLevel
+    const levelMods = []
+    Types.surfLevel.forEach((level, i) => {
+      levelMods.push({
+        title: level,
+      })
+    })
+    setSurfLevel(levelMods)
   }, [])
 
   const onGenderPress = (index) => {
@@ -138,6 +148,14 @@ const CreateTripScreen = props => {
     setState({
       ...state,
       transport: transport[index] && transport[index].title
+    })
+  }
+
+  const onSurfLevelPress = (index) => {
+    setSurfLevelSelected(index)
+    setState({
+      ...state,
+      surf_level: surfLevel[index].title
     })
   }
 
@@ -369,13 +387,13 @@ const CreateTripScreen = props => {
                         />
                       </ButtonGroupRow>
                       <Label>SPECIFIC SURF LEVEL</Label>
-                      <Select
-                        items={Types.surfLevel}
-                        fieldName={'level'}
-                        placeholder={'Surf Level'}
-                        error={checkValidField('level')}
-                        onChange={onSelectChange}
-                      />
+                      <ButtonGroupRow>
+                          <ButtonGroup 
+                            action={onSurfLevelPress}
+                            items={surfLevel}
+                            selected={surfLevelSelected}
+                          />
+                      </ButtonGroupRow>
                     </Step>
                   )}
                   {step === 3 && (

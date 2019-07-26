@@ -58,6 +58,8 @@ const EditTripScreen = props => {
   const [accomodationSelected, setAccomodationSelected] = useState(0)
   const [transport, setTransport] = useState([])
   const [transportSelected, setTransportSelected] = useState(0)
+  const [surfLevel, setSurfLevel] = useState([])
+  const [surfLevelSelected, setSurfLevelSelected] = useState(0)
 
   useEffect(() => {
     // Set the Types
@@ -98,6 +100,15 @@ const EditTripScreen = props => {
       if(props.trips.current.transport === trans.toLowerCase()) setTransportSelected(i)
     })
     setTransport(tempTrans)
+    //SurfLevel
+    const levelMods = []
+    Types.surfLevel.forEach((level, i) => {
+      levelMods.push({
+        title: level,
+      })
+      if(props.trips.current.surf_level === level.toLowerCase()) setSurfLevelSelected(i)
+    })
+    setSurfLevel(levelMods)
   }, [])
 
   const onGenderPress = (index) => {
@@ -121,6 +132,14 @@ const EditTripScreen = props => {
     setState({
       ...state,
       accomodation: accomodation[index] && accomodation[index].title
+    })
+  }
+
+  const onSurfLevelPress = (index) => {
+    setSurfLevelSelected(index)
+    setState({
+      ...state,
+      surf_level: surfLevel[index].title
     })
   }
 
@@ -167,8 +186,10 @@ const EditTripScreen = props => {
       gender: state.gender,
       number_of_surfers: state.surferCount,
       return_date_time: state.date_return,
-      surf_level: state.level,
-      surf_modality: state.modality,
+      surf_level: state.surf_level,
+      surf_modality: state.surf_modality,
+      transport: state.transport,
+      accomodation: state.accomodation,
       title: state.title
     }
 
@@ -343,13 +364,13 @@ const EditTripScreen = props => {
                         />
                       </ButtonGroupRow>
                   <Label>Skill level</Label>
-                  <Select
-                    items={[ 'Any', Types.surfLevel ]}
-                    fieldName={'level'}
-                    placeholder={state.level}
-                    error={checkValidField('level')}
-                    onChange={onSelectChange}
-                  />
+                  <ButtonGroupRow>
+                          <ButtonGroup 
+                            action={onSurfLevelPress}
+                            items={surfLevel}
+                            selected={surfLevelSelected}
+                          />
+                      </ButtonGroupRow>
                   <Label>TRANSPORT</Label>
                       <ButtonGroupRow>
                         <ButtonGroup 

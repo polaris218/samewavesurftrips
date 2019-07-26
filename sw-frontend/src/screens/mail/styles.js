@@ -3,7 +3,7 @@ import { Colors, Spacings } from 'config'
 
 export const Mail = styled.div`
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - 60px);
   color: ${Colors.GREY_BASE};
   background-color: ${Colors.GREY_MID};
   padding-top: 50px;

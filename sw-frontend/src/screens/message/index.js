@@ -1,15 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import uuid from 'uuid'
 import { dispatch } from 'api/store'
-import { apiQuery,apiMsgUpdate } from 'api/thunks/general'
+import { apiQuery, apiMsgUpdate } from 'api/thunks/general'
 import { General as config, Routes } from 'config'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { Button, Input, Header, Footer } from 'components'
-import { MessageView, Message, Mail, HeadTitle, FootContainer, UserName, MsgAlign, MessageInput, SendMsg} from './styles'
+import {
+  MessageView,
+  Message,
+  Mail,
+  HeadTitle,
+  FootContainer,
+  UserName,
+  MsgAlign,
+  MessageInput,
+  SendMsg
+} from './styles'
 
 const MessageScreen = props => {
+  const msgView = useRef(null)
   const message = props.location.state
   const [ loading, setLoading ] = useState(true)
   const [ messageReply, setMessageReply ] = useState('')
@@ -25,24 +36,48 @@ const MessageScreen = props => {
   )
 
   useEffect(() => {
-    getMessages();
-    if(message){
+    getMessages()
+    if (message) {
       const msgupdate = {
         owner_id: message.owner_id,
         recipient_id: message.recipient_id,
         subject: message.subject,
-        msg_read:message.msg_read || false,
+        msg_read: message.msg_read || false
       }
-      dispatch(apiMsgUpdate( msgupdate, props.msgupdate, config.EndPoints.messagesupdate, onmsgupdateResult,'put'))
+      dispatch(
+        apiMsgUpdate(
+          msgupdate,
+          props.msgupdate,
+          config.EndPoints.messagesupdate,
+          onmsgupdateResult,
+          'put'
+        )
+      )
     }
+
+    // setTimeout(() => {
+    //   msgView.current.scrollTop = msgView.current.scrollHeight
+    //   console.log('Scroll ', msgView)
+    // }, 1400)
   }, [])
+
   const onmsgupdateResult = res => {
-    console.log("message update success=",res);
-    }
+    console.log('message update success=', res)
+  }
+
+  const scrollConvoBottom = () => {
+    msgView.current.scrollTop = msgView.current.scrollHeight
+  }
 
   const getMessages = async () => {
     dispatch(
-      apiQuery( null,props.getMessages, config.EndPoints.messages, onMessagesResult,'GET')
+      apiQuery(
+        null,
+        props.getMessages,
+        config.EndPoints.messages,
+        onMessagesResult,
+        'GET'
+      )
     )
   }
 
@@ -62,16 +97,23 @@ const MessageScreen = props => {
           : message.recipient_id
     }
 
-    dispatch(apiQuery( messageData, props.sendMessage, config.EndPoints.messages, onSendResult,'POST'))
+    dispatch(
+      apiQuery(
+        messageData,
+        props.sendMessage,
+        config.EndPoints.messages,
+        onSendResult,
+        'POST'
+      )
+    )
   }
-  
-
 
   const onSendResult = res => {
     if (res.status !== 200) {
       console.log('send error', res)
       return false
     }
+    scrollConvoBottom()
   }
 
   const onMessagesResult = res => {
@@ -107,7 +149,8 @@ const MessageScreen = props => {
     })
 
     setMessages(conversation.splice(1, conversation.length))
-    console.log('Got MSgss,', res.data, conversation)
+    // console.log('Got MSgss,', res.data, conversation)
+    scrollConvoBottom()
     setLoading(false)
   }
 
@@ -143,10 +186,15 @@ const MessageScreen = props => {
         {message && message.subject ? (
           message.subject
         ) : (
-          <Input label='Enter Message Subject..' onChange={onSubjectChange} value={messageSubject} fieldName={'msgSubject'} />
+          <Input
+            label='Enter Message Subject..'
+            onChange={onSubjectChange}
+            value={messageSubject}
+            fieldName={'msgSubject'}
+          />
         )}
       </HeadTitle>
-      <MessageView>
+      <MessageView ref={msgView}>
         {messages.map(msg => {
           return (
             <MsgAlign
@@ -172,11 +220,22 @@ const MessageScreen = props => {
         })}
       </MessageView>
       <MessageInput>
-        <Input label='Reply...' onChange={onInputChange} value={messageReply} fieldName={'msgReply'}
-          multiline={true} rows={3} focus />
+        <Input
+          label='Reply...'
+          onChange={onInputChange}
+          value={messageReply}
+          fieldName={'msgReply'}
+          multiline={true}
+          rows={3}
+          focus
+        />
       </MessageInput>
       <SendMsg>
-        <Button onPress={onSendPress} title='SEND' disabled={messageReply === ''} />
+        <Button
+          onPress={onSendPress}
+          title='SEND'
+          disabled={messageReply === ''}
+        />
       </SendMsg>
       <FootContainer>
         <Footer />

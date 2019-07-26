@@ -447,6 +447,7 @@ const EditProfileScreen = props => {
                           type={'tel'}
                           error={checkValidField('phone')}
                         />
+                        <Label>Your Location</Label>
                         <Places
                           label='Your Location'
                           onChange={location =>

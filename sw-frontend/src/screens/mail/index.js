@@ -156,7 +156,7 @@ const MailScreen = props => {
     <Mail>
       <Header title={'Inbox'} />
       <Tabs tabs={state.tabs} onTabPress={onTabPress} />
-      <ScrollContainer padTop={false} height={'55'}>
+      <ScrollContainer padTop={false} height={'0'}>
         <ContentContainer>
           <Container>
             {loading ? (
