@@ -96,10 +96,11 @@ export const TripCard = styled.div`
         position: absolute;
         left: 0px;
         width: 100%;
-        margin: ${Spacings.LARGE + 8}px 0 0;
+        margin: ${({ ownerDetailVisible }) =>
+          ownerDetailVisible ? `${Spacings.LARGE + 8}px 0 0` : `5px 0 0`};
         padding: 0;
         text-align: center;
-        font-size: ${Spacings.FONT.BODY};
+        font-size: ${Spacings.FONT.SMALL};
         font-weight: 800;
         color: ${Colors.GREY_BASE};;
     }
@@ -211,6 +212,10 @@ export const TripCard = styled.div`
     @media (min-width: ${Spacings.SCREEN.PHABLET}px) {
        .tripcard__divider {
             display: flex;
+        }
+
+        .tripcard__title {
+            font-size: ${Spacings.FONT.LABEL};
         }
     }
 `

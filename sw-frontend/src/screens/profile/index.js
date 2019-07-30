@@ -433,7 +433,11 @@ const ProfileScreen = props => {
                         ]}
                       />
                     </TripsType>
-                    <TripList trips={activeTrips()} loading={loading} />
+                    <TripList
+                      trips={activeTrips()}
+                      loading={loading}
+                      ownerDetailVisible={false}
+                    />
                   </div>
                 </Container>
               )}

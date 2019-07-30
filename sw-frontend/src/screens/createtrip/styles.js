@@ -65,8 +65,8 @@ export const Trip = styled.div`
 
 export const DateInput = styled.div`
   width: 100%;
-  margin: ${Spacings.MEDIUM}px 0;
-
+  margin: -${Spacings.SMALL}px 0 ${Spacings.MEDIUM}px;
+  position: relative;
   .react-datepicker-wrapper {
     width: 100%;
   }
@@ -81,6 +81,15 @@ export const DateInput = styled.div`
     font-size: ${Spacings.FONT.BODY};
     color: ${Colors.GREY_BASE};
     outline: none;
+  }
+`
+export const DateIcon = styled.div`
+  position: absolute;
+  right: 8px;
+  top: 20px;
+  svg {
+    width: 12px;
+    height: 12px;
   }
 `
 

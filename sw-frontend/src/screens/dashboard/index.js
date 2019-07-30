@@ -95,16 +95,6 @@ const DashboardScreen = props => {
 
   const onFilterPress = () => {
     if (!searchVisible) {
-      // Map.lyTo={
-      //   center:  [props.trips.search.lng,props.trips.search.lat],
-      //     zoom:  15,
-      //     speed:  2
-      // }
-      // Map.flyTo({
-      //   center:  [props.trips.search.lng,props.trips.search.lat],
-      //   zoom:  15,
-      //   speed:  2
-      // })
     }
     onSearchPress()
     // Record Activity in GA
@@ -113,43 +103,46 @@ const DashboardScreen = props => {
       action: `Trip search filtered`
     })
   }
-  const onFilterhResult = error => {
-    if (error.status !== 200) {
-      console.log('what error', error)
-    }
-    // setLoading(false)
-    props.onFilter()
-  }
-  const onReasearchPress = () => {
-    let searchParams = ''
-    if (props.trips.search.dateDeparture !== '') {
-      searchParams += `&departure_date_time=${props.trips.search.dateDeparture}`
-    }
-    if (props.trips.search.dateReturn !== '') {
-      searchParams += `&return_date_time=${props.trips.search.dateReturn}`
-    }
-    if (props.trips.search.lat !== '')
-      searchParams += `&lng=${props.trips.search.lng}&lat=${props.trips.search
-        .lat}`
-    if (props.trips.search.gender !== '')
-      searchParams += `&gender=${props.trips.search.gender}`
-    if (props.trips.search.modality !== '')
-      searchParams += `&surf_modality=${props.trips.search.modality}`
-    if (props.trips.search.Level !== '')
-      searchParams += `&surf_level=${props.trips.search.Level}`
 
-    searchParams = `?${searchParams}`
-    dispatch(
-      apiQuery(
-        null,
-        props.filterTrips,
-        config.EndPoints.search + searchParams,
-        onFilterhResult,
-        'get',
-        searchParams
-      )
-    )
-  }
+  // const onFilterhResult = error => {
+  //   if (error.status !== 200) {
+  //     console.log('what error', error)
+  //   }
+  //   // setLoading(false)
+  //   props.onFilter()
+  // }
+
+  // const onReasearchPress = () => {
+  //   let searchParams = ''
+  //   if (props.trips.search.dateDeparture !== '') {
+  //     searchParams += `&departure_date_time=${props.trips.search.dateDeparture}`
+  //   }
+  //   if (props.trips.search.dateReturn !== '') {
+  //     searchParams += `&return_date_time=${props.trips.search.dateReturn}`
+  //   }
+  //   if (props.trips.search.lat !== '')
+  //     searchParams += `&lng=${props.trips.search.lng}&lat=${props.trips.search
+  //       .lat}`
+  //   if (props.trips.search.gender !== '')
+  //     searchParams += `&gender=${props.trips.search.gender}`
+  //   if (props.trips.search.modality !== '')
+  //     searchParams += `&surf_modality=${props.trips.search.modality}`
+  //   if (props.trips.search.Level !== '')
+  //     searchParams += `&surf_level=${props.trips.search.Level}`
+
+  //   searchParams = `?${searchParams}`
+  //   dispatch(
+  //     apiQuery(
+  //       null,
+  //       props.filterTrips,
+  //       config.EndPoints.search + searchParams,
+  //       onFilterhResult,
+  //       'get',
+  //       searchParams
+  //     )
+  //   )
+  // }
+
   const onMapCardPress = () => {
     // console.log('map mcard press 1=', JSON.stringify(props.trips.current))
     // console.log('map mcard press 22=', props.trips.current._id)
@@ -173,13 +166,10 @@ const DashboardScreen = props => {
     <Dashboard>
       <ScrollContainer height={'55'}>
         <Header
-          title='Search Trips'
+          title='Search Surf Trip'
           rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')}
           rightAction={onSearchPress}
         />
-        {/* {activeTab ==='map' && (
-
-        )} */}
 
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
@@ -187,17 +177,19 @@ const DashboardScreen = props => {
           <TripList
             trips={props.trips.allTrips}
             loading={loading}
-            paddingTop={140}
+            paddingTop={!searchVisible ? 300 : 140}
             paddingSide
           />
         )}
-        <div className={'dashboard__switch'}>
-          <Toggle
-            onPress={onTogglePress}
-            items={[ 'map', 'list' ]}
-            active={activeTab}
-          />
-        </div>
+        {searchVisible && (
+          <div className={'dashboard__switch'}>
+            <Toggle
+              onPress={onTogglePress}
+              items={[ 'map', 'list' ]}
+              active={activeTab}
+            />
+          </div>
+        )}
 
         <Fab />
 
@@ -205,7 +197,6 @@ const DashboardScreen = props => {
           <MapTripDetail>
             <ButtonContainer>
               {/* <Button primary title={'FILTER'} onPress={onFilterPress}/> */}
-              {/* <Button primary title={'Re-Search'} onPress={onReasearchPress} /> */}
             </ButtonContainer>
             <animated.div style={springProps}>
               <MapCard
@@ -225,7 +216,9 @@ const DashboardScreen = props => {
             </animated.div>
           </MapTripDetail>
         )}
-        <Search visible={searchVisible} onFilter={onFilterPress} />
+        {!searchVisible && (
+          <Search visible={searchVisible} onFilter={onFilterPress} />
+        )}
       </ScrollContainer>
       {activeTab === 'list' && <Footer />}
     </Dashboard>

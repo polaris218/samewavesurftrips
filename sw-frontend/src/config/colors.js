@@ -3,7 +3,7 @@ export default {
   GREEN_LIGHT: '#0c879d',
   GREEN_DARK: '#00cbef',
 
-  BLUE_BASE: '#16b2ce',
+  BLUE_BASE: '#16B2CE',
   BLUE_DARK: '#4469B0',
   BLUE_LIGHT: '#e6fffa',
   BLUE_MID: '#4dc0d5',

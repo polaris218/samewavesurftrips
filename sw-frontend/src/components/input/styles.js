@@ -40,7 +40,7 @@ export default styled(TextField)`
 
 export const PlacesInput = styled.div`
   .location-search-input {
-    height: 40px;
+    height: 30px;
     width: calc(100% - ${Spacings.SMALL}px);
     font-size: ${Spacings.FONT.SMALL};
     padding-left: ${Spacings.SMALL}px;
@@ -49,12 +49,13 @@ export const PlacesInput = styled.div`
     border-top-width: 0;
     border-left-width: 0;
     border-right-width: 0;
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
     border-bottom-color: ${props =>
-      props.error ? Colors.RED : Colors.GREY_BASE};
+      props.error ? Colors.RED : Colors.GREY_LIGHT};
     outline: none;
     background-color: rgba(255, 255, 255, 0.1);
-
+    position: relative;
+    z-index: 10;
     &:focus {
       color: ${Colors.GREY_BASE};
       border-bottom-color: ${props =>
@@ -63,8 +64,11 @@ export const PlacesInput = styled.div`
   }
 
   .autocomplete-dropdown-container {
-    margin: -${Spacings.SMALL}px 0 ${Spacings.MEDIUM}px;
+    margin: 0 0 ${Spacings.MEDIUM}px;
     padding: 0px;
+    background: ${Colors.GREY_MID};
+    position: relative;
+    z-index: 20;
   }
 
   .suggestion-item {

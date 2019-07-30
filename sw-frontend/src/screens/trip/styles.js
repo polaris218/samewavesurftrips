@@ -183,8 +183,8 @@ export const Trip = styled.div`
     color: ${Colors.BLUE_BASE};
     font-weight: 600;
     text-transform: uppercase;
-    margin: ${Spacings.SMALL}px 0;
-    width: calc(100% - 262px);
+    margin: 8px 0 8px 108px;
+    width: calc(100% - 152px);
     /* padding-left: 262px; */
     transform: translateY(12px);
 

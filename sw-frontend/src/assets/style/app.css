@@ -94,3 +94,7 @@ code {
 .button__icon {
   margin: 0 6px 0 0;
 }
+.react-datepicker-popper {
+  z-index: 99;
+  /* position: relative !important; */
+}

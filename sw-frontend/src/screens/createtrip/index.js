@@ -32,6 +32,7 @@ import {
   ContentContainer,
   Step,
   // Steps,
+  DateIcon,
   Title,
   Error
 } from './styles'
@@ -252,13 +253,6 @@ const CreateTripScreen = props => {
     })
   }
 
-  const onSelectChange = (value, name) => {
-    setState({
-      ...state,
-      [name]: value
-    })
-  }
-
   const onCompleteButton = () => {
     props.history.push('/' + Routes.SURFTRIPS)
     ReactGA.event({
@@ -347,6 +341,7 @@ const CreateTripScreen = props => {
                           onChange={date =>
                             handleDateChange(date, 'date_departure')}
                         />
+                        <DateIcon>{Tools.renderIcon('calendar')}</DateIcon>
                       </DateInput>
                       <Label>TO</Label>
                       <DateInput>
@@ -355,6 +350,8 @@ const CreateTripScreen = props => {
                           onChange={date =>
                             handleDateChange(date, 'date_return')}
                         />
+                        <DateIcon>{Tools.renderIcon('calendar')}</DateIcon>
+
                       </DateInput>
                     </Step>
                   )}

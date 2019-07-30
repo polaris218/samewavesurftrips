@@ -94,6 +94,7 @@ const SurfTripsScreen = props => {
             <TripList
               trips={filterTrips(props.trips.yourTrips, activeTab)}
               loading={loading}
+              ownerDetailVisible={false}
             />
           </Container>
         </ContentContainer>

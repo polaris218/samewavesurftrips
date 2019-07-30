@@ -17,7 +17,7 @@ export const ScrollContainer = styled.div`
         ? `linear-gradient(to right, #0072ff, #16b2ce)`
         : 'transparent'};
 
-  overflow: hidden;
+  /* overflow: hidden; */
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     margin-top: ${({ padTop }) => padTop && `55px`};
     height: calc(

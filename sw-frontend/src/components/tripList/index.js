@@ -50,6 +50,7 @@ const TripListComponent = props => {
                   offering_rides={trip.offering_rides}
                   transport={trip.transport}
                   trip_details={trip.trip_details}
+                  ownerDetailVisible={props.ownerDetailVisible}
                 />
               </animated.div>
             )
@@ -75,14 +76,16 @@ TripListComponent.propTypes = {
   trips: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
   paddingTop: PropTypes.number,
-  paddingSide: PropTypes.bool
+  paddingSide: PropTypes.bool,
+  ownerDetailVisible: PropTypes.bool
 }
 
 TripListComponent.defaultProps = {
   trips: {},
   loading: false,
   paddingTop: Spacings.MEDIUM,
-  paddingSide: false
+  paddingSide: false,
+  ownerDetailVisible: true
 }
 
 export default TripListComponent

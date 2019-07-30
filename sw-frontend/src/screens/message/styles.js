@@ -38,7 +38,7 @@ export const FootContainer = styled.div`
 export const MessageView = styled.div`
   width: calc(100% - ${Spacings.MEDIUM}px);
   height: calc(100% - 140px);
-  padding: 60px ${Spacings.SMALL}px ${Spacings.LARGE}px;
+  padding: 60px ${Spacings.SMALL}px ${Spacings.LARGE + 20}px;
   overflow-y: scroll;
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     width: calc(100% - ${Spacings.LARGE}px);

@@ -127,8 +127,10 @@ const TripCardComponent = props => {
 
   // console.log('Trip', props)
   return (
-    <TripCard style={{ ...props.style }} onClick={onTripPress}>
+    <TripCard style={{ ...props.style }} onClick={onTripPress} ownerDetailVisible={props.ownerDetailVisible}>
       <div className={'tripcard__header'}>
+        {props.ownerDetailVisible && 
+        <>
         <div className={'tripcard__avatar'}>
           <Avatar borderWidth={1} image={!loading ? userAvatar() : ''} />
         </div>
@@ -141,13 +143,10 @@ const TripCardComponent = props => {
             </p>
           )}
           <p className={'tripcard__level'}>
-            {owner && owner.location && owner.location.name ? (
-              owner.location.name
-            ) : (
-              ''
-            )}
+            {owner && owner.surf_level ? owner.surf_level  : '' }
           </p>
         </div>
+        </>}
         <p className={'tripcard__title'}>{props.title}</p>
       </div>
       <div className={'tripcard__location'}>
@@ -214,7 +213,8 @@ TripCardComponent.propTypes = {
   surf_level: PropTypes.string,
   owner_details: PropTypes.object,
   tripDate: PropTypes.object,
-  postedDate: PropTypes.object
+  postedDate: PropTypes.object,
+  ownerDetailVisible: PropTypes.bool
 }
 
 TripCardComponent.defaultProps = {
@@ -231,7 +231,8 @@ TripCardComponent.defaultProps = {
   surf_level: '',
   owner_details: null,
   tripDate: new Date(),
-  postedDate: new Date()
+  postedDate: new Date(),
+  ownerDetailVisible: true
 }
 
 const mapStateToProps = state => ({
