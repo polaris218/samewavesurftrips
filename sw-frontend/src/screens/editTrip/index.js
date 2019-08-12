@@ -16,7 +16,6 @@ import {
   Container,
   Input,
   Places,
-  Select,
   Card,
   Heading,
   Header,
@@ -224,7 +223,7 @@ const EditTripScreen = props => {
 
   const validateForm = data => {
     const errors = []
-    if (data.title === '') errors.push('title')
+    // if (data.title === '') errors.push('title')
     if (data.departing === '') errors.push('departing')
     if (data.destination === '') errors.push('destination')
     if (data.surferCount === '') errors.push('surferCount')
@@ -262,13 +261,6 @@ const EditTripScreen = props => {
     })
   }
 
-  const onSelectChange = (value, name) => {
-    setState({
-      ...state,
-      [name]: value
-    })
-  }
-
   const onCompleteButton = () => {
     props.history.push('/' + Routes.SURFTRIPS)
   }
@@ -294,14 +286,14 @@ const EditTripScreen = props => {
             <Container>
               <div className='trip__container'>
                 <Card slim>
-                  <Label>Title</Label>
+                  {/* <Label>Title</Label>
                   <Input
                     label='Trip Title'
                     onChange={onInputChange}
                     value={state.title}
                     fieldName={'title'}
                     error={checkValidField('title')}
-                  />
+                  /> */}
 
                   <Label>Departing</Label>
                   <Places

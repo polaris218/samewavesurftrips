@@ -14,21 +14,17 @@ import {
   Card,
   Container,
   Header,
-  MastHead,
-  Map,
   ScrollContainer,
   FootItem,
   Modal
 } from 'components'
-import { Tools, PickIcon } from 'utils'
+import { Tools } from 'utils'
 import {
   Attendees,
   Trip,
   ContentContainer,
   Center,
-  TripDivider,
-  Stats,
-  Stat
+  TripDivider
 } from './styles'
 
 const TripScreen = props => {
@@ -261,9 +257,8 @@ const TripScreen = props => {
               <Card>
                 <div className={'trip__card'}>
                   <div className={'trip__title'}>
-                    {trip.title}
                     <div className={'trip__description'}>
-                      "{trip.trip_details}"
+                      {trip.trip_details && `"${trip.trip_details}"`}
                     </div>
                   </div>
                 </div>

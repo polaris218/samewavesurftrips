@@ -75,9 +75,9 @@ const MapCardComponent = props => {
 
   return (
     <MapCard style={{ ...props.style }} onClick={onTripPress}>
-      <div className={'mapcard__header'}>
+      {/* <div className={'mapcard__header'}>
         <div className={'mapcard__title'}>{props.title}</div>
-      </div>
+      </div> */}
       <div className={'mapcard__divider'}>
         <div className={'mapcard__divider-start'} />
         <div className={'mapcard__divider-rule'} />

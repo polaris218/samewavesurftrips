@@ -19,15 +19,12 @@ const CropComponent = props => {
     }
   })
   const onConfirmPress = () => {
-    // getCroppedImg(state.image,state.crop,'upload')
-    const croppedImg = getCroppedImg(
-      image.image,
-      state.crop,
-      'upload'
-    ).then(img => {
-      props.onYesPress(img)
-      setState({ crop: { aspect: 1 / 1 } })
-    })
+    const croppedImg = getCroppedImg(image.image, state.crop, 'upload')
+      .then(img => {
+        props.onYesPress(img)
+        setState({ crop: { aspect: 1 / 1 } })
+      })
+      .catch(err => console.log('error ', croppedImg, err))
   }
   const onCancelPress = () => {
     props.onNoPress()

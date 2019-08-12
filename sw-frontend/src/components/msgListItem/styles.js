@@ -5,7 +5,7 @@ export const ListItem = styled.div`
   position: relative;
   padding: ${Spacings.MEDIUM}px;
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   border-bottom: 1px solid ${Colors.GREY_MID};
   background: ${Colors.WHITE};
   cursor: pointer;

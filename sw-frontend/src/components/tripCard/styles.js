@@ -25,6 +25,7 @@ export const TripCard = styled.div`
     .tripcard__avatar {
         width: 35px;
         height: 35px;
+        margin: 0 0 16px;
         img  { 
             width: 35px;
             height: 35px;
@@ -118,7 +119,7 @@ export const TripCard = styled.div`
         width: calc(100% - 6%);
         justify-content: space-between;
         align-items: center;
-        margin: 36px ${Spacings.SMALL}px ${Spacings.SMALL}px;
+        margin: 0px ${Spacings.SMALL}px ${Spacings.SMALL}px;
     }
 
     .tripcard__divider {

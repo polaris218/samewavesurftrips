@@ -14,7 +14,7 @@ const ButtonGroupComponent = props => {
       {props.items.map((item, i) => (
         <Button
           animated={false}
-          key={item.title}
+          key={item.title + i}
           title={item.title}
           onPress={onButtonPress.bind(null, i)}
           outlineDark

@@ -23,6 +23,28 @@ export const Header = styled.header`
     font-size: ${Spacings.FONT.TITLE};
     font-weight: 600;
   }
+  .header__rightsubicon{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 43px;
+    top: 15px;
+    cursor: pointer;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      path {
+        stroke-width: 5px;
+        fill: ${Colors.BLUE_BASE};
+      }
+    }
+
+    @media (min-width: ${Spacings.SCREEN.TABLET}px) {
+      right: 70px;
+      top: auto;
+    }
+  }
   .header__righticon {
     width: 25px;
     height: 25px;

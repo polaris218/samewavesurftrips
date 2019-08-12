@@ -125,7 +125,6 @@ const TripCardComponent = props => {
   const dateDeparture = moment(new Date(props.date_times.departure_date_time))
   const dateReturn = moment(new Date(props.date_times.return_date_time))
 
-  // console.log('Trip', props)
   return (
     <TripCard style={{ ...props.style }} onClick={onTripPress} ownerDetailVisible={props.ownerDetailVisible}>
       <div className={'tripcard__header'}>
@@ -147,7 +146,7 @@ const TripCardComponent = props => {
           </p>
         </div>
         </>}
-        <p className={'tripcard__title'}>{props.title}</p>
+        {/* <p className={'tripcard__title'}>{props.title}</p> */}
       </div>
       <div className={'tripcard__location'}>
         <div className={'tripcard__location-meta'}>

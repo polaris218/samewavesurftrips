@@ -7,7 +7,7 @@ import ReactGA from 'react-ga'
 import { tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
-import { General as config, Routes, Types, Colors } from 'config'
+import { General as config, Routes, Types } from 'config'
 import { Tools } from 'utils'
 import {
   ScrollContainer,
@@ -16,7 +16,7 @@ import {
   Container,
   Input,
   Places,
-  Select,
+  // Select,
   Card,
   Heading,
   Header,
@@ -207,7 +207,7 @@ const CreateTripScreen = props => {
 
   const validateForm = data => {
     const errors = []
-    if (data.title === '') errors.push('title')
+    // if (data.title === '') errors.push('title')
     if (
       data.departing === '' ||
       data.departing === 'Where are you starting your trip?'
@@ -308,15 +308,15 @@ const CreateTripScreen = props => {
                 <Card marginBottom={80} slim>
                   {(step === 1 || step === 0) && (
                     <Step>
-                      <Title>Name your Surf Trip & enter the location</Title>
-                      <Label>TRIP TITLE</Label>
+                      {/* <Title>Name your Surf Trip & enter the location</Title> */}
+                      {/* <Label>TRIP TITLE</Label>
                       <Input
                         label='Give this trip a name? '
                         onChange={onInputChange}
                         value={state.title}
                         fieldName={'title'}
                         error={checkValidField('title')}
-                      />
+                      /> */}
                       <Label>DEPARTING POINT</Label>
                       <Places
                         label='Departing'

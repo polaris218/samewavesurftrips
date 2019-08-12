@@ -98,7 +98,7 @@ const MailScreen = props => {
       console.log('msgs error', res)
       return false
     }
-    console.log('GET MESGAES', res.data)
+    // console.log('GET MESGAES', res.data)
     mounted && setMessages(res.data)
     mounted && setLoading(false)
   }
@@ -132,8 +132,6 @@ const MailScreen = props => {
         if (activeTrip.length) uniqueGroup.push(msg)
       }
     })
-
-    console.log('direct', direct, uniqueDirect)
 
     setMessageList(activeTab === state.tabs[0] ? uniqueDirect : uniqueGroup)
   }

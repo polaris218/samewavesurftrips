@@ -20,7 +20,6 @@ import {
   Heading,
   Header,
   Preloader,
-  Select,
   Places,
   CropModal,
   ButtonGroup
@@ -248,26 +247,7 @@ const EditProfileScreen = props => {
   }
 
   const onImageUpload = () => {}
-  const onCeverChange = (e, type) => {
-    const input = e.target
-    const reader = new FileReader()
-    reader.onload = function () {
-      const dataURL = reader.result
-      if (type === 'avatar') {
-        setState({ ...state, avatarLoading: true })
-        setAvatar(dataURL)
-      } else {
-        setState({ ...state, coverLoading: true })
-        setCoverImg(dataURL)
-      }
-    }
-    reader.readAsDataURL(input.files[0])
-    console.log('TYPE IS ', type)
-    const blob = input.files[0]
-    const data = new FormData()
-    data.append(type === 'avatar' ? 'avatar' : 'cover', blob, blob.name)
-    uploadImage(data, type)
-  }
+  
   const onImageChange = (e, type) => {
     console.log('this is no')
     state.type = type
@@ -319,12 +299,6 @@ const EditProfileScreen = props => {
     )
   }
 
-  const onSelectChange = (value, name) => {
-    setState({
-      ...state,
-      [name]: value
-    })
-  }
 
   const handleDateChange = (date, field) => {
     setState({
@@ -396,6 +370,7 @@ const EditProfileScreen = props => {
                             <input
                               type='file'
                               accept='image/*'
+                              onClick={(e) => onImageChange(e, 'coverImg')}
                             />
                           </InputFile>
                           <div className='profile__cover'>

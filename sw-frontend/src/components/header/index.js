@@ -91,6 +91,11 @@ const HeaderComponent = props => {
         </Desktop>
 
         <div className='header__title'>{props.title.toUpperCase()}</div>
+        {props.rightSubIcon && (
+          <div className='header__rightsubicon' onClick={props.rightSubAction}>
+            {props.rightSubIcon}
+          </div>
+        )}
         {props.rightIcon && (
           <div className='header__righticon' onClick={props.rightAction}>
             {props.rightIcon}

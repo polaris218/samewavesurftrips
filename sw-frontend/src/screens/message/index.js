@@ -200,6 +200,7 @@ const MessageScreen = props => {
             <MsgAlign
               self={msg.owner_id === props.user.id}
               key={msg._id + uuid()}>
+              {/* {!loading && ( */}
               <Message key={msg._id} self={msg.owner_id === props.user.id}>
                 {message &&
                 message.owner && (
@@ -215,6 +216,7 @@ const MessageScreen = props => {
                 )}
                 {msg.message}
               </Message>
+              {/* )} */}
             </MsgAlign>
           )
         })}

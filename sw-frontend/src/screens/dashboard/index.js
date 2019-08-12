@@ -21,13 +21,15 @@ import {
   MapCard,
   ScrollContainer,
   Search,
-  Footer
+  Footer,
+  Filters
 } from 'components'
 import { Dashboard, MapTripDetail, ButtonContainer } from './styles'
 
 const DashboardScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ searchVisible, setSearchVisible ] = useState(true)
+  const [ filterVisible, setFilterVisible ] = useState(false)
   const [ activeTab, setActiveTab ] = useState('list')
   const [ initalDisplay, setInitialDisplay ] = useState(false)
   let mounted = true
@@ -85,7 +87,6 @@ const DashboardScreen = props => {
   }
 
   const onSearchPress = () => {
-    console.log('props ara', props)
     if (!searchVisible) {
       onMapCardPress()
     }
@@ -94,8 +95,12 @@ const DashboardScreen = props => {
   }
 
   const onFilterPress = () => {
-    if (!searchVisible) {
-    }
+    setFilterVisible(!filterVisible)
+    console.log('SHOW FILTER')
+  }
+
+  const onFilterApply = () => {
+    setFilterVisible(false)
     onSearchPress()
     // Record Activity in GA
     ReactGA.event({
@@ -165,11 +170,15 @@ const DashboardScreen = props => {
   return (
     <Dashboard>
       <ScrollContainer height={'55'}>
-        <Header
-          title='Search Surf Trip'
-          rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')}
-          rightAction={onSearchPress}
-        />
+        {!filterVisible ? (
+          <Header
+            title={!filterVisible ? 'Search Surf Trip' : 'Filters'}
+            rightIcon={Tools.renderIcon(searchVisible ? 'search' : 'close')}
+            rightAction={onSearchPress}
+          />
+        ) : (
+          <Filters onClose={onFilterPress} />
+        )}
 
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
@@ -181,7 +190,8 @@ const DashboardScreen = props => {
             paddingSide
           />
         )}
-        {searchVisible && (
+        {searchVisible &&
+        !filterVisible && (
           <div className={'dashboard__switch'}>
             <Toggle
               onPress={onTogglePress}
@@ -217,7 +227,11 @@ const DashboardScreen = props => {
           </MapTripDetail>
         )}
         {!searchVisible && (
-          <Search visible={searchVisible} onFilter={onFilterPress} />
+          <Search
+            visible={searchVisible}
+            onFilter={onFilterPress}
+            onSearch={onFilterApply}
+          />
         )}
       </ScrollContainer>
       {activeTab === 'list' && <Footer />}

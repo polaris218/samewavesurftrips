@@ -58,6 +58,10 @@ const SearchComponent = props => {
   }
 
   const onFilterPress = () => {
+    props.onFilter()
+  }
+
+  const onSearchPress = () => {
     let searchParams = ''
     let params = {
       dateDeparture: dateDeparture ? dateDeparture.toString() : '',
@@ -231,7 +235,8 @@ const SearchComponent = props => {
                       // hoverColor={Colors.RED_DARK}
                       outlineDark
                     />
-                    <Button primary title={'SEARCH'} onPress={onFilterPress} />
+                    <Button primary title={'FILTER'} onPress={onFilterPress} />
+                    <Button primary title={'SEARCH'} onPress={onSearchPress} />
                   </FilterButton>
                 </div>
               </Container>

@@ -36,6 +36,7 @@ import Modal from './modal'
 import CropModal from './imagecrop'
 import MsgListItem from './msgListItem'
 import ButtonGroup from './buttonGroup'
+import Filters from './filters'
 
 export {
   App,
@@ -43,6 +44,7 @@ export {
   ButtonGroup,
   BackButton,
   Container,
+  Filters,
   Fab,
   Footer,
   Header,
