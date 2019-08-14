@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'components'
-import { ButtonGroup } from './styles'
+import { Tools } from 'utils'
+import { ButtonGroup, More } from './styles'
 
 const ButtonGroupComponent = props => {
   const onButtonPress = index => {
@@ -10,7 +11,9 @@ const ButtonGroupComponent = props => {
   }
 
   return (
-    <ButtonGroup>
+    <ButtonGroup showMore={props.showMore}>
+      {props.items.length > 2 &&
+      props.showMore && <More>{Tools.renderIcon('chevron')}</More>}
       {props.items.map((item, i) => (
         <Button
           animated={false}
@@ -28,11 +31,13 @@ const ButtonGroupComponent = props => {
 ButtonGroupComponent.propTypes = {
   type: PropTypes.string,
   items: PropTypes.array,
-  selected: PropTypes.number
+  selected: PropTypes.number,
+  showMore: PropTypes.bool
 }
 
 ButtonGroupComponent.defaultProps = {
   type: 'default',
+  showMore: true,
   selected: 0,
   action: () => {},
   items: [

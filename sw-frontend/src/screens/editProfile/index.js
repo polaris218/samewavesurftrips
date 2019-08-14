@@ -249,12 +249,18 @@ const EditProfileScreen = props => {
   const onImageUpload = () => {}
   
   const onImageChange = (e, type) => {
-    console.log('this is no')
-    state.type = type
+    // state.type = type
+    console.log('on img change ', type,  e.target.files)
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
       reader.onload = function () {
-        state.src = reader.result
+        // state.src = reader.result
+        console.log('reader load ', reader.result)
+        setState({
+          ...state,
+          src: reader.result,
+          type: type
+        })
         setCropModalVisible(true)
       }
       reader.readAsDataURL(e.target.files[0])
@@ -357,7 +363,6 @@ const EditProfileScreen = props => {
                                   width='200'
                                   height='200'
                                   alt='avatar'
-                                  onClick={(e) => onImageChange(e, 'coverImg')}
                                 />
                               )
                             )}
