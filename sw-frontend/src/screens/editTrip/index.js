@@ -63,9 +63,9 @@ const EditTripScreen = props => {
   useEffect(() => {
     // Set the Types
     // Gender
-    const GTypes = ['Anyone', 'Only Women', 'Only Men']
+    // const GTypes = ['Anyone', 'Only Women', 'Only Men']
     const tempGenders = []
-    GTypes.forEach((gender, i) => {
+    Types.tripGenders.forEach((gender, i) => {
       tempGenders.push({
         title: gender,
       })

@@ -41,7 +41,7 @@ const CreateTripScreen = props => {
   const [ loading, setLoading ] = useState(false)
   const [ createSuccess, setCreateSuccess ] = useState(false)
   const [ state, setState ] = useState({
-    title: '',
+    title: ' ',
     departing: 'Where are you starting your trip?',
     destination: 'Where would you like to surf?',
     date_departure: new Date(),
@@ -78,9 +78,9 @@ const CreateTripScreen = props => {
 
     // Set the Types
     // Gender
-    const GTypes = ['Anyone', 'Only Women', 'Only Men']
+    // const GTypes = ['Anyone', 'Only Women', 'Only Men']
     const tempGenders = []
-    GTypes.forEach((gender, i) => {
+    Types.tripGenders.forEach((gender, i) => {
       tempGenders.push({
         title: gender,
       })
