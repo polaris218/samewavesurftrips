@@ -286,7 +286,7 @@ const EditProfileScreen = props => {
                   type: null
                 })
             }
-            if (type === 'coverImg') {
+            else {
               mounted &&
                 setState({
                   ...state,
@@ -367,7 +367,6 @@ const EditProfileScreen = props => {
                               )
                             )}
                           </div>
-
                           <Label>COVER PICTURE</Label>
                           <Sub>for best results use 1200x600px</Sub>
                           <InputFile>
@@ -375,7 +374,7 @@ const EditProfileScreen = props => {
                             <input
                               type='file'
                               accept='image/*'
-                              onClick={(e) => onImageChange(e, 'coverImg')}
+                              onChange={e => onImageChange(e, 'cover')}
                             />
                           </InputFile>
                           <div className='profile__cover'>
