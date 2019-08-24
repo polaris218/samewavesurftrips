@@ -86,7 +86,7 @@ export const MessageInput = styled.div`
 `
 export const SendMsg = styled.div`
   position: fixed;
-  bottom: 30px;
+  bottom: ${Spacings.MEDIUM}px;
   right: ${Spacings.MEDIUM}px;
   z-index: 100;
 

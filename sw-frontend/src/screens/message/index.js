@@ -22,7 +22,7 @@ import {
 const MessageScreen = props => {
   const msgView = useRef(null)
   const message = props.location.state
-  const [ loading, setLoading ] = useState(true)
+  const [ loading, setLoading ] = useState(true) // eslint-disable-line no-unused-vars
   const [ messageReply, setMessageReply ] = useState('')
   const [ messageSubject, setMessageSubject ] = useState('')
   const [ messages, setMessages ] = useState(

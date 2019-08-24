@@ -14,7 +14,7 @@ export const Card = styled.div`
     margin-bottom: ${props => props.marginBottom}px;
     box-shadow: 0px 5px 8px rgba(23, 23, 77, 0.22);
     background-color: rgba(255,255,255, 1);
-
+    overflow-x: hidden;
     /* @media (min-width: ${Spacings.SCREEN.TABLET}px) {
         padding: 0 20%;
         width: calc(100% - 40%);

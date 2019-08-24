@@ -102,7 +102,7 @@ export const NavFooter = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding-bottom: 26px;
+  padding-bottom: 0;
 `
 
 export const NavLogo = styled.div`

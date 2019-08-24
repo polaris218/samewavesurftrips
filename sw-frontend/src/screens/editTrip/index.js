@@ -27,7 +27,8 @@ import {
   DateInput,
   ContentContainer,
   ButtonFooter,
-  ButtonGroupRow
+  ButtonGroupRow,
+  Switch
 } from './styles'
 
 const EditTripScreen = props => {
@@ -41,13 +42,16 @@ const EditTripScreen = props => {
     date_departure: new Date(
       props.trips.current.date_times.departure_date_time
     ),
+    trip_details: props.trips.current.trip_details,
     date_return: new Date(props.trips.current.date_times.return_date_time),
     surferCount: props.trips.current.number_of_surfers,
     gender: props.trips.current.gender,
     modality: props.trips.current.surf_modality,
     level: props.trips.current.surf_level,
+    offering_rides: props.trips.current.offering_rides,
     invalid: []
   })
+  const offeringRides = useRef(null)
   const dateFrom = useRef(null)
   const dateTo = useRef(null)
   const [genders, setGenders] = useState([])
@@ -62,11 +66,13 @@ const EditTripScreen = props => {
   const [surfLevelSelected, setSurfLevelSelected] = useState(0)
 
   useEffect(() => {
+     // eslint-disable-next-line no-unused-vars
     const dateInitFrom = window.M.Datepicker.init(dateFrom.current, {
       onSelect: onDateFrom,
       minDate: new Date(),
       defaultDate: new Date(state.date_departure)
     })
+    // eslint-disable-next-line no-unused-vars
     const dateInitTo = window.M.Datepicker.init(dateTo.current, {
       onSelect: onDateTo,
       minDate: new Date(),
@@ -207,6 +213,7 @@ const EditTripScreen = props => {
       surf_modality: state.surf_modality,
       transport: state.transport,
       accomodation: state.accomodation,
+      offering_rides: state.offering_rides,
       title: state.title
     }
 
@@ -287,6 +294,13 @@ const EditTripScreen = props => {
     setState({
       ...state,
       [field]: date
+    })
+  }
+
+  const onCheckboxChange = (value) => {
+    setState({
+      ...state,
+      offering_rides: offeringRides.current.checked,
     })
   }
 
@@ -391,6 +405,17 @@ const EditTripScreen = props => {
                         />
                       </ButtonGroupRow>
                   <Label>Offering Rides</Label>
+                  <Switch className="switch">
+                        <label>
+                          NO
+                          <input 
+                            checked={state.offering_rides}
+                            onChange={onCheckboxChange}
+                            ref={offeringRides} type="checkbox"/>
+                          <span className="lever"></span>
+                          Yes
+                        </label>
+                      </Switch>
                   <Label>Avalible Seats</Label>
                   <Input
                     label='No. Seats'
@@ -412,9 +437,11 @@ const EditTripScreen = props => {
                   <Input
                     label='Any more details?'
                     onChange={onInputChange}
-                    value={state.details}
+                    value={state.trip_details}
                     fieldName={'details'}
                     error={checkValidField('details')}
+                    multiline={true}
+                    rows={5}
                   />
                 </Card>
               </div>

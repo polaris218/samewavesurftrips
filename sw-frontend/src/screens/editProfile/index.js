@@ -92,6 +92,7 @@ const EditProfileScreen = props => {
 
   useEffect(() => {
     setAvatar(userAvatar())
+    // eslint-disable-next-line no-unused-vars
     const dateSurfSince = window.M.Datepicker.init(dateSurf.current, {
       onSelect: onDatePick,
       defaultDate:new Date(state.surfing_since),

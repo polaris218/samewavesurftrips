@@ -36,7 +36,6 @@ export const Tabs = styled.ul`
   background-color: white;
   list-style: none;
   /* cursor: pointer; */
-
   li {
     height: 100%;
     width: 100%;

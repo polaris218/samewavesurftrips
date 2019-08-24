@@ -15,6 +15,7 @@ export const Tab = styled.li`
     .icon {
         width: 20px;
         height: 20px;
+        margin-top: 6px;
         /* margin-bottom: 8px; */
 
         svg {

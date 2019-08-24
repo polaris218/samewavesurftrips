@@ -105,3 +105,9 @@ code {
 *:after {
   box-sizing: unset;
 }
+
+h1,
+h2,
+h3 {
+  font-size: 1.7rem;
+}

@@ -10,7 +10,6 @@ import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
 import { Tools } from 'utils'
 import {
-  // Button,
   Fab,
   Map,
   Toggle,
@@ -22,7 +21,7 @@ import {
   Footer,
   Filters
 } from 'components'
-import { Dashboard, MapTripDetail, ButtonContainer } from './styles'
+import { Dashboard, MapTripDetail } from './styles'
 
 const DashboardScreen = props => {
   const [ loading, setLoading ] = useState(false)

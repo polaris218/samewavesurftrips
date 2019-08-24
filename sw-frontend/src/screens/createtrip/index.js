@@ -29,6 +29,7 @@ import {
   ContentContainer,
   Step,
   // Steps,
+  Switch,
   DateIcon,
   Title,
   Error
@@ -55,6 +56,7 @@ const CreateTripScreen = props => {
     invalid: [],
     attendees: []
   })
+  const offeringRides = useRef(null)
   const dateFrom = useRef(null)
   const dateTo = useRef(null)
   const [genders, setGenders] = useState([])
@@ -74,11 +76,12 @@ const CreateTripScreen = props => {
     setTimeout(() => {
       setStep(1)
     }, 500)
-
+    // eslint-disable-next-line no-unused-vars
     const dateInitFrom = window.M.Datepicker.init(dateFrom.current, {
       onSelect: onDateFrom,
       minDate: new Date()
     })
+    // eslint-disable-next-line no-unused-vars
     const dateInitTo = window.M.Datepicker.init(dateTo.current, {
       onSelect: onDateTo,
       minDate: new Date()
@@ -298,6 +301,13 @@ const CreateTripScreen = props => {
     props.history.goBack()
   }
 
+  const onCheckboxChange = (value) => {
+    setState({
+      ...state,
+      offering_rides: offeringRides.current.checked,
+    })
+  }
+
   return (
     <Trip>
       <ScrollContainer
@@ -324,15 +334,6 @@ const CreateTripScreen = props => {
                 <Card marginBottom={80} slim>
                   {(step === 1 || step === 0) && (
                     <Step>
-                      {/* <Title>Name your Surf Trip & enter the location</Title> */}
-                      {/* <Label>TRIP TITLE</Label>
-                      <Input
-                        label='Give this trip a name? '
-                        onChange={onInputChange}
-                        value={state.title}
-                        fieldName={'title'}
-                        error={checkValidField('title')}
-                      /> */}
                       <Label>DEPARTING POINT</Label>
                       <Places
                         label='Departing'
@@ -420,11 +421,23 @@ const CreateTripScreen = props => {
                         />
                       </ButtonGroupRow>
                       <Label>ARE YOU OFFERING RIDES?</Label>
+                      <Switch className="switch">
+                        <label>
+                          NO
+                          <input 
+                            checked={state.offering_rides}
+                            value={state.offering_rides} 
+                            onChange={onCheckboxChange}
+                            ref={offeringRides} type="checkbox"/>
+                          <span className="lever"></span>
+                          Yes
+                        </label>
+                      </Switch>
                       <Label>Avalible Seats</Label>
                       <Input
                         label='No. Seats'
                         onChange={onInputChange}
-                        value={state.available_seats}
+                        value={state.available_seats && state.available_seats !== 0 ? state.available_seats : ''}
                         fieldName={'available_seats'}
                         type='number'
                         error={checkValidField('available_seats')}

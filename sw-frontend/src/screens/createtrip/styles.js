@@ -195,3 +195,4 @@ export const ButtonGroupRow = styled.div`
     }
   }
 `
+export const Switch = styled.div`margin: ${Spacings.MEDIUM}px 0;`
