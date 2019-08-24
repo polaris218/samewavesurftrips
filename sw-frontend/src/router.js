@@ -23,7 +23,7 @@ import {
 } from 'screens'
 import { Routes, General as Config } from 'config'
 import Analytics from 'react-router-ga'
-
+import 'assets/style/materialize.css'
 import 'assets/style/app.css'
 
 const AppRouter = props => {

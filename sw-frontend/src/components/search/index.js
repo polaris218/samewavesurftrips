@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { connect } from 'react-redux'
@@ -25,6 +25,8 @@ import {
 } from './styles'
 
 const SearchComponent = props => {
+  const dateDepart = useRef(null)
+  const dateDestination = useRef(null)
   const [ loading, setLoading ] = useState(false)
   const [ selectGender, setSelectGender ] = useState(null)
   const [ selectModality, setSelectModality ] = useState(null)
@@ -38,9 +40,14 @@ const SearchComponent = props => {
     name: 'surf location'
   })
 
-  // useEffect(() => {
-  // fetchTrips();
-  // }, [])
+  useEffect(() => {
+    const dateStart = window.M.Datepicker.init(dateDepart.current, {
+      onSelect: onDatePickDepart
+    })
+    const dateEnd = window.M.Datepicker.init(dateDestination.current, {
+      onSelect: onDatePickDestination
+    })
+  }, [])
 
   const onClearPress = () => {
     setDateDeparture(null)
@@ -112,23 +119,6 @@ const SearchComponent = props => {
       console.log('what error', error)
     }
     setLoading(false)
-    // props.onFilter()
-  }
-
-  const onSelectChange = (value, type) => {
-    switch (type) {
-      case 'gender':
-        setSelectGender(value)
-        break
-      case 'modality':
-        setSelectModality(value)
-        break
-      case 'level':
-        setSelectLevel(value)
-        break
-      default:
-        return false
-    }
   }
 
   const handleDateChange = (date, type) => {
@@ -157,6 +147,14 @@ const SearchComponent = props => {
       : { opacity: 1, transform: 'translate3d(0,0,0)' },
     config: { mass: 0.2, tension: 170, friction: 13 }
   })
+
+  const onDatePickDepart = date => {
+    handleDateChange(date, 'departing')
+  }
+
+  const onDatePickDestination = date => {
+    handleDateChange(date, 'destination')
+  }
 
   return (
     <SearchContainer interactive={props.visible}>
@@ -190,49 +188,27 @@ const SearchComponent = props => {
                     <Label>Dates </Label>
                     <Row>
                       <DateInput>
-                        <DatePicker
-                          selected={dateDeparture}
-                          onChange={date => handleDateChange(date, 'departing')}
+                        <input
+                          ref={dateDepart}
+                          type='text'
+                          className='datepicker'
                         />
                         <DateIcon>{Tools.renderIcon('calendar')}</DateIcon>
                       </DateInput>
                       <DateInput>
-                        <DatePicker
-                          selected={dateReturn}
-                          onChange={date =>
-                            handleDateChange(date, 'destination')}
+                        <input
+                          ref={dateDestination}
+                          type='text'
+                          className='datepicker'
                         />
                         <DateIcon>{Tools.renderIcon('calendar')}</DateIcon>
                       </DateInput>
                     </Row>
                   </Dates>
-                  {/* <Label> Prefered gender </Label>
-                  <Select
-                    items={[ 'Any', ...Types.gender ]}
-                    fieldName={'gender'}
-                    placeholder={'Gender'}
-                    onChange={onSelectChange}
-                  />
-                  <Label> Board type </Label>
-                  <Select
-                    items={[ 'Any', ...Types.modality ]}
-                    fieldName={'modality'}
-                    placeholder={'Surf Modality'}
-                    onChange={onSelectChange}
-                  />
-                  <Label> Skill level </Label>
-                  <Select
-                    items={[ 'Any', ...Types.surfLevel ]}
-                    fieldName={'level'}
-                    placeholder={'Surf Level'}
-                    onChange={onSelectChange}
-                  /> */}
                   <FilterButton>
                     <Button
                       title={'CLEAR'}
                       onPress={onClearPress}
-                      // color={Colors.RED_BASE}
-                      // hoverColor={Colors.RED_DARK}
                       outlineDark
                     />
                     <Button primary title={'FILTER'} onPress={onFilterPress} />

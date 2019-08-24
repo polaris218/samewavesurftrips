@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
 import { Spring } from 'react-spring/renderprops'
 
 import { tripActions, mapDispatchToProps } from 'api/actions'
@@ -49,6 +48,8 @@ const EditTripScreen = props => {
     level: props.trips.current.surf_level,
     invalid: []
   })
+  const dateFrom = useRef(null)
+  const dateTo = useRef(null)
   const [genders, setGenders] = useState([])
   const [genderSelected, setGenderSelected] = useState(0)
   const [modality, setModality] = useState([])
@@ -61,6 +62,16 @@ const EditTripScreen = props => {
   const [surfLevelSelected, setSurfLevelSelected] = useState(0)
 
   useEffect(() => {
+    const dateInitFrom = window.M.Datepicker.init(dateFrom.current, {
+      onSelect: onDateFrom,
+      minDate: new Date(),
+      defaultDate: new Date(state.date_departure)
+    })
+    const dateInitTo = window.M.Datepicker.init(dateTo.current, {
+      onSelect: onDateTo,
+      minDate: new Date(),
+      defaultDate: new Date(state.deate_return)
+    })
     // Set the Types
     // Gender
     // const GTypes = ['Anyone', 'Only Women', 'Only Men']
@@ -166,6 +177,13 @@ const EditTripScreen = props => {
       )
     )
     setModalVisible(false)
+  }
+
+  const onDateFrom = date => {
+    handleDateChange(date, 'date_departure')
+  }
+  const onDateTo = date => {
+    handleDateChange(date, 'date_return')
   }
 
   const onEditPress = () => {
@@ -314,18 +332,19 @@ const EditTripScreen = props => {
 
                   <Label>Date of departure</Label>
                   <DateInput>
-                    <DatePicker
-                      selected={state.date_departure}
-                      onChange={date =>
-                        handleDateChange(date, 'date_departure')}
+                    <input
+                      ref={dateFrom}
+                      type='text'
+                      className='datepicker'
                     />
                   </DateInput>
 
                   <Label>Date of return</Label>
                   <DateInput>
-                    <DatePicker
-                      selected={state.date_return}
-                      onChange={date => handleDateChange(date, 'date_return')}
+                    <input
+                      ref={dateTo}
+                      type='text'
+                      className='datepicker'
                     />
                   </DateInput>
 

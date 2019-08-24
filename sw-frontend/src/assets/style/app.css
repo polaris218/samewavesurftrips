@@ -99,3 +99,9 @@ code {
   z-index: 99;
   /* position: relative !important; */
 }
+
+*,
+*:before,
+*:after {
+  box-sizing: unset;
+}

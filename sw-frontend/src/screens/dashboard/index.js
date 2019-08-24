@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-// import { Colors } from 'config'
 import { useSpring, animated } from 'react-spring'
 import ReactGA from 'react-ga'
-
+import { connect } from 'react-redux'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { withRouter } from 'react-router-dom'
 import { dispatch } from 'api/store'
@@ -96,7 +94,6 @@ const DashboardScreen = props => {
 
   const onFilterPress = () => {
     setFilterVisible(!filterVisible)
-    console.log('SHOW FILTER')
   }
 
   const onFilterApply = () => {
@@ -149,8 +146,6 @@ const DashboardScreen = props => {
   // }
 
   const onMapCardPress = () => {
-    // console.log('map mcard press 1=', JSON.stringify(props.trips.current))
-    // console.log('map mcard press 22=', props.trips.current._id)
     mounted && setInitialDisplay(false)
   }
 
@@ -205,9 +200,9 @@ const DashboardScreen = props => {
 
         {activeTab === 'map' && (
           <MapTripDetail>
-            <ButtonContainer>
-              {/* <Button primary title={'FILTER'} onPress={onFilterPress}/> */}
-            </ButtonContainer>
+            {/* <ButtonContainer>
+             <Button primary title={'FILTER'} onPress={onFilterPress}/>
+            </ButtonContainer> */}
             <animated.div style={springProps}>
               <MapCard
                 id={current._id}

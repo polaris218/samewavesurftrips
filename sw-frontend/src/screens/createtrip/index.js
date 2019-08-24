@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
 import { Spring } from 'react-spring/renderprops'
 import ReactGA from 'react-ga'
 import { tripActions, mapDispatchToProps } from 'api/actions'
@@ -16,12 +15,10 @@ import {
   Container,
   Input,
   Places,
-  // Select,
   Card,
   Heading,
   Header,
   Preloader
-  // ProgressBar,
 } from 'components'
 import {
   ButtonFooter,
@@ -58,6 +55,8 @@ const CreateTripScreen = props => {
     invalid: [],
     attendees: []
   })
+  const dateFrom = useRef(null)
+  const dateTo = useRef(null)
   const [genders, setGenders] = useState([])
   const [genderSelected, setGenderSelected] = useState(0)
   const [modality, setModality] = useState([])
@@ -75,6 +74,15 @@ const CreateTripScreen = props => {
     setTimeout(() => {
       setStep(1)
     }, 500)
+
+    const dateInitFrom = window.M.Datepicker.init(dateFrom.current, {
+      onSelect: onDateFrom,
+      minDate: new Date()
+    })
+    const dateInitTo = window.M.Datepicker.init(dateTo.current, {
+      onSelect: onDateTo,
+      minDate: new Date()
+    })
 
     // Set the Types
     // Gender
@@ -219,11 +227,12 @@ const CreateTripScreen = props => {
     )
       errors.push('destination')
     if (data.surferCount === '') errors.push('surferCount')
-    if (data.gender === '') errors.push('gender')
+    // if (data.gender === '') errors.push('gender')
     if (data.modality === '') errors.push('modality')
     if (data.level === '') errors.push('level')
 
     if (errors.length > 0) {
+      console.log('errors in form', errors)
       setLoading(false)
       setState({
         ...state,
@@ -276,6 +285,13 @@ const CreateTripScreen = props => {
       ...state,
       [field]: date
     })
+  }
+
+  const onDateFrom = date => {
+    handleDateChange(date, 'date_departure')
+  }
+  const onDateTo = date => {
+    handleDateChange(date, 'date_return')
   }
 
   const onClose = () => {
@@ -336,22 +352,21 @@ const CreateTripScreen = props => {
                       <Title>DATES</Title>
                       <Label>FROM</Label>
                       <DateInput>
-                        <DatePicker
-                          selected={state.date_departure}
-                          onChange={date =>
-                            handleDateChange(date, 'date_departure')}
-                        />
+                        <input
+                            ref={dateFrom}
+                            type='text'
+                            className='datepicker'
+                          />
                         <DateIcon>{Tools.renderIcon('calendar')}</DateIcon>
                       </DateInput>
                       <Label>TO</Label>
                       <DateInput>
-                        <DatePicker
-                          selected={state.date_return}
-                          onChange={date =>
-                            handleDateChange(date, 'date_return')}
+                        <input
+                          ref={dateTo}
+                          type='text'
+                          className='datepicker'
                         />
                         <DateIcon>{Tools.renderIcon('calendar')}</DateIcon>
-
                       </DateInput>
                     </Step>
                   )}

@@ -19,7 +19,7 @@ export const Button = styled.button`
           : props.color ? props.color : Colors.ORANGE_BASE};
   width: 100%;
   max-width: 300px;
-  height: 55px;
+  height: 40px !important;
   outline: none;
   display: flex;
   flex-direction: row;

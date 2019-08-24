@@ -86,7 +86,7 @@ export const DateInput = styled.div`
 export const DateIcon = styled.div`
   position: absolute;
   right: 8px;
-  top: 20px;
+  top: 16px;
   svg {
     width: 12px;
     height: 12px;

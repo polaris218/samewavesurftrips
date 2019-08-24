@@ -14,7 +14,7 @@ const CropComponent = props => {
       aspect: 1,
       x: 10,
       y: 10,
-      width: 200,
+      width: 100,
       height: 100
     }
   })

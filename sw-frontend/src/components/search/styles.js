@@ -44,7 +44,7 @@ export const Label = styled.div`
 `
 
 export const FilterButton = styled.div`
-  margin: 70px 0 0;
+  margin: 63px 0 0;
   width: calc(100% - ${Spacings.LARGE}px);
   display: flex;
   flex-direction: row;
@@ -63,7 +63,7 @@ export const FilterButton = styled.div`
 
 export const DateInput = styled.div`
   width: 100%;
-  margin: ${Spacings.MEDIUM}px 0 ${Spacings.SMALL}px;
+  margin: ${0}px 0 ${Spacings.SMALL}px;
   margin-right: ${Spacings.MEDIUM}px;
   position: relative;
 
@@ -129,7 +129,7 @@ export const Dates = styled.div`
 export const DateIcon = styled.div`
   position: absolute;
   right: 8px;
-  top: 0px;
+  top: 14px;
   svg {
     width: 12px;
     height: 12px;

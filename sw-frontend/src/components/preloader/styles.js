@@ -7,6 +7,9 @@ export const Progress = styled(CircularProgress)`
     }
 `
 export const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   div {
     color: ${({ color }) => color};
   }

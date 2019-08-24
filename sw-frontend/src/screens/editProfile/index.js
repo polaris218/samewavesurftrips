@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
-import DatePicker from 'react-datepicker'
 
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
@@ -73,6 +72,7 @@ const EditProfileScreen = props => {
       ? config.EndPoints.digitalOcean + props.user.coverImg
       : ''
   )
+  const dateSurf = useRef(null)
   const [genderOptions, setGenders] = useState([])
   const [genderSelected, setGenderSelected] = useState(0)
   const [modality, setModality] = useState([])
@@ -92,6 +92,14 @@ const EditProfileScreen = props => {
 
   useEffect(() => {
     setAvatar(userAvatar())
+    const dateSurfSince = window.M.Datepicker.init(dateSurf.current, {
+      onSelect: onDatePick,
+      defaultDate:new Date(state.surfing_since),
+      format:'yyyy',
+      setDefaultDate: true,
+      maxDate:new Date(),
+      yearRange:30
+    })
     // Gender
     const tempGenders = []
     Types.gender.forEach((gender, i) => {
@@ -265,6 +273,10 @@ const EditProfileScreen = props => {
       }
       reader.readAsDataURL(e.target.files[0])
     }
+  }
+
+  const onDatePick = date => {
+    handleDateChange(date, 'surfing_since')
   }
 
   const uploadImage = (data, type) => {
@@ -469,10 +481,10 @@ const EditProfileScreen = props => {
                         </ButtonGroupRow>
                         <Label>Surfing Since</Label>
                         <DateInput>
-                          <DatePicker
-                            selected={new Date(state.surfing_since)}
-                            onChange={date =>
-                              handleDateChange(date, 'surfing_since')}
+                          <input
+                            ref={dateSurf}
+                            type='text'
+                            className='datepicker'
                           />
                         </DateInput>
 

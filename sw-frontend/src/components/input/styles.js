@@ -9,7 +9,9 @@ export default styled(TextField)`
     border-left-width: 0;
     border-right-width: 0;
     border-radius: 3px;
+    
     width: calc(100% - 16px);
+    height: 100%;
     /* height: 50px; */
     margin: 0px 0px 20px;
     background-color: rgba(255, 255, 255, 0.3);
@@ -19,9 +21,11 @@ export default styled(TextField)`
         border-top-width: 0;
         border-left-width: 0;
         border-right-width: 0;
-        padding: 16px 8px;
+        border-bottom: 0px !important;
+        padding: 0px 8px !important;
         width: calc(100% - 16px);
-        margin: 0px 0px 0px;
+        height: 100%;
+        margin: 0px 0px 0px !important;
         background-color: rgba(255, 255, 255, 0.1);
         transition: background .25s ease;
     }
@@ -30,20 +34,27 @@ export default styled(TextField)`
     }
     input:focus {
         background-color: rgba(255, 255, 255, 0.8);
-
+        border-bottom: 0px !important;
+    }
+    &&::before{
+        border-bottom: 0px !important;
+    }
+    &&::after{
+        border-bottom-color: ${Colors.GREEN_BASE};
+        border-bottom: 0px !important;
     }
 
-    &&::after{
-        border-bottom-color: ${Colors.GREEN_BASE}
+    textarea {
+      height: 100% !important;
     }
 `
 
 export const PlacesInput = styled.div`
   .location-search-input {
     height: 30px;
-    width: calc(100% - ${Spacings.SMALL}px);
+    width: calc(100% - ${Spacings.SMALL}px) !important;
     font-size: ${Spacings.FONT.SMALL};
-    padding-left: ${Spacings.SMALL}px;
+    padding-left: ${Spacings.SMALL}px !important;
     margin-bottom: ${Spacings.MEDIUM}px;
     border: 1px solid ${Colors.GREY_GREEN};
     border-top-width: 0;
