@@ -5963,7 +5963,7 @@ body.keyboard-focused .dropdown-content li:focus {
 
 .chip:focus {
   outline: none;
-  background-color: #26a69a;
+  background-color: #16B2CE;
   color: #fff;
 }
 
@@ -5985,7 +5985,7 @@ body.keyboard-focused .dropdown-content li:focus {
 
 .chips {
   border: none;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid grey;
   -webkit-box-shadow: none;
           box-shadow: none;
   margin: 0 0 8px 0;
@@ -5996,9 +5996,9 @@ body.keyboard-focused .dropdown-content li:focus {
 }
 
 .chips.focus {
-  border-bottom: 1px solid #26a69a;
-  -webkit-box-shadow: 0 1px 0 0 #26a69a;
-          box-shadow: 0 1px 0 0 #26a69a;
+  border-bottom: 1px solid #16B2CE;
+  -webkit-box-shadow: 0 1px 0 0 #16B2CE;
+          box-shadow: 0 1px 0 0 #16B2CE;
 }
 
 .chips:hover {

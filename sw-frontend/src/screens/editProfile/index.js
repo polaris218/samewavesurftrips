@@ -36,7 +36,8 @@ import {
   Sub,
   DateInput,
   ImgCenter,
-  ButtonGroupRow
+  ButtonGroupRow,
+  Chips
 } from './styles'
 
 const EditProfileScreen = props => {
@@ -73,6 +74,7 @@ const EditProfileScreen = props => {
       : ''
   )
   const dateSurf = useRef(null)
+  const chips = useRef(null)
   const [genderOptions, setGenders] = useState([])
   const [genderSelected, setGenderSelected] = useState(0)
   const [modality, setModality] = useState([])
@@ -83,7 +85,7 @@ const EditProfileScreen = props => {
   const [surfLevelSelected, setSurfLevelSelected] = useState(0)
 
   let mounted = true
-
+  let chipObjects;
   useEffect(() => {
     return () => {
       mounted = false
@@ -101,6 +103,14 @@ const EditProfileScreen = props => {
       maxDate:new Date(),
       yearRange:30
     })
+
+    // eslint-disable-next-line no-unused-vars
+    chipObjects = window.M.Chips.init(chips.current, {
+      data: state.interests.map((chip,i) => ({ tag:chip })),
+      onChipAdd: onInterestAdd,
+      onChipDelete: onInterestDelete
+    });
+
     // Gender
     const tempGenders = []
     Types.gender.forEach((gender, i) => {
@@ -248,7 +258,23 @@ const EditProfileScreen = props => {
 
   const onInterestsChange = (value, name) => {
     const interests = value.split(',')
-    setState({ ...state, interests })
+    setState({ 
+      ...state, 
+      interests: chipObjects.chipsData.map(chip => (chip.tag))
+    })
+  }
+
+  const onInterestAdd = (value, item, label) => {
+    setState({ 
+      ...state, 
+      interests: chipObjects.chipsData.map(chip => (chip.tag))
+    })
+  }
+  const onInterestDelete =  (value, item) => {
+    setState({ 
+      ...state, 
+      interests: chipObjects.chipsData.map(chip => (chip.tag))
+    })
   }
 
   const onCompleteButton = () => {
@@ -490,14 +516,10 @@ const EditProfileScreen = props => {
                         </DateInput>
 
                         <Label>Interests</Label>
-                        <Sub>* SEPERATE EACH INTEREST WITH A COMMA ,</Sub>
-                        <Input
-                          label='Interests'
-                          onChange={onInterestsChange}
-                          value={state.interests}
-                          fieldName={'interests'}
-                          error={checkValidField('interests')}
-                        />
+                        <Sub>* SEPERATE EACH INTEREST WITH A ENTER</Sub>
+                        <Chips ref={chips}>
+                          <input className="custom-class" />
+                        </Chips>
 
                         <Label>Bio</Label>
                         <Input

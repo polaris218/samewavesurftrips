@@ -42,8 +42,7 @@ const CreateTripScreen = props => {
     title: ' ',
     departing: 'Where are you starting your trip?',
     destination: 'Where would you like to surf?',
-    date_departure: new Date(),
-    date_return: new Date(),
+
     surferCount: '',
     gender: '',
     modality: '',
@@ -56,6 +55,9 @@ const CreateTripScreen = props => {
     invalid: [],
     attendees: []
   })
+  const [ date_departure, setDate_departure] = useState(new Date())
+  const [ date_return, setDate_return] = useState(new Date())
+
   const offeringRides = useRef(null)
   const dateFrom = useRef(null)
   const dateTo = useRef(null)
@@ -177,8 +179,8 @@ const CreateTripScreen = props => {
     const data = {
       authtoken: props.user.accessToken,
       departing: state.departing,
-      departure_date_time: state.date_departure,
-      return_date_time: state.date_return,
+      departure_date_time: date_departure,
+      return_date_time: date_return,
       destination: state.destination,
       gender: state.gender,
       number_of_surfers: state.surferCount,
@@ -283,18 +285,11 @@ const CreateTripScreen = props => {
     setStep(step - 1)
   }
 
-  const handleDateChange = (date, field) => {
-    setState({
-      ...state,
-      [field]: date
-    })
-  }
-
   const onDateFrom = date => {
-    handleDateChange(date, 'date_departure')
+    setDate_departure(date)
   }
   const onDateTo = date => {
-    handleDateChange(date, 'date_return')
+    setDate_return(date)
   }
 
   const onClose = () => {
