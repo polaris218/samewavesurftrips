@@ -29,13 +29,12 @@ export const ButtonGroup = styled.div`
 export const More = styled.div`
   width: 40px !important;
   height: 44px;
-  right: 10px;
-  margin-top: -3px;
+  margin-top: -1px;
+  margin-left: -16px;
   background: white;
   /* border: 1px solid ${Colors.GREY_LIGHT}; */
   box-shadow: 0px 5px 8px rgba(23, 23, 77, 0.22);
   border-radius: 5px;
-  position: absolute;
   z-index: 10;
   display: flex;
   justify-content: center;
@@ -46,4 +45,13 @@ export const More = styled.div`
     height: 20px;
     fill: ${Colors.BLUE_BASE};
   }
+`
+
+export const Row = styled.div`
+  width: 100%;
+  overflow-x: scroll;
+`
+export const Container = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
 `

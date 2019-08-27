@@ -33,10 +33,10 @@ const SearchComponent = props => {
   const [ dateDeparture, setDateDeparture ] = useState(null)
   const [ dateReturn, setDateReturn ] = useState(null)
   const [ locationDeparture, setLocationDeparture ] = useState({
-    name: 'start location'
+    name: 'departing point'
   })
   const [ locationReturn, setLocationReturn ] = useState({
-    name: 'surf location'
+    name: 'surf destination'
   })
 
   useEffect(() => {

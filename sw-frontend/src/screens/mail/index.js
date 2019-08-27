@@ -186,7 +186,7 @@ const MailScreen = props => {
           </Container>
         </ContentContainer>
       </ScrollContainer>
-      <Fab />
+      {/* <Fab /> */}
       <FootContainer>
         <Footer />
       </FootContainer>

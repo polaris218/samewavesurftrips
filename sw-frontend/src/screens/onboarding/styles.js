@@ -6,13 +6,13 @@ export const Onboard = styled.div`
   min-height: 850px;
   padding: ${Spacings.MEDIUM}px 0px;
   background: ${Colors.BLUE_BASE};
-  background: linear-gradient(to right, #0072ff, #16b2ce);
+  background: linear-gradient(to right, #e4f1f1, #f8fdfd);
   display: flex;
 
   a,
   a:visited,
   a:link {
-    color: white;
+    color: ${Colors.GREY_LIGHT};
     font-weight: 600;
   }
   a:hover {
@@ -28,6 +28,11 @@ export const Onboard = styled.div`
       width: 130px;
       height: 150px;
     }
+
+    svg {
+      fill: ${Colors.BLUE_BASE};
+      stroke: ${Colors.BLUE_BASE};
+    }
   }
 
   .onboard__account {
@@ -36,12 +41,12 @@ export const Onboard = styled.div`
     margin-top: ${Spacings.LARGE}px;
     margin-bottom: ${Spacings.LARGE}px;
     font-size: ${Spacings.FONT.BODY};
-    color: ${Colors.WHITE};
+    color: ${Colors.GREY_LIGHT};
     text-align: center;
   }
   .onboard__privacy {
     text-align: center;
-    color: ${Colors.WHITE};
+    color: ${Colors.GREY_LIGHT};
     font-size: ${Spacings.FONT.LABEL};
     line-height: 20px;
   }

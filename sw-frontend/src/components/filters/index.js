@@ -3,7 +3,14 @@ import { connect } from 'react-redux'
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { Button, ButtonGroup, Header } from 'components'
-import { ButtonFooter, ButtonGroupRow, Content, Label, Filters } from './styles'
+import {
+  ButtonFooter,
+  ButtonGroupRow,
+  Content,
+  Label,
+  Filters,
+  ScrollView
+} from './styles'
 import { Tools } from 'utils'
 import { apiQuery } from 'api/thunks/general'
 import { General as config, Colors, Types } from 'config'
@@ -192,52 +199,54 @@ const FiltersComponent = props => {
         rightIcon={Tools.renderIcon('close')}
         rightAction={onClose}
       />
-      <Content>
-        <Label>Surf Modality</Label>
-        <ButtonGroupRow>
-          <ButtonGroup
-            action={onModalityPress}
-            items={modality}
-            selected={modalitySelected}
-          />
-        </ButtonGroupRow>
+      <ScrollView>
+        <Content>
+          <Label>Surf Modality</Label>
+          <ButtonGroupRow>
+            <ButtonGroup
+              action={onModalityPress}
+              items={modality}
+              selected={modalitySelected}
+            />
+          </ButtonGroupRow>
 
-        <Label>Surf Level</Label>
-        <ButtonGroupRow>
-          <ButtonGroup
-            action={onSurfLevelPress}
-            items={surfLevel}
-            selected={surfLevelSelected}
-          />
-        </ButtonGroupRow>
+          <Label>Surf Level</Label>
+          <ButtonGroupRow>
+            <ButtonGroup
+              action={onSurfLevelPress}
+              items={surfLevel}
+              selected={surfLevelSelected}
+            />
+          </ButtonGroupRow>
 
-        <Label>Transport</Label>
-        <ButtonGroupRow>
-          <ButtonGroup
-            action={onTransportPress}
-            items={transport}
-            selected={transportSelected}
-          />
-        </ButtonGroupRow>
+          <Label>Transport</Label>
+          <ButtonGroupRow>
+            <ButtonGroup
+              action={onTransportPress}
+              items={transport}
+              selected={transportSelected}
+            />
+          </ButtonGroupRow>
 
-        <Label>Accomodation</Label>
-        <ButtonGroupRow>
-          <ButtonGroup
-            action={onAccomodationPress}
-            items={accomodation}
-            selected={accomodationSelected}
-          />
-        </ButtonGroupRow>
+          <Label>Accomodation</Label>
+          <ButtonGroupRow>
+            <ButtonGroup
+              action={onAccomodationPress}
+              items={accomodation}
+              selected={accomodationSelected}
+            />
+          </ButtonGroupRow>
 
-        <Label>Gender restriction</Label>
-        <ButtonGroupRow>
-          <ButtonGroup
-            action={onGenderPress}
-            items={genderOptions}
-            selected={genderSelected}
-          />
-        </ButtonGroupRow>
-      </Content>
+          <Label>Gender restriction</Label>
+          <ButtonGroupRow>
+            <ButtonGroup
+              action={onGenderPress}
+              items={genderOptions}
+              selected={genderSelected}
+            />
+          </ButtonGroupRow>
+        </Content>
+      </ScrollView>
       <ButtonFooter>
         <Button
           color={Colors.GREY_BASE}

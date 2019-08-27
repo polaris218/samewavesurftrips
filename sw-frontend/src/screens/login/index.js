@@ -7,7 +7,7 @@ import { useSpring } from 'react-spring'
 import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiSingleQuery } from 'api/thunks/general'
-import { General as config } from 'config'
+import { General as config, Colors } from 'config'
 import { Button, Container, Logo, Link, Input, Preloader } from 'components'
 import { Routes } from 'config'
 import IconFB from 'assets/images/icon_fb.svg'
@@ -119,7 +119,7 @@ const LoginScreen = props => {
     <Login>
       <Container>
         <LoginLogo style={animatedProps}>
-          <Logo color='white' icon />
+          <Logo color={Colors.BLUE_BASE} icon />
         </LoginLogo>
 
         {!loading ? (
@@ -168,13 +168,13 @@ const LoginScreen = props => {
           </FormContent>
         ) : (
           <div className={'login__form'}>
-            <Preloader color={'white'} />
+            <Preloader color={Colors.BLUE_BASE} />
           </div>
         )}
         <FormContent style={animatedFooterProps}>
           <div className='login__register'>
             <p>Don't have an account?</p>
-            <Button onPress={onRegisterPress} title='SIGN UP' outline />
+            <Button onPress={onRegisterPress} title='SIGN UP' outlineDark />
           </div>
         </FormContent>
       </Container>

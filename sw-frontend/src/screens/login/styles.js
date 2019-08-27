@@ -13,6 +13,11 @@ export const LoginLogo = styled(animated.div)`
     width: 130px;
     height: 150px;
   }
+
+  svg {
+    fill: ${Colors.BLUE_BASE};
+    stroke: ${Colors.BLUE_BASE};
+  }
 `
 
 export const FormContent = styled(animated.div)`
@@ -26,7 +31,7 @@ export const Login = styled(animated.div)`
   min-height: 700px;
   padding: ${Spacings.MEDIUM}px 0px;
   background: ${Colors.BLUE_BASE};
-  background: linear-gradient(to right, #0072ff, #16b2ce);
+  background: linear-gradient(to right, #e4f1f1, #F8FDFD);
   display: flex;
   a,
   a:visited,
@@ -51,6 +56,7 @@ export const Login = styled(animated.div)`
     width: 100%;
     button {
       border-radius: 5px;
+      height: 40px;
     }
   }
 
@@ -63,7 +69,7 @@ export const Login = styled(animated.div)`
     width: 100%;
     a {
       padding-right: ${Spacings.MEDIUM}px;
-      color: white;
+      color: ${Colors.GREY_LIGHT};
     }
   }
 
@@ -73,7 +79,7 @@ export const Login = styled(animated.div)`
     max-width: 400px;
     margin-top: ${Spacings.MEDIUM}px;
     font-size: ${Spacings.FONT.BODY};
-    color: ${Colors.WHITE};
+    color: ${Colors.GREY_LIGHT};
     text-align: center;
   }
 

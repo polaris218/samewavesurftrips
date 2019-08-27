@@ -311,6 +311,7 @@ export const ContentContainer = styled.div`
   padding-top: 70px;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-bottom: 70px;
 `
 export const Center = styled.div`
   width: 100%;

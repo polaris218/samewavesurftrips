@@ -212,10 +212,8 @@ export const ButtonFooter = styled.div`
 `
 export const ButtonGroupRow = styled.div`
   display: block;
-  width: calc(100% - ${Spacings.MEDIUM}px);
+  width: calc(100%);
   margin: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
-  margin-left: -${Spacings.MEDIUM}px;
-  overflow-x: scroll;
   padding: 0 0 0 ${Spacings.SMALL}px;
   div: {
     width: auto;

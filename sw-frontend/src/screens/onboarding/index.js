@@ -233,7 +233,7 @@ const OnboardingScreen = props => {
                 </p>
                 <div className='onboard__account'>
                   <p>Already have an account?</p>
-                  <Button onPress={onLoginPress} title='LOGIN' outline />
+                  <Button onPress={onLoginPress} title='LOGIN' outlineDark />
                 </div>
               </div>
             )}

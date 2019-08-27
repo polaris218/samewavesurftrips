@@ -41,10 +41,8 @@ export const Label = styled.div`
 
 export const ButtonGroupRow = styled.div`
   display: block;
-  width: calc(100% - ${Spacings.MEDIUM}px);
+  width: calc(100%);
   margin: ${Spacings.MEDIUM}px 0 ${Spacings.LARGE}px;
-  margin-left: -${Spacings.MEDIUM}px;
-  overflow-x: scroll;
   padding: 0 0 0 ${Spacings.SMALL}px;
   div: {
     width: auto;
@@ -61,4 +59,10 @@ export const ButtonGroupRow = styled.div`
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     /* width: calc(100% - 64px); */
   }
+`
+export const ScrollView = styled.div`
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: calc(100% - 70px);
 `

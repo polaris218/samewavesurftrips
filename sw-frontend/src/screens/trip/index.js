@@ -369,9 +369,7 @@ const TripScreen = props => {
                 </div>
               </Card>
             </Container>
-            <div className='trip__join'>
-              {trip.owner_id === props.user.id ? editButton() : joinButton()}
-            </div>
+
             {/* <MastHead>
               <Map
                 autoPosition={false}
@@ -385,6 +383,9 @@ const TripScreen = props => {
           <FootItem />
         </ContentContainer>
       </ScrollContainer>
+      <div className='trip__join'>
+        {trip.owner_id === props.user.id ? editButton() : joinButton()}
+      </div>
       <Modal
         visible={modalVisible}
         title={(!state.joined ? 'Join ' : 'Leave ') + trip.title}

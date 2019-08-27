@@ -17,7 +17,7 @@ export default styled(TextField)`
     background-color: rgba(255, 255, 255, 0.3);
     transition: background .25s ease;
     input{
-        border: 0px solid ${Colors.GREY_GREEN};
+        border: 1px solid ${Colors.GREY_BASE};
         border-top-width: 0;
         border-left-width: 0;
         border-right-width: 0;

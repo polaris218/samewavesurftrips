@@ -8724,21 +8724,21 @@ input[type=range]::-ms-thumb {
           flex: 1 auto;
   background-color: #16B2CE;
   color: #fff;
-  padding: 20px 22px;
+  padding: 5px 22px;
   font-weight: 500;
 }
 
 .datepicker-date-display .year-text {
   display: block;
   font-size: 1.5rem;
-  line-height: 25px;
+  /* line-height: 25px; */
   color: rgba(255, 255, 255, 0.7);
 }
 
 .datepicker-date-display .date-text {
   display: block;
-  font-size: 2.8rem;
-  line-height: 47px;
+  font-size: 1.8rem;
+  line-height: 33px;
   font-weight: 500;
 }
 

@@ -444,11 +444,11 @@ const ProfileScreen = props => {
               )}
               <FootItem />
             </Center>
-            <Fab />
             <Footer />
           </ContentContainer>
         )}
       </ScrollContainer>
+      <Fab />
     </Profile>
   )
 }
