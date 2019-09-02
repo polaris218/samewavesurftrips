@@ -353,7 +353,7 @@ const ProfileScreen = props => {
                               src={PickIcon(user.surf_level.toLowerCase())}
                               alt={user.surf_level}
                             />
-                            <span>Skill Level</span>
+                            <span>{user.surf_level}</span>
                           </SurfStat>
                         )}
                         {user &&

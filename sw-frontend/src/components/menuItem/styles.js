@@ -6,7 +6,7 @@ export const MenuItem = styled.button`
     /* margin-bottom: ${Spacings.SMALL / 2}px; */
     border: 0;
     width: 100%;
-    height: 40px;
+    height: 20px;
     outline: none;
     display: flex;
     justify-content: flex-start;

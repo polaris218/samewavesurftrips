@@ -21,10 +21,11 @@ import {
 
 const MessageScreen = props => {
   const msgView = useRef(null)
-  const message = props.location.state
+  const message = props.location.state || {}
   const [ loading, setLoading ] = useState(true) // eslint-disable-line no-unused-vars
   const [ messageReply, setMessageReply ] = useState('')
   const [ messageSubject, setMessageSubject ] = useState('')
+  const [ groupId, setGroupId ] = useState(null)
   const [ messages, setMessages ] = useState(
     [
       // {
@@ -36,23 +37,30 @@ const MessageScreen = props => {
   )
 
   useEffect(() => {
-    getMessages()
+    const groupIdParam = window.location.search.replace('?group=', '')
     if (message) {
-      const msgupdate = {
-        owner_id: message.owner_id,
-        recipient_id: message.recipient_id,
-        subject: message.subject,
-        msg_read: message.msg_read || false
-      }
-      dispatch(
-        apiMsgUpdate(
-          msgupdate,
-          props.msgupdate,
-          config.EndPoints.messagesupdate,
-          onmsgupdateResult,
-          'put'
+      getMessages()
+      if (message) {
+        const msgupdate = {
+          owner_id: message.owner_id,
+          recipient_id: message.recipient_id,
+          subject: message.subject,
+          msg_read: message.msg_read || false
+        }
+        dispatch(
+          apiMsgUpdate(
+            msgupdate,
+            props.msgupdate,
+            config.EndPoints.messagesupdate,
+            onmsgupdateResult,
+            'put'
+          )
         )
-      )
+      }
+
+      if (groupIdParam !== '') {
+        setGroupId(groupIdParam)
+      }
     }
 
     // setTimeout(() => {
@@ -82,30 +90,49 @@ const MessageScreen = props => {
   }
 
   const sendMessage = () => {
-    const messageData = {
-      subject: message.subject
-        ? message.subject
-        : messageSubject ? messageSubject : 'Hello!..',
-      message: messageReply,
-      recipient_id:
-        message.recipient_id !== props.user.id
-          ? message.recipient_id
-          : message.owner_id,
-      owner_id:
-        message.owner_id !== props.user.id
-          ? props.user.id
-          : message.recipient_id
-    }
+    if (!groupId) {
+      const messageData = {
+        subject: message.subject
+          ? message.subject
+          : messageSubject ? messageSubject : 'Hello!..',
+        message: messageReply,
+        recipient_id:
+          message.recipient_id !== props.user.id
+            ? message.recipient_id
+            : message.owner_id,
+        owner_id:
+          message.owner_id !== props.user.id
+            ? props.user.id
+            : message.recipient_id
+      }
 
-    dispatch(
-      apiQuery(
-        messageData,
-        props.sendMessage,
-        config.EndPoints.messages,
-        onSendResult,
-        'POST'
+      dispatch(
+        apiQuery(
+          messageData,
+          props.sendMessage,
+          config.EndPoints.messages,
+          onSendResult,
+          'POST'
+        )
       )
-    )
+    } else {
+      const messageData = {
+        subject: message.subject
+          ? message.subject
+          : messageSubject ? messageSubject : 'Hello Group!..',
+        message: messageReply
+      }
+
+      dispatch(
+        apiQuery(
+          messageData,
+          props.sendMessage,
+          `${config.EndPoints.messageGroup}/${groupId}`,
+          onSendResult,
+          'POST'
+        )
+      )
+    }
   }
 
   const onSendResult = res => {

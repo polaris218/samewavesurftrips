@@ -195,6 +195,10 @@ export const Trip = styled.div`
     }
   }
 
+  .paddTop {
+    padding-top: ${Spacings.MEDIUM}px;
+  }
+
   .trip__location-place {
     text-align: center;
     font-weight: 600;
@@ -358,4 +362,22 @@ export const Attendees = styled.div`
     width: 45px;
     height: 45px;
   }
+`
+export const Directions = styled.div`
+  width: 100%;
+  text-align: right;
+  font-weight: bold;
+  margin: -28px 0 25px;
+  svg {
+    width: 15px;
+    height: 15px;
+    transform: translate(-2px, 2px);
+    path {
+      fill: #039be5;
+    }
+  }
+`
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
 `

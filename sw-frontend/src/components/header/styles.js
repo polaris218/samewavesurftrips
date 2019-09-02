@@ -100,7 +100,7 @@ export const LogoContainer = styled.div`
 
 export const NavFooter = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   width: 100%;
   padding-bottom: 0;
 `

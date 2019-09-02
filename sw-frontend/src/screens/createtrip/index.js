@@ -40,6 +40,8 @@ const CreateTripScreen = props => {
   const [ createSuccess, setCreateSuccess ] = useState(false)
   const [ state, setState ] = useState({
     title: ' ',
+    departureName: 'Where are you starting your trip?',
+    destinationName : 'Where would you like to surf?',
     departing: 'Where are you starting your trip?',
     destination: 'Where would you like to surf?',
 
@@ -55,8 +57,8 @@ const CreateTripScreen = props => {
     invalid: [],
     attendees: []
   })
-  const [ date_departure, setDate_departure] = useState(new Date())
-  const [ date_return, setDate_return] = useState(new Date())
+  const [ date_departure, setDate_departure] = useState(null)
+  const [ date_return, setDate_return] = useState(null)
 
   const offeringRides = useRef(null)
   const dateFrom = useRef(null)
@@ -78,16 +80,8 @@ const CreateTripScreen = props => {
     setTimeout(() => {
       setStep(1)
     }, 500)
-    // eslint-disable-next-line no-unused-vars
-    const dateInitFrom = window.M.Datepicker.init(dateFrom.current, {
-      onSelect: onDateFrom,
-      minDate: new Date()
-    })
-    // eslint-disable-next-line no-unused-vars
-    const dateInitTo = window.M.Datepicker.init(dateTo.current, {
-      onSelect: onDateTo,
-      minDate: new Date()
-    })
+
+    initDate()
 
     // Set the Types
     // Gender
@@ -132,6 +126,23 @@ const CreateTripScreen = props => {
     })
     setSurfLevel(levelMods)
   }, [])
+
+  useEffect(() => {
+    if(step === 1) initDate()
+  }, [step])
+
+  const initDate = () => {
+    // eslint-disable-next-line no-unused-vars
+    const dateInitFrom = window.M.Datepicker.init(dateFrom.current, {
+      onSelect: onDateFrom,
+      minDate: new Date()
+    })
+    // eslint-disable-next-line no-unused-vars
+    const dateInitTo = window.M.Datepicker.init(dateTo.current, {
+      onSelect: onDateTo,
+      minDate: new Date()
+    })
+  }
 
   const onGenderPress = (index) => {
     setGenderSelected(index)
@@ -263,7 +274,9 @@ const CreateTripScreen = props => {
   const onSetLocation = (location, field) => {
     setState({
       ...state,
-      [field]: JSON.stringify(location)
+      [field]: JSON.stringify(location),
+      destinationName: field === 'destination' ? location.name : state.destinationName,
+      departureName: field === 'departing' ? location.name : state.departureName,
     })
   }
 
@@ -334,7 +347,7 @@ const CreateTripScreen = props => {
                         label='Departing'
                         onChange={location =>
                           onSetLocation(location, 'departing')}
-                        value={state.departing}
+                        value={state.departureName}
                         error={checkValidField('departing')}
                       />
                       <Label>DESTINATION</Label>
@@ -342,7 +355,7 @@ const CreateTripScreen = props => {
                         label='Destination'
                         onChange={location =>
                           onSetLocation(location, 'destination')}
-                        value={state.destination}
+                        value={state.destinationName}
                         error={checkValidField('destination')}
                       />
                       <Title>DATES</Title>
@@ -415,6 +428,8 @@ const CreateTripScreen = props => {
                           selected={transportSelected}
                         />
                       </ButtonGroupRow>
+                      {state.transport.toLowerCase() === 'car' ?
+                      <>
                       <Label>ARE YOU OFFERING RIDES?</Label>
                       <Switch className="switch">
                         <label>
@@ -437,6 +452,7 @@ const CreateTripScreen = props => {
                         type='number'
                         error={checkValidField('available_seats')}
                       />
+                      </> : null }
                       <Label>Accomodation</Label>
                       <ButtonGroupRow>
                         <ButtonGroup 
@@ -508,7 +524,7 @@ const CreateTripScreen = props => {
             {step === 4 ? (
               <Button primary onPress={onCreatePress} title='POST SURF TRIP' />
             ) : (
-              <Button onPress={onNextPress} title='NEXT' />
+              <Button disabled={!date_return || !date_departure} onPress={onNextPress} title='NEXT' />
             )}
             {state.invalid.length !== 0 && (
               <Error>* check all fields have been filed</Error>

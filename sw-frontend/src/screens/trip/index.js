@@ -24,7 +24,9 @@ import {
   Trip,
   ContentContainer,
   Center,
-  TripDivider
+  TripDivider,
+  Directions,
+  Row
 } from './styles'
 
 const TripScreen = props => {
@@ -158,23 +160,35 @@ const TripScreen = props => {
             title='JOIN SURF TRIP'
           />
         ) : (
+          <Row>
           <Button
             onPress={() => setModalVisible(true)}
             title='LEAVE SURF TRIP'
             color={Colors.RED_BASE}
             hoverColor={Colors.RED_DARK}
           />
+          <Button
+            onPress={onMessageUser}
+            title='MESSAGE SURFERS'
+          />
+          </Row>
         )}
       </div>
     )
 
   const editButton = () => (
     <div className={'trip__join'}>
+      <Row>
       <Button
         color={Colors.GREY_BASE}
         onPress={onEditPress}
         title='EDIT SURF TRIP'
       />
+      <Button
+          onPress={onMessageUser}
+          title='MESSAGE SURFERS'
+        />
+      </Row>
     </div>
   )
 
@@ -213,6 +227,10 @@ const TripScreen = props => {
     }
 
     return image
+  }
+
+  const onMessageUser = () => {
+    props.history.push(`/message/null?group=${trip.id}`)
   }
 
   const trip = props.trips.current
@@ -254,6 +272,7 @@ const TripScreen = props => {
                   </div>
                 </div>
               </div>
+
               <Card>
                 <div className={'trip__card'}>
                   <div className={'trip__title'}>
@@ -266,6 +285,10 @@ const TripScreen = props => {
                   <div className={'trip__card'}>
                     <div className={'trip__location-meta'}>
                       <div className={'trip__location-header'}>route</div>
+                      <Directions><a 
+                href={`https://maps.google.com?saddr=${trip.departing.lat},${trip.departing.lng}&daddr=${trip.destination.lat},${trip.destination.lng}`}
+                target="_blank"
+              >VIEW ROUTE IN MAP <span>{Tools.renderIcon('chevron')}</span></a> </Directions>
                       <div className={'trip__location-place'}>
                         {trip.departing && trip.departing.name}
                       </div>
@@ -291,47 +314,7 @@ const TripScreen = props => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className={'trip__card'}>
-                  <Card>
-                    <Stats>
-                      <div className={'trip__level'}>
-                        <div>
-                          <div className='trip__level-value'>
-                            <img
-                              src={PickIcon(trip.surf_level)}
-                              alt={trip.surf_level}
-                            />
-                            <span>{trip.surf_level}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className={'trip__level'}>
-                        <div>
-                          <div className='trip__level-value'>
-                            <img
-                              src={PickIcon(trip.surf_modality)}
-                              alt={trip.surf_modality}
-                            />
-                            <span>{trip.surf_modality}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className={'trip__level'}>
-                        <div>
-                          <div className='trip__level-value'>
-                            <Stat>
-                              {`${trip.attendees
-                                .length}/${trip.number_of_surfers}`}
-                            </Stat>
-                            <span>attending</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Stats>
-                  </Card>
-                </div> */}
+                 
                   {trip.attendees &&
                   trip.attendees.length > 0 && (
                     <div className={'trip__card'}>
@@ -363,6 +346,49 @@ const TripScreen = props => {
                             />
                           ))}
                         </Attendees>
+
+                        {trip.gender !== '' && <>
+                          <div className={'trip__location-header paddTop'}>
+                            Gender Restriction
+                          </div>
+                          <div>{trip.gender}</div>
+                        </>}
+
+                        {trip.surf_modality !== '' && <>
+                          <div className={'trip__location-header paddTop'}>
+                            Specific Surf Modality
+                          </div>
+                          <div>{trip.surf_modality}</div>
+                        </>}
+                        
+                        {trip.surf_level !== '' && <>
+                          <div className={'trip__location-header paddTop'}>
+                            Specific Surf Level
+                          </div>
+                          <div>{trip.surf_level}</div>
+                        </>}
+                        
+                        {trip.transport !== '' && <>
+                          <div className={'trip__location-header paddTop'}>
+                            Transport Mode
+                          </div>
+                          <div>{trip.transport}</div>
+                        </>}
+                        
+                        {trip.available_seats > 0 && <>
+                          <div className={'trip__location-header paddTop'}>
+                            Rides Avalible
+                          </div>
+                          <div>{trip.available_seats}</div>
+                        </>}
+                        
+                        {trip.accomodation !== '' && <>
+                          <div className={'trip__location-header paddTop'}>
+                            Accomodation
+                          </div>
+                          <div>{trip.accomodation}</div>
+                        </>}
+
                       </div>
                     </div>
                   )}

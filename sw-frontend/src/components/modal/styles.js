@@ -39,6 +39,6 @@ export const ButtonContainer = styled.div`
   flex-direction: row;
   margin-bottom: ${Spacings.MEDIUM}px;
   button {
-    width: 90%;
+    width: 70%;
   }
 `
