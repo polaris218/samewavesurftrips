@@ -161,7 +161,7 @@ export const ButtonFooter = styled.div`
   z-index: 99;
   bottom: 0;
   width: calc(100% - ${Spacings.MEDIUM}px);
-  padding: ${Spacings.SMALL}px;
+  padding: 0 ${Spacings.SMALL}px;
   background: ${Colors.WHITE};
 
   @media (max-width: ${Spacings.SCREEN.TABLET}px) {

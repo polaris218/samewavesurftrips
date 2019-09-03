@@ -15,6 +15,8 @@ export const Container = styled.div`
   justify-self: center;
   position: relative;
   padding-bottom: ${({ noPadd }) => (!noPadd ? `50px` : 0)};
+  overflow-y: ${({ scroll }) => (scroll ? 'scroll' : 'none')};
+
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {
     padding: 0 5%;
     padding-bottom: 0px;

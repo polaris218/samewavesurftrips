@@ -260,7 +260,7 @@ export const Trip = styled.div`
     
     @media (max-width: ${Spacings.SCREEN.TABLET}px) {
       div {
-        padding: ${Spacings.SMALL}px;
+        padding: 4px ${Spacings.SMALL}px;
         width: calc(100% - ${Spacings.MEDIUM}px);
       }
       button {

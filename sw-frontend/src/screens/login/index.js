@@ -8,10 +8,10 @@ import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiSingleQuery } from 'api/thunks/general'
 import { General as config, Colors } from 'config'
-import { Button, Container, Logo, Link, Input, Preloader } from 'components'
+import { Button, Logo, Link, Input, Preloader } from 'components'
 import { Routes } from 'config'
 import IconFB from 'assets/images/icon_fb.svg'
-import { Login, FormContent, LoginLogo } from './styles'
+import { Login, Container, Inner, FormContent, LoginLogo } from './styles'
 
 const LoginScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -118,65 +118,67 @@ const LoginScreen = props => {
   return (
     <Login>
       <Container>
-        <LoginLogo style={animatedProps}>
-          <Logo color={Colors.BLUE_BASE} icon />
-        </LoginLogo>
+        <Inner>
+          <LoginLogo style={animatedProps}>
+            <Logo color={Colors.BLUE_BASE} icon />
+          </LoginLogo>
 
-        {!loading ? (
-          <FormContent style={animatedContentProps}>
-            <div className={'login__form'}>
-              <Input
-                label='Email address'
-                onChange={onEmailChange}
-                value={state.email}
-              />
-              <Input
-                label='Password'
-                type={'password'}
-                onChange={onPasswordChange}
-                value={state.password}
-              />
-              <div className={'login__forgotpw'}>
-                <Link onClick={onForgotPassword}>Forgot password</Link>
-              </div>
-              <Button onPress={onLoginPress} title='LOGIN' />
-              <div className={'login__fb'}>
-                <FacebookLogin
-                  appId='877477202605334'
-                  fields='id,first_name,last_name,email,picture.height(1000)'
-                  scope='public_profile, email'
-                  callback={responseFacebook}
-                  redirectUri={'https://samewave.herokuapp.com/'}
-                  isMobile={false}
-                  cssClass='facebook-login-button'
-                  icon={
-                    <img
-                      className='button__icon'
-                      src={IconFB}
-                      height={20}
-                      alt='LOGIN WITH FACEBOOK'
-                    />
-                  }
+          {!loading ? (
+            <FormContent style={animatedContentProps}>
+              <div className={'login__form'}>
+                <Input
+                  label='Email address'
+                  onChange={onEmailChange}
+                  value={state.email}
                 />
-              </div>{' '}
-              {state.error && (
-                <div className={'login__error'}>
-                  * Please check your login details
+                <Input
+                  label='Password'
+                  type={'password'}
+                  onChange={onPasswordChange}
+                  value={state.password}
+                />
+                <div className={'login__forgotpw'}>
+                  <Link onClick={onForgotPassword}>Forgot password</Link>
                 </div>
-              )}
+                <Button onPress={onLoginPress} title='LOGIN' />
+                <div className={'login__fb'}>
+                  <FacebookLogin
+                    appId='877477202605334'
+                    fields='id,first_name,last_name,email,picture.height(1000)'
+                    scope='public_profile, email'
+                    callback={responseFacebook}
+                    redirectUri={'https://samewave.herokuapp.com/'}
+                    isMobile={false}
+                    cssClass='facebook-login-button'
+                    icon={
+                      <img
+                        className='button__icon'
+                        src={IconFB}
+                        height={20}
+                        alt='LOGIN WITH FACEBOOK'
+                      />
+                    }
+                  />
+                </div>{' '}
+                {state.error && (
+                  <div className={'login__error'}>
+                    * Please check your login details
+                  </div>
+                )}
+              </div>
+            </FormContent>
+          ) : (
+            <div className={'login__form'}>
+              <Preloader color={Colors.BLUE_BASE} />
+            </div>
+          )}
+          <FormContent style={animatedFooterProps}>
+            <div className='login__register'>
+              <p>Don't have an account?</p>
+              <Button onPress={onRegisterPress} title='SIGN UP' outlineDark />
             </div>
           </FormContent>
-        ) : (
-          <div className={'login__form'}>
-            <Preloader color={Colors.BLUE_BASE} />
-          </div>
-        )}
-        <FormContent style={animatedFooterProps}>
-          <div className='login__register'>
-            <p>Don't have an account?</p>
-            <Button onPress={onRegisterPress} title='SIGN UP' outlineDark />
-          </div>
-        </FormContent>
+        </Inner>
       </Container>
     </Login>
   )

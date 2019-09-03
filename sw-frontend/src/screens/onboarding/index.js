@@ -6,10 +6,10 @@ import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiQuery } from 'api/thunks/general'
 import { General as config } from 'config'
-import { Button, Container, Input, Logo, Link, Preloader } from 'components'
+import { Button, Input, Logo, Link, Preloader } from 'components'
 import { Routes } from 'config'
 import { Tools } from 'utils'
-import { Onboard } from './styles'
+import { Onboard, Container, Inner } from './styles'
 
 const OnboardingScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -160,85 +160,88 @@ const OnboardingScreen = props => {
     <Onboard>
       {/* <BackgroundImage blur={0} opacity={0.3} /> */}
       <Container>
-        <div className={'onboard__logo'}>
-          <Logo color='white' icon />
-        </div>
-        {state.success ? (
-          <div className={'onboard_success'}>
-            <h3>AWESOME!</h3>
-            <p className={'onboard_success-info'}>
-              you can now login to your account
-            </p>
-            <Button onPress={onLoginPress} title='LOGIN' />
+        <Inner>
+          <div className={'onboard__logo'}>
+            <Logo color='white' icon />
           </div>
-        ) : (
-          <div className={'onboard__form'}>
-            {loading ? (
-              <div className={'onboard__form'}>
-                <Preloader />
-              </div>
-            ) : (
-              <div className={'onboard__form'}>
-                <Input
-                  label='First Name'
-                  onChange={onInputChange}
-                  fieldName={'firstName'}
-                  value={state.firstName}
-                  error={!state.valid.firstName}
-                />
-                <Input
-                  label='Last Name'
-                  onChange={onInputChange}
-                  fieldName={'lastName'}
-                  value={state.lastName}
-                  error={!state.valid.lastName}
-                />
-                <Input
-                  label='Email address'
-                  onChange={onInputChange}
-                  fieldName={'email'}
-                  value={state.email}
-                  error={!state.valid.email}
-                />
-                <Input
-                  label='Password'
-                  type='password'
-                  onChange={onInputChange}
-                  fieldName={'password'}
-                  error={!state.valid.password}
-                />
-                <Input
-                  label='Confirm Password'
-                  type='password'
-                  value={state.passwordConfirm}
-                  onChange={onInputChange}
-                  fieldName={'passwordConfirm'}
-                  error={!state.valid.password}
-                />
-                <Button onPress={onSignupPress} title='SIGN UP' primary />
-                {state.error && (
-                  <p className='onboard__error'>{state.errorMsg}</p>
-                )}
-                <p className='onboard__privacy'>
-                  By signing up you agree to our<br />
-                  <Link onClick={onLinkPress.bind(this, 'terms')}>Terms</Link>,
-                  &nbsp;
-                  <Link onClick={onLinkPress.bind(this, 'data')}>
-                    Data Policy
-                  </Link>{' '}
-                  and &nbsp;
-                  <Link onClick={onLinkPress.bind(this, 'privacy')}>
-                    Privacy Policy
-                  </Link>
-                </p>
-                <div className='onboard__account'>
-                  <p>Already have an account?</p>
-                  <Button onPress={onLoginPress} title='LOGIN' outlineDark />
+          {state.success ? (
+            <div className={'onboard_success'}>
+              <h3>AWESOME!</h3>
+              <p className={'onboard_success-info'}>
+                you can now login to your account
+              </p>
+              <Button onPress={onLoginPress} title='LOGIN' />
+            </div>
+          ) : (
+            <div className={'onboard__form'}>
+              {loading ? (
+                <div className={'onboard__form'}>
+                  <Preloader />
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+              ) : (
+                <div className={'onboard__form'}>
+                  <Input
+                    label='First Name'
+                    onChange={onInputChange}
+                    fieldName={'firstName'}
+                    value={state.firstName}
+                    error={!state.valid.firstName}
+                  />
+                  <Input
+                    label='Last Name'
+                    onChange={onInputChange}
+                    fieldName={'lastName'}
+                    value={state.lastName}
+                    error={!state.valid.lastName}
+                  />
+                  <Input
+                    label='Email address'
+                    onChange={onInputChange}
+                    fieldName={'email'}
+                    value={state.email}
+                    error={!state.valid.email}
+                  />
+                  <Input
+                    label='Password'
+                    type='password'
+                    onChange={onInputChange}
+                    fieldName={'password'}
+                    error={!state.valid.password}
+                  />
+                  <Input
+                    label='Confirm Password'
+                    type='password'
+                    value={state.passwordConfirm}
+                    onChange={onInputChange}
+                    fieldName={'passwordConfirm'}
+                    error={!state.valid.password}
+                  />
+                  <Button onPress={onSignupPress} title='SIGN UP' primary />
+                  {state.error && (
+                    <p className='onboard__error'>{state.errorMsg}</p>
+                  )}
+                  <p className='onboard__privacy'>
+                    By signing up you agree to our<br />
+                    <Link onClick={onLinkPress.bind(this, 'terms')}>
+                      Terms
+                    </Link>, &nbsp;
+                    <Link onClick={onLinkPress.bind(this, 'data')}>
+                      Data Policy
+                    </Link>{' '}
+                    and &nbsp;
+                    <Link onClick={onLinkPress.bind(this, 'privacy')}>
+                      Privacy Policy
+                    </Link>
+                  </p>
+                  <div className='onboard__account'>
+                    <p>Already have an account?</p>
+                    <Button onPress={onLoginPress} title='LOGIN' outlineDark />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </Inner>
       </Container>
     </Onboard>
   )

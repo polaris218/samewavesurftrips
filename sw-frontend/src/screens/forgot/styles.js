@@ -6,7 +6,8 @@ export const Forgot = styled.div`
   min-height: 430px;
   padding: ${Spacings.MEDIUM}px 0;
   background: ${Colors.BLUE_BASE};
-  background: linear-gradient(to right, #0072ff, #16b2ce);
+  background: linear-gradient(to right, #e4f1f1, #f8fdfd);
+  color: ${Colors.GREY_LIGHT};
   display: flex;
 
   .login__inner {
@@ -22,7 +23,10 @@ export const Forgot = styled.div`
     margin: ${Spacings.SMALL}px 0 ${Spacings.SMALL}px;
     width: 80px;
     height: 75px;
-
+    svg {
+      fill: ${Colors.BLUE_BASE};
+      stroke: ${Colors.BLUE_BASE};
+    }
     @media (min-width: ${Spacings.SCREEN.TABLET}px) {
       margin: ${Spacings.MEDIUM}px 0 0;
       width: 130px;
@@ -31,12 +35,12 @@ export const Forgot = styled.div`
   }
 
   .login__register {
-    border-top: 1px solid ${Colors.GREY_LIGHT};
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 500px;
     margin-top: ${Spacings.LARGE}px;
     font-size: ${Spacings.FONT.BODY};
-    color: ${Colors.WHITE};
+    color: ${Colors.GREY_LIGHT};
     text-align: center;
   }
 
@@ -50,14 +54,14 @@ export const Forgot = styled.div`
     flex-direction: column;
   }
   .onboard__account {
-    border-top: 1px solid ${Colors.GREY_LIGHT};
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
     padding-top: ${Spacings.LARGE}px;
     margin-top: ${Spacings.LARGE}px;
     margin-bottom: ${Spacings.LARGE}px;
 
     font-size: ${Spacings.FONT.BODY};
-    color: ${Colors.WHITE};
+    color: ${Colors.GREY_LIGHT};
     text-align: center;
   }
   .onboard__account Button {
@@ -78,12 +82,12 @@ export const Forgot = styled.div`
     h3 {
       margin: 0;
       padding: 0;
-      color: ${Colors.WHITE};
+      color: ${Colors.GREY_LIGHT};
       font-size: ${Spacings.FONT.TITLE};
     }
     .onboard_success-info {
       text-shadow: -2px 1px 4px black;
-      color: ${Colors.WHITE};
+      color: ${Colors.GREY_LIGHT};
       font-size: 14px;
       margin-bottom: 32px;
       max-width: 330px;
@@ -97,4 +101,18 @@ export const Forgot = styled.div`
 export const Label = styled.div`
   padding: ${Spacings.LARGE}px ${Spacings.MEDIUM}px;
   font-size: ${Spacings.FONT.LABEL};
+  color: ${Colors.GREY_LIGHT};
+`
+export const Container = styled.div`
+  width: 100%;
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
+  padding-bottom: 80px;
+`
+export const Inner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5vh 0;
 `

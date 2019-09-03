@@ -83,3 +83,16 @@ export const Label = styled.div`
   padding: ${Spacings.LARGE}px ${Spacings.MEDIUM}px;
   font-size: ${Spacings.FONT.BODY};
 `
+export const Container = styled.div`
+  width: 100%;
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
+  padding-bottom: 80px;
+`
+export const Inner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5vh 0;
+`

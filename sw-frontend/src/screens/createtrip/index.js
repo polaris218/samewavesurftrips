@@ -468,13 +468,20 @@ const CreateTripScreen = props => {
                       <Title>Any extra details you would like to add? </Title>
                       <Label>SURF TRIP BIO</Label>
                       <Input
-                        label='“You are very close to be ripping somewhere! Tell other surfers why this trip is going to be epic!'
+                        label='“You are very close to be ripping somewhere!&#013; &#010;Tell other surfers why this trip is going to be epic!&#013; &#010;Here
+                        are some tips:&#013; &#010;-
+                        What are you expecting from this trip?&#013; &#010;-
+                        How are you going to get there?&#013; &#010;-
+                        Where are you planning to stay?&#013; &#010;-
+                        Are you planning any stopover?&#013; &#010;-
+                        Any other activities you would like to do?
+                    '
                         onChange={onInputChange}
                         value={state.trip_details}
                         fieldName={'trip_details'}
                         error={checkValidField('trip_details')}
                         multiline={true}
-                        rows={5}
+                        rows={9}
                       />
                     </Step>
                   )}

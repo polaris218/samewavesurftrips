@@ -36,7 +36,7 @@ export const Onboard = styled.div`
   }
 
   .onboard__account {
-    border-top: 1px solid ${Colors.GREY_LIGHT};
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
     margin-top: ${Spacings.LARGE}px;
     margin-bottom: ${Spacings.LARGE}px;
@@ -86,4 +86,17 @@ export const Onboard = styled.div`
   a {
     color: ${Colors.GREY_BASE};
   }
+`
+export const Container = styled.div`
+  width: 100%;
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
+  padding-bottom: 80px;
+`
+export const Inner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5vh 0;
 `

@@ -23,11 +23,11 @@ export const PickIcon = icon => {
       return `${config.Root}/images/board/Kite_surf.svg`
     case 'beginner':
       return `${config.Root}/images/level/Beginner.svg`
-    case 'pre-intemediate':
+    case 'pre-intermediate':
       return `${config.Root}/images/level/Pre_intermediate.svg`
-    case 'intemediate':
+    case 'intermediate':
       return `${config.Root}/images/level/Intermediate.svg`
-    case 'upper-intemediate':
+    case 'upper-intermediate':
       return `${config.Root}/images/level/Upper_intermediate.svg`
     case 'advanced':
       return `${config.Root}/images/level/Advanced.svg`

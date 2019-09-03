@@ -6,10 +6,10 @@ import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiForgotQuery } from 'api/thunks/general'
 import { General as config } from 'config'
-import { Button, Container, Logo, Input, Preloader } from 'components'
+import { Button, Logo, Input, Preloader } from 'components'
 import { Routes } from 'config'
 import { Tools } from 'utils'
-import { Forgot, Label } from './styles'
+import { Forgot, Label, Container, Inner } from './styles'
 
 const ForgotScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -89,43 +89,45 @@ const ForgotScreen = props => {
     <Forgot>
       {/* <BackgroundImage blur={0} opacity={0.5} /> */}
       <Container>
-        <div className={'login__logo'}>
-          <Logo color='white' icon />
-        </div>
+        <Inner>
+          <div className={'login__logo'}>
+            <Logo color='white' icon />
+          </div>
 
-        {!loading ? state.success ? (
-          <div className={'onboard_success'}>
-            <h3>AWESOME!</h3>
-            <p className={'onboard_success-info'}>{state.msg} </p>
-            <Button onPress={onLoginPress} title='LOGIN' />{' '}
-          </div>
-        ) : (
-          <div className={'login__form'}>
-            <Label>
-              {' '}
-              Enter your registered email<br />
-              and we will send out instructions<br />
-              on resetting access
-            </Label>
-            <Input
-              label='Email address'
-              onChange={onEmailChange}
-              fieldName={'email'}
-              value={state.email}
-              error={!state.valid.email}
-            />
-            {state.valid && <p className='error'>{state.valid.msg}</p>}
-            {state.error && <p className='error'>{state.msg}</p>}
-            <Button onPress={onForgotPress} title='SEND REMINDER' primary />
-            <div className='onboard__account'>
-              <Button onPress={onLoginPress} title='LOGIN' outline />
+          {!loading ? state.success ? (
+            <div className={'onboard_success'}>
+              <h3>AWESOME!</h3>
+              <p className={'onboard_success-info'}>{state.msg} </p>
+              <Button onPress={onLoginPress} title='LOGIN' />{' '}
             </div>
-          </div>
-        ) : (
-          <div className={'login__form'}>
-            <Preloader color={'white'} />
-          </div>
-        )}
+          ) : (
+            <div className={'login__form'}>
+              <Label>
+                {' '}
+                Enter your registered email<br />
+                and we will send out instructions<br />
+                on resetting access
+              </Label>
+              <Input
+                label='Email address'
+                onChange={onEmailChange}
+                fieldName={'email'}
+                value={state.email}
+                error={!state.valid.email}
+              />
+              {state.valid && <p className='error'>{state.valid.msg}</p>}
+              {state.error && <p className='error'>{state.msg}</p>}
+              <Button onPress={onForgotPress} title='SEND REMINDER' primary />
+              <div className='onboard__account'>
+                <Button onPress={onLoginPress} title='LOGIN' outlineDark />
+              </div>
+            </div>
+          ) : (
+            <div className={'login__form'}>
+              <Preloader color={'white'} />
+            </div>
+          )}
+        </Inner>
       </Container>
     </Forgot>
   )

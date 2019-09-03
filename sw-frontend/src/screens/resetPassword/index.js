@@ -6,9 +6,9 @@ import { userActions, mapDispatchToProps } from 'api/actions'
 import { dispatch } from 'api/store'
 import { apiForgotQuery } from 'api/thunks/general'
 import { General as config } from 'config'
-import { Button, Container, Logo, Input, Preloader } from 'components'
+import { Button, Logo, Input, Preloader } from 'components'
 import { Routes } from 'config'
-import { Forgot, Label } from './styles'
+import { Forgot, Label, Container, Inner } from './styles'
 
 const ResetPasswordScreen = props => {
   const [ loading, setLoading ] = useState(false)
@@ -93,45 +93,49 @@ const ResetPasswordScreen = props => {
     <Forgot>
       {/* <BackgroundImage blur={0} opacity={0.5} /> */}
       <Container>
-        <div className={'login__logo'}>
-          <Logo color='white' icon />
-        </div>
-        {!loading ? state.success ? (
-          <div className={'onboard_success'}>
-            <h3>AWESOME!</h3>
-            <p className={'onboard_success-info'}>{state.msg} </p>
-            <Button onPress={onLoginPress} title='LOGIN' />
+        <Inner>
+          <div className={'login__logo'}>
+            <Logo color='white' icon />
           </div>
-        ) : (
-          <div className={'login__form'}>
-            <Label>Reset Password </Label>
-            <Input
-              label='Password'
-              type='password'
-              onChange={onInputChange}
-              fieldName={'password'}
-              error={!state.valid.password}
-            />
-            <Input
-              label='Confirm Password'
-              type='password'
-              value={state.passwordConfirm}
-              onChange={onInputChange}
-              fieldName={'passwordConfirm'}
-              error={!state.valid.password}
-            />
-            {state.error && <p className='error'>{state.msg}</p>}
-            <Button onPress={onResetPress} title='Reset' primary />
-            {state.error && <p className='onboard__error'>{state.errorMsg}</p>}
-            <div className='onboard__account'>
-              <Button onPress={onLoginPress} title='LOGIN' outline />
+          {!loading ? state.success ? (
+            <div className={'onboard_success'}>
+              <h3>AWESOME!</h3>
+              <p className={'onboard_success-info'}>{state.msg} </p>
+              <Button onPress={onLoginPress} title='LOGIN' />
             </div>
-          </div>
-        ) : (
-          <div className={'login__form'}>
-            <Preloader color={'white'} />
-          </div>
-        )}
+          ) : (
+            <div className={'login__form'}>
+              <Label>Reset Password </Label>
+              <Input
+                label='Password'
+                type='password'
+                onChange={onInputChange}
+                fieldName={'password'}
+                error={!state.valid.password}
+              />
+              <Input
+                label='Confirm Password'
+                type='password'
+                value={state.passwordConfirm}
+                onChange={onInputChange}
+                fieldName={'passwordConfirm'}
+                error={!state.valid.password}
+              />
+              {state.error && <p className='error'>{state.msg}</p>}
+              <Button onPress={onResetPress} title='Reset' primary />
+              {state.error && (
+                <p className='onboard__error'>{state.errorMsg}</p>
+              )}
+              <div className='onboard__account'>
+                <Button onPress={onLoginPress} title='LOGIN' outline />
+              </div>
+            </div>
+          ) : (
+            <div className={'login__form'}>
+              <Preloader color={'white'} />
+            </div>
+          )}
+        </Inner>
       </Container>
     </Forgot>
   )

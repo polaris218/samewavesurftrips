@@ -2,9 +2,9 @@ export default {
   surfLevel: [
     'Unspecified',
     'Beginner',
-    'Pre-Intemediate',
-    'Intemediate',
-    'Upper-Intemediate',
+    'Pre-Intermediate',
+    'Intermediate',
+    'Upper-Intermediate',
     'Advanced'
   ],
   modality: [

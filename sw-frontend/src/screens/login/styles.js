@@ -3,7 +3,7 @@ import { animated } from 'react-spring'
 import { Colors, Spacings } from 'config'
 
 export const LoginLogo = styled(animated.div)`
-  margin: -${Spacings.LARGE}px 0 ${Spacings.MEDIUM}px;
+  margin: ${Spacings.LARGE}px 0 ${Spacings.MEDIUM}px;
   width: 80px;
   height: 75px;
   opacity: 0;
@@ -74,7 +74,7 @@ export const Login = styled(animated.div)`
   }
 
   .login__register {
-    border-top: 1px solid ${Colors.GREY_LIGHT};
+    border-top: 1px solid rgba(0,0,0,0.1);
     width: 100%;
     max-width: 400px;
     margin-top: ${Spacings.MEDIUM}px;
@@ -102,4 +102,17 @@ export const Login = styled(animated.div)`
   a {
     color: ${Colors.GREY_LIGHT};
   }
+`
+export const Container = styled.div`
+  width: 100%;
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
+  padding-bottom: 80px;
+`
+export const Inner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5vh 0;
 `
