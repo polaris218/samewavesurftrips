@@ -26,7 +26,9 @@ export const Content = styled.div`
 `
 export const Title = styled.h2`
   margin: ${Spacings.SMALL}px 0;
+  line-height: 32px;
   padding: 0;
+  text-transform: capitalize;
 `
 export const Sub = styled.h3`
   margin: 0 0 ${Spacings.LARGE}px;
@@ -37,8 +39,9 @@ export const Sub = styled.h3`
 export const ButtonContainer = styled.div`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
   flex-direction: row;
-  margin-bottom: ${Spacings.MEDIUM}px;
+  margin: ${Spacings.LARGE}px 0 ${Spacings.MEDIUM}px;
   button {
     width: 70%;
+    padding: 0 ${Spacings.MEDIUM}px;
   }
 `

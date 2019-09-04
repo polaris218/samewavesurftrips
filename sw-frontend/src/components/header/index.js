@@ -55,6 +55,10 @@ const HeaderComponent = props => {
     props.history.push(`/${name}`)
   }
 
+  const onContactPress = () =>
+    (window.location.href =
+      'mailto:info@samewavesurftrips.com?subject=Hello, from the SameWave App')
+
   return (
     <Header>
       <Container>
@@ -97,7 +101,10 @@ const HeaderComponent = props => {
           </div>
         )}
         {props.rightIcon && (
-          <div className='header__righticon' onClick={props.rightAction}>
+          <div
+            className='header__righticon'
+            onClick={props.rightAction}
+            style={props.rightIconStyle}>
             {props.rightIcon}
           </div>
         )}
@@ -125,6 +132,13 @@ const HeaderComponent = props => {
             onPress={onLinkPress.bind(null, 'privacy')}
           />
           <NavFooter>
+            <MenuItem
+              // color={Colors.GREY_LIGHT}
+              title='Contact'
+              onPress={onContactPress}
+              icon={Tools.renderIcon('mail')}>
+              Logout
+            </MenuItem>
             <MenuItem
               // color={Colors.GREY_LIGHT}
               title='Logout'
@@ -156,7 +170,8 @@ HeaderComponent.defaultProps = {
   title: '',
   nav: true,
   rightIcon: null,
-  rightAction: () => {}
+  rightAction: () => {},
+  rightIconStyle: {}
 }
 
 const mapStateToProps = state => ({

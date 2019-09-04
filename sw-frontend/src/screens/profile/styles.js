@@ -76,6 +76,7 @@ export const Profile = styled.div`
     button {
       margin-left: ${Spacings.MEDIUM}px;
       height: 40px;
+      padding: 0 ${Spacings.MEDIUM}px;
       p {
         font-size: .9rem;
         text-transform: uppercase;

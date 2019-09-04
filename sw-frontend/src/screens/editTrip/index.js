@@ -49,6 +49,7 @@ const EditTripScreen = props => {
     modality: props.trips.current.surf_modality,
     level: props.trips.current.surf_level,
     offering_rides: props.trips.current.offering_rides,
+    available_seats: props.trips.current.available_seats,
     invalid: []
   })
   const offeringRides = useRef(null)
@@ -213,8 +214,10 @@ const EditTripScreen = props => {
       surf_modality: state.surf_modality,
       transport: state.transport,
       accomodation: state.accomodation,
+      available_seats: state.available_seats,
       offering_rides: state.offering_rides,
-      title: state.title
+      title: state.title,
+      trip_details: state.trip_details
     }
 
     //Validate from .....
@@ -420,10 +423,10 @@ const EditTripScreen = props => {
                   <Input
                     label='No. Seats'
                     onChange={onInputChange}
-                    value={state.avalibleSeats}
-                    fieldName={'avalibleSeats'}
+                    value={state.available_seats}
+                    fieldName={'available_seats'}
                     type='number'
-                    error={checkValidField('avalibleSeats')}
+                    error={checkValidField('available_seats')}
                   />
                   <Label>Accomodation</Label>
                   <ButtonGroupRow>
@@ -438,8 +441,8 @@ const EditTripScreen = props => {
                     label='Any more details?'
                     onChange={onInputChange}
                     value={state.trip_details}
-                    fieldName={'details'}
-                    error={checkValidField('details')}
+                    fieldName={'trip_details'}
+                    error={checkValidField('trip_details')}
                     multiline={true}
                     rows={5}
                   />

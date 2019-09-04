@@ -213,7 +213,7 @@ export const Trip = styled.div`
 
   .trip__description {
     /* margin: ${Spacings.MEDIUM}px 0; */
-    font-size: ${Spacings.FONT.BODY};
+    font-size: 1.5rem;
     font-weight: 500;
     color: ${Colors.GREY_BASE};
     text-transform: lowercase;
@@ -368,12 +368,15 @@ export const Directions = styled.div`
   text-align: right;
   font-weight: bold;
   margin: -28px 0 25px;
+  a {
+    color: ${Colors.ORANGE_BASE};
+  }
   svg {
     width: 15px;
     height: 15px;
     transform: translate(-2px, 2px);
     path {
-      fill: #039be5;
+      fill: ${Colors.ORANGE_BASE};
     }
   }
 `

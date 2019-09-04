@@ -16,8 +16,8 @@ const ModalComponent = props => {
     <Modal visible={props.visible}>
       <Content visible={props.visible}>
         <Card>
-          <Title>{props.title}</Title>
-          <Sub>{props.sub}</Sub>
+          <Title>{props.sub}</Title>
+          {/* <Sub>{props.sub}</Sub> */}
           <ButtonContainer visible={props.visible}>
             <Button
               color={Colors.GREY_LIGHT}

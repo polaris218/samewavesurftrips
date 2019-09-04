@@ -245,6 +245,7 @@ const TripScreen = props => {
           nav={false}
           rightIcon={tripOwner()}
           rightAction={onSharePress}
+          rightIconStyle={{width: 20, height: 20, paddingTop: 3}}
         />
         <ContentContainer>
           <Center>
