@@ -59,13 +59,22 @@ const HeaderComponent = props => {
     (window.location.href =
       'mailto:info@samewavesurftrips.com?subject=Hello, from the SameWave App')
 
+  const onBackPress = () => {
+    if (props.accessToken) {
+      // props.backAction && props.backAction()
+      props.history.goBack()
+    } else {
+      props.history.push('/' + Routes.LOGIN)
+    }
+  }
+
   return (
     <Header>
       <Container>
         <LogoContainer>
           <Logo color={Colors.BLUE_BASE} icon />
         </LogoContainer>
-        {props.backButton && <BackButton onPress={props.backAction} />}
+        {props.backButton && <BackButton onPress={onBackPress} />}
         {props.homeButton && (
           <HomeButton role='button' onClick={toggleDrawer.bind(null, true)}>
             {Tools.renderIcon('burger')}
@@ -175,7 +184,8 @@ HeaderComponent.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  accessToken: state.user.accessToken
 })
 
 export default connect(mapStateToProps, dispatch =>

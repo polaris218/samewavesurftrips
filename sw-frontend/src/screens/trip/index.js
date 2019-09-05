@@ -26,7 +26,8 @@ import {
   Center,
   TripDivider,
   Directions,
-  Row
+  Row,
+  NoJoin
 } from './styles'
 
 const TripScreen = props => {
@@ -147,8 +148,7 @@ const TripScreen = props => {
   }
 
   const visitProfile = () => {
-    console.log('push profile')
-    props.history.push(`/${Routes.USER}/${trip.owner_id}`)
+    props.user.accessToken && props.history.push(`/${Routes.USER}/${trip.owner_id}`)
   }
 
   const joinButton = () =>
@@ -396,23 +396,32 @@ const TripScreen = props => {
                 </div>
               </Card>
             </Container>
-
-            {/* <MastHead>
-              <Map
-                autoPosition={false}
-                banner
-                position={[ trip.destination.lng, trip.destination.lat ]}
-                zoom={15}
-                showMapCard={false}
-              />
-            </MastHead> */}
           </Center>
           <FootItem />
         </ContentContainer>
       </ScrollContainer>
-      <div className='trip__join'>
-        {trip.owner_id === props.user.id ? editButton() : joinButton()}
-      </div>
+      {console.log('trip count', trip.number_of_surfers , trip.attendees.length, trip.number_of_surfers < trip.attendees.length)}
+      {props.user.accessToken && (
+        <div className='trip__join'>
+        { trip.owner_id === props.user.id ? editButton() : 
+          !(trip.number_of_surfers < trip.attendees.length) ?
+            joinButton()
+         : !((trip.gender === 'only women' && props.user.gender.toLowerCase() !== "female") || (trip.gender === 'only men' && props.user.gender.toLowerCase() !== "male")) ? 
+            <NoJoin>
+              <Button
+              outlineDark
+              title="Sorry, your profile isn't suitable" disabled/>
+            </NoJoin>
+            :
+          <NoJoin>
+            <Button
+            outlineDark
+            title='Sorry, the trip is at capacity' disabled/>
+          </NoJoin>
+         }
+        </div>
+      )
+      }
       <Modal
         visible={modalVisible}
         title={(!state.joined ? 'Join ' : 'Leave ') + trip.title}

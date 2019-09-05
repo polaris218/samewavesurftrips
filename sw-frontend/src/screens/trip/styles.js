@@ -255,7 +255,7 @@ export const Trip = styled.div`
     z-index: 99;
     bottom: 0;
     width: 100%;
-    padding: ${Spacings.MEDIUM}px 0;
+    padding: ${Spacings.TINY}px 0;
     background: ${Colors.WHITE};
     
     @media (max-width: ${Spacings.SCREEN.TABLET}px) {
@@ -383,4 +383,10 @@ export const Directions = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
+`
+export const NoJoin = styled.div`
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  /* opacity: 0.7; */
 `
