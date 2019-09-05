@@ -406,7 +406,7 @@ const TripScreen = props => {
         { trip.owner_id === props.user.id ? editButton() : 
           !(trip.number_of_surfers < trip.attendees.length) ?
             joinButton()
-         : !((trip.gender === 'only women' && props.user.gender.toLowerCase() !== "female") || (trip.gender === 'only men' && props.user.gender.toLowerCase() !== "male")) ? 
+         : !((trip.gender === 'only women' && props.user.gender && props.user.gender.toLowerCase() !== "female") || (trip.gender === 'only men' && props.user.gender && props.user.gender.toLowerCase() !== "male")) ? 
             <NoJoin>
               <Button
               outlineDark
