@@ -72,6 +72,14 @@ const SearchComponent = props => {
     let params = {
       dateDeparture: dateDeparture ? dateDeparture.toString() : '',
       dateReturn: dateReturn ? dateReturn.toString() : '',
+      locationDeparture: {
+        lat: locationDeparture.lat || '',
+        lng: locationDeparture.lng || ''
+      },
+      locationReturn: {
+        lat: locationReturn.lat || '',
+        lng: locationReturn.lng || ''
+      },
       lng: locationReturn.lng || '',
       lat: locationReturn.lat || '',
       gender: selectGender || '',
@@ -84,6 +92,8 @@ const SearchComponent = props => {
     if (dateReturn) {
       searchParams += `&return_date_time=${dateReturn}`
     }
+    if (locationDeparture.lat)
+      searchParams += `&d_lng=${locationDeparture.lng}&d_lat=${locationDeparture.lat}&d_radius=20`
     if (locationReturn.lat)
       searchParams += `&lng=${locationReturn.lng}&lat=${locationReturn.lat}&radius=20`
     if (!isEmpty(selectGender)) searchParams += `&gender=${selectGender}`
