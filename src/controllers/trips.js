@@ -208,8 +208,7 @@ exports.search = (req, res) => {
   // search departure_date_time ---
   req.query['departure_date_time'] != undefined || '' ?
     (query['date_times.departure_date_time'] = {
-      "$gte": new Date(req.query['departure_date_time']),
-      "$lte": lteDate1
+      "$gte": new Date(req.query['departure_date_time'])
     }) : undefined;
 
   //search return_date_time ---
