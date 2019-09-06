@@ -211,6 +211,12 @@ exports.search = (req, res) => {
       "$gte": new Date(req.query['departure_date_time'])
     }) : undefined;
 
+    if(!req.query['departure_date_time']) {
+      query['date_times.departure_date_time'] = {
+        "$gte": new Date().setHours(0, 0, 0, 0)
+      }
+    }
+
   //search return_date_time ---
   req.query['return_date_time'] != undefined || '' ?
     (query['date_times.return_date_time'] = {
