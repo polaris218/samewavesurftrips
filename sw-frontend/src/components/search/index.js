@@ -52,15 +52,16 @@ const SearchComponent = props => {
     setDateDeparture(null)
     setDateReturn(null)
     setLocationDeparture({
-      name: null
+      name: ''
     })
     locationReturn.name = ''
     setLocationReturn({
-      name: null
+      name: ''
     })
     setSelectGender(null)
     setSelectModality(null)
     setSelectLevel(null)
+    onSearchPress()
   }
 
   const onFilterPress = () => {

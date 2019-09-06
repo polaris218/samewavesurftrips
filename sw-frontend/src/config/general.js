@@ -1,5 +1,6 @@
 export const baseAPI = 'https://app.samewavesurftrips.com/v1/'
 // export const baseAPI = 'http://localhost:5000/v1/'
+
 export default {
   Root: '/app/',
   MapboxToken:
