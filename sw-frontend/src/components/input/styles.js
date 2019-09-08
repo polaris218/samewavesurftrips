@@ -12,7 +12,7 @@ export default styled(TextField)`
     
     width: calc(100% - 16px);
     height: 100%;
-    /* height: 50px; */
+    max-height: ${({ multiline }) => (!multiline ? '40px' : '100%')};
     margin: 0px 0px 20px;
     background-color: rgba(255, 255, 255, 0.3);
     transition: background .25s ease;
