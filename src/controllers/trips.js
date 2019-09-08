@@ -208,8 +208,7 @@ exports.search = (req, res) => {
   // search departure_date_time ---
   req.query['departure_date_time'] != undefined || '' ?
     (query['date_times.departure_date_time'] = {
-      "$gte": new Date(req.query['departure_date_time']),
-      "$lte": lteDate1
+      "$gte": new Date(req.query['departure_date_time'])
     }) : undefined;
 
   //search return_date_time ---
@@ -217,6 +216,12 @@ exports.search = (req, res) => {
     (query['date_times.return_date_time'] = {
       "$lte": new Date(req.query['return_date_time']).setHours(23, 59, 59, 0)
     }) : undefined;
+
+  if (!req.query['return_date_time']) {
+    query['date_times.return_date_time'] = {
+      "$gte": new Date().setHours(23, 59, 59, 0)
+    }
+  }
 
   //search title ---
   req.query['title'] != undefined ? (query['title'] = new RegExp(`.*${req.query['title']}.*`, 'i')) : undefined;

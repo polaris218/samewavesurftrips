@@ -55,7 +55,7 @@ const EditProfileScreen = props => {
     surf_level: props.user.surf_level || '',
     surf_modality: props.user.surf_modality || '',
     stance: props.user.stance || '',
-    interests: props.user.interests || [ '' ],
+    interests: props.user.interests || [ 'surfing' ],
     surfing_since: props.user.surfing_since || new Date(),
     optIn: props.user.optIn,
     invalid: [],
@@ -106,7 +106,7 @@ const EditProfileScreen = props => {
 
     // eslint-disable-next-line no-unused-vars
     chipObjects = window.M.Chips.init(chips.current, {
-      data: state.interests.map((chip,i) => ({ tag:chip })),
+      data:  state.interests.map((chip,i) => ({ tag:chip })),
       onChipAdd: onInterestAdd,
       onChipDelete: onInterestDelete
     });
@@ -201,7 +201,7 @@ const EditProfileScreen = props => {
       surf_level: state.surf_level,
       surf_modality: state.surf_modality,
       stance: state.stance,
-      surfing_since: state.surfing_since
+      surfing_since: state.surfing_since,
     }
 
     //Validate from .....
