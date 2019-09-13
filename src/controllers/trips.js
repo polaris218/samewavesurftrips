@@ -172,9 +172,13 @@ exports.leave = (req, res) => {
 |--------------------------------------------------------------------------
 */
 exports.search = (req, res) => {
-  const skip = parseInt(req.query.skip) || 0
-  var query = {}
-  console.log("req.query", req.query);
+
+  // const skip = parseInt(req.query.skip) || 0
+  var query = {} // limit, page
+
+  const limit = parseInt(req.query.limit) || 50
+  const skip = (parseInt(req.query.page) || 0) * limit
+
   let lng = req.query['lng'] || 0,
     lat = req.query['lat'] || 0,
     radius = req.query['radius'] || 20
@@ -247,7 +251,7 @@ exports.search = (req, res) => {
       $lte: req.query['number_of_surfers']
     }) : undefined;
   console.log("final query ", JSON.stringify(query));
-  Trip.find(query).skip(skip).limit(50).then(trips => {
+  Trip.find(query).sort({ "createdAt": 1 }).skip(skip).limit(limit).then(trips => {
       res.json(trips)
     })
     .catch(err => {
