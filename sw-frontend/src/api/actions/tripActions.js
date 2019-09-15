@@ -26,6 +26,12 @@ export function tripActions (dispatch) {
         payload: data
       }
     },
+    fetchMoreTrips: data => {
+      return {
+        type: StoreDefinitions.TRIP.FETCH_MORE,
+        payload: data
+      }
+    },
     fetchOwnTrips: data => {
       return {
         type: StoreDefinitions.TRIP.FETCH_OWN,
