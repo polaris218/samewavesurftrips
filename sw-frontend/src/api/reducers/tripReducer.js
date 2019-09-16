@@ -1,7 +1,18 @@
 import StoreDefinitions from 'api/store/storeDefinitions'
 import defaultValues from 'api/store/defaults'
 
-export default function tripReducer (
+const formatTrip = trip => {
+  if (trip.destination.startsWith('{')) {
+    trip.destination = JSON.parse(trip.destination)
+    trip.departing = JSON.parse(trip.departing)
+    if (new Date(trip.date_times.return_date_time) >= new Date()) {
+      return trip
+    }
+  }
+  return null
+}
+
+export default function tripReducer(
   state = {
     ...defaultValues.trips
   },
@@ -21,24 +32,28 @@ export default function tripReducer (
       }
       break
     case StoreDefinitions.TRIP.FETCH_ALL:
-      const trips = []
+      const trips = action.payload.map(formatTrip).filter(trip => trip)
+      state = {
+        ...state,
+        allTrips: trips,
+        filter: "?"
+      }
+      break
 
-      action.payload.forEach(trip => {
-        if (trip.destination.startsWith('{')) {
-          trip.destination = JSON.parse(trip.destination)
-          trip.departing = JSON.parse(trip.departing)
-          if (new Date(trip.date_times.return_date_time) >= new Date()) {
-            trips.push(trip)
-          }
-        }
+    case StoreDefinitions.TRIP.FETCH_MORE:
+      // const oldIds = state.allTrips.map(e => e._id)
+      const extraTrips = action.payload.map(formatTrip).filter(trip => {
+        return trip
+        // return trip && !oldIds.includes(trip._id)
       })
 
       state = {
         ...state,
-        allTrips: trips,
-        filter:"?"
+        allTrips: [...state.allTrips, ...extraTrips],
+        filter: "?"
       }
       break
+
     case StoreDefinitions.TRIP.FILTER:
       const filtedTrips = []
       action.payload.data.forEach(trip => {
@@ -54,7 +69,7 @@ export default function tripReducer (
       state = {
         ...state,
         allTrips: filtedTrips,
-        filter:"?"
+        filter: "?"
       }
       break
     case StoreDefinitions.TRIP.FILTER_QUERY:
@@ -105,12 +120,12 @@ export default function tripReducer (
         current: action.payload
       }
       break
-      case StoreDefinitions.TRIP.SEARCH_PARAM:
-        state = {
-          ...state,
-          filter: action.payload
-        }
-        break
+    case StoreDefinitions.TRIP.SEARCH_PARAM:
+      state = {
+        ...state,
+        filter: action.payload
+      }
+      break
     case StoreDefinitions.TRIP.JOIN:
       state = {
         ...state,

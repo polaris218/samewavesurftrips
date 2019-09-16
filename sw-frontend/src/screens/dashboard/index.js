@@ -19,16 +19,24 @@ import {
   ScrollContainer,
   Search,
   Footer,
-  Filters
+  Filters,
+  Preloader
 } from 'components'
 import { Dashboard, MapTripDetail } from './styles'
 
 const DashboardScreen = props => {
   const [ loading, setLoading ] = useState(false)
+  const [ loadingMore, setLoadingMore ] = useState(false)
+
   const [ searchVisible, setSearchVisible ] = useState(true)
   const [ filterVisible, setFilterVisible ] = useState(false)
   const [ activeTab, setActiveTab ] = useState('list')
   const [ initalDisplay, setInitialDisplay ] = useState(false)
+  const [ paginationParams, setPaginationParams ] = useState({
+    limit: 10,
+    page: 0
+  })
+
   let mounted = true
 
   useEffect(() => {
@@ -37,9 +45,12 @@ const DashboardScreen = props => {
     }
   }, [])
 
-  useEffect(() => {
-    fetchTrips()
-  }, [])
+  useEffect(
+    () => {
+      fetchTrips(paginationParams)
+    },
+    [ paginationParams ]
+  )
 
   useEffect(
     () => {
@@ -48,14 +59,30 @@ const DashboardScreen = props => {
     [ props.trips.current.id ]
   )
 
-  const fetchTrips = () => {
-    mounted && setLoading(true)
-    mounted && setInitialDisplay(true)
-    const searchParams = props.trips.filter
+  const loadMore = () => {
+    if (!loadingMore) {
+      setPaginationParams({
+        limit: paginationParams.limit,
+        page: paginationParams.page + 1
+      })
+    }
+  }
+
+  const fetchTrips = ({ limit = 4, page = 0 } = {}) => {
+    const isFirstQuery = page === 0
+
+    if (!isFirstQuery) {
+      mounted && setLoadingMore(true)
+    } else {
+      mounted && setLoading(true)
+      mounted && setInitialDisplay(true)
+    }
+
+    const searchParams = props.trips.filter + `limit=${limit}&page=${page}`
     dispatch(
       apiQuery(
         null,
-        props.fetchAllTrips,
+        isFirstQuery ? props.fetchAllTrips : props.fetchMoreTrips,
         config.EndPoints.search + searchParams,
         onFetchResult,
         'get',
@@ -69,6 +96,7 @@ const DashboardScreen = props => {
       console.log('what error', error)
     }
     setLoading(false)
+    setLoadingMore(false)
   }
 
   const onTogglePress = activeName => {
@@ -163,7 +191,7 @@ const DashboardScreen = props => {
 
   return (
     <Dashboard>
-      <ScrollContainer height={'55'}>
+      <ScrollContainer height={'35'}>
         {!filterVisible ? (
           <Header
             title={!filterVisible ? 'Search Surf Trip' : 'Filters'}
@@ -177,12 +205,30 @@ const DashboardScreen = props => {
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
         ) : (
-          <TripList
-            trips={props.trips.allTrips}
-            loading={loading}
-            paddingTop={!searchVisible ? 300 : 140}
-            paddingSide
-          />
+          [
+            <TripList
+              key={1}
+              trips={props.trips.allTrips}
+              loading={loading}
+              loadingMore={loadingMore}
+              paginationParams={paginationParams}
+              paddingTop={!searchVisible ? 300 : 140}
+              paddingSide
+              loadMoreTrips={() => {
+                document.getElementById('btn-load-more').click()
+              }}
+            />,
+            <div
+              key={2}
+              style={{
+                position: 'absolute',
+                top: '90%',
+                width: '100vw',
+                textAlign: 'center'
+              }}>
+              {loadingMore && <Preloader />}
+            </div>
+          ]
         )}
         {searchVisible &&
         !filterVisible && (
@@ -227,6 +273,10 @@ const DashboardScreen = props => {
             onSearch={onFilterApply}
           />
         )}
+
+        <button id='btn-load-more' style={{ opacity: 0 }} onClick={loadMore}>
+          Load
+        </button>
       </ScrollContainer>
       {activeTab === 'list' && <Footer />}
     </Dashboard>
@@ -247,7 +297,10 @@ DashboardScreen.defaultProps = {
 
 const mapStateToProps = state => ({
   user: state.user,
-  trips: state.trips
+  trips: state.trips,
+  items: [],
+  isLoading: true,
+  cursor: 0
 })
 
 export default connect(mapStateToProps, dispatch =>

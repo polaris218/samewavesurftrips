@@ -3,7 +3,7 @@ import { Spacings, Colors } from 'config'
 
 export const ScrollContainer = styled.div`
   width: 100%;
-  height: calc(100% - ${props => (props.navbar ? 55 : 0)}px);
+  height: calc(100% - ${props => (props.navbar ? 35 : 0)}px);
   display: flex;
   flex-direction: row;
   flex-direction: column;
