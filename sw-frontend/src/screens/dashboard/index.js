@@ -25,14 +25,17 @@ import {
 import { Dashboard, MapTripDetail } from './styles'
 
 const DashboardScreen = props => {
-  const [loading, setLoading] = useState(false)
-  const [loadingMore, setLoadingMore] = useState(false)
+  const [ loading, setLoading ] = useState(false)
+  const [ loadingMore, setLoadingMore ] = useState(false)
 
-  const [searchVisible, setSearchVisible] = useState(true)
-  const [filterVisible, setFilterVisible] = useState(false)
-  const [activeTab, setActiveTab] = useState('list')
-  const [initalDisplay, setInitialDisplay] = useState(false)
-  const [paginationParams, setPaginationParams] = useState({ limit: 10, page: 0 })
+  const [ searchVisible, setSearchVisible ] = useState(true)
+  const [ filterVisible, setFilterVisible ] = useState(false)
+  const [ activeTab, setActiveTab ] = useState('list')
+  const [ initalDisplay, setInitialDisplay ] = useState(false)
+  const [ paginationParams, setPaginationParams ] = useState({
+    limit: 10,
+    page: 0
+  })
 
   let mounted = true
 
@@ -42,15 +45,18 @@ const DashboardScreen = props => {
     }
   }, [])
 
-  useEffect(() => {
-    fetchTrips(paginationParams)
-  }, [paginationParams])
+  useEffect(
+    () => {
+      fetchTrips(paginationParams)
+    },
+    [ paginationParams ]
+  )
 
   useEffect(
     () => {
       onMapCardPress()
     },
-    [props.trips.current.id]
+    [ props.trips.current.id ]
   )
 
   const loadMore = () => {
@@ -166,7 +172,6 @@ const DashboardScreen = props => {
   //   )
   // }
 
-
   const onMapCardPress = () => {
     mounted && setInitialDisplay(false)
   }
@@ -186,7 +191,7 @@ const DashboardScreen = props => {
 
   return (
     <Dashboard>
-      <ScrollContainer height={'55'}>
+      <ScrollContainer height={'35'}>
         {!filterVisible ? (
           <Header
             title={!filterVisible ? 'Search Surf Trip' : 'Filters'}
@@ -194,38 +199,47 @@ const DashboardScreen = props => {
             rightAction={onSearchPress}
           />
         ) : (
-            <Filters onClose={onFilterPress} />
-          )}
+          <Filters onClose={onFilterPress} />
+        )}
 
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
         ) : (
-            [
-              <TripList
-                key={1}
-                trips={props.trips.allTrips}
-                loading={loading}
-                loadingMore={loadingMore}
-                paginationParams={paginationParams}
-                paddingTop={!searchVisible ? 300 : 140}
-                paddingSide
-                loadMoreTrips={() => {
-                  document.getElementById("btn-load-more").click()
-                }}
-              />,
-              <div key={2} style={{ position: "absolute", top: "90%", width: "100vw", textAlign: "center" }}>{loadingMore && <Preloader />}</div>
-            ]
-          )}
-        {searchVisible &&
-          !filterVisible && (
-            <div className={'dashboard__switch'}>
-              <Toggle
-                onPress={onTogglePress}
-                items={['map', 'list']}
-                active={activeTab}
-              />
+          [
+            <TripList
+              key={1}
+              trips={props.trips.allTrips}
+              loading={loading}
+              loadingMore={loadingMore}
+              paginationParams={paginationParams}
+              paddingTop={!searchVisible ? 300 : 140}
+              paddingSide
+              loadMoreTrips={() => {
+                document.getElementById('btn-load-more').click()
+              }}
+            />,
+            <div
+              key={2}
+              style={{
+                position: 'absolute',
+                top: '90%',
+                width: '100vw',
+                textAlign: 'center'
+              }}>
+              {loadingMore && <Preloader />}
             </div>
-          )}
+          ]
+        )}
+        {searchVisible &&
+        !filterVisible && (
+          <div className={'dashboard__switch'}>
+            <Toggle
+              onPress={onTogglePress}
+              items={[ 'map', 'list' ]}
+              active={activeTab}
+            />
+          </div>
+        )}
 
         <Fab />
 
@@ -260,7 +274,9 @@ const DashboardScreen = props => {
           />
         )}
 
-        <button id="btn-load-more" style={{ opacity: 0 }} onClick={loadMore}>Load</button>
+        <button id='btn-load-more' style={{ opacity: 0 }} onClick={loadMore}>
+          Load
+        </button>
       </ScrollContainer>
       {activeTab === 'list' && <Footer />}
     </Dashboard>
@@ -276,7 +292,7 @@ DashboardScreen.propTypes = {
 DashboardScreen.defaultProps = {
   history: {},
   location: '',
-  onFilter: () => { }
+  onFilter: () => {}
 }
 
 const mapStateToProps = state => ({
@@ -288,5 +304,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, dispatch =>
-  mapDispatchToProps(dispatch, [userActions, tripActions])
+  mapDispatchToProps(dispatch, [ userActions, tripActions ])
 )(withRouter(DashboardScreen))
