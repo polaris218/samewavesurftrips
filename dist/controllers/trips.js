@@ -164,9 +164,13 @@ exports.leave = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.search = function (req, res) {
-  var skip = parseInt(req.query.skip) || 0;
-  var query = {};
-  console.log("req.query", req.query);
+
+  // const skip = parseInt(req.query.skip) || 0
+  var query = {}; // limit, page
+
+  var limit = parseInt(req.query.limit) || 50;
+  var skip = (parseInt(req.query.page) || 0) * limit;
+
   var lng = req.query['lng'] || 0,
       lat = req.query['lat'] || 0,
       radius = req.query['radius'] || 20;
@@ -195,14 +199,19 @@ exports.search = function (req, res) {
   lteDate1.setDate(lteDate1.getDate() + 1);
   // search departure_date_time ---
   req.query['departure_date_time'] != undefined || '' ? query['date_times.departure_date_time'] = {
-    "$gte": new Date(req.query['departure_date_time']),
-    "$lte": lteDate1
+    "$gte": new Date(req.query['departure_date_time'])
   } : undefined;
 
   //search return_date_time ---
   req.query['return_date_time'] != undefined || '' ? query['date_times.return_date_time'] = {
     "$lte": new Date(req.query['return_date_time']).setHours(23, 59, 59, 0)
   } : undefined;
+
+  if (!req.query['return_date_time']) {
+    query['date_times.return_date_time'] = {
+      "$gte": new Date().setHours(23, 59, 59, 0)
+    };
+  }
 
   //search title ---
   req.query['title'] != undefined ? query['title'] = new RegExp('.*' + req.query['title'] + '.*', 'i') : undefined;
@@ -227,7 +236,7 @@ exports.search = function (req, res) {
     $lte: req.query['number_of_surfers']
   } : undefined;
   console.log("final query ", JSON.stringify(query));
-  _trip2.default.find(query).skip(skip).limit(50).then(function (trips) {
+  _trip2.default.find(query).sort({ "createdAt": 1 }).skip(skip).limit(limit).then(function (trips) {
     res.json(trips);
   }).catch(function (err) {
     console.log("err=", err);

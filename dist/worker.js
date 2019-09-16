@@ -77,7 +77,6 @@ var expressMongoDb = require('express-mongo-db');
 //   httpsPort: 8443
 // };
 
-
 /* 
 |--------------------------------------------------------------------------
 | handlebars templating setup
@@ -123,7 +122,6 @@ app.use((0, _expressFileupload2.default)());
 //   next()
 // })
 
-
 var rawBodySaver = function rawBodySaver(req, res, buf, encoding) {
   if (buf && buf.length) {
     req.rawBody = buf.toString(encoding || 'utf8');
@@ -136,10 +134,19 @@ app.use((0, _compression2.default)());
 app.use((0, _cookieParser2.default)());
 app.use((0, _connectFlash2.default)());
 app.use(_bodyParser2.default.json({ limit: '50mb', verify: rawBodySaver }));
-app.use(_bodyParser2.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }));
+app.use(_bodyParser2.default.urlencoded({
+  limit: '50mb',
+  extended: true,
+  parameterLimit: 1000000
+}));
 app.use(expressMongoDb('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database));
 
-var connection = _mongoose2.default.connect('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database, { useNewUrlParser: true });
+var connection = void 0;
+// if (!app.get('env') || app.get('env') === 'development') {
+//   connection  = mongoose.connect(`mongodb+srv://samewave:0jyQ35mOSCvdDW2i@cluster0-1bvhs.mongodb.net/heroku_tvhqf9rt?retryWrites=true&w=majority`, { useNewUrlParser: true });
+// } else {
+connection = _mongoose2.default.connect('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database, { useNewUrlParser: true });
+// }
 
 connection.then(function (db) {
   console.log('Successfully connected to MongoDB cluster');
