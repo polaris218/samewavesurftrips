@@ -37,6 +37,7 @@ import CropModal from './imagecrop'
 import MsgListItem from './msgListItem'
 import ButtonGroup from './buttonGroup'
 import Filters from './filters'
+import UserCard from './userCard'
 
 export {
   App,
@@ -77,5 +78,6 @@ export {
   ProgressBar,
   Modal,
   MsgListItem,
-  CropModal
+  CropModal,
+  UserCard
 }

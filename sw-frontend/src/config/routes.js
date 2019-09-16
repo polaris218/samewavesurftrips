@@ -13,6 +13,7 @@ export default {
   EDIT_TRIP: 'edit_trip',
   EDIT_PROFILE: 'edit_profile',
   USER: 'user',
+  USERS: 'users',
   AUTH: 'auth',
   FORGOT: 'forgot',
   MESSAGE: 'message',
