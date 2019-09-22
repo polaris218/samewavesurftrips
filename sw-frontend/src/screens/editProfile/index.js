@@ -256,13 +256,13 @@ const EditProfileScreen = props => {
     setState({ ...state, location })
   }
 
-  const onInterestsChange = (value, name) => {
-    const interests = value.split(',')
-    setState({ 
-      ...state, 
-      interests: chipObjects.chipsData.map(chip => (chip.tag))
-    })
-  }
+  // const onInterestsChange = (value, name) => {
+  //   const interests = value.split(',')
+  //   setState({ 
+  //     ...state, 
+  //     interests: chipObjects.chipsData.map(chip => (chip.tag))
+  //   })
+  // }
 
   const onInterestAdd = (value, item, label) => {
     setState({ 

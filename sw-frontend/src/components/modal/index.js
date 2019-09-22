@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Button } from 'components'
 import { Colors } from 'config'
-import { ButtonContainer, Modal, Content, Sub, Title } from './styles'
+import { ButtonContainer, Modal, Content, Title } from './styles'
 
 const ModalComponent = props => {
   const onConfirmPress = () => {

@@ -13,8 +13,7 @@ import {
   Tabs,
   Footer,
   MsgListItem,
-  Preloader,
-  Fab
+  Preloader
 } from 'components'
 import { Tools } from 'utils'
 import {

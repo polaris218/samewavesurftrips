@@ -31,8 +31,8 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "HTTPS=true react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_GA=UA-143449129-2 HTTPS=true react-scripts start",
+    "build": "REACT_APP_GA=UA-148448405-1 react-scripts build",
     "static": "cp -r build ../static/app",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -40,12 +40,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": [ ">0.2%", "not dead", "not ie <= 11", "not op_mini all" ],
   "devDependencies": {
     "react-dev-utils": "^9.0.3"
   }
