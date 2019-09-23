@@ -188,15 +188,17 @@ const ProfileScreen = props => {
     setTripsType(value)
   }
 
+  const onSearchPress = () => props.history.push('/' + Routes.USERS)
+
   return (
     <Profile>
       <ScrollContainer height={'55px'}>
         <Header
           title={userId ? '' : 'Profile'}
-          // rightIcon={!userId && Tools.renderIcon('pencil')}
-          rightAction={onEditPress}
           backButton={userId && true}
           homeButton={!userId}
+          rightIcon={Tools.renderIcon('search')}
+          rightAction={onSearchPress}
         />
 
         {loading ? (

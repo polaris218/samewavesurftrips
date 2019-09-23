@@ -14,6 +14,8 @@ export default {
   EDIT_PROFILE: 'edit_profile',
   USER: 'user',
   USERS: 'users',
+  FOLLOWERS: 'followers',
+  FOLLOWING: 'following',
   AUTH: 'auth',
   FORGOT: 'forgot',
   MESSAGE: 'message',

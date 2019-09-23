@@ -88,7 +88,7 @@ const UserListScreen = props => {
   return (
     <Trips>
       <Header title={'Users'} />
-      <Tabs tabs={tabs} onTabPress={onTabPress} />
+      {/* <Tabs tabs={tabs} onTabPress={onTabPress} /> */}
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
