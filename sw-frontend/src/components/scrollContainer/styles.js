@@ -9,13 +9,13 @@ export const ScrollContainer = styled.div`
   flex-direction: column;
   justify-content: ${'flex-start'};
   align-items: ${({ align }) => align};
-  background-color: ${Colors.GREY_MID};
-  background: ${props =>
+  background-color: ${Colors.WHITE};
+  /* background: ${props =>
     props.color === 'blue'
-      ? `linear-gradient(to top, ${Colors.GREY_XLIGHT} 0%, #ededed 40%, #f4fafc 100%)`
+      ? `linear-gradient(to top, ${Colors.GREY_XLIGHT} 0%, #e3e3e3 40%, #ffffff 100%)`
       : props.color === 'orange'
-        ? `linear-gradient(to right, #0072ff, #16b2ce)`
-        : 'transparent'};
+        ? `linear-gradient(to right, #e3e3e3, #ffffff)`
+        : 'transparent'}; */
 
   /* overflow: hidden; */
   @media (min-width: ${Spacings.SCREEN.TABLET}px) {

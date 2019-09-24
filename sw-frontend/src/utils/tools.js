@@ -7,7 +7,7 @@ export const validateEmail = email => {
 }
 
 export const cutName = name => {
-  const place = name.split(',')
+  const place = name ? name.split(',') : []
   return `${place[0]}`
 }
 

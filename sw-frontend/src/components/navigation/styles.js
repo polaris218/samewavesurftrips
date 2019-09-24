@@ -46,7 +46,7 @@ export const Tabs = styled.ul`
     transition: background-color .55s ease;
     :hover,
     :focus {
-      background: ${Colors.GREY_GREEN};
+      background: ${Colors.WHITE};
       p {
         color: ${Colors.GREY_BASE};
       }

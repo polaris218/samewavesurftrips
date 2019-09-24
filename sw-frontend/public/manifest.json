@@ -30,7 +30,6 @@
   ],
   "orientation": "portrait",
   "start_url": ".",
-  "display": "standalone",
   "theme_color": "#17b1ce",
   "background_color": "#17b1ce"
 }

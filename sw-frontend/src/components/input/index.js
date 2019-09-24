@@ -11,6 +11,24 @@ const InputComponent = props => {
     if (props.onChange) props.onChange(event.target.value, name)
   }
 
+  if (props.type === 'number') {
+    return (
+      <input
+        id={props.id || props.label}
+        label={props.label}
+        value={value}
+        placeholder={props.label}
+        onChange={handleChange(props.fieldName)}
+        margin='none'
+        error={props.error}
+        type={props.type}
+        multiline={props.multiline}
+        rows={props.rows}
+        autoFocus={props.focus}
+        pattern={props.pattern}
+      />
+    )
+  }
   return (
     <TextField
       id={props.id || props.label}
@@ -24,6 +42,7 @@ const InputComponent = props => {
       multiline={props.multiline}
       rows={props.rows}
       autoFocus={props.focus}
+      pattern={props.pattern}
     />
   )
 }

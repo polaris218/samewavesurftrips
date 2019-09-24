@@ -12,7 +12,7 @@ export const TabsContainer = styled.div`
   border-bottom: 1px solid ${Colors.GREY_MID};
   position: relative;
   .MuiPrivateTabIndicator-root-35 {
-    background-color: ${Colors.BLUE_BASE};
+    background-color: ${Colors.WHITE};
   }
 
   span {

@@ -234,7 +234,7 @@ const TripScreen = props => {
   }
 
   const trip = props.trips.current
-
+  const gender = props.user.gender ? props.user.gender.toLowerCase() : ''
   return (
     <Trip>
       <ScrollContainer navbar={false} color='transparent'>
@@ -404,16 +404,16 @@ const TripScreen = props => {
       {props.user.accessToken && (
         <div className='trip__join'>
         { trip.owner_id === props.user.id ? editButton() : 
-          !(trip.number_of_surfers < trip.attendees.length) ?
-            joinButton()
-         : ((trip.gender === 'only women' && props.user.gender && props.user.gender.toLowerCase() !== "female") 
-            || (trip.gender === 'only men' && props.user.gender && props.user.gender.toLowerCase() !== "male")) ? 
+           ((trip.gender === 'only women' && gender !== "female") 
+            || (trip.gender === 'only men' && gender !== "male")) ? 
             <NoJoin>
               <Button
               outlineDark
               title="Sorry, your profile isn't suitable" disabled/>
             </NoJoin>
-            :
+            : !(trip.number_of_surfers < trip.attendees.length) ?
+            joinButton()
+         :
           <NoJoin>
             <Button
             outlineDark
@@ -423,6 +423,7 @@ const TripScreen = props => {
         </div>
       )
       }
+      {console.log('trip.gender ___', trip.gender, gender)}
       <Modal
         visible={modalVisible}
         title={(!state.joined ? 'Join ' : 'Leave ') + trip.title}

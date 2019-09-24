@@ -7,7 +7,7 @@ export default {
   BLUE_DARK: '#4469B0',
   BLUE_LIGHT: '#e6fffa',
   BLUE_MID: '#4dc0d5',
-  BLUE_BRIGHT: 'rgba(0,212,255,1)',
+  BLUE_BRIGHT: '#16B2CE',
 
   GREY_BASE: '#626262',
   GREY_GREEN: '#f0f8f7',

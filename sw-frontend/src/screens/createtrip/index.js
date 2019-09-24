@@ -389,6 +389,7 @@ const CreateTripScreen = props => {
                         value={state.surferCount}
                         fieldName={'surferCount'}
                         type='number'
+                        pattern="[0-9]*"
                         error={checkValidField('surferCount')}
                       />
                       <Label>ANY GENDER RESTRICTION?</Label>

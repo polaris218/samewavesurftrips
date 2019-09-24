@@ -7,7 +7,7 @@ export const Profile = styled.div`
 
   .profile__container {
     width: 100%;
-    padding: 60px 0 50px;
+    padding: 60px 0 180px;
   }
   .profile__back {
     position: absolute;

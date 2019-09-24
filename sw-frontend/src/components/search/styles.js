@@ -28,7 +28,7 @@ export const SearchContent = styled.div`
   height: 100%;
   color: ${props => props.color};
   font-size: ${props => props.fontSize};
-  background-color: ${Colors.GREY_MID};
+  background-color: ${Colors.WHITE};
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   .inner__content {
     width: 100%;
