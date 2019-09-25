@@ -451,6 +451,7 @@ const CreateTripScreen = props => {
                         value={state.available_seats && state.available_seats !== 0 ? state.available_seats : ''}
                         fieldName={'available_seats'}
                         type='number'
+                        pattern="[0-9]*"
                         error={checkValidField('available_seats')}
                       />
                       </> : null }
