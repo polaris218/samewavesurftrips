@@ -100,15 +100,18 @@ app.use(
 )
 
 let connection
-// if (!app.get('env') || app.get('env') === 'development') {
-//   connection  = mongoose.connect(`mongodb+srv://samewave:0jyQ35mOSCvdDW2i@cluster0-1bvhs.mongodb.net/heroku_tvhqf9rt?retryWrites=true&w=majority`, { useNewUrlParser: true });
-// } else {
-connection = mongoose.connect(
-  `mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config
-    .db.port}/${config.db.database}`,
-  { useNewUrlParser: true }
-)
-// }
+if (!app.get('env') || app.get('env') === 'development') {
+  connection = mongoose.connect(
+    `mongodb+srv://samewave:0jyQ35mOSCvdDW2i@cluster0-1bvhs.mongodb.net/heroku_tvhqf9rt?retryWrites=true&w=majority`,
+    { useNewUrlParser: true }
+  )
+} else {
+  connection = mongoose.connect(
+    `mongodb://${config.db.user}:${config.db.password}@${config.db
+      .host}:${config.db.port}/${config.db.database}`,
+    { useNewUrlParser: true }
+  )
+}
 
 connection.then(db => {
   console.log(`Successfully connected to MongoDB cluster`)
