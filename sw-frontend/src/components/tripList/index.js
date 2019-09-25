@@ -26,7 +26,8 @@ const TripListComponent = props => {
         )}
         {!props.loading && trail.length > 0 ? (
           trail.map(({ ...rest }, index) => {
-            const trip = trips[index]
+            const trip = trips[index];
+ 
             return (
               <animated.div
                 key={trip._id}

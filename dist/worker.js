@@ -142,11 +142,11 @@ app.use(_bodyParser2.default.urlencoded({
 app.use(expressMongoDb('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database));
 
 var connection = void 0;
-// if (!app.get('env') || app.get('env') === 'development') {
-//   connection  = mongoose.connect(`mongodb+srv://samewave:0jyQ35mOSCvdDW2i@cluster0-1bvhs.mongodb.net/heroku_tvhqf9rt?retryWrites=true&w=majority`, { useNewUrlParser: true });
-// } else {
-connection = _mongoose2.default.connect('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database, { useNewUrlParser: true });
-// }
+if (!app.get('env') || app.get('env') === 'development') {
+  connection = _mongoose2.default.connect('mongodb+srv://samewave:0jyQ35mOSCvdDW2i@cluster0-1bvhs.mongodb.net/heroku_tvhqf9rt?retryWrites=true&w=majority', { useNewUrlParser: true });
+} else {
+  connection = _mongoose2.default.connect('mongodb://' + _config2.default.db.user + ':' + _config2.default.db.password + '@' + _config2.default.db.host + ':' + _config2.default.db.port + '/' + _config2.default.db.database, { useNewUrlParser: true });
+}
 
 connection.then(function (db) {
   console.log('Successfully connected to MongoDB cluster');

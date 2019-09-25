@@ -201,7 +201,6 @@ const DashboardScreen = props => {
         ) : (
           <Filters onClose={onFilterPress} />
         )}
-
         {activeTab === 'map' ? (
           <Map trips={props.trips.allTrips} />
         ) : (
@@ -240,9 +239,7 @@ const DashboardScreen = props => {
             />
           </div>
         )}
-
         <Fab />
-
         {activeTab === 'map' && (
           <MapTripDetail>
             {/* <ButtonContainer>

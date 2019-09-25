@@ -22,7 +22,6 @@ const UserListScreen = props => {
   const [ activeTab, setActiveTab ] = useState(0)
   const [ tabs ] = useState([ 'Users', 'Following', 'Followers' ])
   let mounted = true
-
   /*
   * Component Will Unmount HOOK
   */
@@ -84,7 +83,7 @@ const UserListScreen = props => {
         return props.trips.yourTrips
     }
   }
-
+  console.log(props.trips)
   return (
     <Trips>
       <Header title={'Users'} />
