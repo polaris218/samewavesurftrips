@@ -30,6 +30,8 @@
   ],
   "orientation": "portrait",
   "start_url": ".",
+  "scope": "https://app.samewavesurftrips.com/app/",
+  "display": "standalone",
   "theme_color": "#17b1ce",
   "background_color": "#17b1ce"
 }
