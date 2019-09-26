@@ -15,7 +15,7 @@ const TripListComponent = props => {
 
   // Reverse the Trips list so Newset on top
   const trips = props.trips.slice(0).reverse()
-
+  
   return (
     <TripList paddingTop={props.paddingTop} paddingSide={props.paddingSide}>
       <ListContainer>

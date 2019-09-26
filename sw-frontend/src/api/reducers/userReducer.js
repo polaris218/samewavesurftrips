@@ -134,9 +134,14 @@ export default function userReducer (
         }
       }
       break
+    case StoreDefinitions.USER.ALL_USERS:
+      return state = {
+        ...state,
+        allUsers: action.payload,
+      };
     default:
       state = {
-        ...state
+        ...state,
       }
   }
   return { ...state }

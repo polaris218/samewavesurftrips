@@ -1,4 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import ImageIcon from "@material-ui/icons/Image";
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
+import IconButton from "@material-ui/core/IconButton";
+
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -13,7 +27,7 @@ import {
   Header,
   Tabs,
   TripList,
-  ScrollContainer
+  ScrollContainer,
 } from 'components'
 import { Trips, ContentContainer, FootContainer } from './styles'
 
@@ -35,6 +49,7 @@ const UserListScreen = props => {
   useEffect(() => {
     onTabPress(0)
     fetchTrips()
+    fetchAllUsers()
     console.log('USER SEARCH____ ')
   }, [])
 
@@ -48,6 +63,22 @@ const UserListScreen = props => {
         onFetchResult,
         'get'
       )
+    )
+  }
+  /**
+   * 
+   * @param {string} id UserID from Users
+   * @function toUserDetailPage with ID, it will route to user detail page
+   * @from 2019-9-25
+   */
+  const toUserDetailPage = (id) => {
+    props.history.push(`/user/${id}`);
+  }
+
+  const fetchAllUsers = () => {
+    setLoading(true);
+    dispatch(
+      apiQuery(null, props.getAllUsers, config.EndPoints.users, onFetchResult, "get")
     )
   }
 
@@ -83,7 +114,7 @@ const UserListScreen = props => {
         return props.trips.yourTrips
     }
   }
-  console.log(props.trips)
+
   return (
     <Trips>
       <Header title={'Users'} />
@@ -91,11 +122,9 @@ const UserListScreen = props => {
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
-            <TripList
-              trips={filterTrips(props.trips.yourTrips, activeTab)}
-              loading={loading}
-              ownerDetailVisible={false}
-              userList
+            <AllUserList
+              users={props.user.allUsers}
+              onFetchUserDetail={toUserDetailPage}
             />
           </Container>
         </ContentContainer>
@@ -116,3 +145,92 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, dispatch =>
   mapDispatchToProps(dispatch, [ userActions, tripActions ])
 )(withRouter(UserListScreen))
+
+export const AllUserList = props => {
+  const classes = useStyles();
+
+  return (
+    <div className={ classes.root }>
+      <Paper className={classes.paper}>
+        <InputBase
+          className={classes.input}
+          placeholder="Search User By Name"
+          underline="none"
+          inputProps={{ 'aria-label': 'search google maps' }}
+        />
+        <IconButton className={ classes.iconButton }>
+          <SearchIcon />
+        </IconButton>
+        <Divider className={classes.divider}/>
+      </Paper>
+      <List>
+      {
+      props.users.map((item, key) => (
+        <Paper key={key}>
+          <ListItem
+            button
+            alignItems="flex-start"
+            className={classes.listItem}
+            onClick={ () => props.onFetchUserDetail(item._id) }
+          >
+            <ListItemAvatar>
+              { item.avatar ?
+                <Avatar alt={ `${item.first_name}${item.last_name}` } src={ item.avatar } />
+                : <Avatar><ImageIcon /></Avatar>
+            }
+            </ListItemAvatar>
+            <ListItemText
+              primary={`${item.first_name} ${item.last_name}`}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {item.email}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </Paper>
+      ))
+      }
+      </List>
+    </div>
+  )
+}
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 480,
+    marginTop: `10%`,
+  },
+  inline: {
+    display: `inline`,
+  },
+  paper: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px'
+  },
+  input: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+    underline: false,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    margin: 5,
+  },
+  listItem: {
+    marginTop: 3,
+  }
+}))
