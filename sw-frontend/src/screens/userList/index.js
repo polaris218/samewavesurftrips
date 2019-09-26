@@ -40,6 +40,9 @@ const UserListScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState(0)
   const [tabs] = useState(['Users', 'Following', 'Followers'])
+  const [searchHint, setSearchHint] = useState("");
+  const [usersForDisplay, setUsersForDisplay] = useState(props.user.allUsers);
+
   let mounted = true
   /*
   * Component Will Unmount HOOK
@@ -50,7 +53,7 @@ const UserListScreen = props => {
       mounted = false
     }
   }, [])
-
+  
   useEffect(() => {
     onTabPress(0)
     fetchTrips()
@@ -87,7 +90,16 @@ const UserListScreen = props => {
       apiQuery(null, props.getAllUsers, config.EndPoints.users, onFetchResult, "get")
     )
   }
- 
+  
+  const handleFetchWithSearchHint = () => {
+    const { allUsers } = props.user; 
+    const filteredUsersBySearchHint = allUsers.filter(item =>
+      item.first_name && item.first_name.toLowerCase().includes(searchHint.toLowerCase()) ||
+      item.last_name && item.last_name.toLowerCase().includes(searchHint.toLowerCase())
+    );
+    setUsersForDisplay(filteredUsersBySearchHint);
+  }
+
   const onFetchResult = error => {
     if (error.status !== 200) {
       console.log('fetch trip error', error)
@@ -130,8 +142,10 @@ const UserListScreen = props => {
           <Container>
             { activeTab === 0 &&
                 <AllUserList
-                  users={props.user.allUsers}
-                  onFetchUserDetail={toUserDetailPage}
+                  users={usersForDisplay}
+                  onFetchUserDetail={ toUserDetailPage }
+                  onSearchInputChage={ setSearchHint }
+                  onClickSearch={handleFetchWithSearchHint}
                 />
             }
           </Container>
@@ -164,9 +178,12 @@ export const AllUserList = props => {
           className={classes.input}
           placeholder="Search User By Name"
           inputProps={{'aria-label': 'search google maps'}}
-          
+          onChange={event => props.onSearchInputChage(event.target.value)}
         />
-        <IconButton className={ classes.iconButton }>
+        <IconButton
+          className={ classes.iconButton }
+          onClick={ props.onClickSearch }
+        >
           <SearchIcon />
         </IconButton>
         <Divider className={classes.divider}/>
