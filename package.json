@@ -15,7 +15,6 @@
   "author": "Freeman Digital",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/icons": "^4.4.3",
     "apidoc": "^0.17.7",
     "aws-sdk": "^2.437.0",
     "babelify": "^7.3.0",

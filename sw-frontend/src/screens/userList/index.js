@@ -31,10 +31,15 @@ import {
 } from 'components'
 import { Trips, ContentContainer, FootContainer } from './styles'
 
+/**
+ * 
+ * @todo User Search with Name
+ * @todo Follower Items 
+ */
 const UserListScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState(0)
-  const [ tabs ] = useState([ 'Users', 'Following', 'Followers' ])
+  const [tabs] = useState(['Users', 'Following', 'Followers'])
   let mounted = true
   /*
   * Component Will Unmount HOOK
@@ -65,6 +70,7 @@ const UserListScreen = props => {
       )
     )
   }
+
   /**
    * 
    * @param {string} id UserID from Users
@@ -81,7 +87,7 @@ const UserListScreen = props => {
       apiQuery(null, props.getAllUsers, config.EndPoints.users, onFetchResult, "get")
     )
   }
-
+ 
   const onFetchResult = error => {
     if (error.status !== 200) {
       console.log('fetch trip error', error)
@@ -118,14 +124,16 @@ const UserListScreen = props => {
   return (
     <Trips>
       <Header title={'Users'} />
-      {/* <Tabs tabs={tabs} onTabPress={onTabPress} /> */}
+      <Tabs tabs={tabs} onTabPress={onTabPress} />
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
-            <AllUserList
-              users={props.user.allUsers}
-              onFetchUserDetail={toUserDetailPage}
-            />
+            { activeTab === 0 &&
+                <AllUserList
+                  users={props.user.allUsers}
+                  onFetchUserDetail={toUserDetailPage}
+                />
+            }
           </Container>
         </ContentContainer>
       </ScrollContainer>
@@ -150,13 +158,13 @@ export const AllUserList = props => {
   const classes = useStyles();
 
   return (
-    <div className={ classes.root }>
+    <div className={classes.root}>
       <Paper className={classes.paper}>
         <InputBase
           className={classes.input}
           placeholder="Search User By Name"
-          underline="none"
-          inputProps={{ 'aria-label': 'search google maps' }}
+          inputProps={{'aria-label': 'search google maps'}}
+          
         />
         <IconButton className={ classes.iconButton }>
           <SearchIcon />
@@ -175,7 +183,10 @@ export const AllUserList = props => {
           >
             <ListItemAvatar>
               { item.avatar ?
-                <Avatar alt={ `${item.first_name}${item.last_name}` } src={ item.avatar } />
+                <Avatar
+                  alt={ `${item.first_name}${item.last_name}` }
+                  src={ item.avatar }
+                />
                 : <Avatar><ImageIcon /></Avatar>
             }
             </ListItemAvatar>
@@ -208,7 +219,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     maxWidth: 480,
-    marginTop: `10%`,
+    marginTop: `5%`,
   },
   inline: {
     display: `inline`,
@@ -232,5 +243,5 @@ const useStyles = makeStyles(theme => ({
   },
   listItem: {
     marginTop: 3,
-  }
+  },
 }))
