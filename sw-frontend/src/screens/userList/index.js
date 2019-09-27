@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import classnames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -172,79 +175,104 @@ export const AllUserList = props => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <InputBase
-          className={classes.input}
-          placeholder="Search User By Name"
-          inputProps={{'aria-label': 'search google maps'}}
-          onChange={event => props.onSearchInputChage(event.target.value)}
-        />
-        <IconButton
-          className={ classes.iconButton }
-          onClick={ props.onClickSearch }
-        >
-          <SearchIcon />
-        </IconButton>
-        <Divider className={classes.divider}/>
-      </Paper>
-      <List>
-      {
-      props.users.map((item, key) => (
-        <Paper key={key}>
-          <ListItem
-            button
-            alignItems="flex-start"
-            className={classes.listItem}
-            onClick={ () => props.onFetchUserDetail(item._id) }
+    <div className={ classes.root }>
+      <MuiThemeProvider theme={theme}>
+        <Paper className={classes.paper}>
+          <InputBase
+            className={classes.input}
+            placeholder="Search User By Name"
+            inputProps={{'aria-label': 'search google maps'}}
+            onChange={event => props.onSearchInputChage(event.target.value)}
+          />
+          <IconButton
+            className={ classes.iconButton }
+            onClick={ props.onClickSearch }
           >
-            <ListItemAvatar>
-              { item.avatar ?
-                <Avatar
-                  alt={ `${item.first_name} ${ item.last_name}` }
-                  src={ `
-                    ${item.avatar.includes("https://")
-                      ? item.avatar
-                      : config.EndPoints.digitalOcean + item.avatar}
-                  ` }
-                  className={classes.avatar}
-                />
-                : <Avatar className={classes.avatar}><ImageIcon /></Avatar>
-              }
-            </ListItemAvatar>
-            <ListItemText
-              primary={`${item.first_name} ${item.last_name}`}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {item.email}
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
+            <SearchIcon />
+          </IconButton>
+          <Divider className={classes.divider}/>
         </Paper>
-      ))
-      }
-      </List>
+        <List>
+        {
+        props.users.map((item, key) => (
+          <Paper key={key}>
+            <ListItem
+              button
+              alignItems="flex-start"
+              className={classes.listItem}
+              onClick={ () => props.onFetchUserDetail(item._id) }
+            >
+              <ListItemAvatar>
+                { item.avatar ?
+                  <Avatar
+                    alt={ `${item.first_name} ${ item.last_name}` }
+                    src={ `
+                      ${item.avatar.includes("https://")
+                        ? item.avatar
+                        : config.EndPoints.digitalOcean + item.avatar}
+                    ` }
+                    className={classes.avatar}
+                  />
+                  : <Avatar className={classes.avatar}><ImageIcon /></Avatar>
+                }
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography variant="h6" className={classnames(classes.inline, classes.username)}>
+                    {item.first_name}&nbsp;{item.last_name}
+                  </Typography>
+                }
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                    >
+                      {item.email}
+                    </Typography>
+                  </React.Fragment>
+                }
+                className={classes.userContent}
+              />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </Paper>
+        ))
+        }
+        </List>
+      </MuiThemeProvider>
     </div>
   )
 }
 
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      "Ubuntu",
+      "sans-serif"
+    ].join(","),
+  }
+});
+
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    maxWidth: 480,
+    width: '60%',
     marginTop: `5%`,
+    [theme.breakpoints.down("sm")]: {
+      width: '100%',
+    }
   },
   inline: {
-    display: `inline`,
+    color: '#626262',
+  },
+  username: {
+
+  },
+  userContent: {
+    marginTop: 20,
+    marginLeft: '5%',
   },
   paper: {
     padding: '2px 4px',
