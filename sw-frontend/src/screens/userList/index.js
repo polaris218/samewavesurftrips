@@ -99,7 +99,7 @@ const UserListScreen = props => {
     );
     setUsersForDisplay(filteredUsersBySearchHint);
   }
-
+  console.log(props.user.allUsers);
   const onFetchResult = error => {
     if (error.status !== 200) {
       console.log('fetch trip error', error)
@@ -201,11 +201,16 @@ export const AllUserList = props => {
             <ListItemAvatar>
               { item.avatar ?
                 <Avatar
-                  alt={ `${item.first_name}${item.last_name}` }
-                  src={ item.avatar }
+                  alt={ `${item.first_name} ${ item.last_name}` }
+                  src={ `
+                    ${item.avatar.includes("https://")
+                      ? item.avatar
+                      : config.EndPoints.digitalOcean + item.avatar}
+                  ` }
+                  className={classes.avatar}
                 />
-                : <Avatar><ImageIcon /></Avatar>
-            }
+                : <Avatar className={classes.avatar}><ImageIcon /></Avatar>
+              }
             </ListItemAvatar>
             <ListItemText
               primary={`${item.first_name} ${item.last_name}`}
@@ -251,6 +256,10 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     flex: 1,
     underline: false,
+  },
+  avatar: {
+    width: 80,
+    height: 80,
   },
   iconButton: {
     padding: 10,
