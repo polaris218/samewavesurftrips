@@ -29,9 +29,9 @@
     }
   ],
   "orientation": "portrait",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#17b1ce",
   "background_color": "#17b1ce",
-  "scope": "./",
-  "start_url": "./index.html"
+  "scope": "https://app.samewavesurftrips.com/",
+  "start_url": "https://app.samewavesurftrips.com/"
 }
