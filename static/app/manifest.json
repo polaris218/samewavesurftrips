@@ -33,5 +33,5 @@
   "display": "fullscreen",
   "theme_color": "#17b1ce",
   "background_color": "#17b1ce",
-  "scope": "app/"
+  "scope": "/"
 }
