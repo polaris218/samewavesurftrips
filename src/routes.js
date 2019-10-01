@@ -119,6 +119,7 @@ export function routes () {
   router.get(`/v1/user/:id/follow`, authenticate, User.follow)
   router.get(`/v1/user/:id/unfollow`, authenticate, User.unfollow)
   router.get(`/v1/user/:id/followers`, authenticate, User.followers)
+
   // router.get(`/v1/user/:id/following`, authenticate, User.following)
 
   /* 
