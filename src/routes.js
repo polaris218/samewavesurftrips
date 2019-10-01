@@ -2,8 +2,15 @@ import express from 'express'
 import config from './config'
 import expressJwt from 'express-jwt'
 import passport from 'passport'
-import { passportLocalStrategy, serialize, generateToken, respond, respondFB, refreshToken, passportFBCustom,
-   // passportFBStrategy
+import {
+  passportLocalStrategy,
+  serialize,
+  generateToken,
+  respond,
+  respondFB,
+  refreshToken,
+  passportFBCustom
+  // passportFBStrategy
 } from './controllers/auth'
 import Trip from './controllers/trips'
 import User from './controllers/users'
@@ -19,7 +26,7 @@ let app
 | Routes Init
 |--------------------------------------------------------------------------
 */
-export function routesInit(a) {
+export function routesInit (a) {
   app = a
   app.use(passport.initialize())
 
@@ -34,13 +41,15 @@ export function routesInit(a) {
 |--------------------------------------------------------------------------
 */
 const router = express.Router()
-export function routes() {
+export function routes () {
   /* 
 	|--------------------------------------------------------------------------
 	| Authenticate Local
 	|--------------------------------------------------------------------------
 	*/
-  router.post('/v1/auth', passport.authenticate('local', {
+  router.post(
+    '/v1/auth',
+    passport.authenticate('local', {
       session: false
     }),
     serialize,
@@ -75,7 +84,9 @@ export function routes() {
 
   router.post(
     '/v1/auth/facebook',
-    passport.authenticate('fb-custom', { session: false}), serialize, generateToken,
+    passport.authenticate('fb-custom', { session: false }),
+    serialize,
+    generateToken,
     respond
   )
 
@@ -99,7 +110,7 @@ export function routes() {
   router.get(`/v1/user/:id`, authenticate, User.get)
   router.post(`/v1/users`, User.create)
   router.post(`/v1/user/forgot`, User.forgot)
-  router.post('/v1/user/reset-password', User.resetPassword);
+  router.post('/v1/user/reset-password', User.resetPassword)
   router.put(`/v1/user`, authenticate, User.update)
   router.post(`/v1/user/avatar`, authenticate, User.avatar)
   router.post(`/v1/user/cover`, authenticate, User.coverImage)
@@ -122,6 +133,7 @@ export function routes() {
   router.delete(`/v1/trip/:id`, authenticate, Trip.delete)
   router.get(`/v1/trip/:id/join`, authenticate, Trip.join)
   router.get(`/v1/trip/:id/leave`, authenticate, Trip.leave)
+  router.get(`/v1/trip/:id`, authenticate, Trip.fetch)
   //router.get(`/v1/trips/geocode`, Trip.geocode);
 
   /* 
@@ -129,7 +141,7 @@ export function routes() {
 	| Search trips
 	|--------------------------------------------------------------------------
 	*/
-  router.get(`/v1/search/trips`,Trip.search)
+  router.get(`/v1/search/trips`, Trip.search)
   router.get(`/v1/search/destination`, Trip.searchDestination)
 
   /* 
@@ -140,8 +152,12 @@ export function routes() {
   router.get(`/v1/messages`, authenticate, Message.getAll)
   router.post(`/v1/messages`, authenticate, Message.create)
   router.delete(`/v1/messages/:id`, authenticate, Message.delete)
-  router.post(`/v1/message/trip/:tripId`,authenticate,Message.messageTripAttendees)
-  router.put(`/v1/messages/update`, authenticate,Message.update)
+  router.post(
+    `/v1/message/trip/:tripId`,
+    authenticate,
+    Message.messageTripAttendees
+  )
+  router.put(`/v1/messages/update`, authenticate, Message.update)
 
   /* 
 	|--------------------------------------------------------------------------

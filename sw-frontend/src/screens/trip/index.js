@@ -40,6 +40,7 @@ const TripScreen = props => {
   const [ owner, setOwnerDetails ] = useState({ avatar: '' })
   const [ loading, setLoading ] = useState(true)
   const [ attendeeProfiles, setAttendeeProfiles ] = useState([])
+  const tripId = window.location.href.split("trip/");
   let mounted = true
   const attendeesTemp = []
 
@@ -51,6 +52,8 @@ const TripScreen = props => {
 
   useEffect(() => {
     // TODO: If not Current Trip prop, get via ID in URL
+    fetchTripDetails()
+
     setState({
       ...state,
       joined: checkTripStatus()
@@ -92,6 +95,32 @@ const TripScreen = props => {
       )
     )
     setModalVisible(false)
+  }
+
+  const fetchTripDetails = () => {
+    const data = {
+      params: { id: tripId[1] },
+      user: { _id: props.user.id }
+    }
+
+    dispatch(
+      apiQuery(
+        data,
+        props.fetchTrip,
+        config.EndPoints.trip + `/${tripId[1]}`,
+        onFetchTripResult,
+        'get',
+      )
+    )
+  }
+
+  const onFetchTripResult = res => {
+    if (res.status !== 200) {
+      console.log('what error', res)
+    }
+
+    console.log('onFetchTripResult', res)
+    setLoading(false)
   }
 
   const fetchOwnerDetails = () => {
@@ -193,7 +222,7 @@ const TripScreen = props => {
   )
 
   const getAttendeeProfiles = () => {
-    trip.attendees.forEach(attendee => {
+    trip.attendees && trip.attendees.forEach(attendee => {
       dispatch(
         apiQuery(
           null,
@@ -235,6 +264,7 @@ const TripScreen = props => {
 
   const trip = props.trips.current
   const gender = props.user.gender ? props.user.gender.toLowerCase() : ''
+
   return (
     <Trip>
       <ScrollContainer navbar={false} color='transparent'>
@@ -324,7 +354,7 @@ const TripScreen = props => {
                           surfers in
                         </div>
                         <Attendees>
-                          {trip.attendees.map((attendee, i) => (
+                          {trip.attendees && trip.attendees.map((attendee, i) => (
                             <Avatar
                               key={attendee}
                               onPress={
@@ -400,7 +430,7 @@ const TripScreen = props => {
           <FootItem />
         </ContentContainer>
       </ScrollContainer>
-      {console.log('trip count', trip.number_of_surfers , trip.attendees.length, trip.number_of_surfers < trip.attendees.length)}
+      {/* {console.log('trip count', trip.number_of_surfers , trip.attendees.length, trip.number_of_surfers < trip.attendees.length)} */}
       {props.user.accessToken && (
         <div className='trip__join'>
         { trip.owner_id === props.user.id ? editButton() : 

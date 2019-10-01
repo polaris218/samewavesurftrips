@@ -128,6 +128,21 @@ exports.delete = function (req, res) {
 
 /* 
 |--------------------------------------------------------------------------
+| FETCH Trip
+|--------------------------------------------------------------------------
+*/
+exports.fetch = function (req, res) {
+  _trip2.default.findOne({
+    _id: req.params.id
+  }).then(function (trip) {
+    res.json(trip);
+  }).catch(function (err) {
+    res.status(422).send(err);
+  });
+};
+
+/* 
+|--------------------------------------------------------------------------
 | Join Trip
 |--------------------------------------------------------------------------
 */
@@ -164,7 +179,6 @@ exports.leave = function (req, res) {
 |--------------------------------------------------------------------------
 */
 exports.search = function (req, res) {
-
   // const skip = parseInt(req.query.skip) || 0
   var query = {}; // limit, page
 
@@ -199,17 +213,17 @@ exports.search = function (req, res) {
   lteDate1.setDate(lteDate1.getDate() + 1);
   // search departure_date_time ---
   req.query['departure_date_time'] != undefined || '' ? query['date_times.departure_date_time'] = {
-    "$gte": new Date(req.query['departure_date_time'])
+    $gte: new Date(req.query['departure_date_time'])
   } : undefined;
 
   //search return_date_time ---
   req.query['return_date_time'] != undefined || '' ? query['date_times.return_date_time'] = {
-    "$lte": new Date(req.query['return_date_time']).setHours(23, 59, 59, 0)
+    $lte: new Date(req.query['return_date_time']).setHours(23, 59, 59, 0)
   } : undefined;
 
   if (!req.query['return_date_time']) {
     query['date_times.return_date_time'] = {
-      "$gte": new Date().setHours(23, 59, 59, 0)
+      $gte: new Date().setHours(23, 59, 59, 0)
     };
   }
 
@@ -235,11 +249,11 @@ exports.search = function (req, res) {
   req.query['number_of_surfers'] != undefined ? query['number_of_surfers'] = {
     $lte: req.query['number_of_surfers']
   } : undefined;
-  console.log("final query ", JSON.stringify(query));
-  _trip2.default.find(query).sort({ "createdAt": 1 }).skip(skip).limit(limit).then(function (trips) {
+  console.log('final query ', JSON.stringify(query));
+  _trip2.default.find(query).sort({ createdAt: 1 }).skip(skip).limit(limit).then(function (trips) {
     res.json(trips);
   }).catch(function (err) {
-    console.log("err=", err);
+    console.log('err=', err);
     res.status(422).send(err);
   });
 };
@@ -302,7 +316,6 @@ exports.searchDestination = function (req, res) {
 |--------------------------------------------------------------------------
 */
 function setDefaultValues(req) {
-
   var departingLng = JSON.parse(req.body.departing).lng || 0,
       departingLat = JSON.parse(req.body.departing).lat || 0,
       destinationLng = JSON.parse(req.body.destination).lng || 0,

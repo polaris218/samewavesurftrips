@@ -12,7 +12,7 @@ const formatTrip = trip => {
   return null
 }
 
-export default function tripReducer(
+export default function tripReducer (
   state = {
     ...defaultValues.trips
   },
@@ -26,6 +26,10 @@ export default function tripReducer(
       }
       break
     case StoreDefinitions.TRIP.FETCH:
+      if (action.payload.destination.startsWith('{')) {
+        action.payload.destination = JSON.parse(action.payload.destination)
+        action.payload.departing = JSON.parse(action.payload.departing)
+      }
       state = {
         ...state,
         current: action.payload
@@ -36,7 +40,7 @@ export default function tripReducer(
       state = {
         ...state,
         allTrips: trips,
-        filter: "?"
+        filter: '?'
       }
       break
 
@@ -49,8 +53,8 @@ export default function tripReducer(
 
       state = {
         ...state,
-        allTrips: [...state.allTrips, ...extraTrips],
-        filter: "?"
+        allTrips: [ ...state.allTrips, ...extraTrips ],
+        filter: '?'
       }
       break
 
@@ -69,7 +73,7 @@ export default function tripReducer(
       state = {
         ...state,
         allTrips: filtedTrips,
-        filter: "?"
+        filter: '?'
       }
       break
     case StoreDefinitions.TRIP.FILTER_QUERY:
