@@ -66,6 +66,12 @@ export function userActions (dispatch) {
         payload: data,
       }
     },
+    getUserFollowers: credentials => {
+      return {
+        type: StoreDefinitions.USER.FOLLOWER,
+        payload: credentials
+      }
+    },
     sendMessage: msg => {
       return {
         type: StoreDefinitions.USER.SEND_MESSAGE,

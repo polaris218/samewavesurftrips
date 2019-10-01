@@ -139,6 +139,11 @@ export default function userReducer (
         ...state,
         allUsers: action.payload,
       };
+    case StoreDefinitions.USER.FOLLOWER:
+      return state = {
+        ...state,
+        userFollowers: action.payload,
+      };
     default:
       state = {
         ...state,

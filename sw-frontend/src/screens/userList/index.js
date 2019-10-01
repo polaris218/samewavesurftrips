@@ -12,9 +12,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import ImageIcon from "@material-ui/icons/Image";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
 
 import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
 import { withRouter } from 'react-router-dom'
@@ -31,6 +28,7 @@ import {
   Tabs,
   TripList,
   ScrollContainer,
+  SearchBar,
 } from 'components'
 import { Trips, ContentContainer, FootContainer } from './styles'
 
@@ -39,13 +37,16 @@ import { Trips, ContentContainer, FootContainer } from './styles'
  * @todo User Search with Name
  * @todo Follower Items 
  */
+
 const UserListScreen = props => {
   const [ loading, setLoading ] = useState(true)
   const [ activeTab, setActiveTab ] = useState(0)
   const [tabs] = useState(['Users', 'Following', 'Followers'])
   const [searchHint, setSearchHint] = useState("");
   const [usersForDisplay, setUsersForDisplay] = useState(props.user.allUsers);
-
+  const [ following, setFollowing ] = useState(false)
+  const [followers, setFollowers] = useState([])
+  
   let mounted = true
   /*
   * Component Will Unmount HOOK
@@ -61,7 +62,8 @@ const UserListScreen = props => {
     onTabPress(0)
     fetchTrips()
     fetchAllUsers()
-    console.log('USER SEARCH____ ')
+    onGetFollowers()
+    // console.log('USER SEARCH____ ')
   }, [])
 
   const fetchTrips = () => {
@@ -76,6 +78,7 @@ const UserListScreen = props => {
       )
     )
   }
+
 
   /**
    * 
@@ -102,7 +105,7 @@ const UserListScreen = props => {
     );
     setUsersForDisplay(filteredUsersBySearchHint);
   }
-  console.log(props.user.allUsers);
+  
   const onFetchResult = error => {
     if (error.status !== 200) {
       console.log('fetch trip error', error)
@@ -111,8 +114,43 @@ const UserListScreen = props => {
     }
   }
 
+  const onGetFollowersResult = res => {
+    if (res.status !== 200) {
+      console.log('follow user error', res)
+    } else {
+      const cleanFollows = []
+      res.data.forEach(user => {
+        if (!cleanFollows.includes(user.follower_id)) {
+          cleanFollows.push(user.follower_id)
+        }
+      })
+      if (cleanFollows.includes(props.user.id)) {
+        setFollowing(true)
+        mounted && setFollowers(cleanFollows)
+      } else {
+        setFollowing(false)
+        mounted && setFollowers(cleanFollows)
+      }
+    }
+  }
+
+  const onGetFollowers = () => {
+    const endpoint = `${config.EndPoints.user}/${props.user.id}/followers`
+    dispatch(
+      apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, 'GET')
+    )
+  }
+
   const onTabPress = value => {
     mounted && setActiveTab(value)
+    if (value === 0) setUsersForDisplay(props.user.allUsers);
+    if (value === 1) {
+      console.log(following);
+    }
+    if (value === 2) {
+      const usersForDisplay = props.user.allUsers.filter(item => followers.includes(item._id));
+      setUsersForDisplay(usersForDisplay);
+    }
   }
 
   const filterTrips = (trips, value) => {
@@ -143,14 +181,12 @@ const UserListScreen = props => {
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
-            { activeTab === 0 &&
-                <AllUserList
-                  users={usersForDisplay}
-                  onFetchUserDetail={ toUserDetailPage }
-                  onSearchInputChage={ setSearchHint }
-                  onClickSearch={handleFetchWithSearchHint}
-                />
-            }
+            <AllUserList
+              users={usersForDisplay}
+              onFetchUserDetail={ toUserDetailPage }
+              onSearchInputChage={ setSearchHint }
+              onClickSearch={handleFetchWithSearchHint}
+            />
           </Container>
         </ContentContainer>
       </ScrollContainer>
@@ -176,22 +212,11 @@ export const AllUserList = props => {
 
   return (
     <div className={ classes.root }>
-      <MuiThemeProvider theme={theme}>
-        <Paper className={classes.paper}>
-          <InputBase
-            className={classes.input}
-            placeholder="Search User By Name"
-            inputProps={{'aria-label': 'search google maps'}}
-            onChange={event => props.onSearchInputChage(event.target.value)}
-          />
-          <IconButton
-            className={ classes.iconButton }
-            onClick={ props.onClickSearch }
-          >
-            <SearchIcon />
-          </IconButton>
-          <Divider className={classes.divider}/>
-        </Paper>
+      <MuiThemeProvider theme={ theme }>
+        <SearchBar
+          onSearchInputChange={props.onSearchInputChage}
+          onClickSearch={props.onClickSearch}
+        />
         <List>
         {
         props.users.map((item, key) => (

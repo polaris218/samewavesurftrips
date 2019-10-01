@@ -38,6 +38,7 @@ import MsgListItem from './msgListItem'
 import ButtonGroup from './buttonGroup'
 import Filters from './filters'
 import UserCard from './userCard'
+import SearchBar from "./searchbar";
 
 export {
   App,
@@ -79,5 +80,6 @@ export {
   Modal,
   MsgListItem,
   CropModal,
-  UserCard
+  UserCard,
+  SearchBar
 }
