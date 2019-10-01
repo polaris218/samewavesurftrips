@@ -181,12 +181,14 @@ const UserListScreen = props => {
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
-            <AllUserList
-              users={usersForDisplay}
-              onFetchUserDetail={ toUserDetailPage }
-              onSearchInputChage={ setSearchHint }
-              onClickSearch={handleFetchWithSearchHint}
-            />
+            { usersForDisplay && 
+              <AllUserList
+                users={usersForDisplay}
+                onFetchUserDetail={ toUserDetailPage }
+                onSearchInputChage={ setSearchHint }
+                onClickSearch={handleFetchWithSearchHint}
+              />
+            }
           </Container>
         </ContentContainer>
       </ScrollContainer>
