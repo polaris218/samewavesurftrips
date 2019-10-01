@@ -42,6 +42,7 @@ const MapComponent = props => {
   }
 
   const onTripPress = trip => {
+    props.onMarkerPress(trip)
     dispatch(
       props.setCurrentTrip({
         ...trip

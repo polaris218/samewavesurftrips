@@ -31,6 +31,7 @@ const DashboardScreen = props => {
   const [ searchVisible, setSearchVisible ] = useState(true)
   const [ filterVisible, setFilterVisible ] = useState(false)
   const [ activeTab, setActiveTab ] = useState('list')
+  const [ activeTrip, setActiveTrip ] = useState(null)
   const [ initalDisplay, setInitialDisplay ] = useState(false)
   const [ paginationParams, setPaginationParams ] = useState({
     limit: 10,
@@ -176,6 +177,11 @@ const DashboardScreen = props => {
     mounted && setInitialDisplay(false)
   }
 
+  const onMarkerPress = trip => {
+    setInitialDisplay(false)
+    setActiveTrip(trip)
+  }
+
   const { current } = props.trips
   const startSpring = {
     opacity: 0,
@@ -186,7 +192,7 @@ const DashboardScreen = props => {
     to: initalDisplay
       ? startSpring
       : { opacity: 1, transform: 'translate3d(0,0,0) scale(1)' },
-    reset: true
+    reset: activeTrip
   })
 
   return (
@@ -203,7 +209,7 @@ const DashboardScreen = props => {
         )}
 
         {activeTab === 'map' ? (
-          <Map trips={props.trips.allTrips} />
+          <Map trips={props.trips.allTrips} onMarkerPress={onMarkerPress} />
         ) : (
           [
             <TripList
