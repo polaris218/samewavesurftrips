@@ -89,7 +89,7 @@ const TripScreen = props => {
       apiQuery(
         data,
         props.joinTrip,
-        config.EndPoints.trip + `/${props.trips.current.id}/${action}`,
+        config.EndPoints.trip + `/${tripId[1]}/${action}`,
         onTripResult,
         'get'
       )
