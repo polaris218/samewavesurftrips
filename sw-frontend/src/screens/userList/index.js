@@ -44,14 +44,14 @@ const UserListScreen = props => {
   const [tabs] = useState(['Users', 'Following', 'Followers'])
   const [searchHint, setSearchHint] = useState("");
   const [usersForDisplay, setUsersForDisplay] = useState(props.user.allUsers);
-  const [ following, setFollowing ] = useState(false)
+  const [following, setFollowing] = useState(false)
   const [followers, setFollowers] = useState([])
   
   let mounted = true
   /*
   * Component Will Unmount HOOK
   */
-  console.log(props.user);
+  // console.log(props.user);
   useEffect(() => {
     return () => {
       mounted = false
@@ -145,7 +145,11 @@ const UserListScreen = props => {
     mounted && setActiveTab(value)
     if (value === 0) setUsersForDisplay(props.user.allUsers);
     if (value === 1) {
-      console.log(following);
+      const followingUsers = props.user.following;
+      const allUsers = props.user.allUsers;
+
+      const usersForDisplay = allUsers.filter(item => followingUsers.includes(item._id));
+      setUsersForDisplay(usersForDisplay);
     }
     if (value === 2) {
       const usersForDisplay = props.user.allUsers.filter(item => followers.includes(item._id));
