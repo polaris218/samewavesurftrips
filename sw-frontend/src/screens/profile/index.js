@@ -284,9 +284,10 @@ const ProfileScreen = props => {
                   />
                   <StatDivide />
                   <ProfileStat stat={followers.length} label='FOLLOWERS' />
-                  <StatDivide />
+                    <StatDivide />
+                    { console.log(user)}
                   <ProfileStat
-                    stat={user && user.following.length}
+                    stat={user && user.following && user.following.length}
                     label='FOLLOWING'
                   />
                 </Stats>
