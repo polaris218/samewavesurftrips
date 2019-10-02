@@ -286,7 +286,7 @@ const ProfileScreen = props => {
                   <ProfileStat stat={followers.length} label='FOLLOWERS' />
                   <StatDivide />
                   <ProfileStat
-                    stat={user && user.following}
+                    stat={user && user.following.length}
                     label='FOLLOWING'
                   />
                 </Stats>

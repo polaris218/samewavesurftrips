@@ -108,7 +108,7 @@ export default function userReducer (
         surfing_since: action.payload.surfing_since,
         optIn: action.payload.optIn,
         id: action.payload._id,
-        following:action.payload.following.length
+        following:action.payload.following
       }
       break
     case StoreDefinitions.USER.SURFER_DETAILS:

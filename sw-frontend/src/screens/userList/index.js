@@ -51,7 +51,7 @@ const UserListScreen = props => {
   /*
   * Component Will Unmount HOOK
   */
-
+  console.log(props.user);
   useEffect(() => {
     return () => {
       mounted = false
