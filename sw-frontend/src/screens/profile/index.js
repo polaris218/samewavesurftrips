@@ -46,8 +46,12 @@ const ProfileScreen = props => {
   const [ userId ] = useState(props.match.params.userId)
   const [ following, setFollowing ] = useState(false)
   const [ followers, setFollowers ] = useState([])
-  const [ tripsType, setTripsType ] = useState(0)
-  const user = userId ? props.user.surfer : props.user
+  const [tripsType, setTripsType] = useState(0);
+
+  
+  const user = userId
+    ? props.user.allUsers.find(item => userId === item._id)
+    : props.user
   let mounted = true
 
   useEffect(() => {
@@ -282,16 +286,14 @@ const ProfileScreen = props => {
                     stat={props.trips.yourTrips.length}
                     label='SURF TRIPS'
                   />
-                  <StatDivide />
+                    <StatDivide />
                   <ProfileStat stat={followers.length} label='FOLLOWERS' />
                     <StatDivide />
-                    { console.log(user)}
                   <ProfileStat
-                    stat={user && user.following && user.following.length}
+                    stat={user.following && user.following.length}
                     label='FOLLOWING'
                   />
                 </Stats>
-
                 {userId && userId !== props.user.id ? (
                   <div className={'profile__contact_mobile'}>
                     <div className={'profile__follow'}>
