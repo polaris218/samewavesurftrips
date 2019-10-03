@@ -130,7 +130,7 @@ export default function userReducer (
           interests: action.payload.interests,
           surfing_since: action.payload.surfing_since,
           optIn: action.payload.optIn,
-          id: action.payload._id
+          id: action.payload._id,
         }
       }
       break

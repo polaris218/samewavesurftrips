@@ -78,8 +78,6 @@ const UserListScreen = props => {
       )
     )
   }
-
-
   /**
    * 
    * @param {string} id UserID from Users
@@ -145,10 +143,8 @@ const UserListScreen = props => {
     mounted && setActiveTab(value)
     if (value === 0) setUsersForDisplay(props.user.allUsers);
     if (value === 1) {
-      const followingUsers = props.user.following;
-      const allUsers = props.user.allUsers;
-
-      const usersForDisplay = allUsers.filter(item => followingUsers.includes(item._id));
+      const followingUsers = props.user.allUsers.find(item => item._id === props.user.id).following
+      const usersForDisplay = props.user.allUsers.filter(item => followingUsers.includes(item._id));
       setUsersForDisplay(usersForDisplay);
     }
     if (value === 2) {

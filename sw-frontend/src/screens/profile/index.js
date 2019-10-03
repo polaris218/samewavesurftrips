@@ -106,7 +106,7 @@ const ProfileScreen = props => {
   const onEditPress = () => {
     props.history.push('/' + Routes.EDIT_PROFILE)
   }
-
+  
   const activeTrips = () => {
     const active = []
     const old = []
