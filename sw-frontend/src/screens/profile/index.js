@@ -193,6 +193,7 @@ const ProfileScreen = props => {
 
   const onSearchPress = () => props.history.push("/" + Routes.USERS);
 
+  console.log("USER is ", user);
   return (
     <Profile>
       <ScrollContainer height={"55px"}>
@@ -213,7 +214,9 @@ const ProfileScreen = props => {
             <MastHead
               image={
                 user && user.coverImg ? (
-                  config.EndPoints.digitalOcean + user.coverImg
+                  config.EndPoints.digitalOcean + user.cover_image
+                ) : user && user.cover_image ? (
+                  config.EndPoints.digitalOcean + user.cover_image
                 ) : null
               }
             />
@@ -227,6 +230,8 @@ const ProfileScreen = props => {
                     <p className={"profile__name"}>
                       {user && user.firstName ? (
                         user.firstName + " " + user.lastName
+                      ) : user && user.first_name ? (
+                        user.first_name + " " + user.last_name
                       ) : (
                         "Your Name"
                       )}
