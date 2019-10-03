@@ -58,12 +58,16 @@ const UserListScreen = props => {
   }, [])
   
   useEffect(() => {
-    onTabPress(0)
     fetchTrips()
     fetchAllUsers()
     onGetFollowers()
+    onTabPress(props.location.state ? props.location.state.userTab: 0)
     // console.log('USER SEARCH____ ')
   }, [])
+
+  useEffect(() => {
+    onTabPress(props.location.state ? props.location.state.userTab: 0)
+  }, [followers])
 
   const fetchTrips = () => {
     setLoading(true)
@@ -122,8 +126,9 @@ const UserListScreen = props => {
         }
       })
       if (cleanFollows.includes(props.user.id)) {
+        
         setFollowing(true)
-        mounted && setFollowers(cleanFollows)
+        mounted && setFollowers(cleanFollows);
       } else {
         setFollowing(false)
         mounted && setFollowers(cleanFollows)
@@ -176,7 +181,7 @@ const UserListScreen = props => {
   return (
     <Trips>
       <Header title={'Users'} />
-      <Tabs tabs={tabs} onTabPress={onTabPress} />
+      <Tabs tabs={tabs} activeTab={activeTab} onTabPress={onTabPress} />
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>

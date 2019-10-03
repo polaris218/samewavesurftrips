@@ -41,7 +41,7 @@ import {
 
 const ProfileScreen = props => {
   const [ loading, setLoading ] = useState(true)
-  const [ activeTab, setActiveTab ] = useState('about')
+  const [ activeTab, setActiveTab ] = useState(0)
   const [ tabTitles ] = useState([ 'About', 'Surf Trips' ])
   const [ userId ] = useState(props.match.params.userId)
   const [ following, setFollowing ] = useState(false)
@@ -100,7 +100,7 @@ const ProfileScreen = props => {
   }
 
   const onTabPress = value => {
-    setActiveTab(tabTitles[value].toLowerCase())
+    setActiveTab(value);
   }
 
   const onEditPress = () => {
@@ -284,11 +284,11 @@ const ProfileScreen = props => {
                 <Stats>
                   <ProfileStat stat={props.trips.yourTrips.length} label='SURF TRIPS'/>
                   <StatDivide />
-                  <Link to={{pathname: "/users", state: { fromFollowers: true }}}>
+                  <Link to={{pathname: "/users", state: { userTab: 2 }}}>
                     <ProfileStat stat={followers.length} label='FOLLOWERS'/>
                   </Link>
                   <StatDivide />
-                  <Link to={{pathname:"/users", state: { fromFollowing: true }}}>
+                  <Link to={{pathname:"/users", state: { userTab: 1 }}}>
                     <ProfileStat stat={user.following && user.following.length} label='FOLLOWING' />
                   </Link>
                   </Stats>
@@ -329,16 +329,17 @@ const ProfileScreen = props => {
                     />
                   </div>
                 )}
-              </Container>
+                </Container>
               <TabContainer>
                 <Tabs
                   align='left'
                   backgroundColor='transparent'
                   tabs={tabTitles}
+                  activeTab={activeTab}
                   onTabPress={onTabPress}
                 />
               </TabContainer>
-              {activeTab === 'about' ? (
+              {activeTab === 0 ? (
                 <Container>
                   <div className={'profile__detail'}>
                     <div className={'profile__card'}>
