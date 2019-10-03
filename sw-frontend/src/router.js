@@ -19,7 +19,8 @@ import {
   EditProfile,
   Forgot,
   Message,
-  ResetPassword
+  ResetPassword,
+  Users
 } from 'screens'
 import { Routes, General as Config } from 'config'
 import Analytics from 'react-router-ga'
@@ -55,6 +56,7 @@ const AppRouter = props => {
           <Route exact path={`/${Routes.SURFTRIPS}`} component={SurfTrips} />
           <Route exact path={`/${Routes.PROFILE}`} component={Profile} />
           <Route exact path={`/${Routes.USER}/:userId`} component={Profile} />
+          <Route path={`/${Routes.USERS}`} component={Users} />
           <Route
             exact
             path={`/${Routes.EDIT_PROFILE}`}

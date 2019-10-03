@@ -113,7 +113,7 @@ const SearchComponent = props => {
         config.EndPoints.search + searchParams,
         onFilterhResult,
         'get',
-        searchParams
+        searchParams,
       )
     )
   }

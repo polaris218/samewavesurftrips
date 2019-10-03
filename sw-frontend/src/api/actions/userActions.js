@@ -60,6 +60,18 @@ export function userActions (dispatch) {
         payload: msgs
       }
     },
+    getAllUsers: data => {
+      return {
+        type: StoreDefinitions.USER.ALL_USERS,
+        payload: data,
+      }
+    },
+    getUserFollowers: credentials => {
+      return {
+        type: StoreDefinitions.USER.FOLLOWER,
+        payload: credentials
+      }
+    },
     sendMessage: msg => {
       return {
         type: StoreDefinitions.USER.SEND_MESSAGE,

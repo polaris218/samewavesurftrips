@@ -20,12 +20,7 @@ class TabsComponent extends PureComponent {
     align: 'center'
   }
 
-  state = {
-    value: 0
-  }
-
   handleChange = (event, value) => {
-    this.setState({ value })
     this.props.onTabPress(value)
   }
 
@@ -35,7 +30,7 @@ class TabsComponent extends PureComponent {
         align={this.props.align}
         backgroundColor={this.props.backgroundColor}>
         <Tabs
-          value={this.state.value}
+          value={this.props.activeTab}
           onChange={this.handleChange}
           indicatorColor='secondary'
           classes={{ indicator: 'tab-indicator' }}

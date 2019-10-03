@@ -21,6 +21,7 @@ export default {
     search: baseAPI + 'search/trips',
     messages: baseAPI + 'messages',
     messageGroup: baseAPI + 'message/trip',
+
     digitalOcean: 'https://samewave.sfo2.digitaloceanspaces.com/'
   }
 }

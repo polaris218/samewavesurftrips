@@ -19,6 +19,7 @@ const runQuery = (endpoint, data, type, processData, dispatch, action, callback,
 }
 
 export const apiQuery = (data, action, endpoint, callback, type, params, processData) => {
+
   return dispatch => {
     return runQuery(endpoint, data, type, processData, dispatch, action, callback, params).catch(async error => {
       console.log('1st Error', error)

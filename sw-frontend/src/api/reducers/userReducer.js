@@ -108,7 +108,7 @@ export default function userReducer (
         surfing_since: action.payload.surfing_since,
         optIn: action.payload.optIn,
         id: action.payload._id,
-        following:action.payload.following.length
+        following:action.payload.following
       }
       break
     case StoreDefinitions.USER.SURFER_DETAILS:
@@ -130,13 +130,23 @@ export default function userReducer (
           interests: action.payload.interests,
           surfing_since: action.payload.surfing_since,
           optIn: action.payload.optIn,
-          id: action.payload._id
+          id: action.payload._id,
         }
       }
       break
+    case StoreDefinitions.USER.ALL_USERS:
+      return state = {
+        ...state,
+        allUsers: action.payload,
+      };
+    case StoreDefinitions.USER.FOLLOWER:
+      return state = {
+        ...state,
+        userFollowers: action.payload,
+      };
     default:
       state = {
-        ...state
+        ...state,
       }
   }
   return { ...state }
