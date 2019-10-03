@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import uuid from 'uuid'
-import { dispatch } from 'api/store'
-import { apiQuery } from 'api/thunks/general'
-import { General as config, Routes, Colors } from 'config'
-import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
+import React, { useState, useEffect } from "react";
+import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import uuid from "uuid";
+import { dispatch } from "api/store";
+import { apiQuery } from "api/thunks/general";
+import { General as config, Routes, Colors } from "config";
+import { userActions, tripActions, mapDispatchToProps } from "api/actions";
 import {
   Avatar,
   Button,
@@ -22,8 +22,8 @@ import {
   TripList,
   ProfileStat,
   Preloader
-} from 'components'
-import { Tools, PickIcon } from 'utils'
+} from "components";
+import { Tools, PickIcon } from "utils";
 import {
   Profile,
   Center,
@@ -37,171 +37,170 @@ import {
   SurfStat,
   Label,
   TripsType
-} from './styles'
+} from "./styles";
 
 const ProfileScreen = props => {
-  const [ loading, setLoading ] = useState(true)
-  const [ activeTab, setActiveTab ] = useState(0)
-  const [ tabTitles ] = useState([ 'About', 'Surf Trips' ])
-  const [ userId ] = useState(props.match.params.userId)
-  const [ following, setFollowing ] = useState(false)
-  const [ followers, setFollowers ] = useState([])
-  const [tripsType, setTripsType] = useState(0);
+  const [ loading, setLoading ] = useState(true);
+  const [ activeTab, setActiveTab ] = useState(0);
+  const [ tabTitles ] = useState([ "About", "Surf Trips" ]);
+  const [ userId ] = useState(props.match.params.userId);
+  const [ following, setFollowing ] = useState(false);
+  const [ followers, setFollowers ] = useState([]);
+  const [ tripsType, setTripsType ] = useState(0);
 
-  
   const user = userId
     ? props.user.allUsers.find(item => userId === item._id)
-    : props.user
-  let mounted = true
+    : props.user;
+  let mounted = true;
 
   useEffect(() => {
     return () => {
-      mounted = false
-    }
-  }, [])
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
-    fetchTrips()
-    fetchUserDetails()
-    onGetFollowers()
-  }, [])
+    fetchTrips();
+    fetchUserDetails();
+    onGetFollowers();
+  }, []);
 
   const fetchTrips = () => {
-    setLoading(true)
+    setLoading(true);
     dispatch(
       apiQuery(
         null,
         props.fetchOwnTrips,
         config.EndPoints.trips + `/${userId ? userId : props.user.id}`,
         onFetchResult,
-        'GET'
+        "GET"
       )
-    )
-  }
+    );
+  };
 
   const fetchUserDetails = () => {
-    mounted && setLoading(true)
+    mounted && setLoading(true);
     dispatch(
       apiQuery(
         null,
         userId ? props.surferDetails : props.userDetails,
         config.EndPoints.user + `/${userId ? userId : props.user.id}`,
         onFetchResult,
-        'GET'
+        "GET"
       )
-    )
-  }
+    );
+  };
 
   const onFetchResult = res => {
     if (res.status !== 200) {
-      console.log('what error', res)
+      console.log("what error", res);
     }
-    mounted && setLoading(false)
-  }
+    mounted && setLoading(false);
+  };
 
   const onTabPress = value => {
     setActiveTab(value);
-  }
+  };
 
   const onEditPress = () => {
-    props.history.push('/' + Routes.EDIT_PROFILE)
-  }
-  
+    props.history.push("/" + Routes.EDIT_PROFILE);
+  };
+
   const activeTrips = () => {
-    const active = []
-    const old = []
+    const active = [];
+    const old = [];
     props.trips.yourTrips.forEach(trip => {
       if (new Date(trip.date_times.return_date_time) >= new Date()) {
-        active.push(trip)
+        active.push(trip);
       } else {
-        old.push(trip)
+        old.push(trip);
       }
-    })
+    });
 
     switch (tripsType) {
       case 0:
-        return active
+        return active;
       case 1:
-        return old
+        return old;
       default:
-        return props.trips.yourTrips
+        return props.trips.yourTrips;
     }
-  }
+  };
 
   const onGetFollowers = () => {
     const endpoint = `${config.EndPoints.user}/${userId ||
-      props.user.id}/followers`
+      props.user.id}/followers`;
     dispatch(
-      apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, 'GET')
-    )
-  }
+      apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, "GET")
+    );
+  };
 
   const onFollow = () => {
     const endpoint = `${config.EndPoints.user}/${userId ||
-      props.user.id}/${!following ? 'follow' : 'unfollow'}`
+      props.user.id}/${!following ? "follow" : "unfollow"}`;
     dispatch(
-      apiQuery(null, props.userFollow, endpoint, onFollowersResult, 'GET')
-    )
-  }
+      apiQuery(null, props.userFollow, endpoint, onFollowersResult, "GET")
+    );
+  };
 
   const onMessage = user => {
     props.history.push(`/${Routes.MESSAGE}/${uuid()}`, {
       recipient_id: user.id
-    })
-  }
+    });
+  };
 
   const onGetFollowersResult = res => {
     if (res.status !== 200) {
-      console.log('follow user error', res)
+      console.log("follow user error", res);
     } else {
-      const cleanFollows = []
+      const cleanFollows = [];
       res.data.forEach(user => {
         if (!cleanFollows.includes(user.follower_id)) {
-          cleanFollows.push(user.follower_id)
+          cleanFollows.push(user.follower_id);
         }
-      })
+      });
       if (cleanFollows.includes(props.user.id)) {
-        setFollowing(true)
-        mounted && setFollowers(cleanFollows)
+        setFollowing(true);
+        mounted && setFollowers(cleanFollows);
       } else {
-        setFollowing(false)
-        mounted && setFollowers(cleanFollows)
+        setFollowing(false);
+        mounted && setFollowers(cleanFollows);
       }
     }
-  }
+  };
 
   const onFollowersResult = res => {
     if (res.status !== 200) {
-      console.log('follow user error', res)
+      console.log("follow user error", res);
     } else {
-      mounted && setFollowing(following)
-      onGetFollowers()
+      mounted && setFollowing(following);
+      onGetFollowers();
     }
-  }
+  };
 
   const userAvatar = () => {
-    const avatar = null
+    const avatar = null;
     if (user && user.avatar) {
-      if (user.avatar.includes('https://')) return user.avatar
-      return config.EndPoints.digitalOcean + user.avatar
+      if (user.avatar.includes("https://")) return user.avatar;
+      return config.EndPoints.digitalOcean + user.avatar;
     }
-    return avatar
-  }
+    return avatar;
+  };
 
   const onTripTypeFilter = value => {
-    setTripsType(value)
-  }
+    setTripsType(value);
+  };
 
-  const onSearchPress = () => props.history.push('/' + Routes.USERS)
+  const onSearchPress = () => props.history.push("/" + Routes.USERS);
 
   return (
     <Profile>
-      <ScrollContainer height={'55px'}>
+      <ScrollContainer height={"55px"}>
         <Header
-          title={userId ? '' : 'Profile'}
+          title={userId ? "" : "Profile"}
           backButton={userId && true}
           homeButton={!userId}
-          rightIcon={Tools.renderIcon('search')}
+          rightIcon={Tools.renderIcon("search")}
           rightAction={onSearchPress}
         />
 
@@ -220,20 +219,20 @@ const ProfileScreen = props => {
             />
             <Center>
               <Container noPadd>
-                <div className={'profile__avatar'}>
+                <div className={"profile__avatar"}>
                   <Avatar image={userAvatar()} />
                 </div>
-                <div className={'profile__header-meta'}>
-                  <div className='profile__person'>
-                    <p className={'profile__name'}>
+                <div className={"profile__header-meta"}>
+                  <div className="profile__person">
+                    <p className={"profile__name"}>
                       {user && user.firstName ? (
-                        user.firstName + ' ' + user.lastName
+                        user.firstName + " " + user.lastName
                       ) : (
-                        'Your Name'
+                        "Your Name"
                       )}
                     </p>
-                    <div className={'profile__location'}>
-                      {Tools.renderIcon('pin')}{' '}
+                    <div className={"profile__location"}>
+                      {Tools.renderIcon("pin")}{" "}
                       {user && user.location && user.location.name ? (
                         user.location.name
                       ) : (
@@ -242,8 +241,8 @@ const ProfileScreen = props => {
                     </div>
                   </div>
                   {userId && userId !== props.user.id ? (
-                    <div className={'profile__contact'}>
-                      <div className={'profile_follow'}>
+                    <div className={"profile__contact"}>
+                      <div className={"profile_follow"}>
                         <Button
                           color={
                             following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE
@@ -252,28 +251,28 @@ const ProfileScreen = props => {
                             following ? Colors.GREY_BASE : Colors.ORANGE_DARK
                           }
                           onPress={onFollow}
-                          title={!following ? 'Follow' : 'Following'}
+                          title={!following ? "Follow" : "Following"}
                         />
                       </div>
                       <Button
                         onPress={onMessage.bind(null, user)}
-                        title='Message'
+                        title="Message"
                       />
                       {props.user.surfer.phone && (
                         <a
                           href={`tel:${props.user.surfer.phone}`}
-                          data-rel='external'>
-                          <Button title='Call' />
+                          data-rel="external">
+                          <Button title="Call" />
                         </a>
                       )}
                     </div>
                   ) : (
-                    <div className={'profile__contact'}>
+                    <div className={"profile__contact"}>
                       <Button
-                        icon={'pencil'}
+                        icon={"pencil"}
                         iconSvg
                         onPress={onEditPress}
-                        title='Edit Profile'
+                        title="Edit Profile"
                         outlineDark
                       />
                     </div>
@@ -282,19 +281,36 @@ const ProfileScreen = props => {
               </Container>
               <Container noPadd>
                 <Stats>
-                  <ProfileStat stat={props.trips.yourTrips.length} label='SURF TRIPS'/>
+                  <ProfileStat
+                    stat={props.trips.yourTrips.length}
+                    label="SURF TRIPS"
+                  />
                   <StatDivide />
-                  <Link to={{pathname: "/users", state: { userTab: 2 }}}>
-                    <ProfileStat stat={followers.length} label='FOLLOWERS'/>
-                  </Link>
+                  {userId && userId !== props.user.id ? (
+                    <ProfileStat stat={followers.length} label="FOLLOWERS" />
+                  ) : (
+                    <Link to={{ pathname: "/users", state: { userTab: 2 } }}>
+                      <ProfileStat stat={followers.length} label="FOLLOWERS" />
+                    </Link>
+                  )}
                   <StatDivide />
-                  <Link to={{pathname:"/users", state: { userTab: 1 }}}>
-                    <ProfileStat stat={user.following && user.following.length} label='FOLLOWING' />
-                  </Link>
-                  </Stats>
+                  {userId && userId !== props.user.id ? (
+                    <ProfileStat
+                      stat={user.following && user.following.length}
+                      label="FOLLOWING"
+                    />
+                  ) : (
+                    <Link to={{ pathname: "/users", state: { userTab: 1 } }}>
+                      <ProfileStat
+                        stat={user.following && user.following.length}
+                        label="FOLLOWING"
+                      />
+                    </Link>
+                  )}
+                </Stats>
                 {userId && userId !== props.user.id ? (
-                  <div className={'profile__contact_mobile'}>
-                    <div className={'profile__follow'}>
+                  <div className={"profile__contact_mobile"}>
+                    <div className={"profile__follow"}>
                       <Button
                         color={
                           following ? Colors.GREY_LIGHT : Colors.ORANGE_BASE
@@ -303,37 +319,37 @@ const ProfileScreen = props => {
                           following ? Colors.GREY_BASE : Colors.ORANGE_DARK
                         }
                         onPress={onFollow}
-                        title={!following ? 'Follow' : 'Following'}
+                        title={!following ? "Follow" : "Following"}
                       />
                     </div>
                     <Button
                       onPress={onMessage.bind(null, user)}
-                      title='Message'
+                      title="Message"
                     />
                     {props.user.surfer.phone && (
                       <a
                         href={`tel:${props.user.surfer.phone}`}
-                        data-rel='external'>
-                        <Button title='Call' />
+                        data-rel="external">
+                        <Button title="Call" />
                       </a>
                     )}
                   </div>
                 ) : (
-                  <div className={'profile__contact_mobile'}>
+                  <div className={"profile__contact_mobile"}>
                     <Button
-                      icon={'pencil'}
+                      icon={"pencil"}
                       iconSvg
                       onPress={onEditPress}
-                      title='Edit Profile'
+                      title="Edit Profile"
                       outlineDark
                     />
                   </div>
                 )}
-                </Container>
+              </Container>
               <TabContainer>
                 <Tabs
-                  align='left'
-                  backgroundColor='transparent'
+                  align="left"
+                  backgroundColor="transparent"
                   tabs={tabTitles}
                   activeTab={activeTab}
                   onTabPress={onTabPress}
@@ -341,10 +357,10 @@ const ProfileScreen = props => {
               </TabContainer>
               {activeTab === 0 ? (
                 <Container>
-                  <div className={'profile__detail'}>
-                    <div className={'profile__card'}>
+                  <div className={"profile__detail"}>
+                    <div className={"profile__card"}>
                       <Label>
-                        Surfing Since:{' '}
+                        Surfing Since:{" "}
                         {user &&
                           user.surfing_since &&
                           new Date(user.surfing_since).getFullYear()}
@@ -383,31 +399,31 @@ const ProfileScreen = props => {
                       </SurfIcons>
 
                       <Card>
-                        <div className={'profile__description'}>
-                          <div className={'profile__location-header'}>bio:</div>
+                        <div className={"profile__description"}>
+                          <div className={"profile__location-header"}>bio:</div>
                           {user && user.bio ? (
                             `${user.bio}`
                           ) : (
-                            'Add something interesting about yourself here'
+                            "Add something interesting about yourself here"
                           )}
                         </div>
                       </Card>
                     </div>
                   </div>
-                  <div className={'profile__card'}>
+                  <div className={"profile__card"}>
                     <Card>
-                      <div className={'profile__level'}>
+                      <div className={"profile__level"}>
                         <div>
-                          <div className={'profile__location-header'}>
+                          <div className={"profile__location-header"}>
                             INTERESTS:
                           </div>
-                          <div className={'profile_interests'}>
+                          <div className={"profile_interests"}>
                             {user &&
                               user.interests &&
                               user.interests.length > 0 &&
                               user.interests.map(
                                 item =>
-                                  item !== '' && (
+                                  item !== "" && (
                                     <Interest key={item}>{item}</Interest>
                                   )
                               )}
@@ -419,7 +435,7 @@ const ProfileScreen = props => {
                 </Container>
               ) : (
                 <Container>
-                  <div className={'profile__trips'}>
+                  <div className={"profile__trips"}>
                     <TripsType>
                       <ButtonGroup
                         showMore={false}
@@ -427,13 +443,13 @@ const ProfileScreen = props => {
                         selected={tripsType}
                         items={[
                           {
-                            title: 'Active trips'
+                            title: "Active trips"
                           },
                           {
-                            title: 'Past trips'
+                            title: "Past trips"
                           },
                           {
-                            title: 'All trips'
+                            title: "All trips"
                           }
                         ]}
                       />
@@ -454,14 +470,14 @@ const ProfileScreen = props => {
       </ScrollContainer>
       <Fab />
     </Profile>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.user,
   trips: state.trips
-})
+});
 
 export default connect(mapStateToProps, dispatch =>
   mapDispatchToProps(dispatch, [ userActions, tripActions ])
-)(withRouter(ProfileScreen))
+)(withRouter(ProfileScreen));

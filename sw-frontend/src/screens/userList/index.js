@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -13,12 +13,12 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import ImageIcon from "@material-ui/icons/Image";
 
-import { userActions, tripActions, mapDispatchToProps } from 'api/actions'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { dispatch } from 'api/store'
-import { apiQuery } from 'api/thunks/general'
-import { General as config } from 'config'
+import { userActions, tripActions, mapDispatchToProps } from "api/actions";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { dispatch } from "api/store";
+import { apiQuery } from "api/thunks/general";
+import { General as config } from "config";
 
 import {
   Container,
@@ -26,11 +26,10 @@ import {
   Footer,
   Header,
   Tabs,
-  TripList,
   ScrollContainer,
-  SearchBar,
-} from 'components'
-import { Trips, ContentContainer, FootContainer } from './styles'
+  SearchBar
+} from "components";
+import { Trips, ContentContainer, FootContainer } from "./styles";
 
 /**
  * 
@@ -39,160 +38,156 @@ import { Trips, ContentContainer, FootContainer } from './styles'
  */
 
 const UserListScreen = props => {
-  const [ loading, setLoading ] = useState(true)
-  const [ activeTab, setActiveTab ] = useState(0)
-  const [tabs] = useState(['Users', 'Following', 'Followers'])
-  const [searchHint, setSearchHint] = useState("");
-  const [usersForDisplay, setUsersForDisplay] = useState(props.user.allUsers);
-  const [following, setFollowing] = useState(false)
-  const [followers, setFollowers] = useState([])
-  
-  let mounted = true
+  const [ loading, setLoading ] = useState(true);
+  const [ activeTab, setActiveTab ] = useState(0);
+  const [ tabs ] = useState([ "Users", "Following", "Followers" ]);
+  const [ searchHint, setSearchHint ] = useState("");
+  const [ usersForDisplay, setUsersForDisplay ] = useState(props.user.allUsers);
+  const [ following, setFollowing ] = useState(false);
+  const [ followers, setFollowers ] = useState([]);
+
+  let mounted = true;
   /*
   * Component Will Unmount HOOK
   */
   useEffect(() => {
     return () => {
-      mounted = false
-    }
-  }, [])
-  
-  useEffect(() => {
-    fetchTrips()
-    fetchAllUsers()
-    onGetFollowers()
-    onTabPress(props.location.state ? props.location.state.userTab: 0)
-    // console.log('USER SEARCH____ ')
-  }, [])
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
-    onTabPress(props.location.state ? props.location.state.userTab: 0)
-  }, [followers])
+    fetchTrips();
+    fetchAllUsers();
+    onGetFollowers();
+    onTabPress(props.location.state ? props.location.state.userTab : 0);
+    // console.log('USER SEARCH____ ')
+  }, []);
+
+  useEffect(
+    () => {
+      onTabPress(props.location.state ? props.location.state.userTab : 0);
+    },
+    [ followers ]
+  );
 
   const fetchTrips = () => {
-    setLoading(true)
+    setLoading(true);
     dispatch(
       apiQuery(
         null,
         props.fetchOwnTrips,
         config.EndPoints.trips + `/${props.user.id}`,
         onFetchResult,
-        'get'
+        "get"
       )
-    )
-  }
+    );
+  };
   /**
    * 
    * @param {string} id UserID from Users
    * @function toUserDetailPage with ID, it will route to user detail page
    * @from 2019-9-25
    */
-  const toUserDetailPage = (id) => {
+  const toUserDetailPage = id => {
     props.history.push(`/user/${id}`);
-  }
+  };
 
   const fetchAllUsers = () => {
     setLoading(true);
     dispatch(
-      apiQuery(null, props.getAllUsers, config.EndPoints.users, onFetchResult, "get")
-    )
-  }
+      apiQuery(
+        null,
+        props.getAllUsers,
+        config.EndPoints.users,
+        onFetchResult,
+        "get"
+      )
+    );
+  };
 
   const handleFetchWithSearchHint = () => {
-    const { allUsers } = props.user; 
-    const filteredUsersBySearchHint = allUsers.filter(item =>
-      item.first_name && item.first_name.toLowerCase().includes(searchHint.toLowerCase()) ||
-      item.last_name && item.last_name.toLowerCase().includes(searchHint.toLowerCase())
+    const { allUsers } = props.user;
+    const filteredUsersBySearchHint = allUsers.filter(
+      item =>
+        (item.first_name &&
+          item.first_name.toLowerCase().includes(searchHint.toLowerCase())) ||
+        (item.last_name &&
+          item.last_name.toLowerCase().includes(searchHint.toLowerCase()))
     );
     setUsersForDisplay(filteredUsersBySearchHint);
-  }
-  
+  };
+
   const onFetchResult = error => {
     if (error.status !== 200) {
-      console.log('fetch trip error', error)
+      console.log("fetch trip error", error);
     } else {
-      mounted && setLoading(false)
+      mounted && setLoading(false);
     }
-  }
+  };
 
   const onGetFollowersResult = res => {
     if (res.status !== 200) {
-      console.log('follow user error', res)
+      console.log("follow user error", res);
     } else {
-      const cleanFollows = []
+      const cleanFollows = [];
       res.data.forEach(user => {
         if (!cleanFollows.includes(user.follower_id)) {
-          cleanFollows.push(user.follower_id)
+          cleanFollows.push(user.follower_id);
         }
-      })
+      });
       if (cleanFollows.includes(props.user.id)) {
-        
-        setFollowing(true)
+        setFollowing(true);
         mounted && setFollowers(cleanFollows);
       } else {
-        setFollowing(false)
-        mounted && setFollowers(cleanFollows)
+        setFollowing(false);
+        mounted && setFollowers(cleanFollows);
       }
     }
-  }
+  };
 
   const onGetFollowers = () => {
-    const endpoint = `${config.EndPoints.user}/${props.user.id}/followers`
+    const endpoint = `${config.EndPoints.user}/${props.user.id}/followers`;
     dispatch(
-      apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, 'GET')
-    )
-  }
+      apiQuery(null, props.userFollow, endpoint, onGetFollowersResult, "GET")
+    );
+  };
 
   const onTabPress = value => {
-    mounted && setActiveTab(value)
+    mounted && setActiveTab(value);
     if (value === 0) setUsersForDisplay(props.user.allUsers);
     if (value === 1) {
-      const followingUsers = props.user.allUsers.find(item => item._id === props.user.id).following
-      const usersForDisplay = props.user.allUsers.filter(item => followingUsers.includes(item._id));
+      const followingUsers = props.user.allUsers.find(
+        item => item._id === props.user.id
+      ).following;
+      const usersForDisplay = props.user.allUsers.filter(item =>
+        followingUsers.includes(item._id)
+      );
       setUsersForDisplay(usersForDisplay);
     }
     if (value === 2) {
-      const usersForDisplay = props.user.allUsers.filter(item => followers.includes(item._id));
+      const usersForDisplay = props.user.allUsers.filter(item =>
+        followers.includes(item._id)
+      );
       setUsersForDisplay(usersForDisplay);
     }
-  }
-
-  const filterTrips = (trips, value) => {
-    const active = []
-    const old = []
-    trips.forEach(trip => {
-      if (new Date(trip.date_times.return_date_time) >= new Date()) {
-        active.push(trip)
-      } else {
-        old.push(trip)
-      }
-    })
-
-    switch (value) {
-      case 0:
-        return active
-      case 1:
-        return old
-      default:
-        return props.trips.yourTrips
-    }
-  }
+  };
 
   return (
     <Trips>
-      <Header title={'Users'} />
+      <Header title={"Users"} />
       <Tabs tabs={tabs} activeTab={activeTab} onTabPress={onTabPress} />
       <ScrollContainer padTop={false}>
         <ContentContainer>
           <Container>
-            { usersForDisplay && 
+            {usersForDisplay && (
               <AllUserList
                 users={usersForDisplay}
-                onFetchUserDetail={ toUserDetailPage }
-                onSearchInputChage={ setSearchHint }
+                onFetchUserDetail={toUserDetailPage}
+                onSearchInputChage={setSearchHint}
                 onClickSearch={handleFetchWithSearchHint}
               />
-            }
+            )}
           </Container>
         </ContentContainer>
       </ScrollContainer>
@@ -201,132 +196,132 @@ const UserListScreen = props => {
         <Footer />
       </FootContainer>
     </Trips>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.user,
   trips: state.trips
-})
+});
 
 export default connect(mapStateToProps, dispatch =>
   mapDispatchToProps(dispatch, [ userActions, tripActions ])
-)(withRouter(UserListScreen))
+)(withRouter(UserListScreen));
 
 export const AllUserList = props => {
   const classes = useStyles();
 
   return (
-    <div className={ classes.root }>
-      <MuiThemeProvider theme={ theme }>
+    <div className={classes.root}>
+      <MuiThemeProvider theme={theme}>
         <SearchBar
           onSearchInputChange={props.onSearchInputChage}
           onClickSearch={props.onClickSearch}
         />
         <List>
-        {
-        props.users.map((item, key) => (
-          <Paper key={key}>
-            <ListItem
-              button
-              alignItems="flex-start"
-              className={classes.listItem}
-              onClick={ () => props.onFetchUserDetail(item._id) }
-            >
-              <ListItemAvatar>
-                { item.avatar ?
-                  <Avatar
-                    alt={ `${item.first_name} ${ item.last_name}` }
-                    src={ `
+          {props.users.map((item, key) => (
+            <Paper key={key} className={classes.listItemContainer}>
+              <ListItem
+                button
+                alignItems="flex-start"
+                className={classes.listItem}
+                onClick={() => props.onFetchUserDetail(item._id)}>
+                <ListItemAvatar>
+                  {item.avatar ? (
+                    <Avatar
+                      alt={`${item.first_name} ${item.last_name}`}
+                      src={`
                       ${item.avatar.includes("https://")
                         ? item.avatar
                         : config.EndPoints.digitalOcean + item.avatar}
-                    ` }
-                    className={classes.avatar}
-                  />
-                  : <Avatar className={classes.avatar}><ImageIcon /></Avatar>
-                }
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography variant="h6" className={classnames(classes.inline, classes.username)}>
-                    {item.first_name}&nbsp;{item.last_name}
-                  </Typography>
-                }
-                secondary={
-                  <React.Fragment>
+                    `}
+                      className={classes.avatar}
+                    />
+                  ) : (
+                    <Avatar className={classes.avatar}>
+                      <ImageIcon />
+                    </Avatar>
+                  )}
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
                     <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textPrimary"
-                    >
-                      {item.email}
+                      variant="h6"
+                      className={classnames(classes.inline, classes.username)}>
+                      {item.first_name}&nbsp;{item.last_name}
                     </Typography>
-                  </React.Fragment>
-                }
-                className={classes.userContent}
-              />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </Paper>
-        ))
-        }
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textPrimary">
+                        {item.email}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                  className={classes.userContent}
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </Paper>
+          ))}
         </List>
       </MuiThemeProvider>
     </div>
-  )
-}
+  );
+};
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: [
-      "Ubuntu",
-      "sans-serif"
-    ].join(","),
+    fontFamily: [ "Ubuntu", "sans-serif" ].join(",")
   }
 });
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '60%',
+    width: "60%",
     marginTop: `5%`,
     [theme.breakpoints.down("sm")]: {
-      width: '100%',
+      width: "100%"
     }
   },
   inline: {
-    color: '#626262',
+    color: "#626262"
   },
-  username: {
-
-  },
+  username: {},
   userContent: {
     marginTop: 20,
-    marginLeft: '5%',
+    marginLeft: "5%"
   },
   paper: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '10px'
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "10px"
   },
   input: {
     marginLeft: theme.spacing(2),
     flex: 1,
-    underline: false,
+    underline: false
   },
   avatar: {
     width: 80,
-    height: 80,
+    height: 80
   },
   iconButton: {
-    padding: 10,
+    padding: 10
   },
   divider: {
-    margin: 5,
+    margin: 5
   },
   listItem: {
-    marginTop: 3,
+    marginTop: 3
+    // marginBottom: 12
   },
-}))
+  listItemContainer: {
+    margin: 10
+  }
+}));
