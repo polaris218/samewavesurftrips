@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
 import { dispatch } from 'api/store'
@@ -282,18 +282,16 @@ const ProfileScreen = props => {
               </Container>
               <Container noPadd>
                 <Stats>
-                  <ProfileStat
-                    stat={props.trips.yourTrips.length}
-                    label='SURF TRIPS'
-                  />
-                    <StatDivide />
-                  <ProfileStat stat={followers.length} label='FOLLOWERS' />
-                    <StatDivide />
-                  <ProfileStat
-                    stat={user.following && user.following.length}
-                    label='FOLLOWING'
-                  />
-                </Stats>
+                  <ProfileStat stat={props.trips.yourTrips.length} label='SURF TRIPS'/>
+                  <StatDivide />
+                  <Link to={{pathname: "/users", state: { fromFollowers: true }}}>
+                    <ProfileStat stat={followers.length} label='FOLLOWERS'/>
+                  </Link>
+                  <StatDivide />
+                  <Link to={{pathname:"/users", state: { fromFollowing: true }}}>
+                    <ProfileStat stat={user.following && user.following.length} label='FOLLOWING' />
+                  </Link>
+                  </Stats>
                 {userId && userId !== props.user.id ? (
                   <div className={'profile__contact_mobile'}>
                     <div className={'profile__follow'}>

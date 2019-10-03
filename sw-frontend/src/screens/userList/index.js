@@ -51,7 +51,6 @@ const UserListScreen = props => {
   /*
   * Component Will Unmount HOOK
   */
-  // console.log(props.user);
   useEffect(() => {
     return () => {
       mounted = false
@@ -94,7 +93,7 @@ const UserListScreen = props => {
       apiQuery(null, props.getAllUsers, config.EndPoints.users, onFetchResult, "get")
     )
   }
-  
+
   const handleFetchWithSearchHint = () => {
     const { allUsers } = props.user; 
     const filteredUsersBySearchHint = allUsers.filter(item =>
