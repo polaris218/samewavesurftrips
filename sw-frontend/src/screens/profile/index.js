@@ -193,7 +193,13 @@ const ProfileScreen = props => {
 
   const onSearchPress = () => props.history.push("/" + Routes.USERS);
 
-  console.log("USER is ", user);
+  const chooseCoverImg = () => {
+    let imgsrc = null;
+    if (user && user.coverImg) imgsrc = user.coverImg;
+    else if (user && user.cover_image) imgsrc = user.cover_image;
+
+    return config.EndPoints.digitalOcean + imgsrc;
+  };
   return (
     <Profile>
       <ScrollContainer height={"55px"}>
@@ -211,15 +217,7 @@ const ProfileScreen = props => {
           </PreloadContainer>
         ) : (
           <ContentContainer>
-            <MastHead
-              image={
-                user && user.coverImg ? (
-                  config.EndPoints.digitalOcean + user.cover_image
-                ) : user && user.cover_image ? (
-                  config.EndPoints.digitalOcean + user.cover_image
-                ) : null
-              }
-            />
+            <MastHead image={chooseCoverImg()} />
             <Center>
               <Container noPadd>
                 <div className={"profile__avatar"}>
