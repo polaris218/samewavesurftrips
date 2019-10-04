@@ -28,7 +28,7 @@ class TabsComponent extends PureComponent {
     return (
       <TabsContainer
         align={this.props.align}
-        backgroundColor={this.props.backgroundColor}>
+        backgroundColor={ this.props.backgroundColor }>
         <Tabs
           value={this.props.activeTab}
           onChange={this.handleChange}

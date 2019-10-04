@@ -29,7 +29,7 @@ const MailScreen = props => {
   const [ state ] = useState({
     tabs: [ 'Direct', 'Group' ]
   })
-  const [ activeTab, setActiveTab ] = useState(state.tabs[0])
+  const [ activeTab, setActiveTab ] = useState(0)
   const [ messageList, setMessageList ] = useState([])
   const [ messages, setMessages ] = useState([])
   let mounted = true
@@ -56,7 +56,7 @@ const MailScreen = props => {
   )
 
   const onTabPress = value => {
-    mounted && setActiveTab(state.tabs[value])
+    mounted && setActiveTab(value)
   }
 
   const fetchOwnTrips = () => {
@@ -132,7 +132,7 @@ const MailScreen = props => {
       }
     })
 
-    setMessageList(activeTab === state.tabs[0] ? uniqueDirect : uniqueGroup)
+    setMessageList(activeTab === 0 ? uniqueDirect : uniqueGroup)
   }
 
   const fetchUserDetails = async userId => {
@@ -148,11 +148,11 @@ const MailScreen = props => {
     )
     return user
   }
-
+  console.log(messages)
   return (
     <Mail>
       <Header title={'Inbox'} />
-      <Tabs tabs={state.tabs} onTabPress={onTabPress} />
+      <Tabs tabs={state.tabs} activeTab={activeTab} onTabPress={onTabPress} />
       <ScrollContainer padTop={false} height={'0'}>
         <ContentContainer>
           <Container>
