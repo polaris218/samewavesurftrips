@@ -18,7 +18,7 @@
     "apidoc": "^0.17.7",
     "aws-sdk": "^2.437.0",
     "babelify": "^7.3.0",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.0",
     "cluster": "^0.7.7",
