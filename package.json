@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "apidoc": "^0.17.7",
-    "aws-sdk": "^2.437.0",
+    "aws-sdk": "^2.814.0",
     "babelify": "^7.3.0",
     "bcrypt": "^3.0.2",
     "bcrypt-nodejs": "0.0.3",
